@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { SenderCreateRequest } from "@zavu/sdk/models";
+import { SenderCreateRequest } from "@zavudev/sdk/models";
 
 let value: SenderCreateRequest = {
   name: "<value>",

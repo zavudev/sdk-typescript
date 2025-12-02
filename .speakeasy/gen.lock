@@ -3,15 +3,15 @@ id: 99e05ebb-4ad5-4722-8e97-3495863e6df3
 management:
   docChecksum: a29acad7c0d9bafc3f254157be1f47dd
   docVersion: 0.2.0
-  speakeasyVersion: 1.666.0
-  generationVersion: 2.768.0
-  releaseVersion: 0.0.2
-  configChecksum: 41c61e8bbfbb148b9000cfc268e30e82
+  speakeasyVersion: 1.666.2
+  generationVersion: 2.768.1
+  releaseVersion: 0.0.7
+  configChecksum: cb2c2e23556e1a9f5ce2996b7de79fcc
 features:
   typescript:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.12
-    core: 3.26.13
+    core: 3.26.14
     defaultEnabledRetries: 0.1.0
     enumUnions: 0.1.0
     envVarSecurityUsage: 0.1.2
@@ -74,7 +74,7 @@ generatedFiles:
   - docs/models/template.md
   - docs/models/templatecreaterequest.md
   - docs/models/whatsappcategory.md
-  - docs/sdks/sdk/README.md
+  - docs/sdks/zavu/README.md
   - eslint.config.mjs
   - examples/.env.template
   - examples/README.md

@@ -5,7 +5,7 @@ List of templates.
 ## Example Usage
 
 ```typescript
-import { ListTemplatesResponse } from "@zavu/sdk/models/operations";
+import { ListTemplatesResponse } from "@zavudev/sdk/models/operations";
 
 let value: ListTemplatesResponse = {
   items: [

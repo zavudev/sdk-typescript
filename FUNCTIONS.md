@@ -19,17 +19,17 @@ specific category of applications.
 ## Example
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { sendMessage } from "@zavu/sdk/funcs/sendMessage.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { sendMessage } from "@zavudev/sdk/funcs/sendMessage.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await sendMessage(sdk, {
+  const res = await sendMessage(zavu, {
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",

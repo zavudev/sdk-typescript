@@ -5,7 +5,7 @@ Request body to send a message.
 ## Example Usage
 
 ```typescript
-import { MessageRequest } from "@zavu/sdk/models";
+import { MessageRequest } from "@zavudev/sdk/models";
 
 let value: MessageRequest = {
   to: "+56912345678",

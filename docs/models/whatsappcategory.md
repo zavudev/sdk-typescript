@@ -5,7 +5,7 @@ WhatsApp template category.
 ## Example Usage
 
 ```typescript
-import { WhatsAppCategory } from "@zavu/sdk/models";
+import { WhatsAppCategory } from "@zavudev/sdk/models";
 
 let value: WhatsAppCategory = "AUTHENTICATION";
 ```

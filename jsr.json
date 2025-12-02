@@ -1,8 +1,8 @@
 
 
 {
-  "name": "@zavu/sdk",
-  "version": "0.0.2",
+  "name": "@zavudev/sdk",
+  "version": "0.0.7",
   "exports": {
     ".": "./src/index.ts",    
     "./models/errors": "./src/models/errors/index.ts",    

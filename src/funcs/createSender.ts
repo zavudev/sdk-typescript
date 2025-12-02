@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { SDKCore } from "../core.js";
+import { ZavuCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -30,7 +30,7 @@ import { Result } from "../types/fp.js";
  * Create sender
  */
 export function createSender(
-  client: SDKCore,
+  client: ZavuCore,
   request: models.SenderCreateRequest,
   options?: RequestOptions,
 ): APIPromise<
@@ -55,7 +55,7 @@ export function createSender(
 }
 
 async function $do(
-  client: SDKCore,
+  client: ZavuCore,
   request: models.SenderCreateRequest,
   options?: RequestOptions,
 ): Promise<

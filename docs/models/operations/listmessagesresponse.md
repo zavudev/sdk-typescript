@@ -5,7 +5,7 @@ List of messages.
 ## Example Usage
 
 ```typescript
-import { ListMessagesResponse } from "@zavu/sdk/models/operations";
+import { ListMessagesResponse } from "@zavudev/sdk/models/operations";
 
 let value: ListMessagesResponse = {
   items: [

@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { Security } from "@zavu/sdk/models";
+import { Security } from "@zavudev/sdk/models";
 
 let value: Security = {
   bearerAuth: "<value>",

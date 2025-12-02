@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { SDKCore } from "../core.js";
+import { ZavuCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -33,7 +33,7 @@ import { Result } from "../types/fp.js";
  * Create a WhatsApp message template. Note: Templates must be approved by Meta before use.
  */
 export function createTemplate(
-  client: SDKCore,
+  client: ZavuCore,
   request: models.TemplateCreateRequest,
   options?: RequestOptions,
 ): APIPromise<
@@ -58,7 +58,7 @@ export function createTemplate(
 }
 
 async function $do(
-  client: SDKCore,
+  client: ZavuCore,
   request: models.TemplateCreateRequest,
   options?: RequestOptions,
 ): Promise<

@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { SDKCore } from "../core.js";
+import { ZavuCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -43,7 +43,7 @@ import { Result } from "../types/fp.js";
  * - Use template messages to initiate conversations outside the window
  */
 export function sendMessage(
-  client: SDKCore,
+  client: ZavuCore,
   request: operations.SendMessageRequest,
   options?: RequestOptions,
 ): APIPromise<
@@ -68,7 +68,7 @@ export function sendMessage(
 }
 
 async function $do(
-  client: SDKCore,
+  client: ZavuCore,
   request: operations.SendMessageRequest,
   options?: RequestOptions,
 ): Promise<

@@ -5,7 +5,7 @@ List of contacts.
 ## Example Usage
 
 ```typescript
-import { ListContactsResponse } from "@zavu/sdk/models/operations";
+import { ListContactsResponse } from "@zavudev/sdk/models/operations";
 
 let value: ListContactsResponse = {
   items: [],

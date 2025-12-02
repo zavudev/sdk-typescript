@@ -5,7 +5,7 @@ Type of message. Non-text types are WhatsApp only.
 ## Example Usage
 
 ```typescript
-import { MessageType } from "@zavu/sdk/models";
+import { MessageType } from "@zavudev/sdk/models";
 
 let value: MessageType = "reaction";
 ```

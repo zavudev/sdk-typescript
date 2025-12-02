@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { Capabilities } from "@zavu/sdk/models";
+import { Capabilities } from "@zavudev/sdk/models";
 
 let value: Capabilities = {};
 ```

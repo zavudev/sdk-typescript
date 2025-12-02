@@ -1,4 +1,4 @@
-# SDK
+# Zavu SDK
 
 ## Overview
 
@@ -54,14 +54,14 @@ Send a message to a recipient via SMS or WhatsApp.
 
 <!-- UsageSnippet language="typescript" operationID="sendMessage" method="post" path="/v1/messages" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -80,17 +80,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { sendMessage } from "@zavu/sdk/funcs/sendMessage.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { sendMessage } from "@zavudev/sdk/funcs/sendMessage.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await sendMessage(sdk, {
+  const res = await sendMessage(zavu, {
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -137,14 +137,14 @@ List messages previously sent by this project.
 
 <!-- UsageSnippet language="typescript" operationID="listMessages" method="get" path="/v1/messages" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.listMessages({});
+  const result = await zavu.listMessages({});
 
   console.log(result);
 }
@@ -157,17 +157,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { listMessages } from "@zavu/sdk/funcs/listMessages.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { listMessages } from "@zavudev/sdk/funcs/listMessages.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await listMessages(sdk, {});
+  const res = await listMessages(zavu, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
@@ -207,14 +207,14 @@ Get message by ID
 
 <!-- UsageSnippet language="typescript" operationID="getMessage" method="get" path="/v1/messages/{messageId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.getMessage({
+  const result = await zavu.getMessage({
     messageId: "<id>",
   });
 
@@ -229,17 +229,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { getMessage } from "@zavu/sdk/funcs/getMessage.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { getMessage } from "@zavudev/sdk/funcs/getMessage.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await getMessage(sdk, {
+  const res = await getMessage(zavu, {
     messageId: "<id>",
   });
   if (res.ok) {
@@ -281,14 +281,14 @@ Send an emoji reaction to an existing WhatsApp message. Reactions are only suppo
 
 <!-- UsageSnippet language="typescript" operationID="sendReaction" method="post" path="/v1/messages/{messageId}/reactions" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.sendReaction({
+  const result = await zavu.sendReaction({
     messageId: "<id>",
     zavuSender: "sender_12345",
     body: {
@@ -307,17 +307,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { sendReaction } from "@zavu/sdk/funcs/sendReaction.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { sendReaction } from "@zavudev/sdk/funcs/sendReaction.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await sendReaction(sdk, {
+  const res = await sendReaction(zavu, {
     messageId: "<id>",
     zavuSender: "sender_12345",
     body: {
@@ -363,14 +363,14 @@ List WhatsApp message templates for this project.
 
 <!-- UsageSnippet language="typescript" operationID="listTemplates" method="get" path="/v1/templates" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.listTemplates();
+  const result = await zavu.listTemplates();
 
   console.log(result);
 }
@@ -383,17 +383,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { listTemplates } from "@zavu/sdk/funcs/listTemplates.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { listTemplates } from "@zavudev/sdk/funcs/listTemplates.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await listTemplates(sdk);
+  const res = await listTemplates(zavu);
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
@@ -432,14 +432,14 @@ Create a WhatsApp message template. Note: Templates must be approved by Meta bef
 
 <!-- UsageSnippet language="typescript" operationID="createTemplate" method="post" path="/v1/templates" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.createTemplate({
+  const result = await zavu.createTemplate({
     name: "order_confirmation",
     body: "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",
     whatsappCategory: "UTILITY",
@@ -460,17 +460,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { createTemplate } from "@zavu/sdk/funcs/createTemplate.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { createTemplate } from "@zavudev/sdk/funcs/createTemplate.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await createTemplate(sdk, {
+  const res = await createTemplate(zavu, {
     name: "order_confirmation",
     body: "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",
     whatsappCategory: "UTILITY",
@@ -518,14 +518,14 @@ Get template
 
 <!-- UsageSnippet language="typescript" operationID="getTemplate" method="get" path="/v1/templates/{templateId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.getTemplate({
+  const result = await zavu.getTemplate({
     templateId: "<id>",
   });
 
@@ -540,17 +540,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { getTemplate } from "@zavu/sdk/funcs/getTemplate.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { getTemplate } from "@zavudev/sdk/funcs/getTemplate.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await getTemplate(sdk, {
+  const res = await getTemplate(zavu, {
     templateId: "<id>",
   });
   if (res.ok) {
@@ -592,14 +592,14 @@ Delete template
 
 <!-- UsageSnippet language="typescript" operationID="deleteTemplate" method="delete" path="/v1/templates/{templateId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  await sdk.deleteTemplate({
+  await zavu.deleteTemplate({
     templateId: "<id>",
   });
 
@@ -614,17 +614,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { deleteTemplate } from "@zavu/sdk/funcs/deleteTemplate.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { deleteTemplate } from "@zavudev/sdk/funcs/deleteTemplate.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await deleteTemplate(sdk, {
+  const res = await deleteTemplate(zavu, {
     templateId: "<id>",
   });
   if (res.ok) {
@@ -666,14 +666,14 @@ List senders
 
 <!-- UsageSnippet language="typescript" operationID="listSenders" method="get" path="/v1/senders" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.listSenders();
+  const result = await zavu.listSenders();
 
   console.log(result);
 }
@@ -686,17 +686,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { listSenders } from "@zavu/sdk/funcs/listSenders.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { listSenders } from "@zavudev/sdk/funcs/listSenders.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await listSenders(sdk);
+  const res = await listSenders(zavu);
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
@@ -735,14 +735,14 @@ Create sender
 
 <!-- UsageSnippet language="typescript" operationID="createSender" method="post" path="/v1/senders" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.createSender({
+  const result = await zavu.createSender({
     name: "<value>",
     phoneNumber: "1-697-351-3400 x33934",
   });
@@ -758,17 +758,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { createSender } from "@zavu/sdk/funcs/createSender.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { createSender } from "@zavudev/sdk/funcs/createSender.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await createSender(sdk, {
+  const res = await createSender(zavu, {
     name: "<value>",
     phoneNumber: "1-697-351-3400 x33934",
   });
@@ -811,14 +811,14 @@ Get sender
 
 <!-- UsageSnippet language="typescript" operationID="getSender" method="get" path="/v1/senders/{senderId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.getSender({
+  const result = await zavu.getSender({
     senderId: "<id>",
   });
 
@@ -833,17 +833,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { getSender } from "@zavu/sdk/funcs/getSender.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { getSender } from "@zavudev/sdk/funcs/getSender.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await getSender(sdk, {
+  const res = await getSender(zavu, {
     senderId: "<id>",
   });
   if (res.ok) {
@@ -885,14 +885,14 @@ Update sender
 
 <!-- UsageSnippet language="typescript" operationID="updateSender" method="patch" path="/v1/senders/{senderId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.updateSender({
+  const result = await zavu.updateSender({
     senderId: "<id>",
     body: {},
   });
@@ -908,17 +908,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { updateSender } from "@zavu/sdk/funcs/updateSender.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { updateSender } from "@zavudev/sdk/funcs/updateSender.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await updateSender(sdk, {
+  const res = await updateSender(zavu, {
     senderId: "<id>",
     body: {},
   });
@@ -961,14 +961,14 @@ Delete sender
 
 <!-- UsageSnippet language="typescript" operationID="deleteSender" method="delete" path="/v1/senders/{senderId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  await sdk.deleteSender({
+  await zavu.deleteSender({
     senderId: "<id>",
   });
 
@@ -983,17 +983,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { deleteSender } from "@zavu/sdk/funcs/deleteSender.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { deleteSender } from "@zavudev/sdk/funcs/deleteSender.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await deleteSender(sdk, {
+  const res = await deleteSender(zavu, {
     senderId: "<id>",
   });
   if (res.ok) {
@@ -1035,14 +1035,14 @@ List contacts
 
 <!-- UsageSnippet language="typescript" operationID="listContacts" method="get" path="/v1/contacts" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.listContacts({});
+  const result = await zavu.listContacts({});
 
   console.log(result);
 }
@@ -1055,17 +1055,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { listContacts } from "@zavu/sdk/funcs/listContacts.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { listContacts } from "@zavudev/sdk/funcs/listContacts.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await listContacts(sdk, {});
+  const res = await listContacts(zavu, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
@@ -1105,14 +1105,14 @@ Get contact
 
 <!-- UsageSnippet language="typescript" operationID="getContact" method="get" path="/v1/contacts/{contactId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.getContact({
+  const result = await zavu.getContact({
     contactId: "<id>",
   });
 
@@ -1127,17 +1127,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { getContact } from "@zavu/sdk/funcs/getContact.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { getContact } from "@zavudev/sdk/funcs/getContact.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await getContact(sdk, {
+  const res = await getContact(zavu, {
     contactId: "<id>",
   });
   if (res.ok) {
@@ -1179,14 +1179,14 @@ Update contact
 
 <!-- UsageSnippet language="typescript" operationID="updateContact" method="patch" path="/v1/contacts/{contactId}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.updateContact({
+  const result = await zavu.updateContact({
     contactId: "<id>",
     body: {},
   });
@@ -1202,17 +1202,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { updateContact } from "@zavu/sdk/funcs/updateContact.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { updateContact } from "@zavudev/sdk/funcs/updateContact.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await updateContact(sdk, {
+  const res = await updateContact(zavu, {
     contactId: "<id>",
     body: {},
   });
@@ -1255,14 +1255,14 @@ Get contact by phone number
 
 <!-- UsageSnippet language="typescript" operationID="getContactByPhone" method="get" path="/v1/contacts/phone/{phoneNumber}" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.getContactByPhone({
+  const result = await zavu.getContactByPhone({
     phoneNumber: "397-335-4175 x077",
   });
 
@@ -1277,17 +1277,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { getContactByPhone } from "@zavu/sdk/funcs/getContactByPhone.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { getContactByPhone } from "@zavudev/sdk/funcs/getContactByPhone.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await getContactByPhone(sdk, {
+  const res = await getContactByPhone(zavu, {
     phoneNumber: "397-335-4175 x077",
   });
   if (res.ok) {
@@ -1329,14 +1329,14 @@ Validate a phone number and check if a WhatsApp conversation window is open.
 
 <!-- UsageSnippet language="typescript" operationID="introspectPhone" method="post" path="/v1/introspect/phone" -->
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.introspectPhone({
+  const result = await zavu.introspectPhone({
     phoneNumber: "+56912345678",
   });
 
@@ -1351,17 +1351,17 @@ run();
 The standalone function version of this method:
 
 ```typescript
-import { SDKCore } from "@zavu/sdk/core.js";
-import { introspectPhone } from "@zavu/sdk/funcs/introspectPhone.js";
+import { ZavuCore } from "@zavudev/sdk/core.js";
+import { introspectPhone } from "@zavudev/sdk/funcs/introspectPhone.js";
 
-// Use `SDKCore` for best tree-shaking performance.
+// Use `ZavuCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
+const zavu = new ZavuCore({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const res = await introspectPhone(sdk, {
+  const res = await introspectPhone(zavu, {
     phoneNumber: "+56912345678",
   });
   if (res.ok) {

@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { ErrorT } from "@zavu/sdk/models/errors";
+import { ErrorT } from "@zavudev/sdk/models/errors";
 
 // No examples available for this model
 ```

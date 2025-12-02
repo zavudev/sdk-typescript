@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { GetSenderRequest } from "@zavu/sdk/models/operations";
+import { GetSenderRequest } from "@zavudev/sdk/models/operations";
 
 let value: GetSenderRequest = {
   senderId: "<id>",

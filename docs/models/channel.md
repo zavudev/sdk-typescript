@@ -5,7 +5,7 @@ Delivery channel.
 ## Example Usage
 
 ```typescript
-import { Channel } from "@zavu/sdk/models";
+import { Channel } from "@zavudev/sdk/models";
 
 let value: Channel = "sms";
 ```

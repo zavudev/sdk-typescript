@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { GetContactByPhoneRequest } from "@zavu/sdk/models/operations";
+import { GetContactByPhoneRequest } from "@zavudev/sdk/models/operations";
 
 let value: GetContactByPhoneRequest = {
   phoneNumber: "(528) 814-7758 x1425",

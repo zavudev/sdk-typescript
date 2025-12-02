@@ -25,7 +25,7 @@ import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
-export class SDK extends ClientSDK {
+export class Zavu extends ClientSDK {
   /**
    * Send a message
    *

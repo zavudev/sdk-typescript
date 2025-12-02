@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { SDKCore } from "../core.js";
+import { ZavuCore } from "../core.js";
 import { encodeSimple } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get sender
  */
 export function getSender(
-  client: SDKCore,
+  client: ZavuCore,
   request: operations.GetSenderRequest,
   options?: RequestOptions,
 ): APIPromise<
@@ -56,7 +56,7 @@ export function getSender(
 }
 
 async function $do(
-  client: SDKCore,
+  client: ZavuCore,
   request: operations.GetSenderRequest,
   options?: RequestOptions,
 ): Promise<

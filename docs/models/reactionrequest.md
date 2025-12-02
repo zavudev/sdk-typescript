@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { ReactionRequest } from "@zavu/sdk/models";
+import { ReactionRequest } from "@zavudev/sdk/models";
 
 let value: ReactionRequest = {
   emoji: "👍",

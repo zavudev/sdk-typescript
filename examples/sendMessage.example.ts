@@ -5,20 +5,20 @@
 import dotenv from "dotenv";
 dotenv.config();
 /**
- * Example usage of the @zavu/sdk SDK
+ * Example usage of the @zavudev/sdk SDK
  *
  * To run this example from the examples directory:
  * npm run build && npx tsx sendMessage.example.ts
  */
 
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function main() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",

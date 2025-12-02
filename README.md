@@ -97,14 +97,14 @@ For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
 ### Example
 
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -133,14 +133,14 @@ This SDK supports the following security scheme globally:
 
 To authenticate with the API the `bearerAuth` parameter must be set when initializing the SDK client instance. For example:
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -162,26 +162,26 @@ run();
 <details open>
 <summary>Available methods</summary>
 
-### [SDK](docs/sdks/sdk/README.md)
+### [Zavu SDK](docs/sdks/zavu/README.md)
 
-* [sendMessage](docs/sdks/sdk/README.md#sendmessage) - Send a message
-* [listMessages](docs/sdks/sdk/README.md#listmessages) - List messages
-* [getMessage](docs/sdks/sdk/README.md#getmessage) - Get message by ID
-* [sendReaction](docs/sdks/sdk/README.md#sendreaction) - Send reaction to message
-* [listTemplates](docs/sdks/sdk/README.md#listtemplates) - List templates
-* [createTemplate](docs/sdks/sdk/README.md#createtemplate) - Create template
-* [getTemplate](docs/sdks/sdk/README.md#gettemplate) - Get template
-* [deleteTemplate](docs/sdks/sdk/README.md#deletetemplate) - Delete template
-* [listSenders](docs/sdks/sdk/README.md#listsenders) - List senders
-* [createSender](docs/sdks/sdk/README.md#createsender) - Create sender
-* [getSender](docs/sdks/sdk/README.md#getsender) - Get sender
-* [updateSender](docs/sdks/sdk/README.md#updatesender) - Update sender
-* [deleteSender](docs/sdks/sdk/README.md#deletesender) - Delete sender
-* [listContacts](docs/sdks/sdk/README.md#listcontacts) - List contacts
-* [getContact](docs/sdks/sdk/README.md#getcontact) - Get contact
-* [updateContact](docs/sdks/sdk/README.md#updatecontact) - Update contact
-* [getContactByPhone](docs/sdks/sdk/README.md#getcontactbyphone) - Get contact by phone number
-* [introspectPhone](docs/sdks/sdk/README.md#introspectphone) - Introspect phone number
+* [sendMessage](docs/sdks/zavu/README.md#sendmessage) - Send a message
+* [listMessages](docs/sdks/zavu/README.md#listmessages) - List messages
+* [getMessage](docs/sdks/zavu/README.md#getmessage) - Get message by ID
+* [sendReaction](docs/sdks/zavu/README.md#sendreaction) - Send reaction to message
+* [listTemplates](docs/sdks/zavu/README.md#listtemplates) - List templates
+* [createTemplate](docs/sdks/zavu/README.md#createtemplate) - Create template
+* [getTemplate](docs/sdks/zavu/README.md#gettemplate) - Get template
+* [deleteTemplate](docs/sdks/zavu/README.md#deletetemplate) - Delete template
+* [listSenders](docs/sdks/zavu/README.md#listsenders) - List senders
+* [createSender](docs/sdks/zavu/README.md#createsender) - Create sender
+* [getSender](docs/sdks/zavu/README.md#getsender) - Get sender
+* [updateSender](docs/sdks/zavu/README.md#updatesender) - Update sender
+* [deleteSender](docs/sdks/zavu/README.md#deletesender) - Delete sender
+* [listContacts](docs/sdks/zavu/README.md#listcontacts) - List contacts
+* [getContact](docs/sdks/zavu/README.md#getcontact) - Get contact
+* [updateContact](docs/sdks/zavu/README.md#updatecontact) - Update contact
+* [getContactByPhone](docs/sdks/zavu/README.md#getcontactbyphone) - Get contact by phone number
+* [introspectPhone](docs/sdks/zavu/README.md#introspectphone) - Introspect phone number
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -201,24 +201,24 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 
 <summary>Available standalone functions</summary>
 
-- [`createSender`](docs/sdks/sdk/README.md#createsender) - Create sender
-- [`createTemplate`](docs/sdks/sdk/README.md#createtemplate) - Create template
-- [`deleteSender`](docs/sdks/sdk/README.md#deletesender) - Delete sender
-- [`deleteTemplate`](docs/sdks/sdk/README.md#deletetemplate) - Delete template
-- [`getContact`](docs/sdks/sdk/README.md#getcontact) - Get contact
-- [`getContactByPhone`](docs/sdks/sdk/README.md#getcontactbyphone) - Get contact by phone number
-- [`getMessage`](docs/sdks/sdk/README.md#getmessage) - Get message by ID
-- [`getSender`](docs/sdks/sdk/README.md#getsender) - Get sender
-- [`getTemplate`](docs/sdks/sdk/README.md#gettemplate) - Get template
-- [`introspectPhone`](docs/sdks/sdk/README.md#introspectphone) - Introspect phone number
-- [`listContacts`](docs/sdks/sdk/README.md#listcontacts) - List contacts
-- [`listMessages`](docs/sdks/sdk/README.md#listmessages) - List messages
-- [`listSenders`](docs/sdks/sdk/README.md#listsenders) - List senders
-- [`listTemplates`](docs/sdks/sdk/README.md#listtemplates) - List templates
-- [`sendMessage`](docs/sdks/sdk/README.md#sendmessage) - Send a message
-- [`sendReaction`](docs/sdks/sdk/README.md#sendreaction) - Send reaction to message
-- [`updateContact`](docs/sdks/sdk/README.md#updatecontact) - Update contact
-- [`updateSender`](docs/sdks/sdk/README.md#updatesender) - Update sender
+- [`createSender`](docs/sdks/zavu/README.md#createsender) - Create sender
+- [`createTemplate`](docs/sdks/zavu/README.md#createtemplate) - Create template
+- [`deleteSender`](docs/sdks/zavu/README.md#deletesender) - Delete sender
+- [`deleteTemplate`](docs/sdks/zavu/README.md#deletetemplate) - Delete template
+- [`getContact`](docs/sdks/zavu/README.md#getcontact) - Get contact
+- [`getContactByPhone`](docs/sdks/zavu/README.md#getcontactbyphone) - Get contact by phone number
+- [`getMessage`](docs/sdks/zavu/README.md#getmessage) - Get message by ID
+- [`getSender`](docs/sdks/zavu/README.md#getsender) - Get sender
+- [`getTemplate`](docs/sdks/zavu/README.md#gettemplate) - Get template
+- [`introspectPhone`](docs/sdks/zavu/README.md#introspectphone) - Introspect phone number
+- [`listContacts`](docs/sdks/zavu/README.md#listcontacts) - List contacts
+- [`listMessages`](docs/sdks/zavu/README.md#listmessages) - List messages
+- [`listSenders`](docs/sdks/zavu/README.md#listsenders) - List senders
+- [`listTemplates`](docs/sdks/zavu/README.md#listtemplates) - List templates
+- [`sendMessage`](docs/sdks/zavu/README.md#sendmessage) - Send a message
+- [`sendReaction`](docs/sdks/zavu/README.md#sendreaction) - Send reaction to message
+- [`updateContact`](docs/sdks/zavu/README.md#updatecontact) - Update contact
+- [`updateSender`](docs/sdks/zavu/README.md#updatesender) - Update sender
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
@@ -230,14 +230,14 @@ Some of the endpoints in this SDK support retries.  If you use the SDK without a
 
 To change the default retry strategy for a single API call, simply provide a retryConfig object to the call:
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -265,9 +265,9 @@ run();
 
 If you'd like to override the default retry strategy for all operations that support retries, you can provide a retryConfig at SDK initialization:
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   retryConfig: {
     strategy: "backoff",
     backoff: {
@@ -282,7 +282,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -314,16 +314,16 @@ run();
 
 ### Example
 ```typescript
-import { SDK } from "@zavu/sdk";
-import * as errors from "@zavu/sdk/models/errors";
+import { Zavu } from "@zavudev/sdk";
+import * as errors from "@zavudev/sdk/models/errors";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
   try {
-    const result = await sdk.sendMessage({
+    const result = await zavu.sendMessage({
       zavuSender: "sender_12345",
       body: {
         to: "+56912345678",
@@ -384,15 +384,15 @@ run();
 
 The default server can be overridden globally by passing a URL to the `serverURL: string` optional parameter when initializing the SDK client instance. For example:
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({
+const zavu = new Zavu({
   serverURL: "https://api.zavu.dev",
   bearerAuth: "<YOUR_BEARER_TOKEN_HERE>",
 });
 
 async function run() {
-  const result = await sdk.sendMessage({
+  const result = await zavu.sendMessage({
     zavuSender: "sender_12345",
     body: {
       to: "+56912345678",
@@ -426,8 +426,8 @@ custom header and a timeout to requests and how to use the `"requestError"` hook
 to log errors:
 
 ```typescript
-import { SDK } from "@zavu/sdk";
-import { HTTPClient } from "@zavu/sdk/lib/http";
+import { Zavu } from "@zavudev/sdk";
+import { HTTPClient } from "@zavudev/sdk/lib/http";
 
 const httpClient = new HTTPClient({
   // fetcher takes a function that has the same signature as native `fetch`.
@@ -453,7 +453,7 @@ httpClient.addHook("requestError", (error, request) => {
   console.groupEnd();
 });
 
-const sdk = new SDK({ httpClient: httpClient });
+const sdk = new Zavu({ httpClient: httpClient });
 ```
 <!-- End Custom HTTP Client [http-client] -->
 
@@ -468,9 +468,9 @@ You can pass a logger that matches `console`'s interface as an SDK option.
 > Beware that debug logging will reveal secrets, like API tokens in headers, in log messages printed to a console or files. It's recommended to use this feature only during local development and not in production.
 
 ```typescript
-import { SDK } from "@zavu/sdk";
+import { Zavu } from "@zavudev/sdk";
 
-const sdk = new SDK({ debugLogger: console });
+const sdk = new Zavu({ debugLogger: console });
 ```
 <!-- End Debugging [debug] -->
 

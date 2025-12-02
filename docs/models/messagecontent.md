@@ -5,7 +5,7 @@ Content for non-text message types (WhatsApp only).
 ## Example Usage
 
 ```typescript
-import { MessageContent } from "@zavu/sdk/models";
+import { MessageContent } from "@zavudev/sdk/models";
 
 let value: MessageContent = {
   mediaUrl: "https://example.com/image.jpg",

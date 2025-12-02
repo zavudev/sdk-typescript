@@ -3,7 +3,7 @@
 ## Example Usage
 
 ```typescript
-import { GetTemplateRequest } from "@zavu/sdk/models/operations";
+import { GetTemplateRequest } from "@zavudev/sdk/models/operations";
 
 let value: GetTemplateRequest = {
   templateId: "<id>",

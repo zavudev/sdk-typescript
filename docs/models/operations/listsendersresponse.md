@@ -5,7 +5,7 @@ List of sender profiles.
 ## Example Usage
 
 ```typescript
-import { ListSendersResponse } from "@zavu/sdk/models/operations";
+import { ListSendersResponse } from "@zavudev/sdk/models/operations";
 
 let value: ListSendersResponse = {
   items: [

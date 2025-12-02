@@ -1,6 +1,6 @@
 configVersion: 2.0.0
 generation:
-  sdkClassName: SDK
+  sdkClassName: Zavu
   maintainOpenAPIOrder: true
   usageSnippets:
     optionalPropertyRendering: withExample
@@ -27,7 +27,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.0.2
+  version: 0.0.7
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
@@ -70,7 +70,7 @@ typescript:
   moduleFormat: dual
   multipartArrayFormat: standard
   outputModelSuffix: output
-  packageName: '@zavu/sdk'
+  packageName: '@zavudev/sdk'
   preApplyUnionDiscriminators: true
   responseFormat: flat
   sseFlatResponse: false

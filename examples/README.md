@@ -1,6 +1,6 @@
-# @zavu/sdk Examples
+# @zavudev/sdk Examples
 
-This directory contains example scripts demonstrating how to use the @zavu/sdk SDK.
+This directory contains example scripts demonstrating how to use the @zavudev/sdk SDK.
 
 ## Prerequisites
 
