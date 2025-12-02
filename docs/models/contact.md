@@ -1,0 +1,26 @@
+# Contact
+
+## Example Usage
+
+```typescript
+import { Contact } from "@zavu/sdk/models";
+
+let value: Contact = {
+  id: "<id>",
+  phoneNumber: "+56912345678",
+  countryCode: "CL",
+};
+```
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   | Example                                                                                       |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `id`                                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |                                                                                               |
+| `phoneNumber`                                                                                 | *string*                                                                                      | :heavy_check_mark:                                                                            | E.164 phone number.                                                                           | +56912345678                                                                                  |
+| `countryCode`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           | CL                                                                                            |
+| `whatsappWindowOpen`                                                                          | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | Whether the 24-hour WhatsApp window is currently open.                                        |                                                                                               |
+| `lastWhatsappMessageAt`                                                                       | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | When the contact last messaged via WhatsApp.                                                  |                                                                                               |
+| `metadata`                                                                                    | Record<string, *string*>                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |                                                                                               |
+| `createdAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | N/A                                                                                           |                                                                                               |
+| `updatedAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | N/A                                                                                           |                                                                                               |
