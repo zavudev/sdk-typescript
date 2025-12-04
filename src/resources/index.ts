@@ -32,6 +32,7 @@ export {
   type SenderListResponse,
   type SenderCreateParams,
   type SenderUpdateParams,
+  type SenderListParams,
 } from './senders';
 export {
   Templates,
@@ -39,4 +40,5 @@ export {
   type WhatsappCategory,
   type TemplateListResponse,
   type TemplateCreateParams,
+  type TemplateListParams,
 } from './templates';

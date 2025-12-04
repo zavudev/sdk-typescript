@@ -48,8 +48,11 @@ export class Templates extends APIResource {
    * const templates = await client.templates.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<TemplateListResponse> {
-    return this._client.get('/v1/templates', options);
+  list(
+    query: TemplateListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TemplateListResponse> {
+    return this._client.get('/v1/templates', { query, ...options });
   }
 
   /**
@@ -167,6 +170,8 @@ export type WhatsappCategory = 'UTILITY' | 'MARKETING' | 'AUTHENTICATION';
 
 export interface TemplateListResponse {
   items: Array<Template>;
+
+  nextCursor?: string | null;
 }
 
 export interface TemplateCreateParams {
@@ -184,11 +189,18 @@ export interface TemplateCreateParams {
   whatsappCategory?: WhatsappCategory;
 }
 
+export interface TemplateListParams {
+  cursor?: string;
+
+  limit?: number;
+}
+
 export declare namespace Templates {
   export {
     type Template as Template,
     type WhatsappCategory as WhatsappCategory,
     type TemplateListResponse as TemplateListResponse,
     type TemplateCreateParams as TemplateCreateParams,
+    type TemplateListParams as TemplateListParams,
   };
 }
