@@ -1,22 +1,42 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
+// @ts-check
+import tseslint from 'typescript-eslint';
+import unusedImports from 'eslint-plugin-unused-imports';
+import prettier from 'eslint-plugin-prettier';
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  { files: ["**/*.{js,mjs,cjs,ts}"] },
-  { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+export default tseslint.config(
   {
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: { sourceType: 'module' },
+    },
+    files: ['**/*.ts', '**/*.mts', '**/*.cts', '**/*.js', '**/*.mjs', '**/*.cjs'],
+    ignores: ['dist/'],
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+      'unused-imports': unusedImports,
+      prettier,
+    },
     rules: {
-      "no-constant-condition": "off",
-      "no-useless-escape": "off",
-      // Handled by typescript compiler
-      "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-empty-object-type": "off",
-      "@typescript-eslint/no-namespace": "off",
+      'no-unused-vars': 'off',
+      'prettier/prettier': 'error',
+      'unused-imports/no-unused-imports': 'error',
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '^zavudev(/.*)?',
+              message: 'Use a relative import, not a package import.',
+            },
+          ],
+        },
+      ],
     },
   },
-];
+  {
+    files: ['tests/**', 'examples/**'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
+  },
+);
