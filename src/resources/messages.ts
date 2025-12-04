@@ -129,14 +129,19 @@ export interface Message {
   content?: MessageContent;
 
   /**
-   * Cost of the message in USD.
+   * MAU cost in USD (charged for first contact of the month).
    */
   cost?: number | null;
 
   /**
-   * Provider that charged for the message (e.g., 'telnyx').
+   * Provider cost in USD (Telnyx, SES, etc.).
    */
-  costProvider?: string | null;
+  costProvider?: number | null;
+
+  /**
+   * Total cost in USD (MAU + provider cost).
+   */
+  costTotal?: number | null;
 
   errorCode?: string | null;
 
