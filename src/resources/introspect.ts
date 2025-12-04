@@ -37,6 +37,11 @@ export interface IntrospectValidatePhoneResponse {
   validNumber: boolean;
 
   /**
+   * List of available messaging channels for this phone number.
+   */
+  availableChannels?: Array<string>;
+
+  /**
    * Carrier information for the phone number.
    */
   carrier?: IntrospectValidatePhoneResponse.Carrier;
@@ -50,11 +55,6 @@ export interface IntrospectValidatePhoneResponse {
    * Phone number in national format.
    */
   nationalFormat?: string;
-
-  /**
-   * Whether a 24h WhatsApp window is open for this number.
-   */
-  whatsappWindowOpen?: boolean;
 }
 
 export namespace IntrospectValidatePhoneResponse {

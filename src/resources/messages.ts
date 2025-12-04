@@ -100,15 +100,15 @@ export class Messages extends APIResource {
 }
 
 /**
- * Delivery channel.
+ * Delivery channel. Use 'auto' for intelligent routing.
  */
-export type Channel = 'sms' | 'whatsapp' | 'email';
+export type Channel = 'auto' | 'sms' | 'whatsapp' | 'email';
 
 export interface Message {
   id: string;
 
   /**
-   * Delivery channel.
+   * Delivery channel. Use 'auto' for intelligent routing.
    */
   channel: Channel;
 
@@ -280,7 +280,7 @@ export interface MessageResponse {
   message: Message;
 }
 
-export type MessageStatus = 'queued' | 'sending' | 'sent' | 'delivered' | 'read' | 'failed';
+export type MessageStatus = 'queued' | 'sending' | 'delivered' | 'failed' | 'received';
 
 /**
  * Type of message. Non-text types are WhatsApp only.
@@ -307,7 +307,7 @@ export interface MessageListResponse {
 
 export interface MessageListParams {
   /**
-   * Delivery channel.
+   * Delivery channel. Use 'auto' for intelligent routing.
    */
   channel?: Channel;
 
@@ -340,8 +340,9 @@ export interface MessageSendParams {
   to: string;
 
   /**
-   * Body param: Delivery channel. If omitted with non-text messageType, WhatsApp is
-   * used. For email recipients, defaults to 'email'.
+   * Body param: Delivery channel. Use 'auto' for intelligent routing. If omitted
+   * with non-text messageType, WhatsApp is used. For email recipients, defaults to
+   * 'email'.
    */
   channel?: Channel;
 
