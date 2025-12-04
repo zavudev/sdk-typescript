@@ -46,23 +46,28 @@ export interface Contact {
    */
   phoneNumber: string;
 
+  /**
+   * List of available messaging channels for this contact.
+   */
+  availableChannels?: Array<string>;
+
   countryCode?: string;
 
   createdAt?: string;
 
   /**
-   * When the contact last messaged via WhatsApp.
+   * Preferred channel for this contact.
    */
-  lastWhatsappMessageAt?: string;
+  defaultChannel?: 'sms' | 'whatsapp' | 'email';
 
   metadata?: { [key: string]: string };
 
   updatedAt?: string;
 
   /**
-   * Whether the 24-hour WhatsApp window is currently open.
+   * Whether this contact has been verified.
    */
-  whatsappWindowOpen?: boolean;
+  verified?: boolean;
 }
 
 export interface ContactListResponse {
@@ -72,6 +77,11 @@ export interface ContactListResponse {
 }
 
 export interface ContactUpdateParams {
+  /**
+   * Preferred channel for this contact. Set to null to clear.
+   */
+  defaultChannel?: 'sms' | 'whatsapp' | 'email' | null;
+
   metadata?: { [key: string]: string };
 }
 
