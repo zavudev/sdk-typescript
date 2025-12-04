@@ -1,26 +1,93 @@
-# Contributing to This Repository
+## Setting up the environment
 
-Thank you for your interest in contributing to this repository. Please note that this repository contains generated code. As such, we do not accept direct changes or pull requests. Instead, we encourage you to follow the guidelines below to report issues and suggest improvements.
+This repository uses [`pnpm`](https://pnpm.io/).
+Other package managers may work but are not officially supported for development.
 
-## How to Report Issues
+To set up the repository, run:
 
-If you encounter any bugs or have suggestions for improvements, please open an issue on GitHub. When reporting an issue, please provide as much detail as possible to help us reproduce the problem. This includes:
+```sh
+$ pnpm install
+$ pnpm build
+```
 
-- A clear and descriptive title
-- Steps to reproduce the issue
-- Expected and actual behavior
-- Any relevant logs, screenshots, or error messages
-- Information about your environment (e.g., operating system, software versions)
-    - For example can be collected using the `npx envinfo` command from your terminal if you have Node.js installed
+This will install all the required dependencies and build output files to `dist/`.
 
-## Issue Triage and Upstream Fixes
+## Modifying/Adding code
 
-We will review and triage issues as quickly as possible. Our goal is to address bugs and incorporate improvements in the upstream source code. Fixes will be included in the next generation of the generated code.
+Most of the SDK is generated code. Modifications to code will be persisted between generations, but may
+result in merge conflicts between manual patches and changes from the generator. The generator will never
+modify the contents of the `src/lib/` and `examples/` directories.
 
-## Contact
+## Adding and running examples
 
-If you have any questions or need further assistance, please feel free to reach out by opening an issue.
+All files in the `examples/` directory are not modified by the generator and can be freely edited or added to.
 
-Thank you for your understanding and cooperation!
+```ts
+// add an example to examples/<your-example>.ts
 
-The Maintainers
+#!/usr/bin/env -S npm run tsn -T
+…
+```
+
+```sh
+$ chmod +x examples/<your-example>.ts
+# run the example against your api
+$ pnpm tsn -T examples/<your-example>.ts
+```
+
+## Using the repository from source
+
+If you’d like to use the repository from source, you can either install from git or link to a cloned repository:
+
+To install via git:
+
+```sh
+$ npm install git+ssh://git@github.com:zavudev/sdk-typescript.git
+```
+
+Alternatively, to link a local copy of the repo:
+
+```sh
+# Clone
+$ git clone https://www.github.com/zavudev/sdk-typescript
+$ cd sdk-typescript
+
+# With yarn
+$ yarn link
+$ cd ../my-package
+$ yarn link @zavudev/sdk
+
+# With pnpm
+$ pnpm link --global
+$ cd ../my-package
+$ pnpm link -—global @zavudev/sdk
+```
+
+## Running tests
+
+Most tests require you to [set up a mock server](https://github.com/stoplightio/prism) against the OpenAPI spec to run the tests.
+
+```sh
+$ npx prism mock path/to/your/openapi.yml
+```
+
+```sh
+$ pnpm run test
+```
+
+## Linting and formatting
+
+This repository uses [prettier](https://www.npmjs.com/package/prettier) and
+[eslint](https://www.npmjs.com/package/eslint) to format the code in the repository.
+
+To lint:
+
+```sh
+$ pnpm lint
+```
+
+To format and fix all lint issues automatically:
+
+```sh
+$ pnpm fix
+```
