@@ -31,8 +31,11 @@ export class Senders extends APIResource {
   /**
    * List senders
    */
-  list(options?: RequestOptions): APIPromise<SenderListResponse> {
-    return this._client.get('/v1/senders', options);
+  list(
+    query: SenderListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<SenderListResponse> {
+    return this._client.get('/v1/senders', { query, ...options });
   }
 
   /**
@@ -68,6 +71,8 @@ export interface Sender {
 
 export interface SenderListResponse {
   items: Array<Sender>;
+
+  nextCursor?: string | null;
 }
 
 export interface SenderCreateParams {
@@ -84,11 +89,18 @@ export interface SenderUpdateParams {
   setAsDefault?: boolean;
 }
 
+export interface SenderListParams {
+  cursor?: string;
+
+  limit?: number;
+}
+
 export declare namespace Senders {
   export {
     type Sender as Sender,
     type SenderListResponse as SenderListResponse,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
+    type SenderListParams as SenderListParams,
   };
 }
