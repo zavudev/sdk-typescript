@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'zavudev/internal/uploads';
-import { toFile } from 'zavudev/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@zavudev/sdk/internal/uploads';
+import { toFile } from '@zavudev/sdk/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

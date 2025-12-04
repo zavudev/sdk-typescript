@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "zavudev/*": ["./src/*"],
-      "zavudev": ["./src/index.ts"]
+      "@zavudev/sdk/*": ["./src/*"],
+      "@zavudev/sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 
