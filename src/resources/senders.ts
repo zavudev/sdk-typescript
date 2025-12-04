@@ -56,8 +56,6 @@ export interface Sender {
    */
   phoneNumber: string;
 
-  capabilities?: Sender.Capabilities;
-
   createdAt?: string;
 
   /**
@@ -66,25 +64,6 @@ export interface Sender {
   isDefault?: boolean;
 
   updatedAt?: string;
-}
-
-export namespace Sender {
-  export interface Capabilities {
-    /**
-     * Whether Email is enabled for this sender.
-     */
-    email?: boolean;
-
-    /**
-     * Whether SMS is enabled for this sender.
-     */
-    sms?: boolean;
-
-    /**
-     * Whether WhatsApp is enabled for this sender.
-     */
-    whatsapp?: boolean;
-  }
 }
 
 export interface SenderListResponse {

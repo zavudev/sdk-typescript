@@ -37,7 +37,7 @@ describe('resource messages', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.messages.list(
-        { channel: 'sms', cursor: 'cursor', limit: 100, status: 'queued', to: 'to' },
+        { channel: 'auto', cursor: 'cursor', limit: 100, status: 'queued', to: 'to' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);
@@ -76,7 +76,7 @@ describe('resource messages', () => {
   test.skip('send: required and optional params', async () => {
     const response = await client.messages.send({
       to: '+56912345678',
-      channel: 'sms',
+      channel: 'auto',
       content: {
         buttons: [{ id: 'id', title: 'title' }],
         contacts: [{ name: 'name', phones: ['string'] }],

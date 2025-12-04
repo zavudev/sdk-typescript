@@ -91,9 +91,29 @@ export interface Template {
    */
   name: string;
 
+  /**
+   * Template buttons.
+   */
+  buttons?: Array<Template.Button>;
+
   createdAt?: string;
 
-  status?: 'pending' | 'approved' | 'rejected';
+  /**
+   * Footer text for the template.
+   */
+  footer?: string;
+
+  /**
+   * Header content (text or media URL).
+   */
+  headerContent?: string;
+
+  /**
+   * Type of header (text, image, video, document).
+   */
+  headerType?: string;
+
+  status?: 'draft' | 'pending' | 'approved' | 'rejected';
 
   updatedAt?: string;
 
@@ -101,6 +121,43 @@ export interface Template {
    * List of variable names for documentation.
    */
   variables?: Array<string>;
+
+  /**
+   * WhatsApp-specific template information.
+   */
+  whatsapp?: Template.Whatsapp;
+}
+
+export namespace Template {
+  export interface Button {
+    phoneNumber?: string;
+
+    text?: string;
+
+    type?: string;
+
+    url?: string;
+  }
+
+  /**
+   * WhatsApp-specific template information.
+   */
+  export interface Whatsapp {
+    /**
+     * WhatsApp Business Account namespace.
+     */
+    namespace?: string;
+
+    /**
+     * WhatsApp approval status.
+     */
+    status?: string;
+
+    /**
+     * WhatsApp template name.
+     */
+    templateName?: string;
+  }
 }
 
 /**
