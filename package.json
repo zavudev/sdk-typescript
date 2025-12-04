@@ -1,5 +1,5 @@
 {
-  "name": "zavudev",
+  "name": "@zavudev/sdk",
   "version": "0.0.1",
   "description": "The official TypeScript library for the Zavudev API",
   "author": "Zavudev <>",

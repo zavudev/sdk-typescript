@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'zavudev/core/api-promise';
+import { APIPromise } from '@zavudev/sdk/core/api-promise';
 
 import util from 'node:util';
-import Zavudev from 'zavudev';
-import { APIUserAbortError } from 'zavudev';
+import Zavudev from '@zavudev/sdk';
+import { APIUserAbortError } from '@zavudev/sdk';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

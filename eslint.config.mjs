@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^zavudev(/.*)?',
+              regex: '^@zavudev/sdk(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

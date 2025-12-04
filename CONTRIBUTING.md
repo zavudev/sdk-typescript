@@ -55,12 +55,12 @@ $ cd sdk-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link zavudev
+$ yarn link @zavudev/sdk
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global zavudev
+$ pnpm link -—global @zavudev/sdk
 ```
 
 ## Running tests

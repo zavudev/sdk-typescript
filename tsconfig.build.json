@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "zavudev/*": ["./dist/src/*"],
-      "zavudev": ["./dist/src/index.ts"]
+      "@zavudev/sdk/*": ["./dist/src/*"],
+      "@zavudev/sdk": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

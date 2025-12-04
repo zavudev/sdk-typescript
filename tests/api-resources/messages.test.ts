@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Zavudev from 'zavudev';
+import Zavudev from '@zavudev/sdk';
 
 const client = new Zavudev({
   apiKey: 'My API Key',
