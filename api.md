@@ -29,7 +29,7 @@ Methods:
 
 - <code title="post /v1/templates">client.templates.<a href="./src/resources/templates.ts">create</a>({ ...params }) -> Template</code>
 - <code title="get /v1/templates/{templateId}">client.templates.<a href="./src/resources/templates.ts">retrieve</a>(templateID) -> Template</code>
-- <code title="get /v1/templates">client.templates.<a href="./src/resources/templates.ts">list</a>() -> TemplateListResponse</code>
+- <code title="get /v1/templates">client.templates.<a href="./src/resources/templates.ts">list</a>({ ...params }) -> TemplateListResponse</code>
 - <code title="delete /v1/templates/{templateId}">client.templates.<a href="./src/resources/templates.ts">delete</a>(templateID) -> void</code>
 
 # Senders
@@ -44,7 +44,7 @@ Methods:
 - <code title="post /v1/senders">client.senders.<a href="./src/resources/senders.ts">create</a>({ ...params }) -> Sender</code>
 - <code title="get /v1/senders/{senderId}">client.senders.<a href="./src/resources/senders.ts">retrieve</a>(senderID) -> Sender</code>
 - <code title="patch /v1/senders/{senderId}">client.senders.<a href="./src/resources/senders.ts">update</a>(senderID, { ...params }) -> Sender</code>
-- <code title="get /v1/senders">client.senders.<a href="./src/resources/senders.ts">list</a>() -> SenderListResponse</code>
+- <code title="get /v1/senders">client.senders.<a href="./src/resources/senders.ts">list</a>({ ...params }) -> SenderListResponse</code>
 - <code title="delete /v1/senders/{senderId}">client.senders.<a href="./src/resources/senders.ts">delete</a>(senderID) -> void</code>
 
 # Contacts

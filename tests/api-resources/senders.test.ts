@@ -66,6 +66,14 @@ describe('resource senders', () => {
   });
 
   // Prism tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.senders.list({ cursor: 'cursor', limit: 100 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+
+  // Prism tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.senders.delete('senderId');
     const rawResponse = await responsePromise.asResponse();

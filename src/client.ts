@@ -45,6 +45,7 @@ import {
 import {
   Sender,
   SenderCreateParams,
+  SenderListParams,
   SenderListResponse,
   SenderUpdateParams,
   Senders,
@@ -52,6 +53,7 @@ import {
 import {
   Template,
   TemplateCreateParams,
+  TemplateListParams,
   TemplateListResponse,
   Templates,
   WhatsappCategory,
@@ -789,6 +791,7 @@ export declare namespace Zavudev {
     type WhatsappCategory as WhatsappCategory,
     type TemplateListResponse as TemplateListResponse,
     type TemplateCreateParams as TemplateCreateParams,
+    type TemplateListParams as TemplateListParams,
   };
 
   export {
@@ -797,6 +800,7 @@ export declare namespace Zavudev {
     type SenderListResponse as SenderListResponse,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
+    type SenderListParams as SenderListParams,
   };
 
   export {
