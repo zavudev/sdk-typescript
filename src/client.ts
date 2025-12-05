@@ -60,6 +60,27 @@ import {
   TemplatesCursor,
   WhatsappCategory,
 } from './resources/templates';
+import {
+  Broadcast,
+  BroadcastCancelResponse,
+  BroadcastChannel,
+  BroadcastContact,
+  BroadcastContactStatus,
+  BroadcastContent,
+  BroadcastCreateParams,
+  BroadcastCreateResponse,
+  BroadcastListParams,
+  BroadcastMessageType,
+  BroadcastProgress,
+  BroadcastRetrieveResponse,
+  BroadcastSendParams,
+  BroadcastSendResponse,
+  BroadcastStatus,
+  BroadcastUpdateParams,
+  BroadcastUpdateResponse,
+  Broadcasts,
+  BroadcastsCursor,
+} from './resources/broadcasts/broadcasts';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -780,6 +801,7 @@ export class Zavudev {
   templates: API.Templates = new API.Templates(this);
   senders: API.Senders = new API.Senders(this);
   contacts: API.Contacts = new API.Contacts(this);
+  broadcasts: API.Broadcasts = new API.Broadcasts(this);
   introspect: API.Introspect = new API.Introspect(this);
 }
 
@@ -787,6 +809,7 @@ Zavudev.Messages = Messages;
 Zavudev.Templates = Templates;
 Zavudev.Senders = Senders;
 Zavudev.Contacts = Contacts;
+Zavudev.Broadcasts = Broadcasts;
 Zavudev.Introspect = Introspect;
 
 export declare namespace Zavudev {
@@ -833,6 +856,28 @@ export declare namespace Zavudev {
     type ContactsCursor as ContactsCursor,
     type ContactUpdateParams as ContactUpdateParams,
     type ContactListParams as ContactListParams,
+  };
+
+  export {
+    Broadcasts as Broadcasts,
+    type Broadcast as Broadcast,
+    type BroadcastChannel as BroadcastChannel,
+    type BroadcastContact as BroadcastContact,
+    type BroadcastContactStatus as BroadcastContactStatus,
+    type BroadcastContent as BroadcastContent,
+    type BroadcastMessageType as BroadcastMessageType,
+    type BroadcastProgress as BroadcastProgress,
+    type BroadcastStatus as BroadcastStatus,
+    type BroadcastCreateResponse as BroadcastCreateResponse,
+    type BroadcastRetrieveResponse as BroadcastRetrieveResponse,
+    type BroadcastUpdateResponse as BroadcastUpdateResponse,
+    type BroadcastCancelResponse as BroadcastCancelResponse,
+    type BroadcastSendResponse as BroadcastSendResponse,
+    type BroadcastsCursor as BroadcastsCursor,
+    type BroadcastCreateParams as BroadcastCreateParams,
+    type BroadcastUpdateParams as BroadcastUpdateParams,
+    type BroadcastListParams as BroadcastListParams,
+    type BroadcastSendParams as BroadcastSendParams,
   };
 
   export {
