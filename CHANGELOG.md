@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.0 (2025-12-05)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/zavudev/sdk-typescript/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **mcp:** add typescript check to code execution tool ([96a7f31](https://github.com/zavudev/sdk-typescript/commit/96a7f31ffb3ccf64bdc23e7cccfca6d253e7ddad))
+
+
+### Chores
+
+* use latest @modelcontextprotocol/sdk ([8bc5bc1](https://github.com/zavudev/sdk-typescript/commit/8bc5bc1fd79385e8e3d7cd8526c2ac7d612ffc1e))
+
 ## 0.9.0 (2025-12-05)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/zavudev/sdk-typescript/compare/v0.8.0...v0.9.0)
