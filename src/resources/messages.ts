@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -26,14 +27,17 @@ export class Messages extends APIResource {
    *
    * @example
    * ```ts
-   * const messages = await client.messages.list();
+   * // Automatically fetches more pages as needed.
+   * for await (const message of client.messages.list()) {
+   *   // ...
+   * }
    * ```
    */
   list(
     query: MessageListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<MessageListResponse> {
-    return this._client.get('/v1/messages', { query, ...options });
+  ): PagePromise<MessagesCursor, Message> {
+    return this._client.getAPIList('/v1/messages', Cursor<Message>, { query, ...options });
   }
 
   /**
@@ -98,6 +102,8 @@ export class Messages extends APIResource {
     });
   }
 }
+
+export type MessagesCursor = Cursor<Message>;
 
 /**
  * Delivery channel. Use 'auto' for intelligent routing.
@@ -304,21 +310,11 @@ export type MessageType =
   | 'reaction'
   | 'template';
 
-export interface MessageListResponse {
-  items: Array<Message>;
-
-  nextCursor?: string | null;
-}
-
-export interface MessageListParams {
+export interface MessageListParams extends CursorParams {
   /**
    * Delivery channel. Use 'auto' for intelligent routing.
    */
   channel?: Channel;
-
-  cursor?: string;
-
-  limit?: number;
 
   status?: MessageStatus;
 
@@ -408,7 +404,7 @@ export declare namespace Messages {
     type MessageResponse as MessageResponse,
     type MessageStatus as MessageStatus,
     type MessageType as MessageType,
-    type MessageListResponse as MessageListResponse,
+    type MessagesCursor as MessagesCursor,
     type MessageListParams as MessageListParams,
     type MessageReactParams as MessageReactParams,
     type MessageSendParams as MessageSendParams,

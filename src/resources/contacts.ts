@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -26,8 +27,8 @@ export class Contacts extends APIResource {
   list(
     query: ContactListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<ContactListResponse> {
-    return this._client.get('/v1/contacts', { query, ...options });
+  ): PagePromise<ContactsCursor, Contact> {
+    return this._client.getAPIList('/v1/contacts', Cursor<Contact>, { query, ...options });
   }
 
   /**
@@ -37,6 +38,8 @@ export class Contacts extends APIResource {
     return this._client.get(path`/v1/contacts/phone/${phoneNumber}`, options);
   }
 }
+
+export type ContactsCursor = Cursor<Contact>;
 
 export interface Contact {
   id: string;
@@ -70,12 +73,6 @@ export interface Contact {
   verified?: boolean;
 }
 
-export interface ContactListResponse {
-  items: Array<Contact>;
-
-  nextCursor?: string | null;
-}
-
 export interface ContactUpdateParams {
   /**
    * Preferred channel for this contact. Set to null to clear.
@@ -85,18 +82,14 @@ export interface ContactUpdateParams {
   metadata?: { [key: string]: string };
 }
 
-export interface ContactListParams {
-  cursor?: string;
-
-  limit?: number;
-
+export interface ContactListParams extends CursorParams {
   phoneNumber?: string;
 }
 
 export declare namespace Contacts {
   export {
     type Contact as Contact,
-    type ContactListResponse as ContactListResponse,
+    type ContactsCursor as ContactsCursor,
     type ContactUpdateParams as ContactUpdateParams,
     type ContactListParams as ContactListParams,
   };
