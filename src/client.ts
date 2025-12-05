@@ -13,15 +13,17 @@ import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
 import { VERSION } from './version';
 import * as Errors from './core/error';
+import * as Pagination from './core/pagination';
+import { AbstractPage, type CursorParams, CursorResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
   Contact,
   ContactListParams,
-  ContactListResponse,
   ContactUpdateParams,
   Contacts,
+  ContactsCursor,
 } from './resources/contacts';
 import {
   Introspect,
@@ -34,28 +36,28 @@ import {
   Message,
   MessageContent,
   MessageListParams,
-  MessageListResponse,
   MessageReactParams,
   MessageResponse,
   MessageSendParams,
   MessageStatus,
   MessageType,
   Messages,
+  MessagesCursor,
 } from './resources/messages';
 import {
   Sender,
   SenderCreateParams,
   SenderListParams,
-  SenderListResponse,
   SenderUpdateParams,
   Senders,
+  SendersCursor,
 } from './resources/senders';
 import {
   Template,
   TemplateCreateParams,
   TemplateListParams,
-  TemplateListResponse,
   Templates,
+  TemplatesCursor,
   WhatsappCategory,
 } from './resources/templates';
 import { type Fetch } from './internal/builtin-types';
@@ -523,6 +525,25 @@ export class Zavudev {
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
 
+  getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
+    path: string,
+    Page: new (...args: any[]) => PageClass,
+    opts?: RequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+  }
+
+  requestAPIList<
+    Item = unknown,
+    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
+  >(
+    Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
+    options: FinalRequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    const request = this.makeRequest(options, null, undefined);
+    return new Pagination.PagePromise<PageClass, Item>(this as any as Zavudev, request, Page);
+  }
+
   async fetchWithTimeout(
     url: RequestInfo,
     init: RequestInit | undefined,
@@ -771,6 +792,9 @@ Zavudev.Introspect = Introspect;
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
 
+  export import Cursor = Pagination.Cursor;
+  export { type CursorParams as CursorParams, type CursorResponse as CursorResponse };
+
   export {
     Messages as Messages,
     type Channel as Channel,
@@ -779,7 +803,7 @@ export declare namespace Zavudev {
     type MessageResponse as MessageResponse,
     type MessageStatus as MessageStatus,
     type MessageType as MessageType,
-    type MessageListResponse as MessageListResponse,
+    type MessagesCursor as MessagesCursor,
     type MessageListParams as MessageListParams,
     type MessageReactParams as MessageReactParams,
     type MessageSendParams as MessageSendParams,
@@ -789,7 +813,7 @@ export declare namespace Zavudev {
     Templates as Templates,
     type Template as Template,
     type WhatsappCategory as WhatsappCategory,
-    type TemplateListResponse as TemplateListResponse,
+    type TemplatesCursor as TemplatesCursor,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
   };
@@ -797,7 +821,7 @@ export declare namespace Zavudev {
   export {
     Senders as Senders,
     type Sender as Sender,
-    type SenderListResponse as SenderListResponse,
+    type SendersCursor as SendersCursor,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
     type SenderListParams as SenderListParams,
@@ -806,7 +830,7 @@ export declare namespace Zavudev {
   export {
     Contacts as Contacts,
     type Contact as Contact,
-    type ContactListResponse as ContactListResponse,
+    type ContactsCursor as ContactsCursor,
     type ContactUpdateParams as ContactUpdateParams,
     type ContactListParams as ContactListParams,
   };
