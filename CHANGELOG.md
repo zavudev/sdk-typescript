@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.0 (2025-12-05)
+
+Full Changelog: [v0.6.0...v0.7.0](https://github.com/zavudev/sdk-typescript/compare/v0.6.0...v0.7.0)
+
+### Features
+
+* **api:** fix pagination ([fa34b2f](https://github.com/zavudev/sdk-typescript/commit/fa34b2f9c4f8ca148a630b0bb42ea57c73df587b))
+
+
+### Chores
+
+* configure new SDK language ([9f97f81](https://github.com/zavudev/sdk-typescript/commit/9f97f81d838e9360912f5a62008e476c3ff7f1e6))
+* **internal:** configure MCP Server hosting ([ec1a962](https://github.com/zavudev/sdk-typescript/commit/ec1a9620360218539933a3651df5c3af86759668))
+
 ## 0.6.0 (2025-12-04)
 
 Full Changelog: [v0.5.0...v0.6.0](https://github.com/zavudev/sdk-typescript/compare/v0.5.0...v0.6.0)
