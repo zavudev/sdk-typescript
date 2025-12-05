@@ -57,6 +57,47 @@ Methods:
 - <code title="get /v1/contacts">client.contacts.<a href="./src/resources/contacts.ts">list</a>({ ...params }) -> ContactsCursor</code>
 - <code title="get /v1/contacts/phone/{phoneNumber}">client.contacts.<a href="./src/resources/contacts.ts">retrieveByPhone</a>(phoneNumber) -> Contact</code>
 
+# Broadcasts
+
+Types:
+
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">Broadcast</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastChannel</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastContact</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastContactStatus</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastContent</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastMessageType</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastProgress</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastStatus</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastCreateResponse</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastRetrieveResponse</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastUpdateResponse</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastCancelResponse</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastSendResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/broadcasts">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">create</a>({ ...params }) -> BroadcastCreateResponse</code>
+- <code title="get /v1/broadcasts/{broadcastId}">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">retrieve</a>(broadcastID) -> BroadcastRetrieveResponse</code>
+- <code title="patch /v1/broadcasts/{broadcastId}">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">update</a>(broadcastID, { ...params }) -> BroadcastUpdateResponse</code>
+- <code title="get /v1/broadcasts">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">list</a>({ ...params }) -> BroadcastsCursor</code>
+- <code title="delete /v1/broadcasts/{broadcastId}">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">delete</a>(broadcastID) -> void</code>
+- <code title="post /v1/broadcasts/{broadcastId}/cancel">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">cancel</a>(broadcastID) -> BroadcastCancelResponse</code>
+- <code title="get /v1/broadcasts/{broadcastId}/progress">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">progress</a>(broadcastID) -> BroadcastProgress</code>
+- <code title="post /v1/broadcasts/{broadcastId}/send">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">send</a>(broadcastID, { ...params }) -> BroadcastSendResponse</code>
+
+## Contacts
+
+Types:
+
+- <code><a href="./src/resources/broadcasts/contacts.ts">ContactAddResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/broadcasts/{broadcastId}/contacts">client.broadcasts.contacts.<a href="./src/resources/broadcasts/contacts.ts">list</a>(broadcastID, { ...params }) -> BroadcastContactsCursor</code>
+- <code title="post /v1/broadcasts/{broadcastId}/contacts">client.broadcasts.contacts.<a href="./src/resources/broadcasts/contacts.ts">add</a>(broadcastID, { ...params }) -> ContactAddResponse</code>
+- <code title="delete /v1/broadcasts/{broadcastId}/contacts/{contactId}">client.broadcasts.contacts.<a href="./src/resources/broadcasts/contacts.ts">remove</a>(contactID, { ...params }) -> void</code>
+
 # Introspect
 
 Types:
