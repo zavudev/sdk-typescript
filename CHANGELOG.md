@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 (2025-12-05)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/zavudev/sdk-typescript/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** manual updates ([e024219](https://github.com/zavudev/sdk-typescript/commit/e024219469be4a16fd2dbeee2a9ecfbe3e7490ff))
+
 ## 0.7.0 (2025-12-05)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/zavudev/sdk-typescript/compare/v0.6.0...v0.7.0)
