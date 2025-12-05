@@ -25,7 +25,7 @@ For clients with a configuration JSON, it might look something like this:
   "mcpServers": {
     "zavudev_sdk_api": {
       "command": "npx",
-      "args": ["-y", "@zavudev/sdk-mcp", "--client=claude", "--tools=all"],
+      "args": ["-y", "@zavudev/sdk-mcp", "--client=claude", "--tools=dynamic"],
       "env": {
         "ZAVUDEV_API_KEY": "My API Key"
       }
@@ -279,6 +279,23 @@ The following tools are available in this MCP server.
 - `update_contacts` (`write`): Update contact
 - `list_contacts` (`read`): List contacts
 - `retrieve_by_phone_contacts` (`read`): Get contact by phone number
+
+### Resource `broadcasts`:
+
+- `create_broadcasts` (`write`): Create a new broadcast campaign. Add contacts after creation, then send.
+- `retrieve_broadcasts` (`read`): Get broadcast
+- `update_broadcasts` (`write`): Update a broadcast in draft status.
+- `list_broadcasts` (`read`): List broadcasts for this project.
+- `delete_broadcasts` (`write`): Delete a broadcast in draft status.
+- `cancel_broadcasts` (`write`): Cancel a broadcast. Pending contacts will be skipped, but already queued messages may still be delivered.
+- `progress_broadcasts` (`read`): Get real-time progress of a broadcast including delivery counts and estimated completion time.
+- `send_broadcasts` (`write`): Start sending the broadcast immediately or schedule for later. Reserves the estimated cost from your balance.
+
+### Resource `broadcasts.contacts`:
+
+- `list_broadcasts_contacts` (`read`): List contacts in a broadcast with optional status filter.
+- `add_broadcasts_contacts` (`write`): Add contacts to a broadcast in batch. Maximum 1000 contacts per request.
+- `remove_broadcasts_contacts` (`write`): Remove a contact from a broadcast in draft status.
 
 ### Resource `introspect`:
 

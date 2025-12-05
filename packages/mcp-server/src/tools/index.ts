@@ -21,6 +21,17 @@ import retrieve_contacts from './contacts/retrieve-contacts';
 import update_contacts from './contacts/update-contacts';
 import list_contacts from './contacts/list-contacts';
 import retrieve_by_phone_contacts from './contacts/retrieve-by-phone-contacts';
+import create_broadcasts from './broadcasts/create-broadcasts';
+import retrieve_broadcasts from './broadcasts/retrieve-broadcasts';
+import update_broadcasts from './broadcasts/update-broadcasts';
+import list_broadcasts from './broadcasts/list-broadcasts';
+import delete_broadcasts from './broadcasts/delete-broadcasts';
+import cancel_broadcasts from './broadcasts/cancel-broadcasts';
+import progress_broadcasts from './broadcasts/progress-broadcasts';
+import send_broadcasts from './broadcasts/send-broadcasts';
+import list_broadcasts_contacts from './broadcasts/contacts/list-broadcasts-contacts';
+import add_broadcasts_contacts from './broadcasts/contacts/add-broadcasts-contacts';
+import remove_broadcasts_contacts from './broadcasts/contacts/remove-broadcasts-contacts';
 import validate_phone_introspect from './introspect/validate-phone-introspect';
 
 export const endpoints: Endpoint[] = [];
@@ -46,6 +57,17 @@ addEndpoint(retrieve_contacts);
 addEndpoint(update_contacts);
 addEndpoint(list_contacts);
 addEndpoint(retrieve_by_phone_contacts);
+addEndpoint(create_broadcasts);
+addEndpoint(retrieve_broadcasts);
+addEndpoint(update_broadcasts);
+addEndpoint(list_broadcasts);
+addEndpoint(delete_broadcasts);
+addEndpoint(cancel_broadcasts);
+addEndpoint(progress_broadcasts);
+addEndpoint(send_broadcasts);
+addEndpoint(list_broadcasts_contacts);
+addEndpoint(add_broadcasts_contacts);
+addEndpoint(remove_broadcasts_contacts);
 addEndpoint(validate_phone_introspect);
 
 export type Filter = {
