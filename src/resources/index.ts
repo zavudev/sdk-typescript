@@ -3,9 +3,9 @@
 export {
   Contacts,
   type Contact,
-  type ContactListResponse,
   type ContactUpdateParams,
   type ContactListParams,
+  type ContactsCursor,
 } from './contacts';
 export {
   Introspect,
@@ -21,24 +21,24 @@ export {
   type MessageResponse,
   type MessageStatus,
   type MessageType,
-  type MessageListResponse,
   type MessageListParams,
   type MessageReactParams,
   type MessageSendParams,
+  type MessagesCursor,
 } from './messages';
 export {
   Senders,
   type Sender,
-  type SenderListResponse,
   type SenderCreateParams,
   type SenderUpdateParams,
   type SenderListParams,
+  type SendersCursor,
 } from './senders';
 export {
   Templates,
   type Template,
   type WhatsappCategory,
-  type TemplateListResponse,
   type TemplateCreateParams,
   type TemplateListParams,
+  type TemplatesCursor,
 } from './templates';

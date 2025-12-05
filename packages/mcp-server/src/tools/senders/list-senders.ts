@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'list_senders',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nList senders\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/sender_list_response',\n  $defs: {\n    sender_list_response: {\n      type: 'object',\n      properties: {\n        items: {\n          type: 'array',\n          items: {\n            $ref: '#/$defs/sender'\n          }\n        },\n        nextCursor: {\n          type: 'string'\n        }\n      },\n      required: [        'items'\n      ]\n    },\n    sender: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        },\n        phoneNumber: {\n          type: 'string',\n          description: 'Phone number in E.164 format.'\n        },\n        createdAt: {\n          type: 'string',\n          format: 'date-time'\n        },\n        isDefault: {\n          type: 'boolean',\n          description: 'Whether this sender is the project\\'s default.'\n        },\n        updatedAt: {\n          type: 'string',\n          format: 'date-time'\n        }\n      },\n      required: [        'id',\n        'name',\n        'phoneNumber'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nList senders\n\n# Response Schema\n```json\n{\n  type: 'object',\n  properties: {\n    items: {\n      type: 'array',\n      items: {\n        $ref: '#/$defs/sender'\n      }\n    },\n    nextCursor: {\n      type: 'string'\n    }\n  },\n  required: [    'items'\n  ],\n  $defs: {\n    sender: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        },\n        phoneNumber: {\n          type: 'string',\n          description: 'Phone number in E.164 format.'\n        },\n        createdAt: {\n          type: 'string',\n          format: 'date-time'\n        },\n        isDefault: {\n          type: 'boolean',\n          description: 'Whether this sender is the project\\'s default.'\n        },\n        updatedAt: {\n          type: 'string',\n          format: 'date-time'\n        }\n      },\n      required: [        'id',\n        'name',\n        'phoneNumber'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -44,8 +44,9 @@ export const tool: Tool = {
 
 export const handler = async (client: Zavudev, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
+  const response = await client.senders.list(body).asResponse();
   try {
-    return asTextContentResult(await maybeFilter(jq_filter, await client.senders.list(body)));
+    return asTextContentResult(await maybeFilter(jq_filter, await response.json()));
   } catch (error) {
     if (error instanceof Zavudev.APIError || isJqError(error)) {
       return asErrorResult(error.message);

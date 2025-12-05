@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -45,14 +46,17 @@ export class Templates extends APIResource {
    *
    * @example
    * ```ts
-   * const templates = await client.templates.list();
+   * // Automatically fetches more pages as needed.
+   * for await (const template of client.templates.list()) {
+   *   // ...
+   * }
    * ```
    */
   list(
     query: TemplateListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<TemplateListResponse> {
-    return this._client.get('/v1/templates', { query, ...options });
+  ): PagePromise<TemplatesCursor, Template> {
+    return this._client.getAPIList('/v1/templates', Cursor<Template>, { query, ...options });
   }
 
   /**
@@ -70,6 +74,8 @@ export class Templates extends APIResource {
     });
   }
 }
+
+export type TemplatesCursor = Cursor<Template>;
 
 export interface Template {
   id: string;
@@ -168,12 +174,6 @@ export namespace Template {
  */
 export type WhatsappCategory = 'UTILITY' | 'MARKETING' | 'AUTHENTICATION';
 
-export interface TemplateListResponse {
-  items: Array<Template>;
-
-  nextCursor?: string | null;
-}
-
 export interface TemplateCreateParams {
   body: string;
 
@@ -189,17 +189,13 @@ export interface TemplateCreateParams {
   whatsappCategory?: WhatsappCategory;
 }
 
-export interface TemplateListParams {
-  cursor?: string;
-
-  limit?: number;
-}
+export interface TemplateListParams extends CursorParams {}
 
 export declare namespace Templates {
   export {
     type Template as Template,
     type WhatsappCategory as WhatsappCategory,
-    type TemplateListResponse as TemplateListResponse,
+    type TemplatesCursor as TemplatesCursor,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
   };

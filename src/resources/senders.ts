@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -34,8 +35,8 @@ export class Senders extends APIResource {
   list(
     query: SenderListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<SenderListResponse> {
-    return this._client.get('/v1/senders', { query, ...options });
+  ): PagePromise<SendersCursor, Sender> {
+    return this._client.getAPIList('/v1/senders', Cursor<Sender>, { query, ...options });
   }
 
   /**
@@ -48,6 +49,8 @@ export class Senders extends APIResource {
     });
   }
 }
+
+export type SendersCursor = Cursor<Sender>;
 
 export interface Sender {
   id: string;
@@ -69,12 +72,6 @@ export interface Sender {
   updatedAt?: string;
 }
 
-export interface SenderListResponse {
-  items: Array<Sender>;
-
-  nextCursor?: string | null;
-}
-
 export interface SenderCreateParams {
   name: string;
 
@@ -89,16 +86,12 @@ export interface SenderUpdateParams {
   setAsDefault?: boolean;
 }
 
-export interface SenderListParams {
-  cursor?: string;
-
-  limit?: number;
-}
+export interface SenderListParams extends CursorParams {}
 
 export declare namespace Senders {
   export {
     type Sender as Sender,
-    type SenderListResponse as SenderListResponse,
+    type SendersCursor as SendersCursor,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
     type SenderListParams as SenderListParams,
