@@ -26,7 +26,7 @@ const client = new Zavudev({
   apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted
 });
 
-const messageResponse = await client.messages.send({ to: '+56912345678' });
+const messageResponse = await client.messages.send({ to: '+14155551234', text: 'Hello from Zavu!' });
 
 console.log(messageResponse.message);
 ```
@@ -43,7 +43,7 @@ const client = new Zavudev({
   apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Zavudev.MessageSendParams = { to: '+56912345678' };
+const params: Zavudev.MessageSendParams = { to: '+14155551234', text: 'Hello from Zavu!' };
 const messageResponse: Zavudev.MessageResponse = await client.messages.send(params);
 ```
 
@@ -57,15 +57,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const messageResponse = await client.messages.send({ to: '+56912345678' }).catch(async (err) => {
-  if (err instanceof Zavudev.APIError) {
-    console.log(err.status); // 400
-    console.log(err.name); // BadRequestError
-    console.log(err.headers); // {server: 'nginx', ...}
-  } else {
-    throw err;
-  }
-});
+const messageResponse = await client.messages
+  .send({ to: '+14155551234', text: 'Hello from Zavu!' })
+  .catch(async (err) => {
+    if (err instanceof Zavudev.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -97,7 +99,7 @@ const client = new Zavudev({
 });
 
 // Or, configure per-request:
-await client.messages.send({ to: '+56912345678' }, {
+await client.messages.send({ to: '+14155551234', text: 'Hello from Zavu!' }, {
   maxRetries: 5,
 });
 ```
@@ -114,7 +116,7 @@ const client = new Zavudev({
 });
 
 // Override per-request:
-await client.messages.send({ to: '+56912345678' }, {
+await client.messages.send({ to: '+14155551234', text: 'Hello from Zavu!' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -122,6 +124,37 @@ await client.messages.send({ to: '+56912345678' }, {
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the Zavudev API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllMessages(params) {
+  const allMessages = [];
+  // Automatically fetches more pages as needed.
+  for await (const message of client.messages.list()) {
+    allMessages.push(message);
+  }
+  return allMessages;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.messages.list();
+for (const message of page.items) {
+  console.log(message);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -137,12 +170,12 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Zavudev();
 
-const response = await client.messages.send({ to: '+56912345678' }).asResponse();
+const response = await client.messages.send({ to: '+14155551234', text: 'Hello from Zavu!' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: messageResponse, response: raw } = await client.messages
-  .send({ to: '+56912345678' })
+  .send({ to: '+14155551234', text: 'Hello from Zavu!' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(messageResponse.message);
