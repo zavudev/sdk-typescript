@@ -49,6 +49,25 @@ export {
   type MessagesCursor,
 } from './messages';
 export {
+  PhoneNumbers,
+  type AvailablePhoneNumber,
+  type OwnedPhoneNumber,
+  type OwnedPhoneNumberPricing,
+  type PhoneNumberCapabilities,
+  type PhoneNumberPricing,
+  type PhoneNumberStatus,
+  type PhoneNumberType,
+  type PhoneNumberRetrieveResponse,
+  type PhoneNumberUpdateResponse,
+  type PhoneNumberPurchaseResponse,
+  type PhoneNumberSearchAvailableResponse,
+  type PhoneNumberUpdateParams,
+  type PhoneNumberListParams,
+  type PhoneNumberPurchaseParams,
+  type PhoneNumberSearchAvailableParams,
+  type OwnedPhoneNumbersCursor,
+} from './phone-numbers';
+export {
   Senders,
   type Sender,
   type SenderCreateParams,
