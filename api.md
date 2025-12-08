@@ -108,3 +108,28 @@ Types:
 Methods:
 
 - <code title="post /v1/introspect/phone">client.introspect.<a href="./src/resources/introspect.ts">validatePhone</a>({ ...params }) -> IntrospectValidatePhoneResponse</code>
+
+# PhoneNumbers
+
+Types:
+
+- <code><a href="./src/resources/phone-numbers.ts">AvailablePhoneNumber</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">OwnedPhoneNumber</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">OwnedPhoneNumberPricing</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberCapabilities</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberPricing</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberStatus</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberType</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberRetrieveResponse</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberUpdateResponse</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberPurchaseResponse</a></code>
+- <code><a href="./src/resources/phone-numbers.ts">PhoneNumberSearchAvailableResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/phone-numbers/{phoneNumberId}">client.phoneNumbers.<a href="./src/resources/phone-numbers.ts">retrieve</a>(phoneNumberID) -> PhoneNumberRetrieveResponse</code>
+- <code title="patch /v1/phone-numbers/{phoneNumberId}">client.phoneNumbers.<a href="./src/resources/phone-numbers.ts">update</a>(phoneNumberID, { ...params }) -> PhoneNumberUpdateResponse</code>
+- <code title="get /v1/phone-numbers">client.phoneNumbers.<a href="./src/resources/phone-numbers.ts">list</a>({ ...params }) -> OwnedPhoneNumbersCursor</code>
+- <code title="post /v1/phone-numbers">client.phoneNumbers.<a href="./src/resources/phone-numbers.ts">purchase</a>({ ...params }) -> PhoneNumberPurchaseResponse</code>
+- <code title="delete /v1/phone-numbers/{phoneNumberId}">client.phoneNumbers.<a href="./src/resources/phone-numbers.ts">release</a>(phoneNumberID) -> void</code>
+- <code title="get /v1/phone-numbers/available">client.phoneNumbers.<a href="./src/resources/phone-numbers.ts">searchAvailable</a>({ ...params }) -> PhoneNumberSearchAvailableResponse</code>
