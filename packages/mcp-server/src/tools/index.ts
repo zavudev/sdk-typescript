@@ -33,6 +33,12 @@ import list_broadcasts_contacts from './broadcasts/contacts/list-broadcasts-cont
 import add_broadcasts_contacts from './broadcasts/contacts/add-broadcasts-contacts';
 import remove_broadcasts_contacts from './broadcasts/contacts/remove-broadcasts-contacts';
 import validate_phone_introspect from './introspect/validate-phone-introspect';
+import retrieve_phone_numbers from './phone-numbers/retrieve-phone-numbers';
+import update_phone_numbers from './phone-numbers/update-phone-numbers';
+import list_phone_numbers from './phone-numbers/list-phone-numbers';
+import purchase_phone_numbers from './phone-numbers/purchase-phone-numbers';
+import release_phone_numbers from './phone-numbers/release-phone-numbers';
+import search_available_phone_numbers from './phone-numbers/search-available-phone-numbers';
 
 export const endpoints: Endpoint[] = [];
 
@@ -69,6 +75,12 @@ addEndpoint(list_broadcasts_contacts);
 addEndpoint(add_broadcasts_contacts);
 addEndpoint(remove_broadcasts_contacts);
 addEndpoint(validate_phone_introspect);
+addEndpoint(retrieve_phone_numbers);
+addEndpoint(update_phone_numbers);
+addEndpoint(list_phone_numbers);
+addEndpoint(purchase_phone_numbers);
+addEndpoint(release_phone_numbers);
+addEndpoint(search_available_phone_numbers);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

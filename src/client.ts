@@ -45,6 +45,25 @@ import {
   MessagesCursor,
 } from './resources/messages';
 import {
+  AvailablePhoneNumber,
+  OwnedPhoneNumber,
+  OwnedPhoneNumberPricing,
+  OwnedPhoneNumbersCursor,
+  PhoneNumberCapabilities,
+  PhoneNumberListParams,
+  PhoneNumberPricing,
+  PhoneNumberPurchaseParams,
+  PhoneNumberPurchaseResponse,
+  PhoneNumberRetrieveResponse,
+  PhoneNumberSearchAvailableParams,
+  PhoneNumberSearchAvailableResponse,
+  PhoneNumberStatus,
+  PhoneNumberType,
+  PhoneNumberUpdateParams,
+  PhoneNumberUpdateResponse,
+  PhoneNumbers,
+} from './resources/phone-numbers';
+import {
   Sender,
   SenderCreateParams,
   SenderListParams,
@@ -803,6 +822,7 @@ export class Zavudev {
   contacts: API.Contacts = new API.Contacts(this);
   broadcasts: API.Broadcasts = new API.Broadcasts(this);
   introspect: API.Introspect = new API.Introspect(this);
+  phoneNumbers: API.PhoneNumbers = new API.PhoneNumbers(this);
 }
 
 Zavudev.Messages = Messages;
@@ -811,6 +831,7 @@ Zavudev.Senders = Senders;
 Zavudev.Contacts = Contacts;
 Zavudev.Broadcasts = Broadcasts;
 Zavudev.Introspect = Introspect;
+Zavudev.PhoneNumbers = PhoneNumbers;
 
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
@@ -885,5 +906,25 @@ export declare namespace Zavudev {
     type LineType as LineType,
     type IntrospectValidatePhoneResponse as IntrospectValidatePhoneResponse,
     type IntrospectValidatePhoneParams as IntrospectValidatePhoneParams,
+  };
+
+  export {
+    PhoneNumbers as PhoneNumbers,
+    type AvailablePhoneNumber as AvailablePhoneNumber,
+    type OwnedPhoneNumber as OwnedPhoneNumber,
+    type OwnedPhoneNumberPricing as OwnedPhoneNumberPricing,
+    type PhoneNumberCapabilities as PhoneNumberCapabilities,
+    type PhoneNumberPricing as PhoneNumberPricing,
+    type PhoneNumberStatus as PhoneNumberStatus,
+    type PhoneNumberType as PhoneNumberType,
+    type PhoneNumberRetrieveResponse as PhoneNumberRetrieveResponse,
+    type PhoneNumberUpdateResponse as PhoneNumberUpdateResponse,
+    type PhoneNumberPurchaseResponse as PhoneNumberPurchaseResponse,
+    type PhoneNumberSearchAvailableResponse as PhoneNumberSearchAvailableResponse,
+    type OwnedPhoneNumbersCursor as OwnedPhoneNumbersCursor,
+    type PhoneNumberUpdateParams as PhoneNumberUpdateParams,
+    type PhoneNumberListParams as PhoneNumberListParams,
+    type PhoneNumberPurchaseParams as PhoneNumberPurchaseParams,
+    type PhoneNumberSearchAvailableParams as PhoneNumberSearchAvailableParams,
   };
 }

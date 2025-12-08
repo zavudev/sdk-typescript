@@ -138,6 +138,12 @@ const fuse = new Fuse(
     'client.broadcasts.contacts.list',
     'client.broadcasts.contacts.remove',
     'client.introspect.validatePhone',
+    'client.phoneNumbers.list',
+    'client.phoneNumbers.purchase',
+    'client.phoneNumbers.release',
+    'client.phoneNumbers.retrieve',
+    'client.phoneNumbers.searchAvailable',
+    'client.phoneNumbers.update',
   ],
   { threshold: 1, shouldSort: true },
 );

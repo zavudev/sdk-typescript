@@ -300,3 +300,12 @@ The following tools are available in this MCP server.
 ### Resource `introspect`:
 
 - `validate_phone_introspect` (`write`): Validate a phone number and check if a WhatsApp conversation window is open.
+
+### Resource `phone_numbers`:
+
+- `retrieve_phone_numbers` (`read`): Get details of a specific phone number.
+- `update_phone_numbers` (`write`): Update a phone number's name or sender assignment.
+- `list_phone_numbers` (`read`): List all phone numbers owned by this project.
+- `purchase_phone_numbers` (`write`): Purchase an available phone number. The first US phone number is free for each team.
+- `release_phone_numbers` (`write`): Release a phone number. The phone number must not be assigned to a sender.
+- `search_available_phone_numbers` (`read`): Search for available phone numbers to purchase by country and type.
