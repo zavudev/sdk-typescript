@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.1 (2025-12-09)
+
+Full Changelog: [v0.11.0...v0.11.1](https://github.com/zavudev/sdk-typescript/compare/v0.11.0...v0.11.1)
+
+### Chores
+
+* **internal:** escape package name in pnpm workspace file ([253f8d7](https://github.com/zavudev/sdk-typescript/commit/253f8d76669e1def0970d4ae2326808d9b3dbacd))
+
 ## 0.11.0 (2025-12-08)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/zavudev/sdk-typescript/compare/v0.10.0...v0.11.0)
