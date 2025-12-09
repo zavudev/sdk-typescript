@@ -1,6 +1,6 @@
 {
   "name": "@zavudev/sdk",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "The official TypeScript library for the Zavudev API",
   "author": "Zavudev <hi@zavu.dev>",
   "types": "dist/index.d.ts",
