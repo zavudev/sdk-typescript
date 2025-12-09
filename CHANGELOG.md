@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.2 (2025-12-09)
+
+Full Changelog: [v0.11.1...v0.11.2](https://github.com/zavudev/sdk-typescript/compare/v0.11.1...v0.11.2)
+
+### Chores
+
+* **internal:** configure MCP Server hosting ([dd376af](https://github.com/zavudev/sdk-typescript/commit/dd376af9117fa01c2302ab8f2e994a03d56faa56))
+* **internal:** unconfigure MCP Server hosting ([bacab00](https://github.com/zavudev/sdk-typescript/commit/bacab002ae940526ac7382c8d05676940e8634e8))
+
 ## 0.11.1 (2025-12-09)
 
 Full Changelog: [v0.11.0...v0.11.1](https://github.com/zavudev/sdk-typescript/compare/v0.11.0...v0.11.1)
