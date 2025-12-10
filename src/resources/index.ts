@@ -70,6 +70,9 @@ export {
 export {
   Senders,
   type Sender,
+  type SenderWebhook,
+  type WebhookEvent,
+  type WebhookSecretResponse,
   type SenderCreateParams,
   type SenderUpdateParams,
   type SenderListParams,
