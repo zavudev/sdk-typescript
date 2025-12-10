@@ -68,8 +68,11 @@ import {
   SenderCreateParams,
   SenderListParams,
   SenderUpdateParams,
+  SenderWebhook,
   Senders,
   SendersCursor,
+  WebhookEvent,
+  WebhookSecretResponse,
 } from './resources/senders';
 import {
   Template,
@@ -865,6 +868,9 @@ export declare namespace Zavudev {
   export {
     Senders as Senders,
     type Sender as Sender,
+    type SenderWebhook as SenderWebhook,
+    type WebhookEvent as WebhookEvent,
+    type WebhookSecretResponse as WebhookSecretResponse,
     type SendersCursor as SendersCursor,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
