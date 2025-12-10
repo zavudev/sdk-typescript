@@ -48,6 +48,14 @@ export class Senders extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
+
+  /**
+   * Regenerate the webhook secret for a sender. The old secret will be invalidated
+   * immediately.
+   */
+  regenerateWebhookSecret(senderID: string, options?: RequestOptions): APIPromise<WebhookSecretResponse> {
+    return this._client.post(path`/v1/senders/${senderID}/webhook/secret`, options);
+  }
 }
 
 export type SendersCursor = Cursor<Sender>;
@@ -70,6 +78,54 @@ export interface Sender {
   isDefault?: boolean;
 
   updatedAt?: string;
+
+  /**
+   * Webhook configuration for the sender.
+   */
+  webhook?: SenderWebhook;
+}
+
+/**
+ * Webhook configuration for the sender.
+ */
+export interface SenderWebhook {
+  /**
+   * Whether the webhook is active.
+   */
+  active: boolean;
+
+  /**
+   * List of events the webhook is subscribed to.
+   */
+  events: Array<WebhookEvent>;
+
+  /**
+   * HTTPS URL that will receive webhook events.
+   */
+  url: string;
+
+  /**
+   * Webhook secret for signature verification. Only returned on create or
+   * regenerate.
+   */
+  secret?: string;
+}
+
+/**
+ * Type of event that triggers the webhook.
+ */
+export type WebhookEvent =
+  | 'message.sent'
+  | 'message.delivered'
+  | 'message.failed'
+  | 'message.inbound'
+  | 'conversation.new';
+
+export interface WebhookSecretResponse {
+  /**
+   * The new webhook secret.
+   */
+  secret: string;
 }
 
 export interface SenderCreateParams {
@@ -78,12 +134,37 @@ export interface SenderCreateParams {
   phoneNumber: string;
 
   setAsDefault?: boolean;
+
+  /**
+   * Events to subscribe to.
+   */
+  webhookEvents?: Array<WebhookEvent>;
+
+  /**
+   * HTTPS URL for webhook events.
+   */
+  webhookUrl?: string;
 }
 
 export interface SenderUpdateParams {
   name?: string;
 
   setAsDefault?: boolean;
+
+  /**
+   * Whether the webhook is active.
+   */
+  webhookActive?: boolean;
+
+  /**
+   * Events to subscribe to.
+   */
+  webhookEvents?: Array<WebhookEvent>;
+
+  /**
+   * HTTPS URL for webhook events. Set to null to remove webhook.
+   */
+  webhookUrl?: string | null;
 }
 
 export interface SenderListParams extends CursorParams {}
@@ -91,6 +172,9 @@ export interface SenderListParams extends CursorParams {}
 export declare namespace Senders {
   export {
     type Sender as Sender,
+    type SenderWebhook as SenderWebhook,
+    type WebhookEvent as WebhookEvent,
+    type WebhookSecretResponse as WebhookSecretResponse,
     type SendersCursor as SendersCursor,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,

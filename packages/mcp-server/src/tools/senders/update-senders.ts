@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'update_senders',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nUpdate sender\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/sender',\n  $defs: {\n    sender: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        },\n        phoneNumber: {\n          type: 'string',\n          description: 'Phone number in E.164 format.'\n        },\n        createdAt: {\n          type: 'string',\n          format: 'date-time'\n        },\n        isDefault: {\n          type: 'boolean',\n          description: 'Whether this sender is the project\\'s default.'\n        },\n        updatedAt: {\n          type: 'string',\n          format: 'date-time'\n        }\n      },\n      required: [        'id',\n        'name',\n        'phoneNumber'\n      ]\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nUpdate sender\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/sender',\n  $defs: {\n    sender: {\n      type: 'object',\n      properties: {\n        id: {\n          type: 'string'\n        },\n        name: {\n          type: 'string'\n        },\n        phoneNumber: {\n          type: 'string',\n          description: 'Phone number in E.164 format.'\n        },\n        createdAt: {\n          type: 'string',\n          format: 'date-time'\n        },\n        isDefault: {\n          type: 'boolean',\n          description: 'Whether this sender is the project\\'s default.'\n        },\n        updatedAt: {\n          type: 'string',\n          format: 'date-time'\n        },\n        webhook: {\n          $ref: '#/$defs/sender_webhook'\n        }\n      },\n      required: [        'id',\n        'name',\n        'phoneNumber'\n      ]\n    },\n    sender_webhook: {\n      type: 'object',\n      description: 'Webhook configuration for the sender.',\n      properties: {\n        active: {\n          type: 'boolean',\n          description: 'Whether the webhook is active.'\n        },\n        events: {\n          type: 'array',\n          description: 'List of events the webhook is subscribed to.',\n          items: {\n            $ref: '#/$defs/webhook_event'\n          }\n        },\n        url: {\n          type: 'string',\n          description: 'HTTPS URL that will receive webhook events.'\n        },\n        secret: {\n          type: 'string',\n          description: 'Webhook secret for signature verification. Only returned on create or regenerate.'\n        }\n      },\n      required: [        'active',\n        'events',\n        'url'\n      ]\n    },\n    webhook_event: {\n      type: 'string',\n      description: 'Type of event that triggers the webhook.',\n      enum: [        'message.sent',\n        'message.delivered',\n        'message.failed',\n        'message.inbound',\n        'conversation.new'\n      ]\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -31,6 +31,21 @@ export const tool: Tool = {
       setAsDefault: {
         type: 'boolean',
       },
+      webhookActive: {
+        type: 'boolean',
+        description: 'Whether the webhook is active.',
+      },
+      webhookEvents: {
+        type: 'array',
+        description: 'Events to subscribe to.',
+        items: {
+          $ref: '#/$defs/webhook_event',
+        },
+      },
+      webhookUrl: {
+        type: 'string',
+        description: 'HTTPS URL for webhook events. Set to null to remove webhook.',
+      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',
@@ -39,6 +54,13 @@ export const tool: Tool = {
       },
     },
     required: ['senderId'],
+    $defs: {
+      webhook_event: {
+        type: 'string',
+        description: 'Type of event that triggers the webhook.',
+        enum: ['message.sent', 'message.delivered', 'message.failed', 'message.inbound', 'conversation.new'],
+      },
+    },
   },
   annotations: {},
 };

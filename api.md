@@ -35,6 +35,9 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/senders.ts">Sender</a></code>
+- <code><a href="./src/resources/senders.ts">SenderWebhook</a></code>
+- <code><a href="./src/resources/senders.ts">WebhookEvent</a></code>
+- <code><a href="./src/resources/senders.ts">WebhookSecretResponse</a></code>
 
 Methods:
 
@@ -43,6 +46,7 @@ Methods:
 - <code title="patch /v1/senders/{senderId}">client.senders.<a href="./src/resources/senders.ts">update</a>(senderID, { ...params }) -> Sender</code>
 - <code title="get /v1/senders">client.senders.<a href="./src/resources/senders.ts">list</a>({ ...params }) -> SendersCursor</code>
 - <code title="delete /v1/senders/{senderId}">client.senders.<a href="./src/resources/senders.ts">delete</a>(senderID) -> void</code>
+- <code title="post /v1/senders/{senderId}/webhook/secret">client.senders.<a href="./src/resources/senders.ts">regenerateWebhookSecret</a>(senderID) -> WebhookSecretResponse</code>
 
 # Contacts
 

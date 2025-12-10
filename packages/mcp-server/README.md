@@ -272,6 +272,7 @@ The following tools are available in this MCP server.
 - `update_senders` (`write`): Update sender
 - `list_senders` (`read`): List senders
 - `delete_senders` (`write`): Delete sender
+- `regenerate_webhook_secret_senders` (`write`): Regenerate the webhook secret for a sender. The old secret will be invalidated immediately.
 
 ### Resource `contacts`:
 
