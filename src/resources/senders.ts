@@ -70,6 +70,41 @@ export interface Sender {
   isDefault?: boolean;
 
   updatedAt?: string;
+
+  /**
+   * Webhook configuration for the sender.
+   */
+  webhook?: Sender.Webhook;
+}
+
+export namespace Sender {
+  /**
+   * Webhook configuration for the sender.
+   */
+  export interface Webhook {
+    /**
+     * Whether the webhook is active.
+     */
+    active: boolean;
+
+    /**
+     * List of events the webhook is subscribed to.
+     */
+    events: Array<
+      'message.sent' | 'message.delivered' | 'message.failed' | 'message.inbound' | 'conversation.new'
+    >;
+
+    /**
+     * HTTPS URL that will receive webhook events.
+     */
+    url: string;
+
+    /**
+     * Webhook secret for signature verification. Only returned on create or
+     * regenerate.
+     */
+    secret?: string;
+  }
 }
 
 export interface SenderCreateParams {
@@ -78,12 +113,41 @@ export interface SenderCreateParams {
   phoneNumber: string;
 
   setAsDefault?: boolean;
+
+  /**
+   * Events to subscribe to.
+   */
+  webhookEvents?: Array<
+    'message.sent' | 'message.delivered' | 'message.failed' | 'message.inbound' | 'conversation.new'
+  >;
+
+  /**
+   * HTTPS URL for webhook events.
+   */
+  webhookUrl?: string;
 }
 
 export interface SenderUpdateParams {
   name?: string;
 
   setAsDefault?: boolean;
+
+  /**
+   * Whether the webhook is active.
+   */
+  webhookActive?: boolean;
+
+  /**
+   * Events to subscribe to.
+   */
+  webhookEvents?: Array<
+    'message.sent' | 'message.delivered' | 'message.failed' | 'message.inbound' | 'conversation.new'
+  >;
+
+  /**
+   * HTTPS URL for webhook events. Set to null to remove webhook.
+   */
+  webhookUrl?: string | null;
 }
 
 export interface SenderListParams extends CursorParams {}
