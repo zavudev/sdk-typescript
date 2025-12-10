@@ -26,6 +26,8 @@ describe('resource senders', () => {
       name: 'name',
       phoneNumber: 'phoneNumber',
       setAsDefault: true,
+      webhookEvents: ['message.sent'],
+      webhookUrl: 'https://example.com',
     });
   });
 
