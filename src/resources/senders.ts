@@ -115,11 +115,13 @@ export interface SenderWebhook {
  * Type of event that triggers the webhook.
  */
 export type WebhookEvent =
+  | 'message.queued'
   | 'message.sent'
   | 'message.delivered'
   | 'message.failed'
   | 'message.inbound'
-  | 'conversation.new';
+  | 'conversation.new'
+  | 'template.status_changed';
 
 export interface WebhookSecretResponse {
   /**
