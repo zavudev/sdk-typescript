@@ -26,7 +26,7 @@ describe('resource senders', () => {
       name: 'name',
       phoneNumber: 'phoneNumber',
       setAsDefault: true,
-      webhookEvents: ['message.sent'],
+      webhookEvents: ['message.queued'],
       webhookUrl: 'https://example.com',
     });
   });
