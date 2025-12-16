@@ -112,7 +112,8 @@ export interface SenderWebhook {
 }
 
 /**
- * Type of event that triggers the webhook.
+ * Type of event that triggers the webhook. Note: Reactions are delivered as
+ * message.inbound with messageType='reaction'.
  */
 export type WebhookEvent =
   | 'message.queued'
@@ -121,7 +122,6 @@ export type WebhookEvent =
   | 'message.failed'
   | 'message.inbound'
   | 'message.unsupported'
-  | 'message.reaction'
   | 'conversation.new'
   | 'template.status_changed';
 
