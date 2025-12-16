@@ -120,6 +120,7 @@ export type WebhookEvent =
   | 'message.delivered'
   | 'message.failed'
   | 'message.inbound'
+  | 'message.unsupported'
   | 'conversation.new'
   | 'template.status_changed';
 
