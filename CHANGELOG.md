@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.14.0 (2025-12-16)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/zavudev/sdk-typescript/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** add submit template ([898c01f](https://github.com/zavudev/sdk-typescript/commit/898c01fa04bfd8d51a1439d4e521b02f90dd40f8))
+* **api:** api update ([57d8669](https://github.com/zavudev/sdk-typescript/commit/57d86695a95475e658c4368a37efeadf4d66d6c7))
+* **api:** api update ([429f973](https://github.com/zavudev/sdk-typescript/commit/429f973230d75b9dc9509a7cef172cae0b9e7c44))
+
 ## 0.13.0 (2025-12-16)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/zavudev/sdk-typescript/compare/v0.12.0...v0.13.0)
