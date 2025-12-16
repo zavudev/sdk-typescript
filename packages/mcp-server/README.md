@@ -264,6 +264,7 @@ The following tools are available in this MCP server.
 - `retrieve_templates` (`read`): Get template
 - `list_templates` (`read`): List WhatsApp message templates for this project.
 - `delete_templates` (`write`): Delete template
+- `submit_templates` (`write`): Submit a WhatsApp template to Meta for approval. The template must be in draft status and associated with a sender that has a WhatsApp Business Account configured.
 
 ### Resource `senders`:
 

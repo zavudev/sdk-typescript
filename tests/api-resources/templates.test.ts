@@ -78,4 +78,24 @@ describe('resource templates', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
+
+  // Prism tests are disabled
+  test.skip('submit: only required params', async () => {
+    const responsePromise = client.templates.submit('templateId', { senderId: 'sender_abc123' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('submit: required and optional params', async () => {
+    const response = await client.templates.submit('templateId', {
+      senderId: 'sender_abc123',
+      category: 'UTILITY',
+    });
+  });
 });

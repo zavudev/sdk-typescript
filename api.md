@@ -29,6 +29,7 @@ Methods:
 - <code title="get /v1/templates/{templateId}">client.templates.<a href="./src/resources/templates.ts">retrieve</a>(templateID) -> Template</code>
 - <code title="get /v1/templates">client.templates.<a href="./src/resources/templates.ts">list</a>({ ...params }) -> TemplatesCursor</code>
 - <code title="delete /v1/templates/{templateId}">client.templates.<a href="./src/resources/templates.ts">delete</a>(templateID) -> void</code>
+- <code title="post /v1/templates/{templateId}/submit">client.templates.<a href="./src/resources/templates.ts">submit</a>(templateID, { ...params }) -> Template</code>
 
 # Senders
 

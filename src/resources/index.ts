@@ -84,5 +84,6 @@ export {
   type WhatsappCategory,
   type TemplateCreateParams,
   type TemplateListParams,
+  type TemplateSubmitParams,
   type TemplatesCursor,
 } from './templates';

@@ -78,6 +78,7 @@ import {
   Template,
   TemplateCreateParams,
   TemplateListParams,
+  TemplateSubmitParams,
   Templates,
   TemplatesCursor,
   WhatsappCategory,
@@ -863,6 +864,7 @@ export declare namespace Zavudev {
     type TemplatesCursor as TemplatesCursor,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
+    type TemplateSubmitParams as TemplateSubmitParams,
   };
 
   export {

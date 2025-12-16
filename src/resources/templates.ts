@@ -73,6 +73,23 @@ export class Templates extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
+
+  /**
+   * Submit a WhatsApp template to Meta for approval. The template must be in draft
+   * status and associated with a sender that has a WhatsApp Business Account
+   * configured.
+   *
+   * @example
+   * ```ts
+   * const template = await client.templates.submit(
+   *   'templateId',
+   *   { senderId: 'sender_abc123', category: 'UTILITY' },
+   * );
+   * ```
+   */
+  submit(templateID: string, body: TemplateSubmitParams, options?: RequestOptions): APIPromise<Template> {
+    return this._client.post(path`/v1/templates/${templateID}/submit`, { body, ...options });
+  }
 }
 
 export type TemplatesCursor = Cursor<Template>;
@@ -191,6 +208,18 @@ export interface TemplateCreateParams {
 
 export interface TemplateListParams extends CursorParams {}
 
+export interface TemplateSubmitParams {
+  /**
+   * The sender ID with the WhatsApp Business Account to submit the template to.
+   */
+  senderId: string;
+
+  /**
+   * Template category. If not provided, uses the category set on the template.
+   */
+  category?: WhatsappCategory;
+}
+
 export declare namespace Templates {
   export {
     type Template as Template,
@@ -198,5 +227,6 @@ export declare namespace Templates {
     type TemplatesCursor as TemplatesCursor,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
+    type TemplateSubmitParams as TemplateSubmitParams,
   };
 }
