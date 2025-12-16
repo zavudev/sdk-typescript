@@ -65,6 +65,11 @@ export interface Contact {
 
   metadata?: { [key: string]: string };
 
+  /**
+   * Contact's WhatsApp profile name. Only available for WhatsApp contacts.
+   */
+  profileName?: string | null;
+
   updatedAt?: string;
 
   /**

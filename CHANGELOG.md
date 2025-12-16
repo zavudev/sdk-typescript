@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.13.0 (2025-12-16)
+
+Full Changelog: [v0.12.0...v0.13.0](https://github.com/zavudev/sdk-typescript/compare/v0.12.0...v0.13.0)
+
+### Features
+
+* **api:** api update ([3bf685a](https://github.com/zavudev/sdk-typescript/commit/3bf685a9b7d55c346ae6a2857bcf1ae62efabf50))
+* **api:** api update ([41c88d5](https://github.com/zavudev/sdk-typescript/commit/41c88d584c7ec7cdac7b97d76bff182336330e75))
+* **api:** api update ([9c11162](https://github.com/zavudev/sdk-typescript/commit/9c11162c6906beabfb43e28c946f04e8a7eb6c95))
+
+
+### Bug Fixes
+
+* **mcp:** add client instantiation options to code tool ([702068f](https://github.com/zavudev/sdk-typescript/commit/702068fe41a88d458baffb9f06dbc1dfc5bc535a))
+
 ## 0.12.0 (2025-12-10)
 
 Full Changelog: [v0.11.2...v0.12.0](https://github.com/zavudev/sdk-typescript/compare/v0.11.2...v0.12.0)
