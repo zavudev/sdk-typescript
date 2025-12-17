@@ -88,6 +88,18 @@ describe('resource senders', () => {
   });
 
   // Prism tests are disabled
+  test.skip('getProfile', async () => {
+    const responsePromise = client.senders.getProfile('senderId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
   test.skip('regenerateWebhookSecret', async () => {
     const responsePromise = client.senders.regenerateWebhookSecret('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -97,5 +109,40 @@ describe('resource senders', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('updateProfile', async () => {
+    const responsePromise = client.senders.updateProfile('senderId', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('uploadProfilePicture: only required params', async () => {
+    const responsePromise = client.senders.uploadProfilePicture('senderId', {
+      imageUrl: 'https://example.com/profile.jpg',
+      mimeType: 'image/jpeg',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('uploadProfilePicture: required and optional params', async () => {
+    const response = await client.senders.uploadProfilePicture('senderId', {
+      imageUrl: 'https://example.com/profile.jpg',
+      mimeType: 'image/jpeg',
+    });
   });
 });

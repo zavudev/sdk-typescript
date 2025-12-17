@@ -273,7 +273,10 @@ The following tools are available in this MCP server.
 - `update_senders` (`write`): Update sender
 - `list_senders` (`read`): List senders
 - `delete_senders` (`write`): Delete sender
+- `get_profile_senders` (`read`): Get the WhatsApp Business profile for a sender. The sender must have a WhatsApp Business Account connected.
 - `regenerate_webhook_secret_senders` (`write`): Regenerate the webhook secret for a sender. The old secret will be invalidated immediately.
+- `update_profile_senders` (`write`): Update the WhatsApp Business profile for a sender. The sender must have a WhatsApp Business Account connected.
+- `upload_profile_picture_senders` (`write`): Upload a new profile picture for the WhatsApp Business profile. The image will be uploaded to Meta and set as the profile picture.
 
 ### Resource `contacts`:
 

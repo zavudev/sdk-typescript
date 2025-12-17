@@ -73,9 +73,16 @@ export {
   type SenderWebhook,
   type WebhookEvent,
   type WebhookSecretResponse,
+  type WhatsappBusinessProfile,
+  type WhatsappBusinessProfileResponse,
+  type WhatsappBusinessProfileVertical,
+  type SenderUpdateProfileResponse,
+  type SenderUploadProfilePictureResponse,
   type SenderCreateParams,
   type SenderUpdateParams,
   type SenderListParams,
+  type SenderUpdateProfileParams,
+  type SenderUploadProfilePictureParams,
   type SendersCursor,
 } from './senders';
 export {
