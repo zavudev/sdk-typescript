@@ -68,11 +68,18 @@ import {
   SenderCreateParams,
   SenderListParams,
   SenderUpdateParams,
+  SenderUpdateProfileParams,
+  SenderUpdateProfileResponse,
+  SenderUploadProfilePictureParams,
+  SenderUploadProfilePictureResponse,
   SenderWebhook,
   Senders,
   SendersCursor,
   WebhookEvent,
   WebhookSecretResponse,
+  WhatsappBusinessProfile,
+  WhatsappBusinessProfileResponse,
+  WhatsappBusinessProfileVertical,
 } from './resources/senders';
 import {
   Template,
@@ -873,10 +880,17 @@ export declare namespace Zavudev {
     type SenderWebhook as SenderWebhook,
     type WebhookEvent as WebhookEvent,
     type WebhookSecretResponse as WebhookSecretResponse,
+    type WhatsappBusinessProfile as WhatsappBusinessProfile,
+    type WhatsappBusinessProfileResponse as WhatsappBusinessProfileResponse,
+    type WhatsappBusinessProfileVertical as WhatsappBusinessProfileVertical,
+    type SenderUpdateProfileResponse as SenderUpdateProfileResponse,
+    type SenderUploadProfilePictureResponse as SenderUploadProfilePictureResponse,
     type SendersCursor as SendersCursor,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
     type SenderListParams as SenderListParams,
+    type SenderUpdateProfileParams as SenderUpdateProfileParams,
+    type SenderUploadProfilePictureParams as SenderUploadProfilePictureParams,
   };
 
   export {

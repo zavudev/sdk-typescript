@@ -10,6 +10,14 @@ import { path } from '../internal/utils/path';
 export class Senders extends APIResource {
   /**
    * Create sender
+   *
+   * @example
+   * ```ts
+   * const sender = await client.senders.create({
+   *   name: 'name',
+   *   phoneNumber: 'phoneNumber',
+   * });
+   * ```
    */
   create(body: SenderCreateParams, options?: RequestOptions): APIPromise<Sender> {
     return this._client.post('/v1/senders', { body, ...options });
@@ -17,6 +25,11 @@ export class Senders extends APIResource {
 
   /**
    * Get sender
+   *
+   * @example
+   * ```ts
+   * const sender = await client.senders.retrieve('senderId');
+   * ```
    */
   retrieve(senderID: string, options?: RequestOptions): APIPromise<Sender> {
     return this._client.get(path`/v1/senders/${senderID}`, options);
@@ -24,6 +37,11 @@ export class Senders extends APIResource {
 
   /**
    * Update sender
+   *
+   * @example
+   * ```ts
+   * const sender = await client.senders.update('senderId');
+   * ```
    */
   update(senderID: string, body: SenderUpdateParams, options?: RequestOptions): APIPromise<Sender> {
     return this._client.patch(path`/v1/senders/${senderID}`, { body, ...options });
@@ -31,6 +49,14 @@ export class Senders extends APIResource {
 
   /**
    * List senders
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const sender of client.senders.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: SenderListParams | null | undefined = {},
@@ -41,6 +67,11 @@ export class Senders extends APIResource {
 
   /**
    * Delete sender
+   *
+   * @example
+   * ```ts
+   * await client.senders.delete('senderId');
+   * ```
    */
   delete(senderID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/v1/senders/${senderID}`, {
@@ -50,11 +81,81 @@ export class Senders extends APIResource {
   }
 
   /**
+   * Get the WhatsApp Business profile for a sender. The sender must have a WhatsApp
+   * Business Account connected.
+   *
+   * @example
+   * ```ts
+   * const whatsappBusinessProfileResponse =
+   *   await client.senders.getProfile('senderId');
+   * ```
+   */
+  getProfile(senderID: string, options?: RequestOptions): APIPromise<WhatsappBusinessProfileResponse> {
+    return this._client.get(path`/v1/senders/${senderID}/profile`, options);
+  }
+
+  /**
    * Regenerate the webhook secret for a sender. The old secret will be invalidated
    * immediately.
+   *
+   * @example
+   * ```ts
+   * const webhookSecretResponse =
+   *   await client.senders.regenerateWebhookSecret('senderId');
+   * ```
    */
   regenerateWebhookSecret(senderID: string, options?: RequestOptions): APIPromise<WebhookSecretResponse> {
     return this._client.post(path`/v1/senders/${senderID}/webhook/secret`, options);
+  }
+
+  /**
+   * Update the WhatsApp Business profile for a sender. The sender must have a
+   * WhatsApp Business Account connected.
+   *
+   * @example
+   * ```ts
+   * const response = await client.senders.updateProfile(
+   *   'senderId',
+   *   {
+   *     about: 'Succulent specialists!',
+   *     description:
+   *       'We specialize in providing high-quality succulents.',
+   *     email: 'contact@example.com',
+   *     vertical: 'RETAIL',
+   *     websites: ['https://www.example.com'],
+   *   },
+   * );
+   * ```
+   */
+  updateProfile(
+    senderID: string,
+    body: SenderUpdateProfileParams,
+    options?: RequestOptions,
+  ): APIPromise<SenderUpdateProfileResponse> {
+    return this._client.patch(path`/v1/senders/${senderID}/profile`, { body, ...options });
+  }
+
+  /**
+   * Upload a new profile picture for the WhatsApp Business profile. The image will
+   * be uploaded to Meta and set as the profile picture.
+   *
+   * @example
+   * ```ts
+   * const response = await client.senders.uploadProfilePicture(
+   *   'senderId',
+   *   {
+   *     imageUrl: 'https://example.com/profile.jpg',
+   *     mimeType: 'image/jpeg',
+   *   },
+   * );
+   * ```
+   */
+  uploadProfilePicture(
+    senderID: string,
+    body: SenderUploadProfilePictureParams,
+    options?: RequestOptions,
+  ): APIPromise<SenderUploadProfilePictureResponse> {
+    return this._client.post(path`/v1/senders/${senderID}/profile/picture`, { body, ...options });
   }
 }
 
@@ -83,6 +184,56 @@ export interface Sender {
    * Webhook configuration for the sender.
    */
   webhook?: SenderWebhook;
+
+  /**
+   * WhatsApp Business Account information. Only present if a WABA is connected.
+   */
+  whatsapp?: Sender.Whatsapp;
+}
+
+export namespace Sender {
+  /**
+   * WhatsApp Business Account information. Only present if a WABA is connected.
+   */
+  export interface Whatsapp {
+    /**
+     * Display phone number.
+     */
+    displayPhoneNumber?: string;
+
+    /**
+     * Payment configuration status from Meta.
+     */
+    paymentStatus?: Whatsapp.PaymentStatus;
+
+    /**
+     * WhatsApp phone number ID from Meta.
+     */
+    phoneNumberId?: string;
+  }
+
+  export namespace Whatsapp {
+    /**
+     * Payment configuration status from Meta.
+     */
+    export interface PaymentStatus {
+      /**
+       * Whether template messages can be sent. Requires setupStatus=COMPLETE and
+       * methodStatus=VALID.
+       */
+      canSendTemplates?: boolean;
+
+      /**
+       * Payment method status (VALID, NONE, etc.).
+       */
+      methodStatus?: string;
+
+      /**
+       * Payment setup status (COMPLETE, NOT_STARTED, etc.).
+       */
+      setupStatus?: string;
+    }
+  }
 }
 
 /**
@@ -132,6 +283,95 @@ export interface WebhookSecretResponse {
   secret: string;
 }
 
+/**
+ * WhatsApp Business profile information.
+ */
+export interface WhatsappBusinessProfile {
+  /**
+   * Short description of the business (max 139 characters).
+   */
+  about?: string;
+
+  /**
+   * Physical address of the business (max 256 characters).
+   */
+  address?: string;
+
+  /**
+   * Extended description of the business (max 512 characters).
+   */
+  description?: string;
+
+  /**
+   * Business email address.
+   */
+  email?: string;
+
+  /**
+   * URL of the business profile picture.
+   */
+  profilePictureUrl?: string;
+
+  /**
+   * Business category for WhatsApp Business profile.
+   */
+  vertical?: WhatsappBusinessProfileVertical;
+
+  /**
+   * Business website URLs (maximum 2).
+   */
+  websites?: Array<string>;
+}
+
+export interface WhatsappBusinessProfileResponse {
+  /**
+   * WhatsApp Business profile information.
+   */
+  profile: WhatsappBusinessProfile;
+}
+
+/**
+ * Business category for WhatsApp Business profile.
+ */
+export type WhatsappBusinessProfileVertical =
+  | 'UNDEFINED'
+  | 'OTHER'
+  | 'AUTO'
+  | 'BEAUTY'
+  | 'APPAREL'
+  | 'EDU'
+  | 'ENTERTAIN'
+  | 'EVENT_PLAN'
+  | 'FINANCE'
+  | 'GROCERY'
+  | 'GOVT'
+  | 'HOTEL'
+  | 'HEALTH'
+  | 'NONPROFIT'
+  | 'PROF_SERVICES'
+  | 'RETAIL'
+  | 'TRAVEL'
+  | 'RESTAURANT'
+  | 'NOT_A_BIZ';
+
+export interface SenderUpdateProfileResponse {
+  /**
+   * WhatsApp Business profile information.
+   */
+  profile: WhatsappBusinessProfile;
+
+  success: boolean;
+}
+
+export interface SenderUploadProfilePictureResponse {
+  /**
+   * WhatsApp Business profile information.
+   */
+  profile: WhatsappBusinessProfile;
+
+  success: boolean;
+}
+
 export interface SenderCreateParams {
   name: string;
 
@@ -173,15 +413,66 @@ export interface SenderUpdateParams {
 
 export interface SenderListParams extends CursorParams {}
 
+export interface SenderUpdateProfileParams {
+  /**
+   * Short description of the business (max 139 characters).
+   */
+  about?: string;
+
+  /**
+   * Physical address of the business (max 256 characters).
+   */
+  address?: string;
+
+  /**
+   * Extended description of the business (max 512 characters).
+   */
+  description?: string;
+
+  /**
+   * Business email address.
+   */
+  email?: string;
+
+  /**
+   * Business category for WhatsApp Business profile.
+   */
+  vertical?: WhatsappBusinessProfileVertical;
+
+  /**
+   * Business website URLs (maximum 2).
+   */
+  websites?: Array<string>;
+}
+
+export interface SenderUploadProfilePictureParams {
+  /**
+   * URL of the image to upload.
+   */
+  imageUrl: string;
+
+  /**
+   * MIME type of the image.
+   */
+  mimeType: 'image/jpeg' | 'image/png';
+}
+
 export declare namespace Senders {
   export {
     type Sender as Sender,
     type SenderWebhook as SenderWebhook,
     type WebhookEvent as WebhookEvent,
     type WebhookSecretResponse as WebhookSecretResponse,
+    type WhatsappBusinessProfile as WhatsappBusinessProfile,
+    type WhatsappBusinessProfileResponse as WhatsappBusinessProfileResponse,
+    type WhatsappBusinessProfileVertical as WhatsappBusinessProfileVertical,
+    type SenderUpdateProfileResponse as SenderUpdateProfileResponse,
+    type SenderUploadProfilePictureResponse as SenderUploadProfilePictureResponse,
     type SendersCursor as SendersCursor,
     type SenderCreateParams as SenderCreateParams,
     type SenderUpdateParams as SenderUpdateParams,
     type SenderListParams as SenderListParams,
+    type SenderUpdateProfileParams as SenderUpdateProfileParams,
+    type SenderUploadProfilePictureParams as SenderUploadProfilePictureParams,
   };
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.15.0 (2025-12-17)
+
+Full Changelog: [v0.14.0...v0.15.0](https://github.com/zavudev/sdk-typescript/compare/v0.14.0...v0.15.0)
+
+### Features
+
+* **api:** api update ([3723e12](https://github.com/zavudev/sdk-typescript/commit/3723e12157665af2495fd4218a160a8222786955))
+* **api:** whatsapp profile ([86dd444](https://github.com/zavudev/sdk-typescript/commit/86dd4440417427868e999348aa6a14a83fb1396f))
+
 ## 0.14.0 (2025-12-16)
 
 Full Changelog: [v0.13.0...v0.14.0](https://github.com/zavudev/sdk-typescript/compare/v0.13.0...v0.14.0)
