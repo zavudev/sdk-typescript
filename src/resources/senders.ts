@@ -83,6 +83,56 @@ export interface Sender {
    * Webhook configuration for the sender.
    */
   webhook?: SenderWebhook;
+
+  /**
+   * WhatsApp Business Account information. Only present if a WABA is connected.
+   */
+  whatsapp?: Sender.Whatsapp;
+}
+
+export namespace Sender {
+  /**
+   * WhatsApp Business Account information. Only present if a WABA is connected.
+   */
+  export interface Whatsapp {
+    /**
+     * Display phone number.
+     */
+    displayPhoneNumber?: string;
+
+    /**
+     * Payment configuration status from Meta.
+     */
+    paymentStatus?: Whatsapp.PaymentStatus;
+
+    /**
+     * WhatsApp phone number ID from Meta.
+     */
+    phoneNumberId?: string;
+  }
+
+  export namespace Whatsapp {
+    /**
+     * Payment configuration status from Meta.
+     */
+    export interface PaymentStatus {
+      /**
+       * Whether template messages can be sent. Requires setupStatus=COMPLETE and
+       * methodStatus=VALID.
+       */
+      canSendTemplates?: boolean;
+
+      /**
+       * Payment method status (VALID, NONE, etc.).
+       */
+      methodStatus?: string;
+
+      /**
+       * Payment setup status (COMPLETE, NOT_STARTED, etc.).
+       */
+      setupStatus?: string;
+    }
+  }
 }
 
 /**
