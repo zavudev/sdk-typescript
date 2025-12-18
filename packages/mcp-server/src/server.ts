@@ -34,7 +34,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'zavudev_sdk_api',
-      version: '0.15.0',
+      version: '0.15.1',
     },
     { capabilities: { tools: {}, logging: {} } },
   );

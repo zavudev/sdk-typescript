@@ -35,7 +35,10 @@ export async function codeTool() {
       headers: {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
-        client_envs: JSON.stringify({ ZAVUDEV_API_KEY: readEnv('ZAVUDEV_API_KEY') }),
+        client_envs: JSON.stringify({
+          ZAVUDEV_API_KEY: readEnv('ZAVUDEV_API_KEY'),
+          ZAVUDEV_BASE_URL: readEnv('ZAVUDEV_BASE_URL'),
+        }),
       },
       body: JSON.stringify({
         project_name: 'zavudev',

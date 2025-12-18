@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.1 (2025-12-18)
+
+Full Changelog: [v0.15.0...v0.15.1](https://github.com/zavudev/sdk-typescript/compare/v0.15.0...v0.15.1)
+
+### Bug Fixes
+
+* **mcp:** pass base url to code tool ([e49787d](https://github.com/zavudev/sdk-typescript/commit/e49787d3208eb9ee6bdb803457ef45a5d3b40a69))
+
 ## 0.15.0 (2025-12-17)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/zavudev/sdk-typescript/compare/v0.14.0...v0.15.0)
