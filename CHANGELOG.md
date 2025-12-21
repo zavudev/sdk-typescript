@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.16.0 (2025-12-21)
+
+Full Changelog: [v0.15.1...v0.16.0](https://github.com/zavudev/sdk-typescript/compare/v0.15.1...v0.16.0)
+
+### ⚠ BREAKING CHANGES
+
+* **mcp:** remove deprecated tool schemes
+* **mcp:** **Migration:** To migrate, simply modify the command used to invoke the MCP server. Currently, the only supported tool scheme is code mode. Now, starting the server with just `node /path/to/mcp/server` or `npx package-name` will invoke code tools: changing your command to one of these is likely all you will need to do.
+
+### Features
+
+* **api:** api update ([8698960](https://github.com/zavudev/sdk-typescript/commit/86989608ac8890f7b8d948d4dd93c92a41b855b5))
+
+
+### Chores
+
+* **mcp:** remove deprecated tool schemes ([afc243c](https://github.com/zavudev/sdk-typescript/commit/afc243c8b7c7820bc86d417b5112a42420212603))
+
 ## 0.15.1 (2025-12-18)
 
 Full Changelog: [v0.15.0...v0.15.1](https://github.com/zavudev/sdk-typescript/compare/v0.15.0...v0.15.1)
