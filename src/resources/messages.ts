@@ -353,6 +353,12 @@ export interface MessageSendParams {
   content?: MessageContent;
 
   /**
+   * Body param: Whether to enable automatic fallback to SMS if WhatsApp fails.
+   * Defaults to true.
+   */
+  fallbackEnabled?: boolean;
+
+  /**
    * Body param: HTML body for email messages. If provided, email will be sent as
    * multipart with both text and HTML.
    */

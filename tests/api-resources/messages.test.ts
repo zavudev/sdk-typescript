@@ -95,6 +95,7 @@ describe('resource messages', () => {
         templateId: 'templateId',
         templateVariables: { '1': 'John', '2': 'ORD-12345' },
       },
+      fallbackEnabled: true,
       htmlBody: 'htmlBody',
       idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',
       messageType: 'text',
