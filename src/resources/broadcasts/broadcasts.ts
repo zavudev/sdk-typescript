@@ -157,7 +157,7 @@ export interface Broadcast {
   id: string;
 
   /**
-   * Broadcast delivery channel.
+   * Broadcast delivery channel. Use 'smart' for per-contact intelligent routing.
    */
   channel: BroadcastChannel;
 
@@ -226,9 +226,9 @@ export interface Broadcast {
 }
 
 /**
- * Broadcast delivery channel.
+ * Broadcast delivery channel. Use 'smart' for per-contact intelligent routing.
  */
-export type BroadcastChannel = 'sms' | 'whatsapp' | 'email';
+export type BroadcastChannel = 'smart' | 'sms' | 'whatsapp' | 'email';
 
 export interface BroadcastContact {
   id: string;
@@ -402,7 +402,7 @@ export interface BroadcastSendResponse {
 
 export interface BroadcastCreateParams {
   /**
-   * Broadcast delivery channel.
+   * Broadcast delivery channel. Use 'smart' for per-contact intelligent routing.
    */
   channel: BroadcastChannel;
 
