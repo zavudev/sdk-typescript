@@ -19,6 +19,16 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  Address,
+  AddressCreateParams,
+  AddressCreateResponse,
+  AddressListParams,
+  AddressRetrieveResponse,
+  AddressStatus,
+  Addresses,
+  AddressesCursor,
+} from './resources/addresses';
+import {
   Contact,
   ContactListParams,
   ContactUpdateParams,
@@ -54,6 +64,8 @@ import {
   PhoneNumberPricing,
   PhoneNumberPurchaseParams,
   PhoneNumberPurchaseResponse,
+  PhoneNumberRequirementsParams,
+  PhoneNumberRequirementsResponse,
   PhoneNumberRetrieveResponse,
   PhoneNumberSearchAvailableParams,
   PhoneNumberSearchAvailableResponse,
@@ -62,25 +74,21 @@ import {
   PhoneNumberUpdateParams,
   PhoneNumberUpdateResponse,
   PhoneNumbers,
+  Requirement,
+  RequirementAcceptanceCriteria,
+  RequirementFieldType,
+  RequirementType,
 } from './resources/phone-numbers';
 import {
-  Sender,
-  SenderCreateParams,
-  SenderListParams,
-  SenderUpdateParams,
-  SenderUpdateProfileParams,
-  SenderUpdateProfileResponse,
-  SenderUploadProfilePictureParams,
-  SenderUploadProfilePictureResponse,
-  SenderWebhook,
-  Senders,
-  SendersCursor,
-  WebhookEvent,
-  WebhookSecretResponse,
-  WhatsappBusinessProfile,
-  WhatsappBusinessProfileResponse,
-  WhatsappBusinessProfileVertical,
-} from './resources/senders';
+  RegulatoryDocument,
+  RegulatoryDocumentCreateParams,
+  RegulatoryDocumentCreateResponse,
+  RegulatoryDocumentListParams,
+  RegulatoryDocumentRetrieveResponse,
+  RegulatoryDocumentUploadURLResponse,
+  RegulatoryDocuments,
+  RegulatoryDocumentsCursor,
+} from './resources/regulatory-documents';
 import {
   Template,
   TemplateCreateParams,
@@ -102,6 +110,8 @@ import {
   BroadcastListParams,
   BroadcastMessageType,
   BroadcastProgress,
+  BroadcastRescheduleParams,
+  BroadcastRescheduleResponse,
   BroadcastRetrieveResponse,
   BroadcastSendParams,
   BroadcastSendResponse,
@@ -111,6 +121,24 @@ import {
   Broadcasts,
   BroadcastsCursor,
 } from './resources/broadcasts/broadcasts';
+import {
+  Sender,
+  SenderCreateParams,
+  SenderListParams,
+  SenderUpdateParams,
+  SenderUpdateProfileParams,
+  SenderUpdateProfileResponse,
+  SenderUploadProfilePictureParams,
+  SenderUploadProfilePictureResponse,
+  SenderWebhook,
+  Senders,
+  SendersCursor,
+  WebhookEvent,
+  WebhookSecretResponse,
+  WhatsappBusinessProfile,
+  WhatsappBusinessProfileResponse,
+  WhatsappBusinessProfileVertical,
+} from './resources/senders/senders';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -834,6 +862,8 @@ export class Zavudev {
   broadcasts: API.Broadcasts = new API.Broadcasts(this);
   introspect: API.Introspect = new API.Introspect(this);
   phoneNumbers: API.PhoneNumbers = new API.PhoneNumbers(this);
+  addresses: API.Addresses = new API.Addresses(this);
+  regulatoryDocuments: API.RegulatoryDocuments = new API.RegulatoryDocuments(this);
 }
 
 Zavudev.Messages = Messages;
@@ -843,6 +873,8 @@ Zavudev.Contacts = Contacts;
 Zavudev.Broadcasts = Broadcasts;
 Zavudev.Introspect = Introspect;
 Zavudev.PhoneNumbers = PhoneNumbers;
+Zavudev.Addresses = Addresses;
+Zavudev.RegulatoryDocuments = RegulatoryDocuments;
 
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
@@ -915,11 +947,13 @@ export declare namespace Zavudev {
     type BroadcastRetrieveResponse as BroadcastRetrieveResponse,
     type BroadcastUpdateResponse as BroadcastUpdateResponse,
     type BroadcastCancelResponse as BroadcastCancelResponse,
+    type BroadcastRescheduleResponse as BroadcastRescheduleResponse,
     type BroadcastSendResponse as BroadcastSendResponse,
     type BroadcastsCursor as BroadcastsCursor,
     type BroadcastCreateParams as BroadcastCreateParams,
     type BroadcastUpdateParams as BroadcastUpdateParams,
     type BroadcastListParams as BroadcastListParams,
+    type BroadcastRescheduleParams as BroadcastRescheduleParams,
     type BroadcastSendParams as BroadcastSendParams,
   };
 
@@ -939,14 +973,42 @@ export declare namespace Zavudev {
     type PhoneNumberPricing as PhoneNumberPricing,
     type PhoneNumberStatus as PhoneNumberStatus,
     type PhoneNumberType as PhoneNumberType,
+    type Requirement as Requirement,
+    type RequirementAcceptanceCriteria as RequirementAcceptanceCriteria,
+    type RequirementFieldType as RequirementFieldType,
+    type RequirementType as RequirementType,
     type PhoneNumberRetrieveResponse as PhoneNumberRetrieveResponse,
     type PhoneNumberUpdateResponse as PhoneNumberUpdateResponse,
     type PhoneNumberPurchaseResponse as PhoneNumberPurchaseResponse,
+    type PhoneNumberRequirementsResponse as PhoneNumberRequirementsResponse,
     type PhoneNumberSearchAvailableResponse as PhoneNumberSearchAvailableResponse,
     type OwnedPhoneNumbersCursor as OwnedPhoneNumbersCursor,
     type PhoneNumberUpdateParams as PhoneNumberUpdateParams,
     type PhoneNumberListParams as PhoneNumberListParams,
     type PhoneNumberPurchaseParams as PhoneNumberPurchaseParams,
+    type PhoneNumberRequirementsParams as PhoneNumberRequirementsParams,
     type PhoneNumberSearchAvailableParams as PhoneNumberSearchAvailableParams,
+  };
+
+  export {
+    Addresses as Addresses,
+    type Address as Address,
+    type AddressStatus as AddressStatus,
+    type AddressCreateResponse as AddressCreateResponse,
+    type AddressRetrieveResponse as AddressRetrieveResponse,
+    type AddressesCursor as AddressesCursor,
+    type AddressCreateParams as AddressCreateParams,
+    type AddressListParams as AddressListParams,
+  };
+
+  export {
+    RegulatoryDocuments as RegulatoryDocuments,
+    type RegulatoryDocument as RegulatoryDocument,
+    type RegulatoryDocumentCreateResponse as RegulatoryDocumentCreateResponse,
+    type RegulatoryDocumentRetrieveResponse as RegulatoryDocumentRetrieveResponse,
+    type RegulatoryDocumentUploadURLResponse as RegulatoryDocumentUploadURLResponse,
+    type RegulatoryDocumentsCursor as RegulatoryDocumentsCursor,
+    type RegulatoryDocumentCreateParams as RegulatoryDocumentCreateParams,
+    type RegulatoryDocumentListParams as RegulatoryDocumentListParams,
   };
 }

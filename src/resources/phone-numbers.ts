@@ -94,6 +94,25 @@ export class PhoneNumbers extends APIResource {
   }
 
   /**
+   * Get regulatory requirements for purchasing phone numbers in a specific country.
+   * Some countries require additional documentation (addresses, identity documents)
+   * before phone numbers can be activated.
+   *
+   * @example
+   * ```ts
+   * const response = await client.phoneNumbers.requirements({
+   *   countryCode: 'xx',
+   * });
+   * ```
+   */
+  requirements(
+    query: PhoneNumberRequirementsParams,
+    options?: RequestOptions,
+  ): APIPromise<PhoneNumberRequirementsResponse> {
+    return this._client.get('/v1/phone-numbers/requirements', { query, ...options });
+  }
+
+  /**
    * Search for available phone numbers to purchase by country and type.
    *
    * @example
@@ -206,6 +225,62 @@ export type PhoneNumberStatus = 'active' | 'suspended' | 'pending';
 
 export type PhoneNumberType = 'local' | 'mobile' | 'tollFree';
 
+/**
+ * A group of requirements for a specific country/phone type combination.
+ */
+export interface Requirement {
+  id: string;
+
+  action: string;
+
+  countryCode: string;
+
+  phoneNumberType: string;
+
+  requirementTypes: Array<RequirementType>;
+}
+
+/**
+ * Acceptance criteria for a requirement.
+ */
+export interface RequirementAcceptanceCriteria {
+  allowedValues?: Array<string> | null;
+
+  maxLength?: number | null;
+
+  minLength?: number | null;
+
+  regexPattern?: string | null;
+}
+
+/**
+ * Type of requirement field.
+ */
+export type RequirementFieldType = 'textual' | 'address' | 'document' | 'action';
+
+/**
+ * A specific requirement type within a requirement group.
+ */
+export interface RequirementType {
+  id: string;
+
+  description: string;
+
+  name: string;
+
+  /**
+   * Type of requirement field.
+   */
+  type: RequirementFieldType;
+
+  /**
+   * Acceptance criteria for a requirement.
+   */
+  acceptanceCriteria?: RequirementAcceptanceCriteria;
+
+  example?: string | null;
+}
+
 export interface PhoneNumberRetrieveResponse {
   phoneNumber: OwnedPhoneNumber;
 }
@@ -216,6 +291,10 @@ export interface PhoneNumberUpdateResponse {
 
 export interface PhoneNumberPurchaseResponse {
   phoneNumber: OwnedPhoneNumber;
+}
+
+export interface PhoneNumberRequirementsResponse {
+  items: Array<Requirement>;
 }
 
 export interface PhoneNumberSearchAvailableResponse {
@@ -253,6 +332,18 @@ export interface PhoneNumberPurchaseParams {
   name?: string;
 }
 
+export interface PhoneNumberRequirementsParams {
+  /**
+   * Two-letter ISO country code.
+   */
+  countryCode: string;
+
+  /**
+   * Type of phone number (local, mobile, tollFree).
+   */
+  type?: PhoneNumberType;
+}
+
 export interface PhoneNumberSearchAvailableParams {
   /**
    * Two-letter ISO country code.
@@ -284,14 +375,20 @@ export declare namespace PhoneNumbers {
     type PhoneNumberPricing as PhoneNumberPricing,
     type PhoneNumberStatus as PhoneNumberStatus,
     type PhoneNumberType as PhoneNumberType,
+    type Requirement as Requirement,
+    type RequirementAcceptanceCriteria as RequirementAcceptanceCriteria,
+    type RequirementFieldType as RequirementFieldType,
+    type RequirementType as RequirementType,
     type PhoneNumberRetrieveResponse as PhoneNumberRetrieveResponse,
     type PhoneNumberUpdateResponse as PhoneNumberUpdateResponse,
     type PhoneNumberPurchaseResponse as PhoneNumberPurchaseResponse,
+    type PhoneNumberRequirementsResponse as PhoneNumberRequirementsResponse,
     type PhoneNumberSearchAvailableResponse as PhoneNumberSearchAvailableResponse,
     type OwnedPhoneNumbersCursor as OwnedPhoneNumbersCursor,
     type PhoneNumberUpdateParams as PhoneNumberUpdateParams,
     type PhoneNumberListParams as PhoneNumberListParams,
     type PhoneNumberPurchaseParams as PhoneNumberPurchaseParams,
+    type PhoneNumberRequirementsParams as PhoneNumberRequirementsParams,
     type PhoneNumberSearchAvailableParams as PhoneNumberSearchAvailableParams,
   };
 }
