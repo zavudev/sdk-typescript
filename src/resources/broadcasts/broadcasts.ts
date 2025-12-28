@@ -130,6 +130,26 @@ export class Broadcasts extends APIResource {
   }
 
   /**
+   * Update the scheduled time for a broadcast. The broadcast must be in scheduled
+   * status.
+   *
+   * @example
+   * ```ts
+   * const response = await client.broadcasts.reschedule(
+   *   'broadcastId',
+   *   { scheduledAt: '2024-01-15T14:00:00Z' },
+   * );
+   * ```
+   */
+  reschedule(
+    broadcastID: string,
+    body: BroadcastRescheduleParams,
+    options?: RequestOptions,
+  ): APIPromise<BroadcastRescheduleResponse> {
+    return this._client.patch(path`/v1/broadcasts/${broadcastID}/schedule`, { body, ...options });
+  }
+
+  /**
    * Start sending the broadcast immediately or schedule for later. Reserves the
    * estimated cost from your balance.
    *
@@ -396,6 +416,10 @@ export interface BroadcastCancelResponse {
   broadcast: Broadcast;
 }
 
+export interface BroadcastRescheduleResponse {
+  broadcast: Broadcast;
+}
+
 export interface BroadcastSendResponse {
   broadcast: Broadcast;
 }
@@ -478,6 +502,13 @@ export interface BroadcastListParams extends CursorParams {
   status?: BroadcastStatus;
 }
 
+export interface BroadcastRescheduleParams {
+  /**
+   * New scheduled time for the broadcast.
+   */
+  scheduledAt: string;
+}
+
 export interface BroadcastSendParams {
   /**
    * Schedule for future delivery. Omit to send immediately.
@@ -501,11 +532,13 @@ export declare namespace Broadcasts {
     type BroadcastRetrieveResponse as BroadcastRetrieveResponse,
     type BroadcastUpdateResponse as BroadcastUpdateResponse,
     type BroadcastCancelResponse as BroadcastCancelResponse,
+    type BroadcastRescheduleResponse as BroadcastRescheduleResponse,
     type BroadcastSendResponse as BroadcastSendResponse,
     type BroadcastsCursor as BroadcastsCursor,
     type BroadcastCreateParams as BroadcastCreateParams,
     type BroadcastUpdateParams as BroadcastUpdateParams,
     type BroadcastListParams as BroadcastListParams,
+    type BroadcastRescheduleParams as BroadcastRescheduleParams,
     type BroadcastSendParams as BroadcastSendParams,
   };
 

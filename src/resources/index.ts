@@ -1,6 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
+  Addresses,
+  type Address,
+  type AddressStatus,
+  type AddressCreateResponse,
+  type AddressRetrieveResponse,
+  type AddressCreateParams,
+  type AddressListParams,
+  type AddressesCursor,
+} from './addresses';
+export {
   Broadcasts,
   type Broadcast,
   type BroadcastChannel,
@@ -14,10 +24,12 @@ export {
   type BroadcastRetrieveResponse,
   type BroadcastUpdateResponse,
   type BroadcastCancelResponse,
+  type BroadcastRescheduleResponse,
   type BroadcastSendResponse,
   type BroadcastCreateParams,
   type BroadcastUpdateParams,
   type BroadcastListParams,
+  type BroadcastRescheduleParams,
   type BroadcastSendParams,
   type BroadcastContactsCursor,
   type BroadcastsCursor,
@@ -57,16 +69,32 @@ export {
   type PhoneNumberPricing,
   type PhoneNumberStatus,
   type PhoneNumberType,
+  type Requirement,
+  type RequirementAcceptanceCriteria,
+  type RequirementFieldType,
+  type RequirementType,
   type PhoneNumberRetrieveResponse,
   type PhoneNumberUpdateResponse,
   type PhoneNumberPurchaseResponse,
+  type PhoneNumberRequirementsResponse,
   type PhoneNumberSearchAvailableResponse,
   type PhoneNumberUpdateParams,
   type PhoneNumberListParams,
   type PhoneNumberPurchaseParams,
+  type PhoneNumberRequirementsParams,
   type PhoneNumberSearchAvailableParams,
   type OwnedPhoneNumbersCursor,
 } from './phone-numbers';
+export {
+  RegulatoryDocuments,
+  type RegulatoryDocument,
+  type RegulatoryDocumentCreateResponse,
+  type RegulatoryDocumentRetrieveResponse,
+  type RegulatoryDocumentUploadURLResponse,
+  type RegulatoryDocumentCreateParams,
+  type RegulatoryDocumentListParams,
+  type RegulatoryDocumentsCursor,
+} from './regulatory-documents';
 export {
   Senders,
   type Sender,
@@ -84,7 +112,7 @@ export {
   type SenderUpdateProfileParams,
   type SenderUploadProfilePictureParams,
   type SendersCursor,
-} from './senders';
+} from './senders/senders';
 export {
   Templates,
   type Template,
