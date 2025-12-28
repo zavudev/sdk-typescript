@@ -128,6 +128,27 @@ describe('resource broadcasts', () => {
   });
 
   // Prism tests are disabled
+  test.skip('reschedule: only required params', async () => {
+    const responsePromise = client.broadcasts.reschedule('broadcastId', {
+      scheduledAt: '2024-01-15T14:00:00Z',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('reschedule: required and optional params', async () => {
+    const response = await client.broadcasts.reschedule('broadcastId', {
+      scheduledAt: '2024-01-15T14:00:00Z',
+    });
+  });
+
+  // Prism tests are disabled
   test.skip('send', async () => {
     const responsePromise = client.broadcasts.send('broadcastId');
     const rawResponse = await responsePromise.asResponse();
