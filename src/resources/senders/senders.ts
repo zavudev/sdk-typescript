@@ -188,6 +188,11 @@ export interface Sender {
   createdAt?: string;
 
   /**
+   * Whether inbound email receiving is enabled for this sender.
+   */
+  emailReceivingEnabled?: boolean;
+
+  /**
    * Whether this sender is the project's default.
    */
   isDefault?: boolean;
@@ -405,6 +410,11 @@ export interface SenderCreateParams {
 }
 
 export interface SenderUpdateParams {
+  /**
+   * Enable or disable inbound email receiving for this sender.
+   */
+  emailReceivingEnabled?: boolean;
+
   name?: string;
 
   setAsDefault?: boolean;
