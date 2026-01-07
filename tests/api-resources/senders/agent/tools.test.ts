@@ -13,7 +13,11 @@ describe('resource tools', () => {
     const responsePromise = client.senders.agent.tools.create('senderId', {
       description: 'Get the status of a customer order',
       name: 'get_order_status',
-      parameters: { properties: { order_id: {} }, required: ['order_id'], type: 'object' },
+      parameters: {
+        properties: { order_id: {} },
+        required: ['order_id'],
+        type: 'object',
+      },
       webhookUrl: 'https://api.example.com/webhooks/order-status',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -105,7 +109,11 @@ describe('resource tools', () => {
     await expect(
       client.senders.agent.tools.list(
         'senderId',
-        { cursor: 'cursor', enabled: true, limit: 100 },
+        {
+          cursor: 'cursor',
+          enabled: true,
+          limit: 100,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);

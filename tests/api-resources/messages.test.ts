@@ -37,7 +37,13 @@ describe('resource messages', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.messages.list(
-        { channel: 'auto', cursor: 'cursor', limit: 100, status: 'queued', to: 'to' },
+        {
+          channel: 'auto',
+          cursor: 'cursor',
+          limit: 100,
+          status: 'queued',
+          to: 'to',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);
@@ -91,7 +97,18 @@ describe('resource messages', () => {
         mediaUrl: 'https://example.com/image.jpg',
         mimeType: 'image/jpeg',
         reactToMessageId: 'reactToMessageId',
-        sections: [{ rows: [{ id: 'id', title: 'title', description: 'description' }], title: 'title' }],
+        sections: [
+          {
+            rows: [
+              {
+                id: 'id',
+                title: 'title',
+                description: 'description',
+              },
+            ],
+            title: 'title',
+          },
+        ],
         templateId: 'templateId',
         templateVariables: { '1': 'John', '2': 'ORD-12345' },
       },

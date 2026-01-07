@@ -49,7 +49,11 @@ describe('resource phoneNumbers', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.phoneNumbers.list(
-        { cursor: 'cursor', limit: 100, status: 'active' },
+        {
+          cursor: 'cursor',
+          limit: 100,
+          status: 'active',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);

@@ -35,7 +35,10 @@ const client = new Zavudev({
   apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted
 });
 
-const messageResponse = await client.messages.send({ to: '+14155551234', text: 'Hello from Zavu!' });
+const messageResponse = await client.messages.send({
+  to: '+14155551234',
+  text: 'Hello from Zavu!',
+});
 
 console.log(messageResponse.message);
 ```
@@ -179,7 +182,9 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Zavudev();
 
-const response = await client.messages.send({ to: '+14155551234', text: 'Hello from Zavu!' }).asResponse();
+const response = await client.messages
+  .send({ to: '+14155551234', text: 'Hello from Zavu!' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 

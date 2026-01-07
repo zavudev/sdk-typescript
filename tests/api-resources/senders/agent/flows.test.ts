@@ -13,8 +13,16 @@ describe('resource flows', () => {
     const responsePromise = client.senders.agent.flows.create('senderId', {
       name: 'Lead Capture',
       steps: [
-        { id: 'welcome', config: { text: 'bar' }, type: 'message' },
-        { id: 'ask_name', config: { variable: 'bar', prompt: 'bar' }, type: 'collect' },
+        {
+          id: 'welcome',
+          config: { text: 'bar' },
+          type: 'message',
+        },
+        {
+          id: 'ask_name',
+          config: { variable: 'bar', prompt: 'bar' },
+          type: 'collect',
+        },
       ],
       trigger: { type: 'keyword' },
     });
@@ -32,7 +40,12 @@ describe('resource flows', () => {
     const response = await client.senders.agent.flows.create('senderId', {
       name: 'Lead Capture',
       steps: [
-        { id: 'welcome', config: { text: 'bar' }, type: 'message', nextStepId: 'ask_name' },
+        {
+          id: 'welcome',
+          config: { text: 'bar' },
+          type: 'message',
+          nextStepId: 'ask_name',
+        },
         {
           id: 'ask_name',
           config: { variable: 'bar', prompt: 'bar' },
@@ -40,7 +53,11 @@ describe('resource flows', () => {
           nextStepId: 'nextStepId',
         },
       ],
-      trigger: { type: 'keyword', intent: 'intent', keywords: ['info', 'pricing', 'demo'] },
+      trigger: {
+        type: 'keyword',
+        intent: 'intent',
+        keywords: ['info', 'pricing', 'demo'],
+      },
       description: 'Capture lead information',
       enabled: true,
       priority: 0,
@@ -84,8 +101,19 @@ describe('resource flows', () => {
       enabled: true,
       name: 'name',
       priority: 0,
-      steps: [{ id: 'id', config: { foo: 'bar' }, type: 'message', nextStepId: 'nextStepId' }],
-      trigger: { type: 'keyword', intent: 'intent', keywords: ['string'] },
+      steps: [
+        {
+          id: 'id',
+          config: { foo: 'bar' },
+          type: 'message',
+          nextStepId: 'nextStepId',
+        },
+      ],
+      trigger: {
+        type: 'keyword',
+        intent: 'intent',
+        keywords: ['string'],
+      },
     });
   });
 
@@ -107,7 +135,11 @@ describe('resource flows', () => {
     await expect(
       client.senders.agent.flows.list(
         'senderId',
-        { cursor: 'cursor', enabled: true, limit: 100 },
+        {
+          cursor: 'cursor',
+          enabled: true,
+          limit: 100,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);

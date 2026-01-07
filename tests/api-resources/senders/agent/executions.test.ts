@@ -26,7 +26,11 @@ describe('resource executions', () => {
     await expect(
       client.senders.agent.executions.list(
         'senderId',
-        { cursor: 'cursor', limit: 100, status: 'success' },
+        {
+          cursor: 'cursor',
+          limit: 100,
+          status: 'success',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);
