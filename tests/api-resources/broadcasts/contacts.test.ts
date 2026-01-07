@@ -26,7 +26,11 @@ describe('resource contacts', () => {
     await expect(
       client.broadcasts.contacts.list(
         'broadcastId',
-        { cursor: 'cursor', limit: 100, status: 'pending' },
+        {
+          cursor: 'cursor',
+          limit: 100,
+          status: 'pending',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);
@@ -50,8 +54,14 @@ describe('resource contacts', () => {
   test.skip('add: required and optional params', async () => {
     const response = await client.broadcasts.contacts.add('broadcastId', {
       contacts: [
-        { recipient: '+14155551234', templateVariables: { name: 'John', order_id: 'ORD-001' } },
-        { recipient: '+14155555678', templateVariables: { name: 'Jane', order_id: 'ORD-002' } },
+        {
+          recipient: '+14155551234',
+          templateVariables: { name: 'John', order_id: 'ORD-001' },
+        },
+        {
+          recipient: '+14155555678',
+          templateVariables: { name: 'Jane', order_id: 'ORD-002' },
+        },
       ],
     });
   });

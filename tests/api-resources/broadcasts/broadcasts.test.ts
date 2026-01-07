@@ -85,7 +85,11 @@ describe('resource broadcasts', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.broadcasts.list(
-        { cursor: 'cursor', limit: 100, status: 'draft' },
+        {
+          cursor: 'cursor',
+          limit: 100,
+          status: 'draft',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Zavudev.NotFoundError);
