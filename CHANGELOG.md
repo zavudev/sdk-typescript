@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.0 (2026-01-09)
+
+Full Changelog: [v0.19.1...v0.20.0](https://github.com/zavudev/sdk-typescript/compare/v0.19.1...v0.20.0)
+
+### Features
+
+* **api:** api update ([fb1693a](https://github.com/zavudev/sdk-typescript/commit/fb1693a109927bde36b0db5c4e4bd44ff9e885de))
+
+
+### Bug Fixes
+
+* **mcp:** update code tool prompt ([c3f0620](https://github.com/zavudev/sdk-typescript/commit/c3f0620c778358811906336ca9365750ba03638e))
+
 ## 0.19.1 (2026-01-08)
 
 Full Changelog: [v0.19.0...v0.19.1](https://github.com/zavudev/sdk-typescript/compare/v0.19.0...v0.19.1)

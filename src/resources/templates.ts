@@ -118,9 +118,19 @@ export interface Template {
   name: string;
 
   /**
+   * Add 'Do not share this code' disclaimer. Only for AUTHENTICATION templates.
+   */
+  addSecurityRecommendation?: boolean;
+
+  /**
    * Template buttons.
    */
   buttons?: Array<Template.Button>;
+
+  /**
+   * Code expiration time in minutes. Only for AUTHENTICATION templates.
+   */
+  codeExpirationMinutes?: number;
 
   createdAt?: string;
 
@@ -156,11 +166,26 @@ export interface Template {
 
 export namespace Template {
   export interface Button {
+    /**
+     * OTP button type. Required when type is 'otp'.
+     */
+    otpType?: 'COPY_CODE' | 'ONE_TAP';
+
+    /**
+     * Android package name. Required for ONE_TAP buttons.
+     */
+    packageName?: string;
+
     phoneNumber?: string;
+
+    /**
+     * Android app signature hash. Required for ONE_TAP buttons.
+     */
+    signatureHash?: string;
 
     text?: string;
 
-    type?: string;
+    type?: 'quick_reply' | 'url' | 'phone' | 'otp';
 
     url?: string;
   }
@@ -198,12 +223,55 @@ export interface TemplateCreateParams {
 
   name: string;
 
+  /**
+   * Add 'Do not share this code' disclaimer. Only for AUTHENTICATION templates.
+   */
+  addSecurityRecommendation?: boolean;
+
+  /**
+   * Template buttons (max 3).
+   */
+  buttons?: Array<TemplateCreateParams.Button>;
+
+  /**
+   * Code expiration time in minutes. Only for AUTHENTICATION templates.
+   */
+  codeExpirationMinutes?: number;
+
   variables?: Array<string>;
 
   /**
    * WhatsApp template category.
    */
   whatsappCategory?: WhatsappCategory;
+}
+
+export namespace TemplateCreateParams {
+  export interface Button {
+    text: string;
+
+    type: 'quick_reply' | 'url' | 'phone' | 'otp';
+
+    /**
+     * Required when type is 'otp'. COPY_CODE shows copy button, ONE_TAP enables
+     * Android autofill.
+     */
+    otpType?: 'COPY_CODE' | 'ONE_TAP';
+
+    /**
+     * Android package name. Required for ONE_TAP buttons.
+     */
+    packageName?: string;
+
+    phoneNumber?: string;
+
+    /**
+     * Android app signature hash. Required for ONE_TAP buttons.
+     */
+    signatureHash?: string;
+
+    url?: string;
+  }
 }
 
 export interface TemplateListParams extends CursorParams {}
