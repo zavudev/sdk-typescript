@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.19.1 (2026-01-08)
+
+Full Changelog: [v0.19.0...v0.19.1](https://github.com/zavudev/sdk-typescript/compare/v0.19.0...v0.19.1)
+
+### Bug Fixes
+
+* **mcp:** correct code tool api output types ([b6b9d65](https://github.com/zavudev/sdk-typescript/commit/b6b9d654eb4c2f67a1664a5d628bead608308054))
+* **mcp:** fix env parsing ([2d48dae](https://github.com/zavudev/sdk-typescript/commit/2d48dae22cc865ff835c7731284bdb6e033a4940))
+* **mcp:** fix options parsing ([d3b9157](https://github.com/zavudev/sdk-typescript/commit/d3b91572a8ca1ff516a814aa5508e9b2f72bdfcf))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([14d1c4d](https://github.com/zavudev/sdk-typescript/commit/14d1c4dd29717421f1199c1eaf5a476b3a7d66a9))
+* **internal:** fix dockerfile ([35820d8](https://github.com/zavudev/sdk-typescript/commit/35820d8c6c0b9404e62974ca5a97fb8d46b0a7a0))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([5d439e4](https://github.com/zavudev/sdk-typescript/commit/5d439e499c6aa2e169537dd50116fbd79ec72862))
+
 ## 0.19.0 (2026-01-01)
 
 Full Changelog: [v0.18.0...v0.19.0](https://github.com/zavudev/sdk-typescript/compare/v0.18.0...v0.19.0)

@@ -39,14 +39,14 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=@zavudev/sdk-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB6YXZ1ZGV2L3Nkay1tY3AiXSwiZW52Ijp7IlpBVlVERVZfQVBJX0tFWSI6IlNldCB5b3VyIFpBVlVERVZfQVBJX0tFWSBoZXJlLiJ9fQ)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40zavudev%2Fsdk-mcp&config=eyJuYW1lIjoiQHphdnVkZXYvc2RrLW1jcCIsInRyYW5zcG9ydCI6InNzZSIsInVybCI6Imh0dHBzOi8vemF2dWRldi5zdGxtY3AuY29tL3NzZSIsImVudiI6eyJaQVZVREVWX0FQSV9LRVkiOiJTZXQgeW91ciBaQVZVREVWX0FQSV9LRVkgaGVyZS4ifX0)
 
 ### VS Code
 
 If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
 in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
 
-[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40zavudev%2Fsdk-mcp%22%5D%2C%22env%22%3A%7B%22ZAVUDEV_API_KEY%22%3A%22Set%20your%20ZAVUDEV_API_KEY%20here.%22%7D%7D)
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22type%22%3A%22sse%22%2C%22url%22%3A%22https%3A%2F%2Fzavudev.stlmcp.com%2Fsse%22%2C%22env%22%3A%7B%22ZAVUDEV_API_KEY%22%3A%22Set%20your%20ZAVUDEV_API_KEY%20here.%22%7D%7D)
 
 ### Claude Code
 
@@ -54,7 +54,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-claude mcp add --transport stdio zavudev_sdk_api --env ZAVUDEV_API_KEY="Your ZAVUDEV_API_KEY here." -- npx -y @zavudev/sdk-mcp
+claude mcp add zavudev_sdk_mcp_api --env ZAVUDEV_API_KEY="Your ZAVUDEV_API_KEY here." --transport sse https://zavudev.stlmcp.com/sse
 ```
 
 ## Code Mode
