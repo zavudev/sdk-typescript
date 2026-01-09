@@ -30,6 +30,19 @@ describe('resource templates', () => {
       body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',
       language: 'en',
       name: 'order_confirmation',
+      addSecurityRecommendation: true,
+      buttons: [
+        {
+          text: 'text',
+          type: 'quick_reply',
+          otpType: 'COPY_CODE',
+          packageName: 'packageName',
+          phoneNumber: 'phoneNumber',
+          signatureHash: 'signatureHash',
+          url: 'https://example.com',
+        },
+      ],
+      codeExpirationMinutes: 1,
       variables: ['customer_name', 'order_id'],
       whatsappCategory: 'UTILITY',
     });
