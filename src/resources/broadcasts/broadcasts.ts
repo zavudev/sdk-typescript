@@ -150,8 +150,10 @@ export class Broadcasts extends APIResource {
   }
 
   /**
-   * Start sending the broadcast immediately or schedule for later. Reserves the
-   * estimated cost from your balance.
+   * Start sending the broadcast immediately or schedule for later. Broadcasts go
+   * through automated AI content review before sending. If the review passes, the
+   * broadcast proceeds. If rejected, use PATCH to edit content, then call POST
+   * /retry-review. Reserves the estimated cost from your balance.
    *
    * @example
    * ```ts
@@ -232,6 +234,16 @@ export interface Broadcast {
    */
   reservedAmount?: number | null;
 
+  /**
+   * Number of review attempts (max 3).
+   */
+  reviewAttempts?: number | null;
+
+  /**
+   * AI content review result.
+   */
+  reviewResult?: Broadcast.ReviewResult | null;
+
   scheduledAt?: string;
 
   senderId?: string;
@@ -243,6 +255,35 @@ export interface Broadcast {
   text?: string;
 
   updatedAt?: string;
+}
+
+export namespace Broadcast {
+  /**
+   * AI content review result.
+   */
+  export interface ReviewResult {
+    /**
+     * Policy categories violated, if any.
+     */
+    categories?: Array<string>;
+
+    /**
+     * Problematic text fragments, if any.
+     */
+    flaggedContent?: Array<string> | null;
+
+    /**
+     * Explanation of the review decision.
+     */
+    reasoning?: string;
+
+    reviewedAt?: string;
+
+    /**
+     * Content safety score from 0.0 to 1.0, where 1.0 is completely safe.
+     */
+    score?: number;
+  }
 }
 
 /**
@@ -393,6 +434,11 @@ export interface BroadcastProgress {
  */
 export type BroadcastStatus =
   | 'draft'
+  | 'pending_review'
+  | 'approved'
+  | 'rejected'
+  | 'escalated'
+  | 'rejected_final'
   | 'scheduled'
   | 'sending'
   | 'paused'
