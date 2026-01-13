@@ -291,7 +291,13 @@ export interface MessageResponse {
   message: Message;
 }
 
-export type MessageStatus = 'queued' | 'sending' | 'delivered' | 'failed' | 'received';
+export type MessageStatus =
+  | 'queued'
+  | 'sending'
+  | 'delivered'
+  | 'failed'
+  | 'received'
+  | 'pending_url_verification';
 
 /**
  * Type of message. Non-text types are WhatsApp only.
