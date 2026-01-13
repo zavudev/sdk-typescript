@@ -61,7 +61,7 @@ export interface Contact {
   /**
    * Preferred channel for this contact.
    */
-  defaultChannel?: 'sms' | 'whatsapp' | 'email';
+  defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email';
 
   metadata?: { [key: string]: string };
 
@@ -82,7 +82,7 @@ export interface ContactUpdateParams {
   /**
    * Preferred channel for this contact. Set to null to clear.
    */
-  defaultChannel?: 'sms' | 'whatsapp' | 'email' | null;
+  defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | null;
 
   metadata?: { [key: string]: string };
 }
