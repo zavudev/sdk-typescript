@@ -282,8 +282,27 @@ export interface SenderWebhook {
 }
 
 /**
- * Type of event that triggers the webhook. Note: Reactions are delivered as
- * message.inbound with messageType='reaction'.
+ * Type of event that triggers the webhook.
+ *
+ * **Message lifecycle events:**
+ *
+ * - `message.queued`: Message created and queued for sending. `data.status` =
+ *   `queued`
+ * - `message.sent`: Message accepted by the provider. `data.status` = `sent`
+ * - `message.delivered`: Message delivered to recipient. `data.status` =
+ *   `delivered`
+ * - `message.failed`: Message failed to send. `data.status` = `failed`
+ *
+ * **Inbound events:**
+ *
+ * - `message.inbound`: New message received from a contact. Reactions are
+ *   delivered as `message.inbound` with `messageType='reaction'`
+ * - `message.unsupported`: Received a message type that is not supported
+ *
+ * **Other events:**
+ *
+ * - `conversation.new`: New conversation started with a contact
+ * - `template.status_changed`: WhatsApp template approval status changed
  */
 export type WebhookEvent =
   | 'message.queued'
