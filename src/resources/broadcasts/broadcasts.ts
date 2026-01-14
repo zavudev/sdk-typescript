@@ -289,7 +289,7 @@ export namespace Broadcast {
 /**
  * Broadcast delivery channel. Use 'smart' for per-contact intelligent routing.
  */
-export type BroadcastChannel = 'smart' | 'sms' | 'whatsapp' | 'email';
+export type BroadcastChannel = 'smart' | 'sms' | 'whatsapp' | 'telegram' | 'email';
 
 export interface BroadcastContact {
   id: string;

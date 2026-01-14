@@ -108,7 +108,7 @@ export type MessagesCursor = Cursor<Message>;
 /**
  * Delivery channel. Use 'auto' for intelligent routing.
  */
-export type Channel = 'auto' | 'sms' | 'whatsapp' | 'email';
+export type Channel = 'auto' | 'sms' | 'whatsapp' | 'telegram' | 'email';
 
 export interface Message {
   id: string;
@@ -121,7 +121,8 @@ export interface Message {
   createdAt: string;
 
   /**
-   * Type of message. Non-text types are WhatsApp only.
+   * Type of message. Non-text types are supported by WhatsApp and Telegram (varies
+   * by type).
    */
   messageType: MessageType;
 
@@ -130,7 +131,7 @@ export interface Message {
   to: string;
 
   /**
-   * Content for non-text message types (WhatsApp only).
+   * Content for non-text message types (WhatsApp and Telegram).
    */
   content?: MessageContent;
 
@@ -173,7 +174,7 @@ export interface Message {
 }
 
 /**
- * Content for non-text message types (WhatsApp only).
+ * Content for non-text message types (WhatsApp and Telegram).
  */
 export interface MessageContent {
   /**
@@ -291,10 +292,17 @@ export interface MessageResponse {
   message: Message;
 }
 
-export type MessageStatus = 'queued' | 'sending' | 'delivered' | 'failed' | 'received';
+export type MessageStatus =
+  | 'queued'
+  | 'sending'
+  | 'delivered'
+  | 'failed'
+  | 'received'
+  | 'pending_url_verification';
 
 /**
- * Type of message. Non-text types are WhatsApp only.
+ * Type of message. Non-text types are supported by WhatsApp and Telegram (varies
+ * by type).
  */
 export type MessageType =
   | 'text'

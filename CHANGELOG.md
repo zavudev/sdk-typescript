@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.21.0 (2026-01-13)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/zavudev/sdk-typescript/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** api update ([19fc098](https://github.com/zavudev/sdk-typescript/commit/19fc09872f452ebdf8b9ea49227c4f4b9914328d))
+* **api:** api update ([5b42b7c](https://github.com/zavudev/sdk-typescript/commit/5b42b7c9f03767f1a8bb657c3f2c291c76abaf75))
+
+
+### Chores
+
+* **internal:** codegen related update ([24cf55e](https://github.com/zavudev/sdk-typescript/commit/24cf55e53c1e2d689aebf59f5182ff2355b69edd))
+* **internal:** codegen related update ([e0ed170](https://github.com/zavudev/sdk-typescript/commit/e0ed170bd80403db215ce8adf3dff04c53e9a219))
+* **internal:** codegen related update ([ec60130](https://github.com/zavudev/sdk-typescript/commit/ec601303611ca403935bcbc4130bc4da0a85b7d8))
+* **internal:** codegen related update ([0928c76](https://github.com/zavudev/sdk-typescript/commit/0928c76ee86224157f9e55aad54b979d09559e44))
+
 ## 0.20.0 (2026-01-11)
 
 Full Changelog: [v0.19.1...v0.20.0](https://github.com/zavudev/sdk-typescript/compare/v0.19.1...v0.20.0)
