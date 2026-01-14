@@ -243,37 +243,37 @@ export interface ToolRetrieveParams {
 
 export interface ToolUpdateParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 
   /**
-   * Body param:
+   * Body param
    */
   description?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   enabled?: boolean;
 
   /**
-   * Body param:
+   * Body param
    */
   name?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   parameters?: ToolUpdateParams.Parameters;
 
   /**
-   * Body param:
+   * Body param
    */
   webhookSecret?: string | null;
 
   /**
-   * Body param:
+   * Body param
    */
   webhookUrl?: string;
 }
@@ -306,7 +306,7 @@ export interface ToolDeleteParams {
 
 export interface ToolTestParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 

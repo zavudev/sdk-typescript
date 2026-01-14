@@ -93,24 +93,24 @@ export interface DocumentCreateResponse {
 
 export interface DocumentCreateParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 
   /**
-   * Body param:
+   * Body param
    */
   content: string;
 
   /**
-   * Body param:
+   * Body param
    */
   title: string;
 }
 
 export interface DocumentListParams extends CursorParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 }
