@@ -203,17 +203,17 @@ export interface KnowledgeBaseRetrieveParams {
 
 export interface KnowledgeBaseUpdateParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 
   /**
-   * Body param:
+   * Body param
    */
   description?: string | null;
 
   /**
-   * Body param:
+   * Body param
    */
   name?: string;
 }
