@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.22.0 (2026-01-17)
+
+Full Changelog: [v0.21.0...v0.22.0](https://github.com/zavudev/sdk-typescript/compare/v0.21.0...v0.22.0)
+
+### Features
+
+* **api:** api update ([ec22306](https://github.com/zavudev/sdk-typescript/commit/ec2230616341b95434418a5038fc3ca509c090e3))
+
+
+### Bug Fixes
+
+* flag defaults ([80f91af](https://github.com/zavudev/sdk-typescript/commit/80f91afef3f4910409724b0620ff70dad789ddc2))
+
+
+### Chores
+
+* fix typo in descriptions ([c64ad8b](https://github.com/zavudev/sdk-typescript/commit/c64ad8b2bbbadfdb26b29432f22d077a153a5d1f))
+* **internal:** codegen related update ([028bc2e](https://github.com/zavudev/sdk-typescript/commit/028bc2ea1525973c34a925843622a3fc72672a4c))
+* **internal:** codegen related update ([cc94bab](https://github.com/zavudev/sdk-typescript/commit/cc94babbee657fe5841940b7c0296b74590760a4))
+* **internal:** codegen related update ([ce51f3d](https://github.com/zavudev/sdk-typescript/commit/ce51f3dc02b1c0ada4af74882250a3787113153e))
+* **internal:** update `actions/checkout` version ([c0470b0](https://github.com/zavudev/sdk-typescript/commit/c0470b089ed5c722d96c8413397a1e537e168504))
+* **internal:** update lock file ([4c0a397](https://github.com/zavudev/sdk-typescript/commit/4c0a397726f962877644776478ab998d3f828fae))
+* **internal:** upgrade babel, qs, js-yaml ([7025d85](https://github.com/zavudev/sdk-typescript/commit/7025d85191f481040de053832f44dba0c3c4b18b))
+* **internal:** upgrade brace-expansion and @babel/helpers ([58ff4d1](https://github.com/zavudev/sdk-typescript/commit/58ff4d1ee184ff9b0bc9bb47a8226c8f12c2a217))
+* **mcp:** add intent param to execute tool ([5f197f5](https://github.com/zavudev/sdk-typescript/commit/5f197f5d127818c28a1afe3cd2f703a73e7edee4))
+* **mcp:** pass intent param to execute handler ([6c441e2](https://github.com/zavudev/sdk-typescript/commit/6c441e23a32f7c1e43c14f8af8809777fff46559))
+* **mcp:** upgrade dependencies ([25b78ac](https://github.com/zavudev/sdk-typescript/commit/25b78ac6b55a14b067c3e1d42f6967e89fe9dff0))
+
 ## 0.21.0 (2026-01-13)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/zavudev/sdk-typescript/compare/v0.20.0...v0.21.0)
