@@ -295,37 +295,37 @@ export interface FlowRetrieveParams {
 
 export interface FlowUpdateParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 
   /**
-   * Body param:
+   * Body param
    */
   description?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   enabled?: boolean;
 
   /**
-   * Body param:
+   * Body param
    */
   name?: string;
 
   /**
-   * Body param:
+   * Body param
    */
   priority?: number;
 
   /**
-   * Body param:
+   * Body param
    */
   steps?: Array<FlowUpdateParams.Step>;
 
   /**
-   * Body param:
+   * Body param
    */
   trigger?: FlowUpdateParams.Trigger;
 }
@@ -381,12 +381,12 @@ export interface FlowDeleteParams {
 
 export interface FlowDuplicateParams {
   /**
-   * Path param:
+   * Path param
    */
   senderId: string;
 
   /**
-   * Body param:
+   * Body param
    */
   newName: string;
 }

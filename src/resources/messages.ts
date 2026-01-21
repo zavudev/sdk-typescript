@@ -295,6 +295,7 @@ export interface MessageResponse {
 export type MessageStatus =
   | 'queued'
   | 'sending'
+  | 'sent'
   | 'delivered'
   | 'failed'
   | 'received'
