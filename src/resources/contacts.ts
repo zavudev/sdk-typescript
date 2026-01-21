@@ -22,7 +22,7 @@ export class Contacts extends APIResource {
   }
 
   /**
-   * List contacts
+   * List contacts with their communication channels.
    */
   list(
     query: ContactListParams | null | undefined = {},
@@ -45,37 +45,134 @@ export interface Contact {
   id: string;
 
   /**
-   * E.164 phone number.
-   */
-  phoneNumber: string;
-
-  /**
    * List of available messaging channels for this contact.
    */
-  availableChannels?: Array<string>;
+  availableChannels: Array<string>;
+
+  createdAt: string;
+
+  metadata: { [key: string]: string };
+
+  /**
+   * Whether this contact has been verified.
+   */
+  verified: boolean;
+
+  /**
+   * All communication channels for this contact.
+   */
+  channels?: Array<Contact.Channel>;
 
   countryCode?: string;
-
-  createdAt?: string;
 
   /**
    * Preferred channel for this contact.
    */
   defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email';
 
-  metadata?: { [key: string]: string };
+  /**
+   * Display name for the contact.
+   */
+  displayName?: string;
+
+  /**
+   * DEPRECATED: Use primaryPhone instead. Primary phone number in E.164 format.
+   */
+  phoneNumber?: string;
+
+  /**
+   * Primary email address.
+   */
+  primaryEmail?: string;
+
+  /**
+   * Primary phone number in E.164 format.
+   */
+  primaryPhone?: string;
 
   /**
    * Contact's WhatsApp profile name. Only available for WhatsApp contacts.
    */
   profileName?: string | null;
 
-  updatedAt?: string;
-
   /**
-   * Whether this contact has been verified.
+   * ID of a contact suggested for merging.
    */
-  verified?: boolean;
+  suggestedMergeWith?: string;
+
+  updatedAt?: string;
+}
+
+export namespace Contact {
+  /**
+   * A communication channel for a contact.
+   */
+  export interface Channel {
+    id: string;
+
+    /**
+     * Channel type.
+     */
+    channel: 'sms' | 'whatsapp' | 'email' | 'telegram';
+
+    createdAt: string;
+
+    /**
+     * Channel identifier (phone number or email address).
+     */
+    identifier: string;
+
+    /**
+     * Whether this is the primary channel for its type.
+     */
+    isPrimary: boolean;
+
+    /**
+     * Whether this channel has been verified.
+     */
+    verified: boolean;
+
+    /**
+     * ISO country code for phone numbers.
+     */
+    countryCode?: string;
+
+    /**
+     * Optional label for the channel.
+     */
+    label?: string;
+
+    /**
+     * Last time a message was received on this channel.
+     */
+    lastInboundAt?: string;
+
+    metadata?: { [key: string]: string };
+
+    /**
+     * Delivery metrics for this channel.
+     */
+    metrics?: Channel.Metrics;
+
+    updatedAt?: string;
+  }
+
+  export namespace Channel {
+    /**
+     * Delivery metrics for this channel.
+     */
+    export interface Metrics {
+      avgDeliveryTimeMs?: number;
+
+      failureCount?: number;
+
+      lastSuccessAt?: string;
+
+      successCount?: number;
+
+      totalAttempts?: number;
+    }
+  }
 }
 
 export interface ContactUpdateParams {
