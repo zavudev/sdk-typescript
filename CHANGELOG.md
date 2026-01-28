@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.24.0 (2026-01-28)
+
+Full Changelog: [v0.23.0...v0.24.0](https://github.com/zavudev/sdk-typescript/compare/v0.23.0...v0.24.0)
+
+### Features
+
+* **api:** api update ([477adf0](https://github.com/zavudev/sdk-typescript/commit/477adf0473ca0095b5d5911e7e4b87083c1c5602))
+
+
+### Bug Fixes
+
+* **mcp:** allow falling back for required env variables ([6a7a2c4](https://github.com/zavudev/sdk-typescript/commit/6a7a2c4422b996f1951a917842e197cf55a74f3a))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([ed24164](https://github.com/zavudev/sdk-typescript/commit/ed241647245ffd2914f0680961237705abd71b3c))
+* **internal:** codegen related update ([ea82acd](https://github.com/zavudev/sdk-typescript/commit/ea82acd40d044cbac90157f7919ad201e936e63a))
+
 ## 0.23.0 (2026-01-21)
 
 Full Changelog: [v0.22.0...v0.23.0](https://github.com/zavudev/sdk-typescript/compare/v0.22.0...v0.23.0)
