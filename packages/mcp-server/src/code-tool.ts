@@ -2,7 +2,7 @@
 
 import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { readEnv, readEnvOrError } from './server';
+import { readEnv, requireValue } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
 import { Zavudev } from '@zavudev/sdk';
 
@@ -71,7 +71,10 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          ZAVUDEV_API_KEY: readEnvOrError('ZAVUDEV_API_KEY') ?? client.apiKey ?? undefined,
+          ZAVUDEV_API_KEY: requireValue(
+            readEnv('ZAVUDEV_API_KEY') ?? client.apiKey,
+            'set ZAVUDEV_API_KEY environment variable or provide apiKey client option',
+          ),
           ZAVUDEV_BASE_URL: readEnv('ZAVUDEV_BASE_URL') ?? client.baseURL ?? undefined,
         }),
       },
