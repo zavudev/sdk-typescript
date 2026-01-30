@@ -68,7 +68,7 @@ export interface Contact {
   /**
    * Preferred channel for this contact.
    */
-  defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email';
+  defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice';
 
   /**
    * Display name for the contact.
@@ -113,7 +113,7 @@ export namespace Contact {
     /**
      * Channel type.
      */
-    channel: 'sms' | 'whatsapp' | 'email' | 'telegram';
+    channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice';
 
     createdAt: string;
 
@@ -179,7 +179,7 @@ export interface ContactUpdateParams {
   /**
    * Preferred channel for this contact. Set to null to clear.
    */
-  defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | null;
+  defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice' | null;
 
   metadata?: { [key: string]: string };
 }
