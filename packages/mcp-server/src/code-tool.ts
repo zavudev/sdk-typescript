@@ -2,8 +2,9 @@
 
 import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { readEnv, readEnvOrError } from './server';
+import { readEnv, requireValue } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
+import { Zavudev } from '@zavudev/sdk';
 
 const prompt = `Runs JavaScript code to interact with the Zavudev API.
 
@@ -54,7 +55,7 @@ export function codeTool(): McpTool {
       required: ['code'],
     },
   };
-  const handler = async (_: unknown, args: any): Promise<ToolCallResult> => {
+  const handler = async (client: Zavudev, args: any): Promise<ToolCallResult> => {
     const code = args.code as string;
     const intent = args.intent as string | undefined;
 
@@ -70,8 +71,11 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          ZAVUDEV_API_KEY: readEnvOrError('ZAVUDEV_API_KEY'),
-          ZAVUDEV_BASE_URL: readEnv('ZAVUDEV_BASE_URL'),
+          ZAVUDEV_API_KEY: requireValue(
+            readEnv('ZAVUDEV_API_KEY') ?? client.apiKey,
+            'set ZAVUDEV_API_KEY environment variable or provide apiKey client option',
+          ),
+          ZAVUDEV_BASE_URL: readEnv('ZAVUDEV_BASE_URL') ?? client.baseURL ?? undefined,
         }),
       },
       body: JSON.stringify({

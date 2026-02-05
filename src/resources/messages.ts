@@ -82,6 +82,11 @@ export class Messages extends APIResource {
    * - Window opens when the user messages you first
    * - Use template messages to initiate conversations outside the window
    *
+   * **Email requirements:**
+   *
+   * - Email channel requires KYC verification. Complete identity verification in the
+   *   dashboard before sending emails.
+   *
    * @example
    * ```ts
    * const messageResponse = await client.messages.send({
@@ -108,7 +113,7 @@ export type MessagesCursor = Cursor<Message>;
 /**
  * Delivery channel. Use 'auto' for intelligent routing.
  */
-export type Channel = 'auto' | 'sms' | 'whatsapp' | 'telegram' | 'email';
+export type Channel = 'auto' | 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice';
 
 export interface Message {
   id: string;

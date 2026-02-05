@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.24.0 (2026-02-04)
+
+Full Changelog: [v0.23.0...v0.24.0](https://github.com/zavudev/sdk-typescript/compare/v0.23.0...v0.24.0)
+
+### Features
+
+* **api:** api update ([fbadff7](https://github.com/zavudev/sdk-typescript/commit/fbadff70ff321a78e095b93f7dcd48b4726e8eba))
+* **api:** api update ([dc5ba67](https://github.com/zavudev/sdk-typescript/commit/dc5ba676658b08c3b3b8830b2752d583c6b61353))
+* **api:** api update ([477adf0](https://github.com/zavudev/sdk-typescript/commit/477adf0473ca0095b5d5911e7e4b87083c1c5602))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([5735c02](https://github.com/zavudev/sdk-typescript/commit/5735c02f063116e52db30b0d7242756b38fb9aae))
+* **docs:** fix mcp installation instructions for remote servers ([894623c](https://github.com/zavudev/sdk-typescript/commit/894623ca341ae2964f20f8703d8061ee6b5b798f))
+* **mcp:** allow falling back for required env variables ([6a7a2c4](https://github.com/zavudev/sdk-typescript/commit/6a7a2c4422b996f1951a917842e197cf55a74f3a))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([ed24164](https://github.com/zavudev/sdk-typescript/commit/ed241647245ffd2914f0680961237705abd71b3c))
+* **client:** do not parse responses with empty content-length ([dbf5b3e](https://github.com/zavudev/sdk-typescript/commit/dbf5b3ea13581d22cbf5d077ff3215a72ac0b2e0))
+* **internal:** codegen related update ([ea82acd](https://github.com/zavudev/sdk-typescript/commit/ea82acd40d044cbac90157f7919ad201e936e63a))
+* **internal:** support oauth authorization code flow for MCP servers ([2997378](https://github.com/zavudev/sdk-typescript/commit/29973783540cf9beb5a87350ab1585ac04e0a848))
+* **mcp:** up tsconfig lib version to es2022 ([0c0b186](https://github.com/zavudev/sdk-typescript/commit/0c0b1869b4604fcf8829c1471db786268add9edb))
+
 ## 0.23.0 (2026-01-21)
 
 Full Changelog: [v0.22.0...v0.23.0](https://github.com/zavudev/sdk-typescript/compare/v0.22.0...v0.23.0)
