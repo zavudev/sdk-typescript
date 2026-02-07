@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.25.0 (2026-02-07)
+
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/zavudev/sdk-typescript/compare/v0.24.0...v0.25.0)
+
+### Features
+
+* **mcp:** add initial server instructions ([5018598](https://github.com/zavudev/sdk-typescript/commit/501859814b065d583f107dac3f31afce3fe085c2))
+
+
+### Bug Fixes
+
+* **client:** avoid removing abort listener too early ([dd4ee95](https://github.com/zavudev/sdk-typescript/commit/dd4ee9536c567cd02a504e511e20fd18a2b5267f))
+
+
+### Chores
+
+* **client:** restructure abort controller binding ([09455bc](https://github.com/zavudev/sdk-typescript/commit/09455bccc408f84ca22f1c0d85eff3a0ff7c5ec2))
+* **internal:** add health check to MCP server when running in HTTP mode ([793f768](https://github.com/zavudev/sdk-typescript/commit/793f7687d459ce183a9b24d6bd135a8e2bc27054))
+* **internal:** fix pagination internals not accepting option promises ([66d7756](https://github.com/zavudev/sdk-typescript/commit/66d7756dede366ae2acc4ecfcbcf2a10f192edf0))
+* **internal:** refactor flag parsing for MCP servers and add debug flag ([e704028](https://github.com/zavudev/sdk-typescript/commit/e704028ee8d8cfcc3cdb78e30a7d20d26555b127))
+* **internal:** upgrade pnpm ([839c079](https://github.com/zavudev/sdk-typescript/commit/839c07987747c8c839be4f0b2eb3c8a6a266fee8))
+
 ## 0.24.0 (2026-02-04)
 
 Full Changelog: [v0.23.0...v0.24.0](https://github.com/zavudev/sdk-typescript/compare/v0.23.0...v0.24.0)
