@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.26.0 (2026-02-16)
+
+Full Changelog: [v0.25.0...v0.26.0](https://github.com/zavudev/sdk-typescript/compare/v0.25.0...v0.26.0)
+
+### Features
+
+* **api:** api update ([de13f06](https://github.com/zavudev/sdk-typescript/commit/de13f0628c0da131c73424746684965ed707b2a1))
+
+
+### Chores
+
+* **internal:** avoid type checking errors with ts-reset ([8cb1f61](https://github.com/zavudev/sdk-typescript/commit/8cb1f6161d7d8cff50bcabfe2182135b193ed48a))
+* **internal:** improve layout of generated MCP server files ([98c958e](https://github.com/zavudev/sdk-typescript/commit/98c958eddd58b0459e6bbe110774b91092ea51c9))
+* **internal:** improve reliability of MCP servers when using local code mode execution ([1b56f69](https://github.com/zavudev/sdk-typescript/commit/1b56f69dbf2db4aa1595ff2b07bc1da40c24d68f))
+* **mcp:** forward STAINLESS_API_KEY to docs search endpoint ([824d986](https://github.com/zavudev/sdk-typescript/commit/824d986dff19a0bff2894b0fd8f88774da1cbc7f))
+
 ## 0.25.0 (2026-02-10)
 
 Full Changelog: [v0.24.0...v0.25.0](https://github.com/zavudev/sdk-typescript/compare/v0.24.0...v0.25.0)
