@@ -120,6 +120,7 @@ describe('resource messages', () => {
       replyTo: 'support@example.com',
       subject: 'Your order confirmation',
       text: 'Your verification code is 123456',
+      voiceLanguage: 'es-ES',
       'Zavu-Sender': 'sender_12345',
     });
   });
