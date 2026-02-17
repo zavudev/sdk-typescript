@@ -410,6 +410,12 @@ export interface MessageSendParams {
   text?: string;
 
   /**
+   * Body param: Language code for voice text-to-speech (e.g., 'en-US', 'es-ES',
+   * 'pt-BR'). If omitted, language is auto-detected from recipient's country code.
+   */
+  voiceLanguage?: string;
+
+  /**
    * Header param: Optional sender profile ID. If omitted, the project's default
    * sender will be used.
    */
