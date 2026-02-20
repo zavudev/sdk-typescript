@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource agent', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.senders.agent.create('senderId', {
       model: 'gpt-4o-mini',
@@ -25,7 +25,7 @@ describe('resource agent', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.agent.create('senderId', {
       model: 'gpt-4o-mini',
@@ -42,7 +42,7 @@ describe('resource agent', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.senders.agent.retrieve('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -54,7 +54,7 @@ describe('resource agent', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update', async () => {
     const responsePromise = client.senders.agent.update('senderId', {});
     const rawResponse = await responsePromise.asResponse();
@@ -66,7 +66,7 @@ describe('resource agent', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.senders.agent.delete('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -78,7 +78,7 @@ describe('resource agent', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('stats', async () => {
     const responsePromise = client.senders.agent.stats('senderId');
     const rawResponse = await responsePromise.asResponse();

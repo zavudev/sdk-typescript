@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource phoneNumbers', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.phoneNumbers.retrieve('phoneNumberId');
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update', async () => {
     const responsePromise = client.phoneNumbers.update('phoneNumberId', {});
     const rawResponse = await responsePromise.asResponse();
@@ -32,7 +32,7 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.phoneNumbers.list();
     const rawResponse = await responsePromise.asResponse();
@@ -44,7 +44,7 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -59,7 +59,7 @@ describe('resource phoneNumbers', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('purchase: only required params', async () => {
     const responsePromise = client.phoneNumbers.purchase({ phoneNumber: '+15551234567' });
     const rawResponse = await responsePromise.asResponse();
@@ -71,7 +71,7 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('purchase: required and optional params', async () => {
     const response = await client.phoneNumbers.purchase({
       phoneNumber: '+15551234567',
@@ -79,7 +79,7 @@ describe('resource phoneNumbers', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('release', async () => {
     const responsePromise = client.phoneNumbers.release('phoneNumberId');
     const rawResponse = await responsePromise.asResponse();
@@ -91,7 +91,7 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('requirements: only required params', async () => {
     const responsePromise = client.phoneNumbers.requirements({ countryCode: 'xx' });
     const rawResponse = await responsePromise.asResponse();
@@ -103,12 +103,12 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('requirements: required and optional params', async () => {
     const response = await client.phoneNumbers.requirements({ countryCode: 'xx', type: 'local' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('searchAvailable: only required params', async () => {
     const responsePromise = client.phoneNumbers.searchAvailable({ countryCode: 'xx' });
     const rawResponse = await responsePromise.asResponse();
@@ -120,7 +120,7 @@ describe('resource phoneNumbers', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('searchAvailable: required and optional params', async () => {
     const response = await client.phoneNumbers.searchAvailable({
       countryCode: 'xx',

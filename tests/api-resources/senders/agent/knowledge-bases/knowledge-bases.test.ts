@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource knowledgeBases', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.create('senderId', { name: 'Product FAQ' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource knowledgeBases', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.create('senderId', {
       name: 'Product FAQ',
@@ -28,7 +28,7 @@ describe('resource knowledgeBases', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.retrieve('kbId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -40,12 +40,12 @@ describe('resource knowledgeBases', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.retrieve('kbId', { senderId: 'senderId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.update('kbId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -57,7 +57,7 @@ describe('resource knowledgeBases', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.update('kbId', {
       senderId: 'senderId',
@@ -66,7 +66,7 @@ describe('resource knowledgeBases', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.list('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -78,7 +78,7 @@ describe('resource knowledgeBases', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -90,7 +90,7 @@ describe('resource knowledgeBases', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.delete('kbId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -102,7 +102,7 @@ describe('resource knowledgeBases', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.delete('kbId', { senderId: 'senderId' });
   });

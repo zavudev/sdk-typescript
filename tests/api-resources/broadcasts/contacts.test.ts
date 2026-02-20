@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource contacts', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.broadcasts.contacts.list('broadcastId');
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource contacts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -36,7 +36,7 @@ describe('resource contacts', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('add: only required params', async () => {
     const responsePromise = client.broadcasts.contacts.add('broadcastId', {
       contacts: [{ recipient: '+14155551234' }, { recipient: '+14155555678' }],
@@ -50,7 +50,7 @@ describe('resource contacts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('add: required and optional params', async () => {
     const response = await client.broadcasts.contacts.add('broadcastId', {
       contacts: [
@@ -66,7 +66,7 @@ describe('resource contacts', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('remove: only required params', async () => {
     const responsePromise = client.broadcasts.contacts.remove('contactId', { broadcastId: 'broadcastId' });
     const rawResponse = await responsePromise.asResponse();
@@ -78,7 +78,7 @@ describe('resource contacts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('remove: required and optional params', async () => {
     const response = await client.broadcasts.contacts.remove('contactId', { broadcastId: 'broadcastId' });
   });
