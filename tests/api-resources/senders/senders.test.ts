@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource senders', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.senders.create({ name: 'name', phoneNumber: 'phoneNumber' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.create({
       name: 'name',
@@ -31,7 +31,7 @@ describe('resource senders', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.senders.retrieve('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -43,7 +43,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update', async () => {
     const responsePromise = client.senders.update('senderId', {});
     const rawResponse = await responsePromise.asResponse();
@@ -55,7 +55,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.senders.list();
     const rawResponse = await responsePromise.asResponse();
@@ -67,7 +67,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -75,7 +75,7 @@ describe('resource senders', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.senders.delete('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -87,7 +87,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('getProfile', async () => {
     const responsePromise = client.senders.getProfile('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -99,7 +99,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('regenerateWebhookSecret', async () => {
     const responsePromise = client.senders.regenerateWebhookSecret('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -111,7 +111,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('updateProfile', async () => {
     const responsePromise = client.senders.updateProfile('senderId', {});
     const rawResponse = await responsePromise.asResponse();
@@ -123,7 +123,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('uploadProfilePicture: only required params', async () => {
     const responsePromise = client.senders.uploadProfilePicture('senderId', {
       imageUrl: 'https://example.com/profile.jpg',
@@ -138,7 +138,7 @@ describe('resource senders', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('uploadProfilePicture: required and optional params', async () => {
     const response = await client.senders.uploadProfilePicture('senderId', {
       imageUrl: 'https://example.com/profile.jpg',

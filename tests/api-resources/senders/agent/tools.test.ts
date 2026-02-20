@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource tools', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.senders.agent.tools.create('senderId', {
       description: 'Get the status of a customer order',
@@ -29,7 +29,7 @@ describe('resource tools', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.agent.tools.create('senderId', {
       description: 'Get the status of a customer order',
@@ -45,7 +45,7 @@ describe('resource tools', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: only required params', async () => {
     const responsePromise = client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -57,12 +57,12 @@ describe('resource tools', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.senders.agent.tools.update('toolId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -74,7 +74,7 @@ describe('resource tools', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.senders.agent.tools.update('toolId', {
       senderId: 'senderId',
@@ -91,7 +91,7 @@ describe('resource tools', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.senders.agent.tools.list('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -103,7 +103,7 @@ describe('resource tools', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -119,7 +119,7 @@ describe('resource tools', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: only required params', async () => {
     const responsePromise = client.senders.agent.tools.delete('toolId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -131,12 +131,12 @@ describe('resource tools', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: required and optional params', async () => {
     const response = await client.senders.agent.tools.delete('toolId', { senderId: 'senderId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('test: only required params', async () => {
     const responsePromise = client.senders.agent.tools.test('toolId', {
       senderId: 'senderId',
@@ -151,7 +151,7 @@ describe('resource tools', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('test: required and optional params', async () => {
     const response = await client.senders.agent.tools.test('toolId', {
       senderId: 'senderId',

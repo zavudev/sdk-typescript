@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource documents', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.documents.create('kbId', {
       senderId: 'senderId',
@@ -24,7 +24,7 @@ describe('resource documents', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.documents.create('kbId', {
       senderId: 'senderId',
@@ -33,7 +33,7 @@ describe('resource documents', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.documents.list('kbId', {
       senderId: 'senderId',
@@ -47,7 +47,7 @@ describe('resource documents', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.documents.list('kbId', {
       senderId: 'senderId',
@@ -56,7 +56,7 @@ describe('resource documents', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: only required params', async () => {
     const responsePromise = client.senders.agent.knowledgeBases.documents.delete('docId', {
       senderId: 'senderId',
@@ -71,7 +71,7 @@ describe('resource documents', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: required and optional params', async () => {
     const response = await client.senders.agent.knowledgeBases.documents.delete('docId', {
       senderId: 'senderId',
