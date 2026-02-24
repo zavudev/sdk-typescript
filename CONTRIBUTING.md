@@ -60,7 +60,7 @@ $ yarn link @zavudev/sdk
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @zavudev/sdk
+$ pnpm link --global @zavudev/sdk
 ```
 
 ## Running tests
