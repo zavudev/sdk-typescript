@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource templates', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.templates.create({
       body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',
@@ -24,7 +24,7 @@ describe('resource templates', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.templates.create({
       body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',
@@ -48,7 +48,7 @@ describe('resource templates', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.templates.retrieve('templateId');
     const rawResponse = await responsePromise.asResponse();
@@ -60,7 +60,7 @@ describe('resource templates', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.templates.list();
     const rawResponse = await responsePromise.asResponse();
@@ -72,7 +72,7 @@ describe('resource templates', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -80,7 +80,7 @@ describe('resource templates', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.templates.delete('templateId');
     const rawResponse = await responsePromise.asResponse();
@@ -92,7 +92,7 @@ describe('resource templates', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('submit: only required params', async () => {
     const responsePromise = client.templates.submit('templateId', { senderId: 'sender_abc123' });
     const rawResponse = await responsePromise.asResponse();
@@ -104,7 +104,7 @@ describe('resource templates', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('submit: required and optional params', async () => {
     const response = await client.templates.submit('templateId', {
       senderId: 'sender_abc123',

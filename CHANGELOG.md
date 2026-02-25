@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.26.1 (2026-02-25)
+
+Full Changelog: [v0.26.0...v0.26.1](https://github.com/zavudev/sdk-typescript/compare/v0.26.0...v0.26.1)
+
+### Bug Fixes
+
+* **docs/contributing:** correct pnpm link command ([4534196](https://github.com/zavudev/sdk-typescript/commit/4534196bd6fe350fa3268ddcc528ef30f62e10c3))
+* **mcp:** initialize SDK lazily to avoid failing the connection on init errors ([6c5970f](https://github.com/zavudev/sdk-typescript/commit/6c5970ffedd7bc6c9bf6fc125712c36decd4512f))
+
+
+### Chores
+
+* **internal/client:** fix form-urlencoded requests ([318e318](https://github.com/zavudev/sdk-typescript/commit/318e3186a1cd3a1414fb459f59e6c307a74bcfb3))
+* **internal:** allow setting x-stainless-api-key header on mcp server requests ([f705818](https://github.com/zavudev/sdk-typescript/commit/f705818e1dd3fceac0e21505f5f314edb4ccb60e))
+* **internal:** cache fetch instruction calls in MCP server ([771a481](https://github.com/zavudev/sdk-typescript/commit/771a4814e42c90d267abb61b3977704e59af2978))
+* **internal:** make MCP code execution location configurable via a flag ([c08ad80](https://github.com/zavudev/sdk-typescript/commit/c08ad801c9fc43a45c41dcc686fafa830c851a38))
+* **internal:** remove mock server code ([7858dae](https://github.com/zavudev/sdk-typescript/commit/7858dae0dadea2ada9a6ecc2ec048d640746e61c))
+* **internal:** upgrade @modelcontextprotocol/sdk and hono ([823a1c7](https://github.com/zavudev/sdk-typescript/commit/823a1c70a0ce11e269f11b6c66e3068af3a57630))
+* **internal:** upgrade pnpm version ([65809e4](https://github.com/zavudev/sdk-typescript/commit/65809e4de02bad31ad3cb92aff28129965b4b3a8))
+* **mcp:** correctly update version in sync with sdk ([299fa19](https://github.com/zavudev/sdk-typescript/commit/299fa19d5926298751e9e1ba434babf3a83d2cae))
+* update mock server docs ([b708ea2](https://github.com/zavudev/sdk-typescript/commit/b708ea2750d236122d59276013fac1a3237e800f))
+
 ## 0.26.0 (2026-02-16)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/zavudev/sdk-typescript/compare/v0.25.0...v0.26.0)

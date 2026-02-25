@@ -1,6 +1,6 @@
 {
   "name": "@zavudev/sdk",
-  "version": "0.26.0",
+  "version": "0.26.1",
   "description": "The official TypeScript library for the Zavudev API",
   "author": "Zavudev <hi@zavu.dev>",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
   "type": "commonjs",
   "repository": "github:zavudev/sdk-typescript",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.30.1",
   "files": [
     "**/*"
   ],

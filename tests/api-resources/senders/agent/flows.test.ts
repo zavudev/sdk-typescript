@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource flows', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.senders.agent.flows.create('senderId', {
       name: 'Lead Capture',
@@ -35,7 +35,7 @@ describe('resource flows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.agent.flows.create('senderId', {
       name: 'Lead Capture',
@@ -64,7 +64,7 @@ describe('resource flows', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: only required params', async () => {
     const responsePromise = client.senders.agent.flows.retrieve('flowId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -76,12 +76,12 @@ describe('resource flows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.senders.agent.flows.retrieve('flowId', { senderId: 'senderId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: only required params', async () => {
     const responsePromise = client.senders.agent.flows.update('flowId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -93,7 +93,7 @@ describe('resource flows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
     const response = await client.senders.agent.flows.update('flowId', {
       senderId: 'senderId',
@@ -117,7 +117,7 @@ describe('resource flows', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.senders.agent.flows.list('senderId');
     const rawResponse = await responsePromise.asResponse();
@@ -129,7 +129,7 @@ describe('resource flows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -145,7 +145,7 @@ describe('resource flows', () => {
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: only required params', async () => {
     const responsePromise = client.senders.agent.flows.delete('flowId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
@@ -157,12 +157,12 @@ describe('resource flows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete: required and optional params', async () => {
     const response = await client.senders.agent.flows.delete('flowId', { senderId: 'senderId' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('duplicate: only required params', async () => {
     const responsePromise = client.senders.agent.flows.duplicate('flowId', {
       senderId: 'senderId',
@@ -177,7 +177,7 @@ describe('resource flows', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('duplicate: required and optional params', async () => {
     const response = await client.senders.agent.flows.duplicate('flowId', {
       senderId: 'senderId',

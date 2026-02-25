@@ -8,7 +8,7 @@ const client = new Zavudev({
 });
 
 describe('resource introspect', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('validatePhone: only required params', async () => {
     const responsePromise = client.introspect.validatePhone({ phoneNumber: '+56912345678' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource introspect', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('validatePhone: required and optional params', async () => {
     const response = await client.introspect.validatePhone({ phoneNumber: '+56912345678' });
   });
