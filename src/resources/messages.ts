@@ -113,7 +113,15 @@ export type MessagesCursor = Cursor<Message>;
 /**
  * Delivery channel. Use 'auto' for intelligent routing.
  */
-export type Channel = 'auto' | 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice';
+export type Channel =
+  | 'auto'
+  | 'sms'
+  | 'sms_oneway'
+  | 'whatsapp'
+  | 'telegram'
+  | 'email'
+  | 'instagram'
+  | 'voice';
 
 export interface Message {
   id: string;
