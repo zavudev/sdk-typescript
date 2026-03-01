@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.27.0 (2026-03-01)
+
+Full Changelog: [v0.26.1...v0.27.0](https://github.com/zavudev/sdk-typescript/compare/v0.26.1...v0.27.0)
+
+### Features
+
+* **api:** api update ([e6c20f9](https://github.com/zavudev/sdk-typescript/commit/e6c20f972e090e0c7cc1f22e942e777462f681ad))
+* **mcp:** add an option to disable code tool ([991d55c](https://github.com/zavudev/sdk-typescript/commit/991d55cd16541bdfcfacd5eee76f10f12666ff47))
+
+
+### Bug Fixes
+
+* **mcp:** update prompt ([4c4d09b](https://github.com/zavudev/sdk-typescript/commit/4c4d09bd6fee0d42d4ab8f1ad12478df01044759))
+
+
+### Chores
+
+* **internal:** codegen related update ([b4ffdca](https://github.com/zavudev/sdk-typescript/commit/b4ffdca5ae98bdb1e374e8466537a00930b3cd56))
+* **internal:** codegen related update ([5d6b2a7](https://github.com/zavudev/sdk-typescript/commit/5d6b2a756e0909228949bc976782f9d9ae117774))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([1ff2dde](https://github.com/zavudev/sdk-typescript/commit/1ff2ddea064d2081bd2d77c1dc3925264abb676e))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([3822643](https://github.com/zavudev/sdk-typescript/commit/382264390a5fb72d41549a7d83e16028afe76ac0))
+* **internal:** move stringifyQuery implementation to internal function ([9d719e9](https://github.com/zavudev/sdk-typescript/commit/9d719e9cc948e886155300aef78426e0f7a751df))
+
 ## 0.26.1 (2026-02-25)
 
 Full Changelog: [v0.26.0...v0.26.1](https://github.com/zavudev/sdk-typescript/compare/v0.26.0...v0.26.1)
