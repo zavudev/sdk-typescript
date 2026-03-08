@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.28.0 (2026-03-08)
+
+Full Changelog: [v0.27.0...v0.28.0](https://github.com/zavudev/sdk-typescript/compare/v0.27.0...v0.28.0)
+
+### Features
+
+* **api:** api update ([4b54f51](https://github.com/zavudev/sdk-typescript/commit/4b54f51fdf99624de67e12ecd0727d507e98874e))
+
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([e9d100c](https://github.com/zavudev/sdk-typescript/commit/e9d100c076bd0162c5d4a145f7a229abe5c75fd2))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([72d6adf](https://github.com/zavudev/sdk-typescript/commit/72d6adf8636b43a66fb590a4367dd3ab8fb90840))
+* **internal:** codegen related update ([29a7dbb](https://github.com/zavudev/sdk-typescript/commit/29a7dbba38949a9cef7357de810747a7ab56582c))
+* **internal:** codegen related update ([2635bff](https://github.com/zavudev/sdk-typescript/commit/2635bffe994691d654001e602bd2484afb7f5ca5))
+* **internal:** use x-stainless-mcp-client-envs header for MCP remote code tool calls ([2346887](https://github.com/zavudev/sdk-typescript/commit/2346887f07640a65769530771c3d0a797ff58cb8))
+* **mcp-server:** improve instructions ([f5b9882](https://github.com/zavudev/sdk-typescript/commit/f5b98825fc095fa82b01fc89978510d5d4a124cc))
+* **mcp-server:** return access instructions for 404 without API key ([fb66d27](https://github.com/zavudev/sdk-typescript/commit/fb66d2704f1eb1bb4ab1b13096e9414eab7c6ae8))
+
 ## 0.27.0 (2026-03-01)
 
 Full Changelog: [v0.26.1...v0.27.0](https://github.com/zavudev/sdk-typescript/compare/v0.26.1...v0.27.0)
