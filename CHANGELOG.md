@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.29.0 (2026-03-11)
+
+Full Changelog: [v0.28.0...v0.29.0](https://github.com/zavudev/sdk-typescript/compare/v0.28.0...v0.29.0)
+
+### Features
+
+* **api:** api update ([d8c1fae](https://github.com/zavudev/sdk-typescript/commit/d8c1fae5771215c07e17800fb06e9e2b59c21060))
+* **api:** api update ([b20d511](https://github.com/zavudev/sdk-typescript/commit/b20d5112174d2aa9a335ef0c3db4786e9851dc50))
+* **api:** api update ([ebfca90](https://github.com/zavudev/sdk-typescript/commit/ebfca904272902cffa5be5eb3fbed428de0109e8))
+* **api:** api update ([0cc6fcf](https://github.com/zavudev/sdk-typescript/commit/0cc6fcf3063a006094fdc9502d6bd58a9ec7220f))
+* **api:** api update ([e20ee83](https://github.com/zavudev/sdk-typescript/commit/e20ee831bc1086e7d3b76a1c11d51f1a2be2d6a2))
+
+
+### Chores
+
+* **internal:** codegen related update ([08024f2](https://github.com/zavudev/sdk-typescript/commit/08024f2babdebbe509b36369128311f7ef0a5e96))
+* **internal:** codegen related update ([0ca9682](https://github.com/zavudev/sdk-typescript/commit/0ca9682232e6e225ce7f60aa8a9fc32256d61f3d))
+* **internal:** codegen related update ([4b3e287](https://github.com/zavudev/sdk-typescript/commit/4b3e2879e85d6d7ffd71da4190a72cd695c752b3))
+* **internal:** codegen related update ([fa95076](https://github.com/zavudev/sdk-typescript/commit/fa95076ccf3d285f1cdfe16c152a163f166bd6e3))
+* **internal:** codegen related update ([febb461](https://github.com/zavudev/sdk-typescript/commit/febb4612e728d4a38f92e4c148dd67b404570581))
+* **internal:** codegen related update ([023e67e](https://github.com/zavudev/sdk-typescript/commit/023e67e19eb82b77599e36ea730f9f1588dba26c))
+* **internal:** codegen related update ([efa6643](https://github.com/zavudev/sdk-typescript/commit/efa664321a0fad5eef0e5fb85597dae4e05e9338))
+* **internal:** codegen related update ([a29697d](https://github.com/zavudev/sdk-typescript/commit/a29697d3accbe7f5f73b25adedfa6ed293fe9b66))
+* **internal:** codegen related update ([07819d7](https://github.com/zavudev/sdk-typescript/commit/07819d7d51551255ca2d46c71a1b312506950f65))
+* **internal:** codegen related update ([4ac9cbb](https://github.com/zavudev/sdk-typescript/commit/4ac9cbbfa7755e4b57565141b4a7e5ecf7a502ef))
+* **internal:** codegen related update ([4d0b931](https://github.com/zavudev/sdk-typescript/commit/4d0b931f6a491a5b645798828564b878824c306c))
+* **internal:** update dependencies to address dependabot vulnerabilities ([e9998cf](https://github.com/zavudev/sdk-typescript/commit/e9998cfe88df76ca2501615288ac24dc013a42c8))
+
+
+### Refactors
+
+* update sdk ([ce58a0b](https://github.com/zavudev/sdk-typescript/commit/ce58a0b85c12b78e9d1ce38cf933b3ffcb24114d))
+
 ## 0.28.0 (2026-03-08)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/zavudev/sdk-typescript/compare/v0.27.0...v0.28.0)
