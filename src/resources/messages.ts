@@ -358,7 +358,8 @@ export interface MessageReactParams {
 
 export interface MessageSendParams {
   /**
-   * Body param: Recipient phone number in E.164 format or email address.
+   * Body param: Recipient phone number in E.164 format, email address, or numeric
+   * chat ID (for Telegram/Instagram).
    */
   to: string;
 
