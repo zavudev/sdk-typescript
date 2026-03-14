@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.32.0 (2026-03-14)
+
+Full Changelog: [v0.31.0...v0.32.0](https://github.com/zavudev/sdk-typescript/compare/v0.31.0...v0.32.0)
+
+### Features
+
+* **api:** api update ([b722ccb](https://github.com/zavudev/sdk-typescript/commit/b722ccb2f8e782c00293108ba61d361167ab5e5a))
+
+
+### Chores
+
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([d27aba3](https://github.com/zavudev/sdk-typescript/commit/d27aba3330f03b7d7489da79a25112b0ddc7358a))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([ae67337](https://github.com/zavudev/sdk-typescript/commit/ae67337a8ce3c4b83223deaf5c362a232d2ff6c8))
+* **internal:** update lock file ([511ee36](https://github.com/zavudev/sdk-typescript/commit/511ee367a73a1f59f82831b3215b80aff59f756d))
+* **internal:** update lockfile ([0c36b87](https://github.com/zavudev/sdk-typescript/commit/0c36b87f79142404bdf0c0579eff62ffbd7e5bdf))
+
 ## 0.31.0 (2026-03-12)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/zavudev/sdk-typescript/compare/v0.30.0...v0.31.0)
