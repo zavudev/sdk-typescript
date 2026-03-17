@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.32.1 (2026-03-17)
+
+Full Changelog: [v0.32.0...v0.32.1](https://github.com/zavudev/sdk-typescript/compare/v0.32.0...v0.32.1)
+
+### Chores
+
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([7dab287](https://github.com/zavudev/sdk-typescript/commit/7dab2878c9032031e4a273f7949ec74caecebd95))
+* **internal:** tweak CI branches ([5a2ba6e](https://github.com/zavudev/sdk-typescript/commit/5a2ba6e653e020ad20eeb37270ba424d3a23df82))
+
 ## 0.32.0 (2026-03-17)
 
 Full Changelog: [v0.31.0...v0.32.0](https://github.com/zavudev/sdk-typescript/compare/v0.31.0...v0.32.0)
