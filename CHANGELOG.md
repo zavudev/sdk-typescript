@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.33.0 (2026-03-21)
+
+Full Changelog: [v0.32.1...v0.33.0](https://github.com/zavudev/sdk-typescript/compare/v0.32.1...v0.33.0)
+
+### Features
+
+* **api:** api update ([d5b2d1b](https://github.com/zavudev/sdk-typescript/commit/d5b2d1b8a7725aa5e4dac3a538e2cab36c93377d))
+
 ## 0.32.1 (2026-03-17)
 
 Full Changelog: [v0.32.0...v0.32.1](https://github.com/zavudev/sdk-typescript/compare/v0.32.0...v0.32.1)
