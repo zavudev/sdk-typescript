@@ -291,6 +291,8 @@ export interface SenderWebhook {
  * - `message.sent`: Message accepted by the provider. `data.status` = `sent`
  * - `message.delivered`: Message delivered to recipient. `data.status` =
  *   `delivered`
+ * - `message.read`: Message was read by the recipient (WhatsApp only).
+ *   `data.status` = `read`
  * - `message.failed`: Message failed to send. `data.status` = `failed`
  *
  * **Inbound events:**
@@ -308,6 +310,7 @@ export type WebhookEvent =
   | 'message.queued'
   | 'message.sent'
   | 'message.delivered'
+  | 'message.read'
   | 'message.failed'
   | 'message.inbound'
   | 'message.unsupported'

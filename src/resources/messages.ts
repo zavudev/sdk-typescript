@@ -310,6 +310,7 @@ export type MessageStatus =
   | 'sending'
   | 'sent'
   | 'delivered'
+  | 'read'
   | 'failed'
   | 'received'
   | 'pending_url_verification';
