@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.34.0 (2026-03-26)
+
+Full Changelog: [v0.33.0...v0.34.0](https://github.com/zavudev/sdk-typescript/compare/v0.33.0...v0.34.0)
+
+### Features
+
+* **api:** api update ([e0fa323](https://github.com/zavudev/sdk-typescript/commit/e0fa323b174532806f9b81bc09b0ccb27e5eb2de))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([c61cd91](https://github.com/zavudev/sdk-typescript/commit/c61cd912b2aebab118863f5a203235796c4c4009))
+* **internal:** fix MCP server TS errors that occur with required client options ([7695cb0](https://github.com/zavudev/sdk-typescript/commit/7695cb09b56982f59a840ac1f8ba589a40b4a3d7))
+* **internal:** update gitignore ([65ee927](https://github.com/zavudev/sdk-typescript/commit/65ee92761760d2d8d5f306af142f2fd6ce8d12a6))
+
 ## 0.33.0 (2026-03-21)
 
 Full Changelog: [v0.32.1...v0.33.0](https://github.com/zavudev/sdk-typescript/compare/v0.32.1...v0.33.0)

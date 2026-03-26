@@ -301,6 +301,11 @@ export interface SenderWebhook {
  *   delivered as `message.inbound` with `messageType='reaction'`
  * - `message.unsupported`: Received a message type that is not supported
  *
+ * **Broadcast events:**
+ *
+ * - `broadcast.status_changed`: Broadcast status changed (pending_review,
+ *   approved, rejected, sending, completed, cancelled)
+ *
  * **Other events:**
  *
  * - `conversation.new`: New conversation started with a contact
@@ -314,6 +319,7 @@ export type WebhookEvent =
   | 'message.failed'
   | 'message.inbound'
   | 'message.unsupported'
+  | 'broadcast.status_changed'
   | 'conversation.new'
   | 'template.status_changed';
 
