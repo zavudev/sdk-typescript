@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.34.1 (2026-03-28)
+
+Full Changelog: [v0.34.0...v0.34.1](https://github.com/zavudev/sdk-typescript/compare/v0.34.0...v0.34.1)
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([3ade2ca](https://github.com/zavudev/sdk-typescript/commit/3ade2ca91f88b246305f3b8caec2ee3a345f95d6))
+* **internal:** support custom-instructions-path flag in MCP servers ([4a4c5e5](https://github.com/zavudev/sdk-typescript/commit/4a4c5e51653f409c83b101f38352006bb4ebd9f4))
+* **internal:** support local docs search in MCP servers ([c7d664b](https://github.com/zavudev/sdk-typescript/commit/c7d664b34f3459609611cf327d7fe82e2c266fe6))
+
 ## 0.34.0 (2026-03-26)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/zavudev/sdk-typescript/compare/v0.33.0...v0.34.0)
