@@ -92,6 +92,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/messages \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "to": "+56912345678",\n          "idempotencyKey": "msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE",\n          "replyTo": "support@example.com",\n          "subject": "Your order confirmation",\n          "text": "Your verification code is 123456",\n          "voiceLanguage": "es-ES"\n        }\'',
       },
+      php: {
+        method: 'messages->send',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->send(\n  to: '+56912345678',\n  channel: Channel::AUTO,\n  content: [\n    'buttons' => [['id' => 'id', 'title' => 'title']],\n    'contacts' => [['name' => 'name', 'phones' => ['string']]],\n    'emoji' => 'emoji',\n    'filename' => 'invoice.pdf',\n    'latitude' => 0,\n    'listButton' => 'listButton',\n    'locationAddress' => 'locationAddress',\n    'locationName' => 'locationName',\n    'longitude' => 0,\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'https://example.com/image.jpg',\n    'mimeType' => 'image/jpeg',\n    'reactToMessageID' => 'reactToMessageId',\n    'sections' => [\n      [\n        'rows' => [\n          ['id' => 'id', 'title' => 'title', 'description' => 'description']\n        ],\n        'title' => 'title',\n      ],\n    ],\n    'templateID' => 'templateId',\n    'templateVariables' => ['1' => 'John', '2' => 'ORD-12345'],\n  ],\n  fallbackEnabled: true,\n  htmlBody: 'htmlBody',\n  idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',\n  messageType: MessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  replyTo: 'support@example.com',\n  subject: 'Your order confirmation',\n  text: 'Your verification code is 123456',\n  voiceLanguage: 'es-ES',\n  zavuSender: 'sender_12345',\n);\n\nvar_dump($messageResponse);",
+      },
       python: {
         method: 'messages.send',
         example:
@@ -141,6 +146,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example: 'curl https://api.zavu.dev/v1/messages \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'messages->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->messages->list(\n  channel: Channel::AUTO,\n  cursor: 'cursor',\n  limit: 100,\n  status: MessageStatus::QUEUED,\n  to: 'to',\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'messages.list',
         example:
@@ -184,6 +194,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'messages->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->retrieve('messageId');\n\nvar_dump($messageResponse);",
       },
       python: {
         method: 'messages.retrieve',
@@ -231,6 +246,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID/reactions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "emoji": "👍"\n        }\'',
       },
+      php: {
+        method: 'messages->react',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->react(\n  'messageId', emoji: '👍', zavuSender: 'sender_12345'\n);\n\nvar_dump($messageResponse);",
+      },
       python: {
         method: 'messages.react',
         example:
@@ -273,6 +293,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/templates \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'templates->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->templates->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
       },
       python: {
         method: 'templates.list',
@@ -328,6 +353,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/templates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "body": "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n          "language": "en",\n          "name": "order_confirmation"\n        }\'',
       },
+      php: {
+        method: 'templates->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->create(\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  addSecurityRecommendation: true,\n  buttons: [\n    [\n      'text' => 'text',\n      'type' => 'quick_reply',\n      'otpType' => 'COPY_CODE',\n      'packageName' => 'packageName',\n      'phoneNumber' => 'phoneNumber',\n      'signatureHash' => 'signatureHash',\n      'url' => 'https://example.com',\n    ],\n  ],\n  codeExpirationMinutes: 1,\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: WhatsappCategory::UTILITY,\n);\n\nvar_dump($template);",
+      },
       python: {
         method: 'templates.create',
         example:
@@ -372,6 +402,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'templates->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->retrieve('templateId');\n\nvar_dump($template);",
+      },
       python: {
         method: 'templates.retrieve',
         example:
@@ -413,6 +448,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'templates->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->templates->delete('templateId');\n\nvar_dump($result);",
       },
       python: {
         method: 'templates.delete',
@@ -464,6 +504,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123"\n        }\'',
       },
+      php: {
+        method: 'templates->submit',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->submit(\n  'templateId', senderID: 'sender_abc123', category: WhatsappCategory::UTILITY\n);\n\nvar_dump($template);",
+      },
       python: {
         method: 'templates.submit',
         example:
@@ -506,6 +551,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/senders \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
       },
       python: {
         method: 'senders.list',
@@ -558,6 +608,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "phoneNumber": "phoneNumber"\n        }\'',
       },
+      php: {
+        method: 'senders->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->create(\n  name: 'name',\n  phoneNumber: 'phoneNumber',\n  setAsDefault: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+      },
       python: {
         method: 'senders.create',
         example:
@@ -601,6 +656,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->retrieve('senderId');\n\nvar_dump($sender);",
       },
       python: {
         method: 'senders.retrieve',
@@ -654,6 +714,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'senders->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->update(\n  'senderId',\n  emailReceivingEnabled: true,\n  name: 'name',\n  setAsDefault: true,\n  webhookActive: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+      },
       python: {
         method: 'senders.update',
         example:
@@ -695,6 +760,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->delete('senderId');\n\nvar_dump($result);",
       },
       python: {
         method: 'senders.delete',
@@ -741,6 +811,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/webhook/secret \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'senders->regenerateWebhookSecret',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$webhookSecretResponse = $client->senders->regenerateWebhookSecret('senderId');\n\nvar_dump($webhookSecretResponse);",
+      },
       python: {
         method: 'senders.regenerate_webhook_secret',
         example:
@@ -785,6 +860,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->getProfile',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappBusinessProfileResponse = $client->senders->getProfile('senderId');\n\nvar_dump($whatsappBusinessProfileResponse);",
       },
       python: {
         method: 'senders.get_profile',
@@ -839,6 +919,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'senders->updateProfile',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->updateProfile(\n  'senderId',\n  about: 'Succulent specialists!',\n  address: 'address',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: WhatsappBusinessProfileVertical::RETAIL,\n  websites: ['https://www.example.com'],\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'senders.update_profile',
         example:
@@ -885,6 +970,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile/picture \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "imageUrl": "https://example.com/profile.jpg",\n          "mimeType": "image/jpeg"\n        }\'',
       },
+      php: {
+        method: 'senders->uploadProfilePicture',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->uploadProfilePicture(\n  'senderId',\n  imageURL: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'senders.upload_profile_picture',
         example:
@@ -928,6 +1018,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->retrieve('senderId');\n\nvar_dump($agentResponse);",
       },
       python: {
         method: 'senders.agent.retrieve',
@@ -987,6 +1082,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "model": "gpt-4o-mini",\n          "name": "Customer Support",\n          "provider": "openai",\n          "systemPrompt": "You are a helpful customer support agent. Be friendly and concise."\n        }\'',
       },
+      php: {
+        method: 'senders->agent->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->create(\n  'senderId',\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n  contextWindowMessages: 1,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n);\n\nvar_dump($agentResponse);",
+      },
       python: {
         method: 'senders.agent.create',
         example:
@@ -1045,6 +1145,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'senders->agent->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->update(\n  'senderId',\n  apiKey: 'apiKey',\n  contextWindowMessages: 1,\n  enabled: true,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  model: 'model',\n  name: 'name',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'systemPrompt',\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n);\n\nvar_dump($agentResponse);",
+      },
       python: {
         method: 'senders.agent.update',
         example:
@@ -1086,6 +1191,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->delete('senderId');\n\nvar_dump($result);",
       },
       python: {
         method: 'senders.agent.delete',
@@ -1130,6 +1240,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/stats \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->stats',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentStats = $client->senders->agent->stats('senderId');\n\nvar_dump($agentStats);",
       },
       python: {
         method: 'senders.agent.stats',
@@ -1181,6 +1296,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'senders->agent->executions->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->executions->list(\n  'senderId',\n  cursor: 'cursor',\n  limit: 100,\n  status: AgentExecutionStatus::SUCCESS,\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'senders.agent.executions.list',
         example:
@@ -1224,6 +1344,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->flows->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->flows->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'senders.agent.flows.list',
@@ -1278,6 +1403,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Lead Capture",\n          "steps": [\n            {\n              "id": "welcome",\n              "config": {\n                "text": "bar"\n              },\n              "type": "message",\n              "nextStepId": "ask_name"\n            },\n            {\n              "id": "ask_name",\n              "config": {\n                "variable": "bar",\n                "prompt": "bar"\n              },\n              "type": "collect"\n            }\n          ],\n          "trigger": {\n            "type": "keyword",\n            "keywords": [\n              "info",\n              "pricing",\n              "demo"\n            ]\n          }\n        }\'',
       },
+      php: {
+        method: 'senders->agent->flows->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->create(\n  'senderId',\n  name: 'Lead Capture',\n  steps: [\n    [\n      'id' => 'welcome',\n      'config' => ['text' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'ask_name',\n    ],\n    [\n      'id' => 'ask_name',\n      'config' => ['variable' => 'bar', 'prompt' => 'bar'],\n      'type' => 'collect',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword',\n    'intent' => 'intent',\n    'keywords' => ['info', 'pricing', 'demo'],\n  ],\n  description: 'Capture lead information',\n  enabled: true,\n  priority: 0,\n);\n\nvar_dump($flow);",
+      },
       python: {
         method: 'senders.agent.flows.create',
         example:
@@ -1322,6 +1452,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->flows->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->retrieve(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($flow);",
       },
       python: {
         method: 'senders.agent.flows.retrieve',
@@ -1377,6 +1512,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'senders->agent->flows->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->update(\n  'flowId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  priority: 0,\n  steps: [\n    [\n      'id' => 'id',\n      'config' => ['foo' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword', 'intent' => 'intent', 'keywords' => ['string']\n  ],\n);\n\nvar_dump($flow);",
+      },
       python: {
         method: 'senders.agent.flows.update',
         example:
@@ -1419,6 +1559,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->flows->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->flows->delete(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'senders.agent.flows.delete',
@@ -1465,6 +1610,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID/duplicate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "newName": "Lead Capture (Copy)"\n        }\'',
       },
+      php: {
+        method: 'senders->agent->flows->duplicate',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->flows->duplicate(\n  'flowId', senderID: 'senderId', newName: 'Lead Capture (Copy)'\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'senders.agent.flows.duplicate',
         example:
@@ -1508,6 +1658,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->tools->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->tools->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'senders.agent.tools.list',
@@ -1562,6 +1717,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status"\n        }\'',
       },
+      php: {
+        method: 'senders->agent->tools->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->create(\n  'senderId',\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: [\n    'properties' => [\n      'order_id' => [\n        'description' => 'The order ID to look up', 'type' => 'string'\n      ],\n    ],\n    'required' => ['order_id'],\n    'type' => 'object',\n  ],\n  webhookURL: 'https://api.example.com/webhooks/order-status',\n  enabled: true,\n  webhookSecret: 'whsec_...',\n);\n\nvar_dump($tool);",
+      },
       python: {
         method: 'senders.agent.tools.create',
         example:
@@ -1606,6 +1766,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->tools->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->retrieve(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($tool);",
       },
       python: {
         method: 'senders.agent.tools.retrieve',
@@ -1661,6 +1826,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'senders->agent->tools->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->update(\n  'toolId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  parameters: [\n    'properties' => [\n      'foo' => ['description' => 'description', 'type' => 'type']\n    ],\n    'required' => ['string'],\n    'type' => 'object',\n  ],\n  webhookSecret: 'webhookSecret',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($tool);",
+      },
       python: {
         method: 'senders.agent.tools.update',
         example:
@@ -1703,6 +1873,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->tools->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->tools->delete(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'senders.agent.tools.delete',
@@ -1747,6 +1922,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID/test \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "testParams": {\n            "order_id": "bar"\n          }\n        }\'',
+      },
+      php: {
+        method: 'senders->agent->tools->test',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->tools->test(\n  'toolId', senderID: 'senderId', testParams: ['order_id' => 'bar']\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'senders.agent.tools.test',
@@ -1793,6 +1973,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'senders->agent->knowledgeBases->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->list(\n  'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'senders.agent.knowledge_bases.list',
         example:
@@ -1837,6 +2022,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Product FAQ"\n        }\'',
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->create(\n  'senderId',\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n);\n\nvar_dump($knowledgeBase);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.create',
@@ -1883,6 +2073,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'senders->agent->knowledgeBases->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->retrieve(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($knowledgeBase);",
+      },
       python: {
         method: 'senders.agent.knowledge_bases.retrieve',
         example:
@@ -1928,6 +2123,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'senders->agent->knowledgeBases->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->update(\n  'kbId', senderID: 'senderId', description: 'description', name: 'name'\n);\n\nvar_dump($knowledgeBase);",
+      },
       python: {
         method: 'senders.agent.knowledge_bases.update',
         example:
@@ -1970,6 +2170,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->delete(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.delete',
@@ -2016,6 +2221,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'senders->agent->knowledgeBases->documents->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->documents->list(\n  'kbId', senderID: 'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'senders.agent.knowledge_bases.documents.list',
         example:
@@ -2061,6 +2271,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "content": "Our return policy allows returns within 30 days of purchase...",\n          "title": "Return Policy"\n        }\'',
       },
+      php: {
+        method: 'senders->agent->knowledgeBases->documents->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$document = $client->senders->agent->knowledgeBases->documents->create(\n  'kbId',\n  senderID: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n);\n\nvar_dump($document);",
+      },
       python: {
         method: 'senders.agent.knowledge_bases.documents.create',
         example:
@@ -2103,6 +2318,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents/$DOC_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->documents->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->documents->delete(\n  'docId', senderID: 'senderId', kbID: 'kbId'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.documents.delete',
@@ -2147,6 +2367,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example: 'curl https://api.zavu.dev/v1/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'contacts->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->contacts->list(\n  cursor: 'cursor', limit: 100, phoneNumber: 'phoneNumber'\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'contacts.list',
         example:
@@ -2190,6 +2415,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'contacts->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieve('contactId');\n\nvar_dump($contact);",
       },
       python: {
         method: 'contacts.retrieve',
@@ -2239,6 +2469,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'contacts->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->update(\n  'contactId', defaultChannel: 'sms', metadata: ['foo' => 'string']\n);\n\nvar_dump($contact);",
+      },
       python: {
         method: 'contacts.update',
         example:
@@ -2283,6 +2518,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts/phone/$PHONE_NUMBER \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'contacts->retrieveByPhone',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieveByPhone('phoneNumber');\n\nvar_dump($contact);",
       },
       python: {
         method: 'contacts.retrieve_by_phone',
@@ -2341,6 +2581,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/broadcasts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "sms",\n          "name": "Black Friday Sale",\n          "text": "Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off."\n        }\'',
       },
+      php: {
+        method: 'broadcasts->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->create(\n  channel: BroadcastChannel::SMS,\n  name: 'Black Friday Sale',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  idempotencyKey: 'idempotencyKey',\n  messageType: BroadcastMessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  senderID: 'senderId',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n);\n\nvar_dump($broadcast);",
+      },
       python: {
         method: 'broadcasts.create',
         example:
@@ -2385,6 +2630,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/broadcasts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'broadcasts->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->list(\n  cursor: 'cursor', limit: 100, status: BroadcastStatus::DRAFT\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'broadcasts.list',
         example:
@@ -2428,6 +2678,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'broadcasts->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->retrieve('broadcastId');\n\nvar_dump($broadcast);",
       },
       python: {
         method: 'broadcasts.retrieve',
@@ -2481,6 +2736,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'broadcasts->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->update(\n  'broadcastId',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  text: 'text',\n);\n\nvar_dump($broadcast);",
+      },
       python: {
         method: 'broadcasts.update',
         example:
@@ -2522,6 +2782,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'broadcasts->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->delete('broadcastId');\n\nvar_dump($result);",
       },
       python: {
         method: 'broadcasts.delete',
@@ -2568,6 +2833,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/send \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'broadcasts->send',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->send(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z')\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'broadcasts.send',
         example:
@@ -2612,6 +2882,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'broadcasts->cancel',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->cancel('broadcastId');\n\nvar_dump($response);",
       },
       python: {
         method: 'broadcasts.cancel',
@@ -2658,6 +2933,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/progress \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'broadcasts->progress',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcastProgress = $client->broadcasts->progress('broadcastId');\n\nvar_dump($broadcastProgress);",
+      },
       python: {
         method: 'broadcasts.progress',
         example:
@@ -2703,6 +2983,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/schedule \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "scheduledAt": "2024-01-15T14:00:00Z"\n        }\'',
       },
+      php: {
+        method: 'broadcasts->reschedule',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->reschedule(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2024-01-15T14:00:00Z')\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'broadcasts.reschedule',
         example:
@@ -2747,6 +3032,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "contacts": [\n            {\n              "recipient": "+14155551234",\n              "templateVariables": {\n                "name": "John",\n                "order_id": "ORD-001"\n              }\n            },\n            {\n              "recipient": "+14155555678",\n              "templateVariables": {\n                "name": "Jane",\n                "order_id": "ORD-002"\n              }\n            }\n          ]\n        }\'',
+      },
+      php: {
+        method: 'broadcasts->contacts->add',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->contacts->add(\n  'broadcastId',\n  contacts: [\n    [\n      'recipient' => '+14155551234',\n      'templateVariables' => ['name' => 'John', 'order_id' => 'ORD-001'],\n    ],\n    [\n      'recipient' => '+14155555678',\n      'templateVariables' => ['name' => 'Jane', 'order_id' => 'ORD-002'],\n    ],\n  ],\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'broadcasts.contacts.add',
@@ -2798,6 +3088,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'broadcasts->contacts->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->contacts->list(\n  'broadcastId',\n  cursor: 'cursor',\n  limit: 100,\n  status: BroadcastContactStatus::PENDING,\n);\n\nvar_dump($page);",
+      },
       python: {
         method: 'broadcasts.contacts.list',
         example:
@@ -2840,6 +3135,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts/$CONTACT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'broadcasts->contacts->remove',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->contacts->remove(\n  'contactId', broadcastID: 'broadcastId'\n);\n\nvar_dump($result);",
       },
       python: {
         method: 'broadcasts.contacts.remove',
@@ -2885,6 +3185,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/introspect/phone \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+56912345678"\n        }\'',
+      },
+      php: {
+        method: 'introspect->validatePhone',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->introspect->validatePhone(phoneNumber: '+56912345678');\n\nvar_dump($response);",
       },
       python: {
         method: 'introspect.validate_phone',
@@ -2936,6 +3241,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/available \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'phoneNumbers->searchAvailable',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->searchAvailable(\n  countryCode: 'xx',\n  contains: 'contains',\n  limit: 50,\n  type: PhoneNumberType::LOCAL,\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'phone_numbers.search_available',
         example:
@@ -2980,6 +3290,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/requirements \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'phoneNumbers->requirements',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->requirements(\n  countryCode: 'xx', type: PhoneNumberType::LOCAL\n);\n\nvar_dump($response);",
       },
       python: {
         method: 'phone_numbers.requirements',
@@ -3026,6 +3341,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+15551234567"\n        }\'',
       },
+      php: {
+        method: 'phoneNumbers->purchase',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->purchase(\n  phoneNumber: '+15551234567', name: 'Primary Line'\n);\n\nvar_dump($response);",
+      },
       python: {
         method: 'phone_numbers.purchase',
         example:
@@ -3069,6 +3389,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'phoneNumbers->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->phoneNumbers->list(\n  cursor: 'cursor', limit: 100, status: PhoneNumberStatus::ACTIVE\n);\n\nvar_dump($page);",
       },
       python: {
         method: 'phone_numbers.list',
@@ -3115,6 +3440,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'phoneNumbers->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->retrieve('phoneNumberId');\n\nvar_dump($phoneNumber);",
+      },
       python: {
         method: 'phone_numbers.retrieve',
         example:
@@ -3160,6 +3490,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
+      php: {
+        method: 'phoneNumbers->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->update(\n  'phoneNumberId', name: 'Support Line', senderID: 'senderId'\n);\n\nvar_dump($phoneNumber);",
+      },
       python: {
         method: 'phone_numbers.update',
         example:
@@ -3202,6 +3537,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'phoneNumbers->release',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->phoneNumbers->release('phoneNumberId');\n\nvar_dump($result);",
       },
       python: {
         method: 'phone_numbers.release',
@@ -3259,6 +3599,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/addresses \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "countryCode": "DE",\n          "locality": "Berlin",\n          "postalCode": "10115",\n          "streetAddress": "123 Main St"\n        }\'',
       },
+      php: {
+        method: 'addresses->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->create(\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  administrativeArea: 'administrativeArea',\n  businessName: 'businessName',\n  extendedAddress: 'extendedAddress',\n  firstName: 'John',\n  lastName: 'Doe',\n);\n\nvar_dump($address);",
+      },
       python: {
         method: 'addresses.create',
         example:
@@ -3301,6 +3646,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/addresses \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'addresses->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->addresses->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
       },
       python: {
         method: 'addresses.list',
@@ -3346,6 +3696,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'addresses->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->retrieve('addressId');\n\nvar_dump($address);",
+      },
       python: {
         method: 'addresses.retrieve',
         example:
@@ -3387,6 +3742,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'addresses->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->addresses->delete('addressId');\n\nvar_dump($result);",
       },
       python: {
         method: 'addresses.delete',
@@ -3430,6 +3790,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/documents/upload-url \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'regulatoryDocuments->uploadURL',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->regulatoryDocuments->uploadURL();\n\nvar_dump($response);",
       },
       python: {
         method: 'regulatory_documents.upload_url',
@@ -3483,6 +3848,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "documentType": "passport",\n          "fileSize": 102400,\n          "mimeType": "image/jpeg",\n          "name": "Passport Scan",\n          "storageId": "kg2abc123..."\n        }\'',
       },
+      php: {
+        method: 'regulatoryDocuments->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->create(\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageID: 'kg2abc123...',\n);\n\nvar_dump($regulatoryDocument);",
+      },
       python: {
         method: 'regulatory_documents.create',
         example:
@@ -3525,6 +3895,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'regulatoryDocuments->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->regulatoryDocuments->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
       },
       python: {
         method: 'regulatory_documents.list',
@@ -3571,6 +3946,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
+      php: {
+        method: 'regulatoryDocuments->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->retrieve('documentId');\n\nvar_dump($regulatoryDocument);",
+      },
       python: {
         method: 'regulatory_documents.retrieve',
         example:
@@ -3613,6 +3993,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+      php: {
+        method: 'regulatoryDocuments->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->regulatoryDocuments->delete('documentId');\n\nvar_dump($result);",
       },
       python: {
         method: 'regulatory_documents.delete',
@@ -3658,6 +4043,11 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
     language: 'cli',
     content:
       "# Zavudev CLI\n\nThe official CLI for the [Zavudev REST API](https://docs.zavu.dev).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n<!-- x-release-please-start-version -->\n\n## Installation\n\n### Installing with Go\n\nTo test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.\n\n~~~sh\ngo install 'github.com/zavudev/cli/cmd/zavudev@latest'\n~~~\n\nOnce you have run `go install`, the binary is placed in your Go bin directory:\n\n- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)\n- **Check your path**: Run `go env GOPATH` to see the base directory\n\nIf commands aren't found after installation, add the Go bin directory to your PATH:\n\n~~~sh\n# Add to your shell profile (.zshrc, .bashrc, etc.)\nexport PATH=\"$PATH:$(go env GOPATH)/bin\"\n~~~\n\n<!-- x-release-please-end -->\n\n### Running Locally\n\nAfter cloning the git repository for this project, you can use the\n`scripts/run` script to run the tool locally:\n\n~~~sh\n./scripts/run args...\n~~~\n\n## Usage\n\nThe CLI follows a resource-based command structure:\n\n~~~sh\nzavudev [resource] <command> [flags...]\n~~~\n\n~~~sh\nzavudev messages send \\\n  --api-key 'My API Key' \\\n  --to +14155551234 \\\n  --text 'Hello from Zavu!'\n~~~\n\nFor details about specific commands, use the `--help` flag.\n\n### Environment variables\n\n| Environment variable | Required |\n| -------------------- | -------- |\n| `ZAVUDEV_API_KEY`    | yes      |\n\n### Global flags\n\n- `--api-key` (can also be set with `ZAVUDEV_API_KEY` env var)\n- `--help` - Show command line usage\n- `--debug` - Enable debug logging (includes HTTP request/response details)\n- `--version`, `-v` - Show the CLI version\n- `--base-url` - Use a custom API backend URL\n- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n\n### Passing files as arguments\n\nTo pass files to your API, you can use the `@myfile.ext` syntax:\n\n~~~bash\nzavudev <command> --arg @abe.jpg\n~~~\n\nFiles can also be passed inside JSON or YAML blobs:\n\n~~~bash\nzavudev <command> --arg '{image: \"@abe.jpg\"}'\n# Equivalent:\nzavudev <command> <<YAML\narg:\n  image: \"@abe.jpg\"\nYAML\n~~~\n\nIf you need to pass a string literal that begins with an `@` sign, you can\nescape the `@` sign to avoid accidentally passing a file.\n\n~~~bash\nzavudev <command> --username '\\@abe'\n~~~\n\n#### Explicit encoding\n\nFor JSON endpoints, the CLI tool does filetype sniffing to determine whether the\nfile contents should be sent as a string literal (for plain text files) or as a\nbase64-encoded string literal (for binary files). If you need to explicitly send\nthe file as either plain text or base64-encoded data, you can use\n`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for\nbase64-encoding). Note that absolute paths will begin with `@file://` or\n`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).\n\n~~~bash\nzavudev <command> --arg @data://file.txt\n~~~\n",
+  },
+  {
+    language: 'php',
+    content:
+      '# Zavudev PHP API Library\n\nThe Zavudev PHP library provides convenient access to the Zavudev REST API from any PHP 8.1.0+ application.\n\n## Installation\n\nTo use this package, install via Composer by adding the following to your application\'s `composer.json`:\n\n<!-- x-release-please-start-version -->\n```json\n{\n  "repositories": [\n    {\n      "type": "vcs",\n      "url": "git@github.com:zavudev/sdk-php.git"\n    }\n  ],\n  "require": {\n    "org-placeholder/zavudev": "dev-main"\n  }\n}\n```\n<!-- x-release-please-end -->\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(apiKey: getenv(\'ZAVUDEV_API_KEY\') ?: \'My API Key\');\n\n$messageResponse = $client->messages->send(\n  to: \'+14155551234\', text: \'Hello from Zavu!\'\n);\n\nvar_dump($messageResponse->message);\n```',
   },
 ];
 
