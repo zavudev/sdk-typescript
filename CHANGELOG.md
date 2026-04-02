@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.34.1 (2026-04-02)
+
+Full Changelog: [v0.34.0...v0.34.1](https://github.com/zavudev/sdk-typescript/compare/v0.34.0...v0.34.1)
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([3ade2ca](https://github.com/zavudev/sdk-typescript/commit/3ade2ca91f88b246305f3b8caec2ee3a345f95d6))
+* **internal:** codegen related update ([8550866](https://github.com/zavudev/sdk-typescript/commit/8550866ba88c1ab68d1f0a6decc74b614d2244ea))
+* **internal:** improve local docs search for MCP servers ([71a0a69](https://github.com/zavudev/sdk-typescript/commit/71a0a69b7fbf018d646154fa2c1b26ad54921ba3))
+* **internal:** improve local docs search for MCP servers ([4af830c](https://github.com/zavudev/sdk-typescript/commit/4af830ce69193e956bdd1aa471551ee8cda0dd38))
+* **internal:** support custom-instructions-path flag in MCP servers ([4a4c5e5](https://github.com/zavudev/sdk-typescript/commit/4a4c5e51653f409c83b101f38352006bb4ebd9f4))
+* **internal:** support local docs search in MCP servers ([c7d664b](https://github.com/zavudev/sdk-typescript/commit/c7d664b34f3459609611cf327d7fe82e2c266fe6))
+* **internal:** support type annotations when running MCP in local execution mode ([10fabd9](https://github.com/zavudev/sdk-typescript/commit/10fabd9664e0e496d3f2a4ca80a98604328b959a))
+* **mcp-server:** add support for session id, forward client info ([7e58f65](https://github.com/zavudev/sdk-typescript/commit/7e58f65161a6b3cb1ecae11f8aa4f8313ccce4b7))
+
 ## 0.34.0 (2026-03-26)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/zavudev/sdk-typescript/compare/v0.33.0...v0.34.0)
