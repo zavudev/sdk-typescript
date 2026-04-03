@@ -365,6 +365,12 @@ export interface MessageSendParams {
   to: string;
 
   /**
+   * Body param: Email attachments. Only supported when channel is 'email'. Maximum
+   * 40MB total size.
+   */
+  attachments?: Array<MessageSendParams.Attachment>;
+
+  /**
    * Body param: Delivery channel. Use 'auto' for intelligent routing. If omitted
    * with non-text messageType, WhatsApp is used. For email recipients, defaults to
    * 'email'.
@@ -430,6 +436,39 @@ export interface MessageSendParams {
    * sender will be used.
    */
   'Zavu-Sender'?: string;
+}
+
+export namespace MessageSendParams {
+  /**
+   * Email attachment. Provide either `content` (base64) or `path` (URL), not both.
+   */
+  export interface Attachment {
+    /**
+     * Name of the attached file.
+     */
+    filename: string;
+
+    /**
+     * Content of the attached file as a Base64-encoded string.
+     */
+    content?: string;
+
+    /**
+     * Content ID for inline images. Reference in HTML as
+     * `<img src="cid:your_content_id">`.
+     */
+    content_id?: string;
+
+    /**
+     * MIME type of the attachment. If not set, will be derived from the filename.
+     */
+    content_type?: string;
+
+    /**
+     * URL where the attachment file is hosted. The server will fetch the file.
+     */
+    path?: string;
+  }
 }
 
 export declare namespace Messages {
