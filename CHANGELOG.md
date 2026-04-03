@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.35.0 (2026-04-03)
+
+Full Changelog: [v0.34.1...v0.35.0](https://github.com/zavudev/sdk-typescript/compare/v0.34.1...v0.35.0)
+
+### Features
+
+* **api:** api update ([39c5576](https://github.com/zavudev/sdk-typescript/commit/39c557677815f67e6549f678455029b8656036f1))
+* **api:** api update ([63d3865](https://github.com/zavudev/sdk-typescript/commit/63d3865174a89687d593c4ab462f24e739f8beb6))
+
+
+### Chores
+
+* **mcp-server:** log client info ([149b0ac](https://github.com/zavudev/sdk-typescript/commit/149b0ac7aa787dac38f088a6696a10afac3fc112))
+
 ## 0.34.1 (2026-04-02)
 
 Full Changelog: [v0.34.0...v0.34.1](https://github.com/zavudev/sdk-typescript/compare/v0.34.0...v0.34.1)
