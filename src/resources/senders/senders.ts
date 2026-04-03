@@ -310,6 +310,11 @@ export interface SenderWebhook {
  *
  * - `conversation.new`: New conversation started with a contact
  * - `template.status_changed`: WhatsApp template approval status changed
+ *
+ * **Partner events:**
+ *
+ * - `invitation.status_changed`: A partner invitation status changed (pending,
+ *   in_progress, completed, cancelled)
  */
 export type WebhookEvent =
   | 'message.queued'
@@ -321,7 +326,8 @@ export type WebhookEvent =
   | 'message.unsupported'
   | 'broadcast.status_changed'
   | 'conversation.new'
-  | 'template.status_changed';
+  | 'template.status_changed'
+  | 'invitation.status_changed';
 
 export interface WebhookSecretResponse {
   /**

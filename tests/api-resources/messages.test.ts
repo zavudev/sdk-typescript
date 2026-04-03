@@ -82,6 +82,15 @@ describe('resource messages', () => {
   test.skip('send: required and optional params', async () => {
     const response = await client.messages.send({
       to: '+56912345678',
+      attachments: [
+        {
+          filename: 'invoice.pdf',
+          content: 'content',
+          content_id: 'logo',
+          content_type: 'application/pdf',
+          path: 'https://example.com',
+        },
+      ],
       channel: 'auto',
       content: {
         buttons: [{ id: 'id', title: 'title' }],
