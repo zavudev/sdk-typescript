@@ -371,9 +371,9 @@ export interface MessageSendParams {
   attachments?: Array<MessageSendParams.Attachment>;
 
   /**
-   * Body param: Delivery channel. Use 'auto' for intelligent routing. If omitted
-   * with non-text messageType, WhatsApp is used. For email recipients, defaults to
-   * 'email'.
+   * Body param: Delivery channel. Use 'auto' for intelligent routing. If omitted,
+   * channel is auto-selected based on sender capabilities and recipient type. For
+   * email recipients, defaults to 'email'.
    */
   channel?: Channel;
 

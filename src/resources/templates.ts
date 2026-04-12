@@ -98,7 +98,8 @@ export interface Template {
   id: string;
 
   /**
-   * Template body with variables: {{1}}, {{2}}, etc.
+   * Default template body with variables: {{1}}, {{2}}, or named variables like
+   * {{contact.first_name}}. Used when no channel-specific body is set.
    */
   body: string;
 
@@ -113,7 +114,7 @@ export interface Template {
   language: string;
 
   /**
-   * Template name (must match WhatsApp template name).
+   * Template name. For WhatsApp, must match the approved template name in Meta.
    */
   name: string;
 
@@ -149,7 +150,22 @@ export interface Template {
    */
   headerType?: string;
 
+  /**
+   * Channel-specific body for Instagram messages. Falls back to `body` if not set.
+   */
+  instagramBody?: string;
+
+  /**
+   * Channel-specific body for SMS messages. Falls back to `body` if not set.
+   */
+  smsBody?: string;
+
   status?: 'draft' | 'pending' | 'approved' | 'rejected';
+
+  /**
+   * Channel-specific body for Telegram messages. Falls back to `body` if not set.
+   */
+  telegramBody?: string;
 
   updatedAt?: string;
 
@@ -217,6 +233,9 @@ export namespace Template {
 export type WhatsappCategory = 'UTILITY' | 'MARKETING' | 'AUTHENTICATION';
 
 export interface TemplateCreateParams {
+  /**
+   * Default template body. Used when no channel-specific body is set.
+   */
   body: string;
 
   language: string;
@@ -237,6 +256,21 @@ export interface TemplateCreateParams {
    * Code expiration time in minutes. Only for AUTHENTICATION templates.
    */
   codeExpirationMinutes?: number;
+
+  /**
+   * Channel-specific body for Instagram. Falls back to `body` if not set.
+   */
+  instagramBody?: string;
+
+  /**
+   * Channel-specific body for SMS. Falls back to `body` if not set.
+   */
+  smsBody?: string;
+
+  /**
+   * Channel-specific body for Telegram. Falls back to `body` if not set.
+   */
+  telegramBody?: string;
 
   variables?: Array<string>;
 
