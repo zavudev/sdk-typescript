@@ -61,7 +61,7 @@ export interface Contact {
   /**
    * All communication channels for this contact.
    */
-  channels?: Array<Contact.Channel>;
+  channels?: Array<ContactChannel>;
 
   countryCode?: string;
 
@@ -103,75 +103,73 @@ export interface Contact {
   updatedAt?: string;
 }
 
-export namespace Contact {
+/**
+ * A communication channel for a contact.
+ */
+export interface ContactChannel {
+  id: string;
+
   /**
-   * A communication channel for a contact.
+   * Channel type.
    */
-  export interface Channel {
-    id: string;
+  channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice';
 
-    /**
-     * Channel type.
-     */
-    channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice';
+  createdAt: string;
 
-    createdAt: string;
+  /**
+   * Channel identifier (phone number or email address).
+   */
+  identifier: string;
 
-    /**
-     * Channel identifier (phone number or email address).
-     */
-    identifier: string;
+  /**
+   * Whether this is the primary channel for its type.
+   */
+  isPrimary: boolean;
 
-    /**
-     * Whether this is the primary channel for its type.
-     */
-    isPrimary: boolean;
+  /**
+   * Whether this channel has been verified.
+   */
+  verified: boolean;
 
-    /**
-     * Whether this channel has been verified.
-     */
-    verified: boolean;
+  /**
+   * ISO country code for phone numbers.
+   */
+  countryCode?: string;
 
-    /**
-     * ISO country code for phone numbers.
-     */
-    countryCode?: string;
+  /**
+   * Optional label for the channel.
+   */
+  label?: string;
 
-    /**
-     * Optional label for the channel.
-     */
-    label?: string;
+  /**
+   * Last time a message was received on this channel.
+   */
+  lastInboundAt?: string;
 
-    /**
-     * Last time a message was received on this channel.
-     */
-    lastInboundAt?: string;
+  metadata?: { [key: string]: string };
 
-    metadata?: { [key: string]: string };
+  /**
+   * Delivery metrics for this channel.
+   */
+  metrics?: ContactChannel.Metrics;
 
-    /**
-     * Delivery metrics for this channel.
-     */
-    metrics?: Channel.Metrics;
+  updatedAt?: string;
+}
 
-    updatedAt?: string;
-  }
+export namespace ContactChannel {
+  /**
+   * Delivery metrics for this channel.
+   */
+  export interface Metrics {
+    avgDeliveryTimeMs?: number;
 
-  export namespace Channel {
-    /**
-     * Delivery metrics for this channel.
-     */
-    export interface Metrics {
-      avgDeliveryTimeMs?: number;
+    failureCount?: number;
 
-      failureCount?: number;
+    lastSuccessAt?: string;
 
-      lastSuccessAt?: string;
+    successCount?: number;
 
-      successCount?: number;
-
-      totalAttempts?: number;
-    }
+    totalAttempts?: number;
   }
 }
 
@@ -191,6 +189,7 @@ export interface ContactListParams extends CursorParams {
 export declare namespace Contacts {
   export {
     type Contact as Contact,
+    type ContactChannel as ContactChannel,
     type ContactsCursor as ContactsCursor,
     type ContactUpdateParams as ContactUpdateParams,
     type ContactListParams as ContactListParams,

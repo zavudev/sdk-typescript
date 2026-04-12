@@ -16,6 +16,8 @@ export { Executions, type ExecutionListParams } from './executions';
 export {
   Flows,
   type AgentFlow,
+  type FlowStep,
+  type FlowTrigger,
   type FlowCreateResponse,
   type FlowRetrieveResponse,
   type FlowUpdateResponse,
@@ -46,6 +48,7 @@ export {
 export {
   Tools,
   type AgentTool,
+  type ToolParameters,
   type ToolCreateResponse,
   type ToolRetrieveResponse,
   type ToolUpdateResponse,
