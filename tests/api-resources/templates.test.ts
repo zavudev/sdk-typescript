@@ -43,6 +43,9 @@ describe('resource templates', () => {
         },
       ],
       codeExpirationMinutes: 1,
+      instagramBody: 'instagramBody',
+      smsBody: 'smsBody',
+      telegramBody: 'telegramBody',
       variables: ['customer_name', 'order_id'],
       whatsappCategory: 'UTILITY',
     });
