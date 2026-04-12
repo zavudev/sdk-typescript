@@ -15,6 +15,8 @@ import {
   FlowListParams,
   FlowRetrieveParams,
   FlowRetrieveResponse,
+  FlowStep,
+  FlowTrigger,
   FlowUpdateParams,
   FlowUpdateResponse,
   Flows,
@@ -27,6 +29,7 @@ import {
   ToolCreateResponse,
   ToolDeleteParams,
   ToolListParams,
+  ToolParameters,
   ToolRetrieveParams,
   ToolRetrieveResponse,
   ToolTestParams,
@@ -371,6 +374,8 @@ export declare namespace AgentResource {
   export {
     Flows as Flows,
     type AgentFlow as AgentFlow,
+    type FlowStep as FlowStep,
+    type FlowTrigger as FlowTrigger,
     type FlowCreateResponse as FlowCreateResponse,
     type FlowRetrieveResponse as FlowRetrieveResponse,
     type FlowUpdateResponse as FlowUpdateResponse,
@@ -387,6 +392,7 @@ export declare namespace AgentResource {
   export {
     Tools as Tools,
     type AgentTool as AgentTool,
+    type ToolParameters as ToolParameters,
     type ToolCreateResponse as ToolCreateResponse,
     type ToolRetrieveResponse as ToolRetrieveResponse,
     type ToolUpdateResponse as ToolUpdateResponse,
