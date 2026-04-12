@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.36.0 (2026-04-12)
+
+Full Changelog: [v0.35.0...v0.36.0](https://github.com/zavudev/sdk-typescript/compare/v0.35.0...v0.36.0)
+
+### Features
+
+* **api:** api update ([95ddb6d](https://github.com/zavudev/sdk-typescript/commit/95ddb6d8b4d23ae721180d1b6ef0b08a4fef8c25))
+
+
+### Chores
+
+* **internal:** codegen related update ([c4fd992](https://github.com/zavudev/sdk-typescript/commit/c4fd9923a83b35f3702c92bb61f44cfb8784306e))
+* **internal:** fix MCP server import ordering ([b77cdf0](https://github.com/zavudev/sdk-typescript/commit/b77cdf051f43041edb6c08f9e88488541d5939a3))
+* **internal:** show error causes in MCP servers when running in local mode ([c4488db](https://github.com/zavudev/sdk-typescript/commit/c4488db8a97750fd84f8c51d5cf5d61b12e0f7ae))
+* **mcp-server:** increase local docs search result count from 5 to 10 ([bc280bb](https://github.com/zavudev/sdk-typescript/commit/bc280bb3a82e89edece15a842e4a57f76a770947))
+
 ## 0.35.0 (2026-04-03)
 
 Full Changelog: [v0.34.1...v0.35.0](https://github.com/zavudev/sdk-typescript/compare/v0.34.1...v0.35.0)
