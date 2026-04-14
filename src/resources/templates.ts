@@ -258,6 +258,21 @@ export interface TemplateCreateParams {
   codeExpirationMinutes?: number;
 
   /**
+   * Footer text for the template.
+   */
+  footer?: string;
+
+  /**
+   * Header content (text string or media URL).
+   */
+  headerContent?: string;
+
+  /**
+   * Type of header for the template.
+   */
+  headerType?: 'text' | 'image' | 'video' | 'document';
+
+  /**
    * Channel-specific body for Instagram. Falls back to `body` if not set.
    */
   instagramBody?: string;
