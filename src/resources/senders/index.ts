@@ -30,3 +30,12 @@ export {
   type SenderUploadProfilePictureParams,
   type SendersCursor,
 } from './senders';
+export {
+  WhatsappSync,
+  type WhatsAppSyncContacts,
+  type WhatsAppSyncHistory,
+  type WhatsAppSyncStatus,
+  type WhatsappSyncRetrieveResponse,
+  type WhatsappSyncStartContactsSyncResponse,
+  type WhatsappSyncStartHistorySyncResponse,
+} from './whatsapp-sync';

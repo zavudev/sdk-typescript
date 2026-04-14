@@ -29,20 +29,32 @@ import {
   Addresses,
   AddressesCursor,
 } from './resources/addresses';
+import { Balance, BalanceRetrieveResponse } from './resources/balance';
 import {
-  Contact,
-  ContactChannel,
-  ContactListParams,
-  ContactUpdateParams,
-  Contacts,
-  ContactsCursor,
-} from './resources/contacts';
+  DataExport,
+  DataExportsCursor,
+  ExportCreateParams,
+  ExportCreateResponse,
+  ExportListParams,
+  ExportRetrieveResponse,
+  Exports,
+} from './resources/exports';
 import {
   Introspect,
   IntrospectValidatePhoneParams,
   IntrospectValidatePhoneResponse,
   LineType,
 } from './resources/introspect';
+import {
+  Invitation,
+  InvitationCancelResponse,
+  InvitationCreateParams,
+  InvitationCreateResponse,
+  InvitationListParams,
+  InvitationRetrieveResponse,
+  Invitations,
+  InvitationsCursor,
+} from './resources/invitations';
 import {
   Channel,
   Message,
@@ -81,6 +93,7 @@ import {
   RequirementFieldType,
   RequirementType,
 } from './resources/phone-numbers';
+import { Plan, PlanRetrieveResponse } from './resources/plan';
 import {
   RegulatoryDocument,
   RegulatoryDocumentCreateParams,
@@ -101,6 +114,16 @@ import {
   WhatsappCategory,
 } from './resources/templates';
 import {
+  URLListVerifiedParams,
+  URLRetrieveDetailsResponse,
+  URLSubmitForVerificationParams,
+  URLSubmitForVerificationResponse,
+  URLs,
+  VerifiedURL,
+  VerifiedURLsCursor,
+} from './resources/urls';
+import { Usage, UsageRetrieveResponse } from './resources/usage';
+import {
   Broadcast,
   BroadcastCancelResponse,
   BroadcastChannel,
@@ -109,12 +132,14 @@ import {
   BroadcastContent,
   BroadcastCreateParams,
   BroadcastCreateResponse,
+  BroadcastEscalateReviewResponse,
   BroadcastListParams,
   BroadcastMessageType,
   BroadcastProgress,
   BroadcastRescheduleParams,
   BroadcastRescheduleResponse,
   BroadcastRetrieveResponse,
+  BroadcastRetryReviewResponse,
   BroadcastSendParams,
   BroadcastSendResponse,
   BroadcastStatus,
@@ -123,6 +148,17 @@ import {
   Broadcasts,
   BroadcastsCursor,
 } from './resources/broadcasts/broadcasts';
+import {
+  Contact,
+  ContactChannel,
+  ContactCreateParams,
+  ContactListParams,
+  ContactMergeParams,
+  ContactUpdateParams,
+  Contacts,
+  ContactsCursor,
+} from './resources/contacts/contacts';
+import { Number10dlc } from './resources/number-10dlc/number-10dlc';
 import {
   Sender,
   SenderCreateParams,
@@ -141,6 +177,19 @@ import {
   WhatsappBusinessProfileResponse,
   WhatsappBusinessProfileVertical,
 } from './resources/senders/senders';
+import {
+  SubAccount,
+  SubAccountCreateParams,
+  SubAccountCreateResponse,
+  SubAccountDeactivateResponse,
+  SubAccountGetBalanceResponse,
+  SubAccountListParams,
+  SubAccountRetrieveResponse,
+  SubAccountUpdateParams,
+  SubAccountUpdateResponse,
+  SubAccounts,
+  SubAccountsCursor,
+} from './resources/sub-accounts/sub-accounts';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -874,6 +923,14 @@ export class Zavudev {
   phoneNumbers: API.PhoneNumbers = new API.PhoneNumbers(this);
   addresses: API.Addresses = new API.Addresses(this);
   regulatoryDocuments: API.RegulatoryDocuments = new API.RegulatoryDocuments(this);
+  invitations: API.Invitations = new API.Invitations(this);
+  exports: API.Exports = new API.Exports(this);
+  urls: API.URLs = new API.URLs(this);
+  balance: API.Balance = new API.Balance(this);
+  plan: API.Plan = new API.Plan(this);
+  usage: API.Usage = new API.Usage(this);
+  subAccounts: API.SubAccounts = new API.SubAccounts(this);
+  number10dlc: API.Number10dlc = new API.Number10dlc(this);
 }
 
 Zavudev.Messages = Messages;
@@ -885,6 +942,14 @@ Zavudev.Introspect = Introspect;
 Zavudev.PhoneNumbers = PhoneNumbers;
 Zavudev.Addresses = Addresses;
 Zavudev.RegulatoryDocuments = RegulatoryDocuments;
+Zavudev.Invitations = Invitations;
+Zavudev.Exports = Exports;
+Zavudev.URLs = URLs;
+Zavudev.Balance = Balance;
+Zavudev.Plan = Plan;
+Zavudev.Usage = Usage;
+Zavudev.SubAccounts = SubAccounts;
+Zavudev.Number10dlc = Number10dlc;
 
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
@@ -940,8 +1005,10 @@ export declare namespace Zavudev {
     type Contact as Contact,
     type ContactChannel as ContactChannel,
     type ContactsCursor as ContactsCursor,
+    type ContactCreateParams as ContactCreateParams,
     type ContactUpdateParams as ContactUpdateParams,
     type ContactListParams as ContactListParams,
+    type ContactMergeParams as ContactMergeParams,
   };
 
   export {
@@ -958,7 +1025,9 @@ export declare namespace Zavudev {
     type BroadcastRetrieveResponse as BroadcastRetrieveResponse,
     type BroadcastUpdateResponse as BroadcastUpdateResponse,
     type BroadcastCancelResponse as BroadcastCancelResponse,
+    type BroadcastEscalateReviewResponse as BroadcastEscalateReviewResponse,
     type BroadcastRescheduleResponse as BroadcastRescheduleResponse,
+    type BroadcastRetryReviewResponse as BroadcastRetryReviewResponse,
     type BroadcastSendResponse as BroadcastSendResponse,
     type BroadcastsCursor as BroadcastsCursor,
     type BroadcastCreateParams as BroadcastCreateParams,
@@ -1022,4 +1091,57 @@ export declare namespace Zavudev {
     type RegulatoryDocumentCreateParams as RegulatoryDocumentCreateParams,
     type RegulatoryDocumentListParams as RegulatoryDocumentListParams,
   };
+
+  export {
+    Invitations as Invitations,
+    type Invitation as Invitation,
+    type InvitationCreateResponse as InvitationCreateResponse,
+    type InvitationRetrieveResponse as InvitationRetrieveResponse,
+    type InvitationCancelResponse as InvitationCancelResponse,
+    type InvitationsCursor as InvitationsCursor,
+    type InvitationCreateParams as InvitationCreateParams,
+    type InvitationListParams as InvitationListParams,
+  };
+
+  export {
+    Exports as Exports,
+    type DataExport as DataExport,
+    type ExportCreateResponse as ExportCreateResponse,
+    type ExportRetrieveResponse as ExportRetrieveResponse,
+    type DataExportsCursor as DataExportsCursor,
+    type ExportCreateParams as ExportCreateParams,
+    type ExportListParams as ExportListParams,
+  };
+
+  export {
+    URLs as URLs,
+    type VerifiedURL as VerifiedURL,
+    type URLRetrieveDetailsResponse as URLRetrieveDetailsResponse,
+    type URLSubmitForVerificationResponse as URLSubmitForVerificationResponse,
+    type VerifiedURLsCursor as VerifiedURLsCursor,
+    type URLListVerifiedParams as URLListVerifiedParams,
+    type URLSubmitForVerificationParams as URLSubmitForVerificationParams,
+  };
+
+  export { Balance as Balance, type BalanceRetrieveResponse as BalanceRetrieveResponse };
+
+  export { Plan as Plan, type PlanRetrieveResponse as PlanRetrieveResponse };
+
+  export { Usage as Usage, type UsageRetrieveResponse as UsageRetrieveResponse };
+
+  export {
+    SubAccounts as SubAccounts,
+    type SubAccount as SubAccount,
+    type SubAccountCreateResponse as SubAccountCreateResponse,
+    type SubAccountRetrieveResponse as SubAccountRetrieveResponse,
+    type SubAccountUpdateResponse as SubAccountUpdateResponse,
+    type SubAccountDeactivateResponse as SubAccountDeactivateResponse,
+    type SubAccountGetBalanceResponse as SubAccountGetBalanceResponse,
+    type SubAccountsCursor as SubAccountsCursor,
+    type SubAccountCreateParams as SubAccountCreateParams,
+    type SubAccountUpdateParams as SubAccountUpdateParams,
+    type SubAccountListParams as SubAccountListParams,
+  };
+
+  export { Number10dlc as Number10dlc };
 }
