@@ -10,6 +10,7 @@ export {
   type AddressListParams,
   type AddressesCursor,
 } from './addresses';
+export { Balance, type BalanceRetrieveResponse } from './balance';
 export {
   Broadcasts,
   type Broadcast,
@@ -24,7 +25,9 @@ export {
   type BroadcastRetrieveResponse,
   type BroadcastUpdateResponse,
   type BroadcastCancelResponse,
+  type BroadcastEscalateReviewResponse,
   type BroadcastRescheduleResponse,
+  type BroadcastRetryReviewResponse,
   type BroadcastSendResponse,
   type BroadcastCreateParams,
   type BroadcastUpdateParams,
@@ -38,16 +41,37 @@ export {
   Contacts,
   type Contact,
   type ContactChannel,
+  type ContactCreateParams,
   type ContactUpdateParams,
   type ContactListParams,
+  type ContactMergeParams,
   type ContactsCursor,
-} from './contacts';
+} from './contacts/contacts';
+export {
+  Exports,
+  type DataExport,
+  type ExportCreateResponse,
+  type ExportRetrieveResponse,
+  type ExportCreateParams,
+  type ExportListParams,
+  type DataExportsCursor,
+} from './exports';
 export {
   Introspect,
   type LineType,
   type IntrospectValidatePhoneResponse,
   type IntrospectValidatePhoneParams,
 } from './introspect';
+export {
+  Invitations,
+  type Invitation,
+  type InvitationCreateResponse,
+  type InvitationRetrieveResponse,
+  type InvitationCancelResponse,
+  type InvitationCreateParams,
+  type InvitationListParams,
+  type InvitationsCursor,
+} from './invitations';
 export {
   Messages,
   type Channel,
@@ -61,6 +85,7 @@ export {
   type MessageSendParams,
   type MessagesCursor,
 } from './messages';
+export { Number10dlc } from './number-10dlc/number-10dlc';
 export {
   PhoneNumbers,
   type AvailablePhoneNumber,
@@ -86,6 +111,7 @@ export {
   type PhoneNumberSearchAvailableParams,
   type OwnedPhoneNumbersCursor,
 } from './phone-numbers';
+export { Plan, type PlanRetrieveResponse } from './plan';
 export {
   RegulatoryDocuments,
   type RegulatoryDocument,
@@ -115,6 +141,19 @@ export {
   type SendersCursor,
 } from './senders/senders';
 export {
+  SubAccounts,
+  type SubAccount,
+  type SubAccountCreateResponse,
+  type SubAccountRetrieveResponse,
+  type SubAccountUpdateResponse,
+  type SubAccountDeactivateResponse,
+  type SubAccountGetBalanceResponse,
+  type SubAccountCreateParams,
+  type SubAccountUpdateParams,
+  type SubAccountListParams,
+  type SubAccountsCursor,
+} from './sub-accounts/sub-accounts';
+export {
   Templates,
   type Template,
   type WhatsappCategory,
@@ -123,3 +162,13 @@ export {
   type TemplateSubmitParams,
   type TemplatesCursor,
 } from './templates';
+export {
+  URLs,
+  type VerifiedURL,
+  type URLRetrieveDetailsResponse,
+  type URLSubmitForVerificationResponse,
+  type URLListVerifiedParams,
+  type URLSubmitForVerificationParams,
+  type VerifiedURLsCursor,
+} from './urls';
+export { Usage, type UsageRetrieveResponse } from './usage';

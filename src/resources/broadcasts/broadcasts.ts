@@ -115,6 +115,21 @@ export class Broadcasts extends APIResource {
   }
 
   /**
+   * Request manual review by the Zavu team for a rejected broadcast. Use this after
+   * automated review rejection if you believe the content is legitimate.
+   *
+   * @example
+   * ```ts
+   * const response = await client.broadcasts.escalateReview(
+   *   'broadcastId',
+   * );
+   * ```
+   */
+  escalateReview(broadcastID: string, options?: RequestOptions): APIPromise<BroadcastEscalateReviewResponse> {
+    return this._client.post(path`/v1/broadcasts/${broadcastID}/escalate`, options);
+  }
+
+  /**
    * Get real-time progress of a broadcast including delivery counts and estimated
    * completion time.
    *
@@ -147,6 +162,21 @@ export class Broadcasts extends APIResource {
     options?: RequestOptions,
   ): APIPromise<BroadcastRescheduleResponse> {
     return this._client.patch(path`/v1/broadcasts/${broadcastID}/schedule`, { body, ...options });
+  }
+
+  /**
+   * Resubmit a rejected broadcast for AI review after editing content. Maximum 3
+   * review attempts allowed per broadcast.
+   *
+   * @example
+   * ```ts
+   * const response = await client.broadcasts.retryReview(
+   *   'broadcastId',
+   * );
+   * ```
+   */
+  retryReview(broadcastID: string, options?: RequestOptions): APIPromise<BroadcastRetryReviewResponse> {
+    return this._client.post(path`/v1/broadcasts/${broadcastID}/retry-review`, options);
   }
 
   /**
@@ -470,7 +500,15 @@ export interface BroadcastCancelResponse {
   broadcast: Broadcast;
 }
 
+export interface BroadcastEscalateReviewResponse {
+  broadcast: Broadcast;
+}
+
 export interface BroadcastRescheduleResponse {
+  broadcast: Broadcast;
+}
+
+export interface BroadcastRetryReviewResponse {
   broadcast: Broadcast;
 }
 
@@ -586,7 +624,9 @@ export declare namespace Broadcasts {
     type BroadcastRetrieveResponse as BroadcastRetrieveResponse,
     type BroadcastUpdateResponse as BroadcastUpdateResponse,
     type BroadcastCancelResponse as BroadcastCancelResponse,
+    type BroadcastEscalateReviewResponse as BroadcastEscalateReviewResponse,
     type BroadcastRescheduleResponse as BroadcastRescheduleResponse,
+    type BroadcastRetryReviewResponse as BroadcastRetryReviewResponse,
     type BroadcastSendResponse as BroadcastSendResponse,
     type BroadcastsCursor as BroadcastsCursor,
     type BroadcastCreateParams as BroadcastCreateParams,

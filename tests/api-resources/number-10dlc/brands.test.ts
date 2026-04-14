@@ -7,10 +7,21 @@ const client = new Zavudev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource broadcasts', () => {
+describe('resource brands', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.broadcasts.create({ channel: 'sms', name: 'Black Friday Sale' });
+    const responsePromise = client.number10dlc.brands.create({
+      city: 'San Francisco',
+      country: 'US',
+      displayName: 'Acme Corp',
+      email: 'compliance@acme.com',
+      entityType: 'PRIVATE_PROFIT',
+      phone: '+14155551234',
+      postalCode: '94102',
+      state: 'CA',
+      street: '123 Main St',
+      vertical: 'Technology',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,31 +33,30 @@ describe('resource broadcasts', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.broadcasts.create({
-      channel: 'sms',
-      name: 'Black Friday Sale',
-      content: {
-        filename: 'filename',
-        mediaId: 'mediaId',
-        mediaUrl: 'mediaUrl',
-        mimeType: 'mimeType',
-        templateId: 'templateId',
-        templateVariables: { foo: 'string' },
-      },
-      emailHtmlBody: 'emailHtmlBody',
-      emailSubject: 'emailSubject',
-      idempotencyKey: 'idempotencyKey',
-      messageType: 'text',
-      metadata: { foo: 'string' },
-      scheduledAt: '2019-12-27T18:11:19.117Z',
-      senderId: 'senderId',
-      text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',
+    const response = await client.number10dlc.brands.create({
+      city: 'San Francisco',
+      country: 'US',
+      displayName: 'Acme Corp',
+      email: 'compliance@acme.com',
+      entityType: 'PRIVATE_PROFIT',
+      phone: '+14155551234',
+      postalCode: '94102',
+      state: 'CA',
+      street: '123 Main St',
+      vertical: 'Technology',
+      companyName: 'Acme Corporation',
+      ein: '12-3456789',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      stockExchange: 'stockExchange',
+      stockSymbol: 'stockSymbol',
+      website: 'https://acme.com',
     });
   });
 
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.broadcasts.retrieve('broadcastId');
+    const responsePromise = client.number10dlc.brands.retrieve('brandId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -58,7 +68,7 @@ describe('resource broadcasts', () => {
 
   // Mock server tests are disabled
   test.skip('update', async () => {
-    const responsePromise = client.broadcasts.update('broadcastId', {});
+    const responsePromise = client.number10dlc.brands.update('brandId', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,7 +80,7 @@ describe('resource broadcasts', () => {
 
   // Mock server tests are disabled
   test.skip('list', async () => {
-    const responsePromise = client.broadcasts.list();
+    const responsePromise = client.number10dlc.brands.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -84,20 +94,13 @@ describe('resource broadcasts', () => {
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.broadcasts.list(
-        {
-          cursor: 'cursor',
-          limit: 100,
-          status: 'draft',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.number10dlc.brands.list({ cursor: 'cursor', limit: 100 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
   // Mock server tests are disabled
   test.skip('delete', async () => {
-    const responsePromise = client.broadcasts.delete('broadcastId');
+    const responsePromise = client.number10dlc.brands.delete('brandId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -108,8 +111,8 @@ describe('resource broadcasts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('cancel', async () => {
-    const responsePromise = client.broadcasts.cancel('broadcastId');
+  test.skip('listUseCases', async () => {
+    const responsePromise = client.number10dlc.brands.listUseCases();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -120,8 +123,8 @@ describe('resource broadcasts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('escalateReview', async () => {
-    const responsePromise = client.broadcasts.escalateReview('broadcastId');
+  test.skip('submit', async () => {
+    const responsePromise = client.number10dlc.brands.submit('brandId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -132,8 +135,8 @@ describe('resource broadcasts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('progress', async () => {
-    const responsePromise = client.broadcasts.progress('broadcastId');
+  test.skip('syncStatus', async () => {
+    const responsePromise = client.number10dlc.brands.syncStatus('brandId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -141,62 +144,5 @@ describe('resource broadcasts', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('reschedule: only required params', async () => {
-    const responsePromise = client.broadcasts.reschedule('broadcastId', {
-      scheduledAt: '2024-01-15T14:00:00Z',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('reschedule: required and optional params', async () => {
-    const response = await client.broadcasts.reschedule('broadcastId', {
-      scheduledAt: '2024-01-15T14:00:00Z',
-    });
-  });
-
-  // Mock server tests are disabled
-  test.skip('retryReview', async () => {
-    const responsePromise = client.broadcasts.retryReview('broadcastId');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('send', async () => {
-    const responsePromise = client.broadcasts.send('broadcastId');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('send: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.broadcasts.send(
-        'broadcastId',
-        { scheduledAt: '2019-12-27T18:11:19.117Z' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Zavudev.NotFoundError);
   });
 });
