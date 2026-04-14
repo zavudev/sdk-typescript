@@ -37,6 +37,7 @@ export {
 export {
   Contacts,
   type Contact,
+  type ContactChannel,
   type ContactUpdateParams,
   type ContactListParams,
   type ContactsCursor,

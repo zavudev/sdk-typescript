@@ -31,6 +31,7 @@ import {
 } from './resources/addresses';
 import {
   Contact,
+  ContactChannel,
   ContactListParams,
   ContactUpdateParams,
   Contacts,
@@ -937,6 +938,7 @@ export declare namespace Zavudev {
   export {
     Contacts as Contacts,
     type Contact as Contact,
+    type ContactChannel as ContactChannel,
     type ContactsCursor as ContactsCursor,
     type ContactUpdateParams as ContactUpdateParams,
     type ContactListParams as ContactListParams,

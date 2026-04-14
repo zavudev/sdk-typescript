@@ -87,6 +87,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/senders/agent/flows.ts">AgentFlow</a></code>
+- <code><a href="./src/resources/senders/agent/flows.ts">FlowStep</a></code>
+- <code><a href="./src/resources/senders/agent/flows.ts">FlowTrigger</a></code>
 - <code><a href="./src/resources/senders/agent/flows.ts">FlowCreateResponse</a></code>
 - <code><a href="./src/resources/senders/agent/flows.ts">FlowRetrieveResponse</a></code>
 - <code><a href="./src/resources/senders/agent/flows.ts">FlowUpdateResponse</a></code>
@@ -106,6 +108,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/senders/agent/tools.ts">AgentTool</a></code>
+- <code><a href="./src/resources/senders/agent/tools.ts">ToolParameters</a></code>
 - <code><a href="./src/resources/senders/agent/tools.ts">ToolCreateResponse</a></code>
 - <code><a href="./src/resources/senders/agent/tools.ts">ToolRetrieveResponse</a></code>
 - <code><a href="./src/resources/senders/agent/tools.ts">ToolUpdateResponse</a></code>
@@ -155,6 +158,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/contacts.ts">Contact</a></code>
+- <code><a href="./src/resources/contacts.ts">ContactChannel</a></code>
 
 Methods:
 

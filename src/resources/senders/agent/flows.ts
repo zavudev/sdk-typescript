@@ -168,54 +168,52 @@ export interface AgentFlow {
    */
   priority: number;
 
-  steps: Array<AgentFlow.Step>;
+  steps: Array<FlowStep>;
 
-  trigger: AgentFlow.Trigger;
+  trigger: FlowTrigger;
 
   updatedAt: string;
 
   description?: string | null;
 }
 
-export namespace AgentFlow {
-  export interface Step {
-    /**
-     * Unique step identifier.
-     */
-    id: string;
+export interface FlowStep {
+  /**
+   * Unique step identifier.
+   */
+  id: string;
 
-    /**
-     * Step configuration (varies by type).
-     */
-    config: { [key: string]: unknown };
+  /**
+   * Step configuration (varies by type).
+   */
+  config: { [key: string]: unknown };
 
-    /**
-     * Type of flow step.
-     */
-    type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer';
+  /**
+   * Type of flow step.
+   */
+  type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer';
 
-    /**
-     * ID of the next step to execute.
-     */
-    nextStepId?: string | null;
-  }
+  /**
+   * ID of the next step to execute.
+   */
+  nextStepId?: string | null;
+}
 
-  export interface Trigger {
-    /**
-     * Type of trigger for a flow.
-     */
-    type: 'keyword' | 'intent' | 'always' | 'manual';
+export interface FlowTrigger {
+  /**
+   * Type of trigger for a flow.
+   */
+  type: 'keyword' | 'intent' | 'always' | 'manual';
 
-    /**
-     * Intent that triggers the flow (for intent type).
-     */
-    intent?: string;
+  /**
+   * Intent that triggers the flow (for intent type).
+   */
+  intent?: string;
 
-    /**
-     * Keywords that trigger the flow (for keyword type).
-     */
-    keywords?: Array<string>;
-  }
+  /**
+   * Keywords that trigger the flow (for keyword type).
+   */
+  keywords?: Array<string>;
 }
 
 export interface FlowCreateResponse {
@@ -237,56 +235,15 @@ export interface FlowDuplicateResponse {
 export interface FlowCreateParams {
   name: string;
 
-  steps: Array<FlowCreateParams.Step>;
+  steps: Array<FlowStep>;
 
-  trigger: FlowCreateParams.Trigger;
+  trigger: FlowTrigger;
 
   description?: string;
 
   enabled?: boolean;
 
   priority?: number;
-}
-
-export namespace FlowCreateParams {
-  export interface Step {
-    /**
-     * Unique step identifier.
-     */
-    id: string;
-
-    /**
-     * Step configuration (varies by type).
-     */
-    config: { [key: string]: unknown };
-
-    /**
-     * Type of flow step.
-     */
-    type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer';
-
-    /**
-     * ID of the next step to execute.
-     */
-    nextStepId?: string | null;
-  }
-
-  export interface Trigger {
-    /**
-     * Type of trigger for a flow.
-     */
-    type: 'keyword' | 'intent' | 'always' | 'manual';
-
-    /**
-     * Intent that triggers the flow (for intent type).
-     */
-    intent?: string;
-
-    /**
-     * Keywords that trigger the flow (for keyword type).
-     */
-    keywords?: Array<string>;
-  }
 }
 
 export interface FlowRetrieveParams {
@@ -322,53 +279,12 @@ export interface FlowUpdateParams {
   /**
    * Body param
    */
-  steps?: Array<FlowUpdateParams.Step>;
+  steps?: Array<FlowStep>;
 
   /**
    * Body param
    */
-  trigger?: FlowUpdateParams.Trigger;
-}
-
-export namespace FlowUpdateParams {
-  export interface Step {
-    /**
-     * Unique step identifier.
-     */
-    id: string;
-
-    /**
-     * Step configuration (varies by type).
-     */
-    config: { [key: string]: unknown };
-
-    /**
-     * Type of flow step.
-     */
-    type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer';
-
-    /**
-     * ID of the next step to execute.
-     */
-    nextStepId?: string | null;
-  }
-
-  export interface Trigger {
-    /**
-     * Type of trigger for a flow.
-     */
-    type: 'keyword' | 'intent' | 'always' | 'manual';
-
-    /**
-     * Intent that triggers the flow (for intent type).
-     */
-    intent?: string;
-
-    /**
-     * Keywords that trigger the flow (for keyword type).
-     */
-    keywords?: Array<string>;
-  }
+  trigger?: FlowTrigger;
 }
 
 export interface FlowListParams extends CursorParams {
@@ -394,6 +310,8 @@ export interface FlowDuplicateParams {
 export declare namespace Flows {
   export {
     type AgentFlow as AgentFlow,
+    type FlowStep as FlowStep,
+    type FlowTrigger as FlowTrigger,
     type FlowCreateResponse as FlowCreateResponse,
     type FlowRetrieveResponse as FlowRetrieveResponse,
     type FlowUpdateResponse as FlowUpdateResponse,

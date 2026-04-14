@@ -155,7 +155,7 @@ export interface AgentTool {
 
   name: string;
 
-  parameters: AgentTool.Parameters;
+  parameters: ToolParameters;
 
   updatedAt: string;
 
@@ -165,21 +165,19 @@ export interface AgentTool {
   webhookUrl: string;
 }
 
-export namespace AgentTool {
-  export interface Parameters {
-    properties: { [key: string]: Parameters.Properties };
+export interface ToolParameters {
+  properties: { [key: string]: ToolParameters.Properties };
 
-    required: Array<string>;
+  required: Array<string>;
 
-    type: 'object';
-  }
+  type: 'object';
+}
 
-  export namespace Parameters {
-    export interface Properties {
-      description?: string;
+export namespace ToolParameters {
+  export interface Properties {
+    description?: string;
 
-      type?: string;
-    }
+    type?: string;
   }
 }
 
@@ -204,7 +202,7 @@ export interface ToolCreateParams {
 
   name: string;
 
-  parameters: ToolCreateParams.Parameters;
+  parameters: ToolParameters;
 
   /**
    * Must be HTTPS.
@@ -217,24 +215,6 @@ export interface ToolCreateParams {
    * Optional secret for webhook signature verification.
    */
   webhookSecret?: string;
-}
-
-export namespace ToolCreateParams {
-  export interface Parameters {
-    properties: { [key: string]: Parameters.Properties };
-
-    required: Array<string>;
-
-    type: 'object';
-  }
-
-  export namespace Parameters {
-    export interface Properties {
-      description?: string;
-
-      type?: string;
-    }
-  }
 }
 
 export interface ToolRetrieveParams {
@@ -265,7 +245,7 @@ export interface ToolUpdateParams {
   /**
    * Body param
    */
-  parameters?: ToolUpdateParams.Parameters;
+  parameters?: ToolParameters;
 
   /**
    * Body param
@@ -276,24 +256,6 @@ export interface ToolUpdateParams {
    * Body param
    */
   webhookUrl?: string;
-}
-
-export namespace ToolUpdateParams {
-  export interface Parameters {
-    properties: { [key: string]: Parameters.Properties };
-
-    required: Array<string>;
-
-    type: 'object';
-  }
-
-  export namespace Parameters {
-    export interface Properties {
-      description?: string;
-
-      type?: string;
-    }
-  }
 }
 
 export interface ToolListParams extends CursorParams {
@@ -319,6 +281,7 @@ export interface ToolTestParams {
 export declare namespace Tools {
   export {
     type AgentTool as AgentTool,
+    type ToolParameters as ToolParameters,
     type ToolCreateResponse as ToolCreateResponse,
     type ToolRetrieveResponse as ToolRetrieveResponse,
     type ToolUpdateResponse as ToolUpdateResponse,
