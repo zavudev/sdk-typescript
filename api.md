@@ -153,19 +153,54 @@ Methods:
 - <code title="get /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">list</a>(kbID, { ...params }) -> AgentDocumentsCursor</code>
 - <code title="delete /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents/{docId}">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">delete</a>(docID, { ...params }) -> void</code>
 
+## WhatsappSync
+
+Types:
+
+- <code><a href="./src/resources/senders/whatsapp-sync.ts">WhatsAppSyncContacts</a></code>
+- <code><a href="./src/resources/senders/whatsapp-sync.ts">WhatsAppSyncHistory</a></code>
+- <code><a href="./src/resources/senders/whatsapp-sync.ts">WhatsAppSyncStatus</a></code>
+- <code><a href="./src/resources/senders/whatsapp-sync.ts">WhatsappSyncRetrieveResponse</a></code>
+- <code><a href="./src/resources/senders/whatsapp-sync.ts">WhatsappSyncStartContactsSyncResponse</a></code>
+- <code><a href="./src/resources/senders/whatsapp-sync.ts">WhatsappSyncStartHistorySyncResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/senders/{senderId}/whatsapp-sync">client.senders.whatsappSync.<a href="./src/resources/senders/whatsapp-sync.ts">retrieve</a>(senderID) -> WhatsappSyncRetrieveResponse</code>
+- <code title="post /v1/senders/{senderId}/whatsapp-sync/contacts">client.senders.whatsappSync.<a href="./src/resources/senders/whatsapp-sync.ts">startContactsSync</a>(senderID) -> WhatsappSyncStartContactsSyncResponse</code>
+- <code title="post /v1/senders/{senderId}/whatsapp-sync/history">client.senders.whatsappSync.<a href="./src/resources/senders/whatsapp-sync.ts">startHistorySync</a>(senderID) -> WhatsappSyncStartHistorySyncResponse</code>
+
 # Contacts
 
 Types:
 
-- <code><a href="./src/resources/contacts.ts">Contact</a></code>
-- <code><a href="./src/resources/contacts.ts">ContactChannel</a></code>
+- <code><a href="./src/resources/contacts/contacts.ts">Contact</a></code>
+- <code><a href="./src/resources/contacts/contacts.ts">ContactChannel</a></code>
 
 Methods:
 
-- <code title="get /v1/contacts/{contactId}">client.contacts.<a href="./src/resources/contacts.ts">retrieve</a>(contactID) -> Contact</code>
-- <code title="patch /v1/contacts/{contactId}">client.contacts.<a href="./src/resources/contacts.ts">update</a>(contactID, { ...params }) -> Contact</code>
-- <code title="get /v1/contacts">client.contacts.<a href="./src/resources/contacts.ts">list</a>({ ...params }) -> ContactsCursor</code>
-- <code title="get /v1/contacts/phone/{phoneNumber}">client.contacts.<a href="./src/resources/contacts.ts">retrieveByPhone</a>(phoneNumber) -> Contact</code>
+- <code title="post /v1/contacts">client.contacts.<a href="./src/resources/contacts/contacts.ts">create</a>({ ...params }) -> Contact</code>
+- <code title="get /v1/contacts/{contactId}">client.contacts.<a href="./src/resources/contacts/contacts.ts">retrieve</a>(contactID) -> Contact</code>
+- <code title="patch /v1/contacts/{contactId}">client.contacts.<a href="./src/resources/contacts/contacts.ts">update</a>(contactID, { ...params }) -> Contact</code>
+- <code title="get /v1/contacts">client.contacts.<a href="./src/resources/contacts/contacts.ts">list</a>({ ...params }) -> ContactsCursor</code>
+- <code title="delete /v1/contacts/{contactId}/merge-suggestion">client.contacts.<a href="./src/resources/contacts/contacts.ts">dismissMergeSuggestion</a>(contactID) -> void</code>
+- <code title="post /v1/contacts/{contactId}/merge">client.contacts.<a href="./src/resources/contacts/contacts.ts">merge</a>(contactID, { ...params }) -> Contact</code>
+- <code title="get /v1/contacts/phone/{phoneNumber}">client.contacts.<a href="./src/resources/contacts/contacts.ts">retrieveByPhone</a>(phoneNumber) -> Contact</code>
+
+## Channels
+
+Types:
+
+- <code><a href="./src/resources/contacts/channels.ts">ChannelUpdateResponse</a></code>
+- <code><a href="./src/resources/contacts/channels.ts">ChannelAddResponse</a></code>
+- <code><a href="./src/resources/contacts/channels.ts">ChannelSetPrimaryResponse</a></code>
+
+Methods:
+
+- <code title="patch /v1/contacts/{contactId}/channels/{channelId}">client.contacts.channels.<a href="./src/resources/contacts/channels.ts">update</a>(channelID, { ...params }) -> ChannelUpdateResponse</code>
+- <code title="post /v1/contacts/{contactId}/channels">client.contacts.channels.<a href="./src/resources/contacts/channels.ts">add</a>(contactID, { ...params }) -> ChannelAddResponse</code>
+- <code title="delete /v1/contacts/{contactId}/channels/{channelId}">client.contacts.channels.<a href="./src/resources/contacts/channels.ts">remove</a>(channelID, { ...params }) -> void</code>
+- <code title="post /v1/contacts/{contactId}/channels/{channelId}/primary">client.contacts.channels.<a href="./src/resources/contacts/channels.ts">setPrimary</a>(channelID, { ...params }) -> ChannelSetPrimaryResponse</code>
 
 # Broadcasts
 
@@ -183,7 +218,9 @@ Types:
 - <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastRetrieveResponse</a></code>
 - <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastUpdateResponse</a></code>
 - <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastCancelResponse</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastEscalateReviewResponse</a></code>
 - <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastRescheduleResponse</a></code>
+- <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastRetryReviewResponse</a></code>
 - <code><a href="./src/resources/broadcasts/broadcasts.ts">BroadcastSendResponse</a></code>
 
 Methods:
@@ -194,8 +231,10 @@ Methods:
 - <code title="get /v1/broadcasts">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">list</a>({ ...params }) -> BroadcastsCursor</code>
 - <code title="delete /v1/broadcasts/{broadcastId}">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">delete</a>(broadcastID) -> void</code>
 - <code title="post /v1/broadcasts/{broadcastId}/cancel">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">cancel</a>(broadcastID) -> BroadcastCancelResponse</code>
+- <code title="post /v1/broadcasts/{broadcastId}/escalate">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">escalateReview</a>(broadcastID) -> BroadcastEscalateReviewResponse</code>
 - <code title="get /v1/broadcasts/{broadcastId}/progress">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">progress</a>(broadcastID) -> BroadcastProgress</code>
 - <code title="patch /v1/broadcasts/{broadcastId}/schedule">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">reschedule</a>(broadcastID, { ...params }) -> BroadcastRescheduleResponse</code>
+- <code title="post /v1/broadcasts/{broadcastId}/retry-review">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">retryReview</a>(broadcastID) -> BroadcastRetryReviewResponse</code>
 - <code title="post /v1/broadcasts/{broadcastId}/send">client.broadcasts.<a href="./src/resources/broadcasts/broadcasts.ts">send</a>(broadcastID, { ...params }) -> BroadcastSendResponse</code>
 
 ## Contacts
@@ -284,3 +323,170 @@ Methods:
 - <code title="get /v1/documents">client.regulatoryDocuments.<a href="./src/resources/regulatory-documents.ts">list</a>({ ...params }) -> RegulatoryDocumentsCursor</code>
 - <code title="delete /v1/documents/{documentId}">client.regulatoryDocuments.<a href="./src/resources/regulatory-documents.ts">delete</a>(documentID) -> void</code>
 - <code title="post /v1/documents/upload-url">client.regulatoryDocuments.<a href="./src/resources/regulatory-documents.ts">uploadURL</a>() -> RegulatoryDocumentUploadURLResponse</code>
+
+# Invitations
+
+Types:
+
+- <code><a href="./src/resources/invitations.ts">Invitation</a></code>
+- <code><a href="./src/resources/invitations.ts">InvitationCreateResponse</a></code>
+- <code><a href="./src/resources/invitations.ts">InvitationRetrieveResponse</a></code>
+- <code><a href="./src/resources/invitations.ts">InvitationCancelResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/invitations">client.invitations.<a href="./src/resources/invitations.ts">create</a>({ ...params }) -> InvitationCreateResponse</code>
+- <code title="get /v1/invitations/{invitationId}">client.invitations.<a href="./src/resources/invitations.ts">retrieve</a>(invitationID) -> InvitationRetrieveResponse</code>
+- <code title="get /v1/invitations">client.invitations.<a href="./src/resources/invitations.ts">list</a>({ ...params }) -> InvitationsCursor</code>
+- <code title="post /v1/invitations/{invitationId}/cancel">client.invitations.<a href="./src/resources/invitations.ts">cancel</a>(invitationID) -> InvitationCancelResponse</code>
+
+# Exports
+
+Types:
+
+- <code><a href="./src/resources/exports.ts">DataExport</a></code>
+- <code><a href="./src/resources/exports.ts">ExportCreateResponse</a></code>
+- <code><a href="./src/resources/exports.ts">ExportRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/exports">client.exports.<a href="./src/resources/exports.ts">create</a>({ ...params }) -> ExportCreateResponse</code>
+- <code title="get /v1/exports/{exportId}">client.exports.<a href="./src/resources/exports.ts">retrieve</a>(exportID) -> ExportRetrieveResponse</code>
+- <code title="get /v1/exports">client.exports.<a href="./src/resources/exports.ts">list</a>({ ...params }) -> DataExportsCursor</code>
+
+# URLs
+
+Types:
+
+- <code><a href="./src/resources/urls.ts">VerifiedURL</a></code>
+- <code><a href="./src/resources/urls.ts">URLRetrieveDetailsResponse</a></code>
+- <code><a href="./src/resources/urls.ts">URLSubmitForVerificationResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/urls">client.urls.<a href="./src/resources/urls.ts">listVerified</a>({ ...params }) -> VerifiedURLsCursor</code>
+- <code title="get /v1/urls/{urlId}">client.urls.<a href="./src/resources/urls.ts">retrieveDetails</a>(urlID) -> URLRetrieveDetailsResponse</code>
+- <code title="post /v1/urls">client.urls.<a href="./src/resources/urls.ts">submitForVerification</a>({ ...params }) -> URLSubmitForVerificationResponse</code>
+
+# Balance
+
+Types:
+
+- <code><a href="./src/resources/balance.ts">BalanceRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/balance">client.balance.<a href="./src/resources/balance.ts">retrieve</a>() -> BalanceRetrieveResponse</code>
+
+# Plan
+
+Types:
+
+- <code><a href="./src/resources/plan.ts">PlanRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/plan">client.plan.<a href="./src/resources/plan.ts">retrieve</a>() -> PlanRetrieveResponse</code>
+
+# Usage
+
+Types:
+
+- <code><a href="./src/resources/usage.ts">UsageRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/usage">client.usage.<a href="./src/resources/usage.ts">retrieve</a>() -> UsageRetrieveResponse</code>
+
+# SubAccounts
+
+Types:
+
+- <code><a href="./src/resources/sub-accounts/sub-accounts.ts">SubAccount</a></code>
+- <code><a href="./src/resources/sub-accounts/sub-accounts.ts">SubAccountCreateResponse</a></code>
+- <code><a href="./src/resources/sub-accounts/sub-accounts.ts">SubAccountRetrieveResponse</a></code>
+- <code><a href="./src/resources/sub-accounts/sub-accounts.ts">SubAccountUpdateResponse</a></code>
+- <code><a href="./src/resources/sub-accounts/sub-accounts.ts">SubAccountDeactivateResponse</a></code>
+- <code><a href="./src/resources/sub-accounts/sub-accounts.ts">SubAccountGetBalanceResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/sub-accounts">client.subAccounts.<a href="./src/resources/sub-accounts/sub-accounts.ts">create</a>({ ...params }) -> SubAccountCreateResponse</code>
+- <code title="get /v1/sub-accounts/{id}">client.subAccounts.<a href="./src/resources/sub-accounts/sub-accounts.ts">retrieve</a>(id) -> SubAccountRetrieveResponse</code>
+- <code title="patch /v1/sub-accounts/{id}">client.subAccounts.<a href="./src/resources/sub-accounts/sub-accounts.ts">update</a>(id, { ...params }) -> SubAccountUpdateResponse</code>
+- <code title="get /v1/sub-accounts">client.subAccounts.<a href="./src/resources/sub-accounts/sub-accounts.ts">list</a>({ ...params }) -> SubAccountsCursor</code>
+- <code title="delete /v1/sub-accounts/{id}">client.subAccounts.<a href="./src/resources/sub-accounts/sub-accounts.ts">deactivate</a>(id) -> SubAccountDeactivateResponse</code>
+- <code title="get /v1/sub-accounts/{id}/balance">client.subAccounts.<a href="./src/resources/sub-accounts/sub-accounts.ts">getBalance</a>(id) -> SubAccountGetBalanceResponse</code>
+
+## APIKeys
+
+Types:
+
+- <code><a href="./src/resources/sub-accounts/api-keys.ts">APIKeyCreateResponse</a></code>
+- <code><a href="./src/resources/sub-accounts/api-keys.ts">APIKeyListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/sub-accounts/{id}/api-keys">client.subAccounts.apiKeys.<a href="./src/resources/sub-accounts/api-keys.ts">create</a>(id, { ...params }) -> APIKeyCreateResponse</code>
+- <code title="get /v1/sub-accounts/{id}/api-keys">client.subAccounts.apiKeys.<a href="./src/resources/sub-accounts/api-keys.ts">list</a>(id) -> APIKeyListResponse</code>
+- <code title="delete /v1/sub-accounts/{id}/api-keys/{keyId}">client.subAccounts.apiKeys.<a href="./src/resources/sub-accounts/api-keys.ts">revoke</a>(keyID, { ...params }) -> void</code>
+
+# Number10dlc
+
+## Brands
+
+Types:
+
+- <code><a href="./src/resources/number-10dlc/brands.ts">TenDlcBrand</a></code>
+- <code><a href="./src/resources/number-10dlc/brands.ts">BrandCreateResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/brands.ts">BrandRetrieveResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/brands.ts">BrandUpdateResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/brands.ts">BrandListUseCasesResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/brands.ts">BrandSubmitResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/brands.ts">BrandSyncStatusResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/10dlc/brands">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">create</a>({ ...params }) -> BrandCreateResponse</code>
+- <code title="get /v1/10dlc/brands/{brandId}">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">retrieve</a>(brandID) -> BrandRetrieveResponse</code>
+- <code title="patch /v1/10dlc/brands/{brandId}">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">update</a>(brandID, { ...params }) -> BrandUpdateResponse</code>
+- <code title="get /v1/10dlc/brands">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">list</a>({ ...params }) -> TenDlcBrandsCursor</code>
+- <code title="delete /v1/10dlc/brands/{brandId}">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">delete</a>(brandID) -> void</code>
+- <code title="get /v1/10dlc/brands/use-cases">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">listUseCases</a>() -> BrandListUseCasesResponse</code>
+- <code title="post /v1/10dlc/brands/{brandId}/submit">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">submit</a>(brandID) -> BrandSubmitResponse</code>
+- <code title="post /v1/10dlc/brands/{brandId}/sync">client.number10dlc.brands.<a href="./src/resources/number-10dlc/brands.ts">syncStatus</a>(brandID) -> BrandSyncStatusResponse</code>
+
+## Campaigns
+
+Types:
+
+- <code><a href="./src/resources/number-10dlc/campaigns/campaigns.ts">TenDlcCampaign</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/campaigns.ts">CampaignCreateResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/campaigns.ts">CampaignRetrieveResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/campaigns.ts">CampaignUpdateResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/campaigns.ts">CampaignSubmitResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/campaigns.ts">CampaignSyncStatusResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/10dlc/campaigns">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">create</a>({ ...params }) -> CampaignCreateResponse</code>
+- <code title="get /v1/10dlc/campaigns/{campaignId}">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">retrieve</a>(campaignID) -> CampaignRetrieveResponse</code>
+- <code title="patch /v1/10dlc/campaigns/{campaignId}">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">update</a>(campaignID, { ...params }) -> CampaignUpdateResponse</code>
+- <code title="get /v1/10dlc/campaigns">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">list</a>({ ...params }) -> TenDlcCampaignsCursor</code>
+- <code title="delete /v1/10dlc/campaigns/{campaignId}">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">delete</a>(campaignID) -> void</code>
+- <code title="post /v1/10dlc/campaigns/{campaignId}/submit">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">submit</a>(campaignID) -> CampaignSubmitResponse</code>
+- <code title="post /v1/10dlc/campaigns/{campaignId}/sync">client.number10dlc.campaigns.<a href="./src/resources/number-10dlc/campaigns/campaigns.ts">syncStatus</a>(campaignID) -> CampaignSyncStatusResponse</code>
+
+### PhoneNumbers
+
+Types:
+
+- <code><a href="./src/resources/number-10dlc/campaigns/phone-numbers.ts">TenDlcPhoneNumberAssignment</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/phone-numbers.ts">PhoneNumberListResponse</a></code>
+- <code><a href="./src/resources/number-10dlc/campaigns/phone-numbers.ts">PhoneNumberAssignResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/10dlc/campaigns/{campaignId}/phone-numbers">client.number10dlc.campaigns.phoneNumbers.<a href="./src/resources/number-10dlc/campaigns/phone-numbers.ts">list</a>(campaignID) -> PhoneNumberListResponse</code>
+- <code title="post /v1/10dlc/campaigns/{campaignId}/phone-numbers">client.number10dlc.campaigns.phoneNumbers.<a href="./src/resources/number-10dlc/campaigns/phone-numbers.ts">assign</a>(campaignID, { ...params }) -> PhoneNumberAssignResponse</code>
+- <code title="delete /v1/10dlc/campaigns/{campaignId}/phone-numbers/{assignmentId}">client.number10dlc.campaigns.phoneNumbers.<a href="./src/resources/number-10dlc/campaigns/phone-numbers.ts">unassign</a>(assignmentID, { ...params }) -> void</code>

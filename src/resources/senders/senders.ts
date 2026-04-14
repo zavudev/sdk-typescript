@@ -1,6 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as WhatsappSyncAPI from './whatsapp-sync';
+import {
+  WhatsAppSyncContacts,
+  WhatsAppSyncHistory,
+  WhatsAppSyncStatus,
+  WhatsappSync,
+  WhatsappSyncRetrieveResponse,
+  WhatsappSyncStartContactsSyncResponse,
+  WhatsappSyncStartHistorySyncResponse,
+} from './whatsapp-sync';
 import * as AgentAPI from './agent/agent';
 import {
   Agent,
@@ -21,6 +31,7 @@ import { path } from '../../internal/utils/path';
 
 export class Senders extends APIResource {
   agent: AgentAPI.AgentResource = new AgentAPI.AgentResource(this._client);
+  whatsappSync: WhatsappSyncAPI.WhatsappSync = new WhatsappSyncAPI.WhatsappSync(this._client);
 
   /**
    * Create sender
@@ -516,6 +527,7 @@ export interface SenderUploadProfilePictureParams {
 }
 
 Senders.AgentResource = AgentResource;
+Senders.WhatsappSync = WhatsappSync;
 
 export declare namespace Senders {
   export {
@@ -546,5 +558,15 @@ export declare namespace Senders {
     type AgentStats as AgentStats,
     type AgentCreateParams as AgentCreateParams,
     type AgentUpdateParams as AgentUpdateParams,
+  };
+
+  export {
+    WhatsappSync as WhatsappSync,
+    type WhatsAppSyncContacts as WhatsAppSyncContacts,
+    type WhatsAppSyncHistory as WhatsAppSyncHistory,
+    type WhatsAppSyncStatus as WhatsAppSyncStatus,
+    type WhatsappSyncRetrieveResponse as WhatsappSyncRetrieveResponse,
+    type WhatsappSyncStartContactsSyncResponse as WhatsappSyncStartContactsSyncResponse,
+    type WhatsappSyncStartHistorySyncResponse as WhatsappSyncStartHistorySyncResponse,
   };
 }

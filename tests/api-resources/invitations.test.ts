@@ -7,10 +7,10 @@ const client = new Zavudev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource contacts', () => {
+describe('resource invitations', () => {
   // Mock server tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.contacts.retrieve('contactId');
+  test.skip('create', async () => {
+    const responsePromise = client.invitations.create();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,8 +21,26 @@ describe('resource contacts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('update', async () => {
-    const responsePromise = client.contacts.update('contactId', {});
+  test.skip('create: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.invitations.create(
+        {
+          allowedPhoneCountries: ['US', 'MX'],
+          clientEmail: 'contact@acme.com',
+          clientName: 'Acme Corp',
+          clientPhone: '+14155551234',
+          expiresInDays: 1,
+          phoneNumberId: 'pn_abc123',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('retrieve', async () => {
+    const responsePromise = client.invitations.retrieve('invitationId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -34,7 +52,7 @@ describe('resource contacts', () => {
 
   // Mock server tests are disabled
   test.skip('list', async () => {
-    const responsePromise = client.contacts.list();
+    const responsePromise = client.invitations.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -48,11 +66,11 @@ describe('resource contacts', () => {
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.contacts.list(
+      client.invitations.list(
         {
           cursor: 'cursor',
           limit: 100,
-          phoneNumber: 'phoneNumber',
+          status: 'pending',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -60,8 +78,8 @@ describe('resource contacts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('retrieveByPhone', async () => {
-    const responsePromise = client.contacts.retrieveByPhone('phoneNumber');
+  test.skip('cancel', async () => {
+    const responsePromise = client.invitations.cancel('invitationId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
