@@ -201,6 +201,34 @@ export interface MessageContent {
   contacts?: Array<MessageContent.Contact>;
 
   /**
+   * Button label for cta_url messages.
+   */
+  ctaDisplayText?: string;
+
+  /**
+   * Public HTTPS URL of the header media when ctaHeaderType is 'image', 'video', or
+   * 'document'. WhatsApp fetches this URL — it must be publicly reachable and return
+   * the declared content type.
+   */
+  ctaHeaderMediaUrl?: string;
+
+  /**
+   * Header text when ctaHeaderType is 'text'.
+   */
+  ctaHeaderText?: string;
+
+  /**
+   * Optional header type for cta_url messages.
+   */
+  ctaHeaderType?: 'text' | 'image' | 'video' | 'document';
+
+  /**
+   * Destination URL opened in the device's default browser when the button is
+   * tapped. Used with messageType=cta_url. WhatsApp requires HTTPS in production.
+   */
+  ctaUrl?: string;
+
+  /**
    * Emoji for reaction messages.
    */
   emoji?: string;
@@ -209,6 +237,11 @@ export interface MessageContent {
    * Filename for documents.
    */
   filename?: string;
+
+  /**
+   * Optional footer text for cta_url messages.
+   */
+  footerText?: string;
 
   /**
    * Latitude for location messages.
@@ -330,6 +363,7 @@ export type MessageType =
   | 'contact'
   | 'buttons'
   | 'list'
+  | 'cta_url'
   | 'reaction'
   | 'template';
 

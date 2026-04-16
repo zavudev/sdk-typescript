@@ -1,4 +1,4 @@
 configured_endpoints: 129
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/zavu%2Fzavudev-8bebbc269d62102c587a3a2ed99f065e0336599697b55d21e30080aa9c160672.yml
-openapi_spec_hash: 1e701bc39fb0673ddef95c579da4a54b
-config_hash: fd9bfe2e122ab75779fb52fed46d1d2e
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/zavu%2Fzavudev-77943605e8ccf7c6c70bfe2fcd14e41b45f018747af93fbd3b54c92187fc6d18.yml
+openapi_spec_hash: 700792ca051b1bc51d100b7267d9f90b
+config_hash: 280cf643b641e9d1b21852c7e2926d54
