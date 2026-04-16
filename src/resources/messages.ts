@@ -206,8 +206,9 @@ export interface MessageContent {
   ctaDisplayText?: string;
 
   /**
-   * Public URL of the header media when ctaHeaderType is 'image', 'video', or
-   * 'document'.
+   * Public HTTPS URL of the header media when ctaHeaderType is 'image', 'video', or
+   * 'document'. WhatsApp fetches this URL — it must be publicly reachable and return
+   * the declared content type.
    */
   ctaHeaderMediaUrl?: string;
 
@@ -223,7 +224,7 @@ export interface MessageContent {
 
   /**
    * Destination URL opened in the device's default browser when the button is
-   * tapped. Used with messageType=cta_url.
+   * tapped. Used with messageType=cta_url. WhatsApp requires HTTPS in production.
    */
   ctaUrl?: string;
 
