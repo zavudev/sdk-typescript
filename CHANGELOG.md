@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.39.1 (2026-04-23)
+
+Full Changelog: [v0.39.0...v0.39.1](https://github.com/zavudev/sdk-typescript/compare/v0.39.0...v0.39.1)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([280c948](https://github.com/zavudev/sdk-typescript/commit/280c9483f57e7eec1a557c0a97c59fcac1a4f2ea))
+* **internal:** update docs ordering ([bad9322](https://github.com/zavudev/sdk-typescript/commit/bad932220d7fc16fb88c325c252422f39ab54b7b))
+
 ## 0.39.0 (2026-04-16)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/zavudev/sdk-typescript/compare/v0.38.0...v0.39.0)
