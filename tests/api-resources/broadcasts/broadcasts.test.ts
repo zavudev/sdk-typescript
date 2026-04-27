@@ -30,6 +30,7 @@ describe('resource broadcasts', () => {
         mediaId: 'mediaId',
         mediaUrl: 'mediaUrl',
         mimeType: 'mimeType',
+        templateButtonVariables: { foo: 'string' },
         templateId: 'templateId',
         templateVariables: { foo: 'string' },
       },
