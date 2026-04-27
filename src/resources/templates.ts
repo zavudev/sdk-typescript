@@ -183,6 +183,12 @@ export interface Template {
 export namespace Template {
   export interface Button {
     /**
+     * Sample value used to substitute `{{1}}` in the URL when submitting the template
+     * to Meta for review. Only present for dynamic URL buttons.
+     */
+    example?: string;
+
+    /**
      * OTP button type. Required when type is 'otp'.
      */
     otpType?: 'COPY_CODE' | 'ONE_TAP';
@@ -302,6 +308,13 @@ export namespace TemplateCreateParams {
     type: 'quick_reply' | 'url' | 'phone' | 'otp';
 
     /**
+     * Sample value Meta uses to review templates with a dynamic URL button.
+     * Substituted into `{{1}}` of the URL when the template is submitted to Meta. Only
+     * meaningful when `url` contains `{{1}}`; ignored for static URLs.
+     */
+    example?: string;
+
+    /**
      * Required when type is 'otp'. COPY_CODE shows copy button, ONE_TAP enables
      * Android autofill.
      */
@@ -319,6 +332,11 @@ export namespace TemplateCreateParams {
      */
     signatureHash?: string;
 
+    /**
+     * Button destination. Use `{{1}}` exactly once for a dynamic URL (e.g.
+     * `https://example.com/orders/{{1}}`); WhatsApp only accepts the strict `{{1}}`
+     * form. Static URLs must not contain any `{{...}}` placeholder.
+     */
     url?: string;
   }
 }

@@ -35,6 +35,7 @@ describe('resource templates', () => {
         {
           text: 'text',
           type: 'quick_reply',
+          example: 'ORD-12345',
           otpType: 'COPY_CODE',
           packageName: 'packageName',
           phoneNumber: 'phoneNumber',
