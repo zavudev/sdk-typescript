@@ -356,6 +356,8 @@ export interface BroadcastContact {
 
   processedAt?: string;
 
+  templateButtonVariables?: { [key: string]: string };
+
   templateVariables?: { [key: string]: string };
 }
 
@@ -389,12 +391,19 @@ export interface BroadcastContent {
   mimeType?: string;
 
   /**
+   * Default button variables for dynamic URL/OTP buttons. Keys are the button index
+   * (0, 1, 2). Per-contact values override these.
+   */
+  templateButtonVariables?: { [key: string]: string };
+
+  /**
    * Template ID for template messages.
    */
   templateId?: string;
 
   /**
-   * Default template variables (can be overridden per contact).
+   * Default body variables (can be overridden per contact). Keys are positions (1,
+   * 2, ...).
    */
   templateVariables?: { [key: string]: string };
 }
