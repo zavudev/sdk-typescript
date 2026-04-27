@@ -294,12 +294,27 @@ export interface MessageContent {
   sections?: Array<MessageContent.Section>;
 
   /**
+   * Variables for dynamic button placeholders (URL buttons and OTP buttons). Keys
+   * are the button index (0, 1, 2) in the template's `buttons` array. Values
+   * substitute the single placeholder allowed inside that button's URL.
+   *
+   * **WhatsApp constraints:**
+   *
+   * - Each URL button supports at most one placeholder, numeric (`{{1}}`) or named
+   *   (`{{order_id}}`).
+   * - A template may have at most three buttons.
+   * - Static URL buttons (no placeholder) are not included here.
+   */
+  templateButtonVariables?: { [key: string]: string };
+
+  /**
    * Template ID for template messages.
    */
   templateId?: string;
 
   /**
-   * Variables for template rendering. Keys are variable positions (1, 2, 3...).
+   * Variables for body placeholders. Keys are positions (1, 2, 3, ...) matching the
+   * order placeholders appear in the template body.
    */
   templateVariables?: { [key: string]: string };
 }

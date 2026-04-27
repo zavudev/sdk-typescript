@@ -138,7 +138,14 @@ export namespace ContactAddParams {
     recipient: string;
 
     /**
-     * Per-contact template variables to personalize the message.
+     * Per-contact button variables for dynamic URL/OTP buttons. Keys are the button
+     * index (0, 1, 2).
+     */
+    templateButtonVariables?: { [key: string]: string };
+
+    /**
+     * Per-contact body variables. Keys are positions (1, 2, ...) matching the order
+     * placeholders appear in the template body.
      */
     templateVariables?: { [key: string]: string };
   }
