@@ -8,7 +8,8 @@ import { path } from '../../internal/utils/path';
 
 export class APIKeys extends APIResource {
   /**
-   * Create sub-account API key
+   * Create sub-account API key. Requires a parent project API key; sub-account API
+   * keys receive HTTP 403.
    *
    * @example
    * ```ts
@@ -23,7 +24,8 @@ export class APIKeys extends APIResource {
   }
 
   /**
-   * List sub-account API keys
+   * List sub-account API keys. Requires a parent project API key; sub-account API
+   * keys receive HTTP 403.
    *
    * @example
    * ```ts
@@ -35,7 +37,8 @@ export class APIKeys extends APIResource {
   }
 
   /**
-   * Revoke sub-account API key
+   * Revoke sub-account API key. Requires a parent project API key; sub-account API
+   * keys receive HTTP 403.
    *
    * @example
    * ```ts
