@@ -5312,14 +5312,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'post',
     summary: 'Create sub-account',
     description:
-      "Create a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response.",
+      "Create a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response. Requires a parent project API key; sub-account API keys receive HTTP 403.",
     stainlessPath: '(resource) sub_accounts > (method) create',
     qualified: 'client.subAccounts.create',
     params: ['name: string;', 'creditLimit?: number;', 'externalId?: string;', 'metadata?: object;'],
     response:
       "{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }",
     markdown:
-      "## create\n\n`client.subAccounts.create(name: string, creditLimit?: number, externalId?: string, metadata?: object): { subAccount: sub_account; }`\n\n**post** `/v1/sub-accounts`\n\nCreate a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response.\n\n### Parameters\n\n- `name: string`\n  Name of the sub-account.\n\n- `creditLimit?: number`\n  Spending cap in cents. When reached, messages from this sub-account will be blocked. Omit or set to 0 for no limit.\n\n- `externalId?: string`\n  External reference ID for your own tracking.\n\n- `metadata?: object`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.create({ name: 'Client ABC' });\n\nconsole.log(subAccount);\n```",
+      "## create\n\n`client.subAccounts.create(name: string, creditLimit?: number, externalId?: string, metadata?: object): { subAccount: sub_account; }`\n\n**post** `/v1/sub-accounts`\n\nCreate a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `name: string`\n  Name of the sub-account.\n\n- `creditLimit?: number`\n  Spending cap in cents. When reached, messages from this sub-account will be blocked. Omit or set to 0 for no limit.\n\n- `externalId?: string`\n  External reference ID for your own tracking.\n\n- `metadata?: object`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.create({ name: 'Client ABC' });\n\nconsole.log(subAccount);\n```",
     perLanguage: {
       cli: {
         method: 'sub_accounts create',
@@ -5361,14 +5361,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts',
     httpMethod: 'get',
     summary: 'List sub-accounts',
-    description: 'List sub-accounts for this team.',
+    description:
+      'List sub-accounts for this team. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) list',
     qualified: 'client.subAccounts.list',
     params: ['cursor?: string;', 'limit?: number;'],
     response:
       "{ id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }",
     markdown:
-      "## list\n\n`client.subAccounts.list(cursor?: string, limit?: number): { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n**get** `/v1/sub-accounts`\n\nList sub-accounts for this team.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `name: string`\n  - `status: 'active' | 'inactive'`\n  - `totalSpent: number`\n  - `apiKey?: string`\n  - `creditLimit?: number`\n  - `externalId?: string`\n  - `metadata?: object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const subAccount of client.subAccounts.list()) {\n  console.log(subAccount);\n}\n```",
+      "## list\n\n`client.subAccounts.list(cursor?: string, limit?: number): { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n**get** `/v1/sub-accounts`\n\nList sub-accounts for this team. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `name: string`\n  - `status: 'active' | 'inactive'`\n  - `totalSpent: number`\n  - `apiKey?: string`\n  - `creditLimit?: number`\n  - `externalId?: string`\n  - `metadata?: object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const subAccount of client.subAccounts.list()) {\n  console.log(subAccount);\n}\n```",
     perLanguage: {
       cli: {
         method: 'sub_accounts list',
@@ -5410,14 +5411,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}',
     httpMethod: 'get',
     summary: 'Get sub-account',
-    description: 'Get sub-account',
+    description: 'Get sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) retrieve',
     qualified: 'client.subAccounts.retrieve',
     params: ['id: string;'],
     response:
       "{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }",
     markdown:
-      "## retrieve\n\n`client.subAccounts.retrieve(id: string): { subAccount: sub_account; }`\n\n**get** `/v1/sub-accounts/{id}`\n\nGet sub-account\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.retrieve('id');\n\nconsole.log(subAccount);\n```",
+      "## retrieve\n\n`client.subAccounts.retrieve(id: string): { subAccount: sub_account; }`\n\n**get** `/v1/sub-accounts/{id}`\n\nGet sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.retrieve('id');\n\nconsole.log(subAccount);\n```",
     perLanguage: {
       cli: {
         method: 'sub_accounts retrieve',
@@ -5459,7 +5460,8 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}',
     httpMethod: 'patch',
     summary: 'Update sub-account',
-    description: 'Update sub-account',
+    description:
+      'Update sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) update',
     qualified: 'client.subAccounts.update',
     params: [
@@ -5473,7 +5475,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }",
     markdown:
-      "## update\n\n`client.subAccounts.update(id: string, creditLimit?: number, externalId?: string, metadata?: object, name?: string, status?: 'active' | 'inactive'): { subAccount: sub_account; }`\n\n**patch** `/v1/sub-accounts/{id}`\n\nUpdate sub-account\n\n### Parameters\n\n- `id: string`\n\n- `creditLimit?: number`\n\n- `externalId?: string`\n\n- `metadata?: object`\n\n- `name?: string`\n\n- `status?: 'active' | 'inactive'`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.update('id');\n\nconsole.log(subAccount);\n```",
+      "## update\n\n`client.subAccounts.update(id: string, creditLimit?: number, externalId?: string, metadata?: object, name?: string, status?: 'active' | 'inactive'): { subAccount: sub_account; }`\n\n**patch** `/v1/sub-accounts/{id}`\n\nUpdate sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n- `creditLimit?: number`\n\n- `externalId?: string`\n\n- `metadata?: object`\n\n- `name?: string`\n\n- `status?: 'active' | 'inactive'`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.update('id');\n\nconsole.log(subAccount);\n```",
     perLanguage: {
       cli: {
         method: 'sub_accounts update',
@@ -5516,13 +5518,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'delete',
     summary: 'Deactivate sub-account',
     description:
-      'Deactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked.',
+      'Deactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) deactivate',
     qualified: 'client.subAccounts.deactivate',
     params: ['id: string;'],
     response: '{ keysRevoked: number; message: string; }',
     markdown:
-      "## deactivate\n\n`client.subAccounts.deactivate(id: string): { keysRevoked: number; message: string; }`\n\n**delete** `/v1/sub-accounts/{id}`\n\nDeactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ keysRevoked: number; message: string; }`\n\n  - `keysRevoked: number`\n  - `message: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.deactivate('id');\n\nconsole.log(response);\n```",
+      "## deactivate\n\n`client.subAccounts.deactivate(id: string): { keysRevoked: number; message: string; }`\n\n**delete** `/v1/sub-accounts/{id}`\n\nDeactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ keysRevoked: number; message: string; }`\n\n  - `keysRevoked: number`\n  - `message: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.deactivate('id');\n\nconsole.log(response);\n```",
     perLanguage: {
       cli: {
         method: 'sub_accounts deactivate',
@@ -5565,14 +5567,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: 'Get sub-account spending',
     description:
-      "Get spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap).",
+      "Get spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap). Requires a parent project API key; sub-account API keys receive HTTP 403.",
     stainlessPath: '(resource) sub_accounts > (method) get_balance',
     qualified: 'client.subAccounts.getBalance',
     params: ['id: string;'],
     response:
       '{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }',
     markdown:
-      "## get_balance\n\n`client.subAccounts.getBalance(id: string): { balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n**get** `/v1/sub-accounts/{id}/balance`\n\nGet spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap).\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n  - `balance: number`\n  - `currency: string`\n  - `creditLimit?: number`\n  - `isSubAccount?: boolean`\n  - `totalSpent?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.getBalance('id');\n\nconsole.log(response);\n```",
+      "## get_balance\n\n`client.subAccounts.getBalance(id: string): { balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n**get** `/v1/sub-accounts/{id}/balance`\n\nGet spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap). Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n  - `balance: number`\n  - `currency: string`\n  - `creditLimit?: number`\n  - `isSubAccount?: boolean`\n  - `totalSpent?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.getBalance('id');\n\nconsole.log(response);\n```",
     perLanguage: {
       cli: {
         method: 'sub_accounts get_balance',
@@ -5614,14 +5616,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}/api-keys',
     httpMethod: 'get',
     summary: 'List sub-account API keys',
-    description: 'List sub-account API keys',
+    description:
+      'List sub-account API keys. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts.api_keys > (method) list',
     qualified: 'client.subAccounts.apiKeys.list',
     params: ['id: string;'],
     response:
       "{ items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]; }",
     markdown:
-      "## list\n\n`client.subAccounts.apiKeys.list(id: string): { items: object[]; }`\n\n**get** `/v1/sub-accounts/{id}/api-keys`\n\nList sub-account API keys\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]; }`\n\n  - `items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKeys = await client.subAccounts.apiKeys.list('id');\n\nconsole.log(apiKeys);\n```",
+      "## list\n\n`client.subAccounts.apiKeys.list(id: string): { items: object[]; }`\n\n**get** `/v1/sub-accounts/{id}/api-keys`\n\nList sub-account API keys. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]; }`\n\n  - `items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKeys = await client.subAccounts.apiKeys.list('id');\n\nconsole.log(apiKeys);\n```",
     perLanguage: {
       cli: {
         method: 'api_keys list',
@@ -5663,13 +5666,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}/api-keys',
     httpMethod: 'post',
     summary: 'Create sub-account API key',
-    description: 'Create sub-account API key',
+    description:
+      'Create sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts.api_keys > (method) create',
     qualified: 'client.subAccounts.apiKeys.create',
     params: ['id: string;', 'name: string;', "environment?: 'live' | 'test';", 'permissions?: string[];'],
     response: "{ apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }; }",
     markdown:
-      "## create\n\n`client.subAccounts.apiKeys.create(id: string, name: string, environment?: 'live' | 'test', permissions?: string[]): { apiKey: object; }`\n\n**post** `/v1/sub-accounts/{id}/api-keys`\n\nCreate sub-account API key\n\n### Parameters\n\n- `id: string`\n\n- `name: string`\n\n- `environment?: 'live' | 'test'`\n\n- `permissions?: string[]`\n\n### Returns\n\n- `{ apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }; }`\n\n  - `apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKey = await client.subAccounts.apiKeys.create('id', { name: 'Production Key' });\n\nconsole.log(apiKey);\n```",
+      "## create\n\n`client.subAccounts.apiKeys.create(id: string, name: string, environment?: 'live' | 'test', permissions?: string[]): { apiKey: object; }`\n\n**post** `/v1/sub-accounts/{id}/api-keys`\n\nCreate sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n- `name: string`\n\n- `environment?: 'live' | 'test'`\n\n- `permissions?: string[]`\n\n### Returns\n\n- `{ apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }; }`\n\n  - `apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKey = await client.subAccounts.apiKeys.create('id', { name: 'Production Key' });\n\nconsole.log(apiKey);\n```",
     perLanguage: {
       cli: {
         method: 'api_keys create',
@@ -5712,12 +5716,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}/api-keys/{keyId}',
     httpMethod: 'delete',
     summary: 'Revoke sub-account API key',
-    description: 'Revoke sub-account API key',
+    description:
+      'Revoke sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts.api_keys > (method) revoke',
     qualified: 'client.subAccounts.apiKeys.revoke',
     params: ['id: string;', 'keyId: string;'],
     markdown:
-      "## revoke\n\n`client.subAccounts.apiKeys.revoke(id: string, keyId: string): void`\n\n**delete** `/v1/sub-accounts/{id}/api-keys/{keyId}`\n\nRevoke sub-account API key\n\n### Parameters\n\n- `id: string`\n\n- `keyId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.subAccounts.apiKeys.revoke('keyId', { id: 'id' })\n```",
+      "## revoke\n\n`client.subAccounts.apiKeys.revoke(id: string, keyId: string): void`\n\n**delete** `/v1/sub-accounts/{id}/api-keys/{keyId}`\n\nRevoke sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n- `keyId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.subAccounts.apiKeys.revoke('keyId', { id: 'id' })\n```",
     perLanguage: {
       cli: {
         method: 'api_keys revoke',
