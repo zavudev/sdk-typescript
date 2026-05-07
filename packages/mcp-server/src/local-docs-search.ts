@@ -378,7 +378,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/templates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "body": "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n          "language": "en",\n          "name": "order_confirmation"\n        }\'',
+          'curl https://api.zavu.dev/v1/templates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "body": "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n          "language": "en",\n          "name": "order_confirmation",\n          "variables": [\n            "customer_name",\n            "order_id"\n          ],\n          "whatsappCategory": "UTILITY"\n        }\'',
       },
     },
   },
@@ -529,7 +529,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123"\n        }\'',
+          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123",\n          "category": "UTILITY"\n        }\'',
       },
     },
   },
@@ -944,7 +944,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "about": "Succulent specialists!",\n          "description": "We specialize in providing high-quality succulents.",\n          "email": "contact@example.com",\n          "vertical": "RETAIL",\n          "websites": [\n            "https://www.example.com"\n          ]\n        }\'',
       },
     },
   },
@@ -1107,7 +1107,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "model": "gpt-4o-mini",\n          "name": "Customer Support",\n          "provider": "openai",\n          "systemPrompt": "You are a helpful customer support agent. Be friendly and concise."\n        }\'',
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "model": "gpt-4o-mini",\n          "name": "Customer Support",\n          "provider": "openai",\n          "systemPrompt": "You are a helpful customer support agent. Be friendly and concise.",\n          "apiKey": "sk-..."\n        }\'',
       },
     },
   },
@@ -1428,7 +1428,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Lead Capture",\n          "steps": [\n            {\n              "id": "welcome",\n              "config": {\n                "text": "bar"\n              },\n              "type": "message",\n              "nextStepId": "ask_name"\n            },\n            {\n              "id": "ask_name",\n              "config": {\n                "variable": "bar",\n                "prompt": "bar"\n              },\n              "type": "collect"\n            }\n          ],\n          "trigger": {\n            "type": "keyword",\n            "keywords": [\n              "info",\n              "pricing",\n              "demo"\n            ]\n          }\n        }\'',
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Lead Capture",\n          "steps": [\n            {\n              "id": "welcome",\n              "config": {\n                "text": "bar"\n              },\n              "type": "message",\n              "nextStepId": "ask_name"\n            },\n            {\n              "id": "ask_name",\n              "config": {\n                "variable": "bar",\n                "prompt": "bar"\n              },\n              "type": "collect"\n            }\n          ],\n          "trigger": {\n            "type": "keyword",\n            "keywords": [\n              "info",\n              "pricing",\n              "demo"\n            ]\n          },\n          "description": "Capture lead information"\n        }\'',
       },
     },
   },
@@ -1742,7 +1742,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status"\n        }\'',
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status",\n          "webhookSecret": "whsec_..."\n        }\'',
       },
     },
   },
@@ -2048,7 +2048,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Product FAQ"\n        }\'',
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Product FAQ",\n          "description": "Frequently asked questions about our products"\n        }\'',
       },
     },
   },
@@ -3988,7 +3988,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+15551234567"\n        }\'',
+          'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+15551234567",\n          "name": "Primary Line"\n        }\'',
       },
     },
   },
@@ -4137,7 +4137,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          "curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
+          'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Support Line"\n        }\'',
       },
     },
   },
@@ -4246,7 +4246,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/addresses \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "countryCode": "DE",\n          "locality": "Berlin",\n          "postalCode": "10115",\n          "streetAddress": "123 Main St"\n        }\'',
+          'curl https://api.zavu.dev/v1/addresses \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "countryCode": "DE",\n          "locality": "Berlin",\n          "postalCode": "10115",\n          "streetAddress": "123 Main St",\n          "firstName": "John",\n          "lastName": "Doe"\n        }\'',
       },
     },
   },
@@ -4905,7 +4905,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/exports \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "dataTypes": [\n            "messages",\n            "conversations"\n          ]\n        }\'',
+          'curl https://api.zavu.dev/v1/exports \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "dataTypes": [\n            "messages",\n            "conversations"\n          ],\n          "dateFrom": "2024-01-01T00:00:00Z",\n          "dateTo": "2024-12-31T23:59:59Z"\n        }\'',
       },
     },
   },
@@ -5707,7 +5707,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Production Key"\n        }\'',
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Production Key",\n          "environment": "live"\n        }\'',
       },
     },
   },
@@ -5874,7 +5874,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "city": "San Francisco",\n          "country": "US",\n          "displayName": "Acme Corp",\n          "email": "compliance@acme.com",\n          "entityType": "PRIVATE_PROFIT",\n          "phone": "+14155551234",\n          "postalCode": "94102",\n          "state": "CA",\n          "street": "123 Main St",\n          "vertical": "Technology",\n          "ein": "12-3456789"\n        }\'',
+          'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "city": "San Francisco",\n          "country": "US",\n          "displayName": "Acme Corp",\n          "email": "compliance@acme.com",\n          "entityType": "PRIVATE_PROFIT",\n          "phone": "+14155551234",\n          "postalCode": "94102",\n          "state": "CA",\n          "street": "123 Main St",\n          "vertical": "Technology",\n          "companyName": "Acme Corporation",\n          "ein": "12-3456789",\n          "website": "https://acme.com"\n        }\'',
       },
     },
   },
