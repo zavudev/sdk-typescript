@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.41.0 (2026-05-07)
+
+Full Changelog: [v0.40.0...v0.41.0](https://github.com/zavudev/sdk-typescript/compare/v0.40.0...v0.41.0)
+
+### Features
+
+* **api:** api update ([26d9533](https://github.com/zavudev/sdk-typescript/commit/26d953324351bfaf5f7a7171855d737fd5661477))
+* support setting headers via env ([c127fe3](https://github.com/zavudev/sdk-typescript/commit/c127fe37e9d69ca8a5b6eebbcd6d7ce9d159ddb5))
+
+
+### Chores
+
+* avoid formatting file that gets changed during releases ([71c65bc](https://github.com/zavudev/sdk-typescript/commit/71c65bcf57c06e2b7cc2aa45a33bfe4a8abcd4cd))
+* **format:** run eslint and prettier separately ([78a8698](https://github.com/zavudev/sdk-typescript/commit/78a86984e5429a25f02ddfb462eb1cafe28a68a3))
+* **internal:** codegen related update ([c174327](https://github.com/zavudev/sdk-typescript/commit/c174327d19cf9bb7db89d6d3167b13bf614b2124))
+* restructure docs search code ([2830d5e](https://github.com/zavudev/sdk-typescript/commit/2830d5e7977d8e0acb3e9cfcf185091946cea088))
+
+
+### Documentation
+
+* update http mcp docs ([122d217](https://github.com/zavudev/sdk-typescript/commit/122d21799d97534e975a536d4a5d22bd7e5195bd))
+
 ## 0.40.0 (2026-04-27)
 
 Full Changelog: [v0.39.0...v0.40.0](https://github.com/zavudev/sdk-typescript/compare/v0.39.0...v0.40.0)

@@ -80,38 +80,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## send\n\n`client.messages.send(to: string, attachments?: { filename: string; content?: string; content_id?: string; content_type?: string; path?: string; }[], channel?: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice', content?: { buttons?: object[]; contacts?: object[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: object[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }, fallbackEnabled?: boolean, htmlBody?: string, idempotencyKey?: string, messageType?: string, metadata?: object, replyTo?: string, subject?: string, text?: string, voiceLanguage?: string, Zavu-Sender?: string): { message: message; }`\n\n**post** `/v1/messages`\n\nSend a message to a recipient via SMS or WhatsApp.\n\n**Channel selection:**\n- If `channel` is omitted and `messageType` is `text`, defaults to SMS\n- If `messageType` is anything other than `text`, WhatsApp is used automatically\n\n**WhatsApp 24-hour window:**\n- Free-form messages (non-template) require an open 24h window\n- Window opens when the user messages you first\n- Use template messages to initiate conversations outside the window\n\n**Daily limits:**\n- Unverified accounts: 200 messages per channel per day\n- Complete KYC verification to increase limits to 10,000/day\n\n### Parameters\n\n- `to: string`\n  Recipient phone number in E.164 format, email address, or numeric chat ID (for Telegram/Instagram).\n\n- `attachments?: { filename: string; content?: string; content_id?: string; content_type?: string; path?: string; }[]`\n  Email attachments. Only supported when channel is 'email'. Maximum 40MB total size.\n\n- `channel?: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  Delivery channel. Use 'auto' for intelligent routing. If omitted, channel is auto-selected based on sender capabilities and recipient type. For email recipients, defaults to 'email'.\n\n- `content?: { buttons?: { id: string; title: string; }[]; contacts?: { name?: string; phones?: string[]; }[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: { rows: { id: string; title: string; description?: string; }[]; title: string; }[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }`\n  Additional content for non-text message types.\n  - `buttons?: { id: string; title: string; }[]`\n    Interactive buttons (max 3).\n  - `contacts?: { name?: string; phones?: string[]; }[]`\n    Contact cards for contact messages.\n  - `ctaDisplayText?: string`\n    Button label for cta_url messages.\n  - `ctaHeaderMediaUrl?: string`\n    Public HTTPS URL of the header media when ctaHeaderType is 'image', 'video', or 'document'. WhatsApp fetches this URL — it must be publicly reachable and return the declared content type.\n  - `ctaHeaderText?: string`\n    Header text when ctaHeaderType is 'text'.\n  - `ctaHeaderType?: 'text' | 'image' | 'video' | 'document'`\n    Optional header type for cta_url messages.\n  - `ctaUrl?: string`\n    Destination URL opened in the device's default browser when the button is tapped. Used with messageType=cta_url. WhatsApp requires HTTPS in production.\n  - `emoji?: string`\n    Emoji for reaction messages.\n  - `filename?: string`\n    Filename for documents.\n  - `footerText?: string`\n    Optional footer text for cta_url messages.\n  - `latitude?: number`\n    Latitude for location messages.\n  - `listButton?: string`\n    Button text for list messages.\n  - `locationAddress?: string`\n    Address of the location.\n  - `locationName?: string`\n    Name of the location.\n  - `longitude?: number`\n    Longitude for location messages.\n  - `mediaId?: string`\n    WhatsApp media ID if already uploaded.\n  - `mediaUrl?: string`\n    URL of the media file (for image, video, audio, document, sticker).\n  - `mimeType?: string`\n    MIME type of the media.\n  - `reactToMessageId?: string`\n    Message ID to react to.\n  - `sections?: { rows: { id: string; title: string; description?: string; }[]; title: string; }[]`\n    Sections for list messages.\n  - `templateButtonVariables?: object`\n    Variables for dynamic button placeholders (URL buttons and OTP buttons). Keys are the button index (0, 1, 2) in the template's `buttons` array — not the placeholder name. Values substitute the `{{1}}` placeholder inside that button's URL.\n\n**WhatsApp constraints:**\n- URL buttons only accept `{{1}}` — positional, numeric, no whitespace, no name. Named placeholders like `{{token}}` are stored as literal URL text by Meta and cannot be substituted.\n- At most one placeholder per URL button.\n- A template may have at most three buttons.\n- Static URL buttons (no placeholder) and `quick_reply` buttons are not included here.\n  - `templateId?: string`\n    Template ID for template messages.\n  - `templateVariables?: object`\n    Variables for body placeholders. Keys are positions (1, 2, 3, ...) matching the order placeholders appear in the template body.\n\n- `fallbackEnabled?: boolean`\n  Whether to enable automatic fallback to SMS if WhatsApp fails. Defaults to true.\n\n- `htmlBody?: string`\n  HTML body for email messages. If provided, email will be sent as multipart with both text and HTML.\n\n- `idempotencyKey?: string`\n  Optional idempotency key to avoid duplicate sends.\n\n- `messageType?: string`\n  Type of message. Defaults to 'text'.\n\n- `metadata?: object`\n  Arbitrary metadata to associate with the message.\n\n- `replyTo?: string`\n  Reply-To email address for email messages.\n\n- `subject?: string`\n  Email subject line. Required when channel is 'email' or recipient is an email address.\n\n- `text?: string`\n  Text body for text messages or caption for media messages.\n\n- `voiceLanguage?: string`\n  Language code for voice text-to-speech (e.g., 'en-US', 'es-ES', 'pt-BR'). If omitted, language is auto-detected from recipient's country code.\n\n- `Zavu-Sender?: string`\n\n### Returns\n\n- `{ message: { id: string; channel: channel; createdAt: string; messageType: message_type; status: message_status; to: string; content?: message_content; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }; }`\n\n  - `message: { id: string; channel: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: string; status: string; to: string; content?: { buttons?: object[]; contacts?: object[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: object[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst messageResponse = await client.messages.send({ to: '+56912345678' });\n\nconsole.log(messageResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'messages send',
-        example: "zavudev messages send \\\n  --api-key 'My API Key' \\\n  --to +56912345678",
-      },
-      go: {
-        method: 'client.Messages.Send',
+      typescript: {
+        method: 'client.messages.send',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmessageResponse, err := client.Messages.Send(context.TODO(), zavudev.MessageSendParams{\n\t\tTo:   "+56912345678",\n\t\tText: zavudev.String("Your verification code is 123456"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/messages \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "to": "+56912345678",\n          "idempotencyKey": "msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE",\n          "replyTo": "support@example.com",\n          "subject": "Your order confirmation",\n          "text": "Your verification code is 123456",\n          "voiceLanguage": "es-ES"\n        }\'',
-      },
-      php: {
-        method: 'messages->send',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->send(\n  to: '+56912345678',\n  attachments: [\n    [\n      'filename' => 'invoice.pdf',\n      'content' => 'content',\n      'contentID' => 'logo',\n      'contentType' => 'application/pdf',\n      'path' => 'https://example.com',\n    ],\n  ],\n  channel: Channel::AUTO,\n  content: [\n    'buttons' => [['id' => 'id', 'title' => 'title']],\n    'contacts' => [['name' => 'name', 'phones' => ['string']]],\n    'ctaDisplayText' => 'See Dates',\n    'ctaHeaderMediaURL' => 'https://example.com',\n    'ctaHeaderText' => 'ctaHeaderText',\n    'ctaHeaderType' => 'text',\n    'ctaURL' => 'https://example.com/schedule',\n    'emoji' => 'emoji',\n    'filename' => 'invoice.pdf',\n    'footerText' => 'Dates subject to change.',\n    'latitude' => 0,\n    'listButton' => 'listButton',\n    'locationAddress' => 'locationAddress',\n    'locationName' => 'locationName',\n    'longitude' => 0,\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'https://example.com/image.jpg',\n    'mimeType' => 'image/jpeg',\n    'reactToMessageID' => 'reactToMessageId',\n    'sections' => [\n      [\n        'rows' => [\n          ['id' => 'id', 'title' => 'title', 'description' => 'description']\n        ],\n        'title' => 'title',\n      ],\n    ],\n    'templateButtonVariables' => ['0' => 'abc-report-token'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['1' => 'John', '2' => 'ORD-12345'],\n  ],\n  fallbackEnabled: true,\n  htmlBody: 'htmlBody',\n  idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',\n  messageType: MessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  replyTo: 'support@example.com',\n  subject: 'Your order confirmation',\n  text: 'Your verification code is 123456',\n  voiceLanguage: 'es-ES',\n  zavuSender: 'sender_12345',\n);\n\nvar_dump($messageResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst messageResponse = await client.messages.send({\n  to: '+56912345678',\n  text: 'Your verification code is 123456',\n});\n\nconsole.log(messageResponse.message);",
       },
       python: {
         method: 'messages.send',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.send(\n    to="+56912345678",\n    text="Your verification code is 123456",\n)\nprint(message_response.message)',
       },
+      go: {
+        method: 'client.Messages.Send',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmessageResponse, err := client.Messages.Send(context.TODO(), zavudev.MessageSendParams{\n\t\tTo:   "+56912345678",\n\t\tText: zavudev.String("Your verification code is 123456"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n',
+      },
       ruby: {
         method: 'messages.send_',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nmessage_response = zavudev.messages.send_(to: "+56912345678")\n\nputs(message_response)',
       },
-      typescript: {
-        method: 'client.messages.send',
+      cli: {
+        method: 'messages send',
+        example: "zavudev messages send \\\n  --api-key 'My API Key' \\\n  --to +56912345678",
+      },
+      php: {
+        method: 'messages->send',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst messageResponse = await client.messages.send({\n  to: '+56912345678',\n  text: 'Your verification code is 123456',\n});\n\nconsole.log(messageResponse.message);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->send(\n  to: '+56912345678',\n  attachments: [\n    [\n      'filename' => 'invoice.pdf',\n      'content' => 'content',\n      'contentID' => 'logo',\n      'contentType' => 'application/pdf',\n      'path' => 'https://example.com',\n    ],\n  ],\n  channel: Channel::AUTO,\n  content: [\n    'buttons' => [['id' => 'id', 'title' => 'title']],\n    'contacts' => [['name' => 'name', 'phones' => ['string']]],\n    'ctaDisplayText' => 'See Dates',\n    'ctaHeaderMediaURL' => 'https://example.com',\n    'ctaHeaderText' => 'ctaHeaderText',\n    'ctaHeaderType' => 'text',\n    'ctaURL' => 'https://example.com/schedule',\n    'emoji' => 'emoji',\n    'filename' => 'invoice.pdf',\n    'footerText' => 'Dates subject to change.',\n    'latitude' => 0,\n    'listButton' => 'listButton',\n    'locationAddress' => 'locationAddress',\n    'locationName' => 'locationName',\n    'longitude' => 0,\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'https://example.com/image.jpg',\n    'mimeType' => 'image/jpeg',\n    'reactToMessageID' => 'reactToMessageId',\n    'sections' => [\n      [\n        'rows' => [\n          ['id' => 'id', 'title' => 'title', 'description' => 'description']\n        ],\n        'title' => 'title',\n      ],\n    ],\n    'templateButtonVariables' => ['0' => 'abc-report-token'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['1' => 'John', '2' => 'ORD-12345'],\n  ],\n  fallbackEnabled: true,\n  htmlBody: 'htmlBody',\n  idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',\n  messageType: MessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  replyTo: 'support@example.com',\n  subject: 'Your order confirmation',\n  text: 'Your verification code is 123456',\n  voiceLanguage: 'es-ES',\n  zavuSender: 'sender_12345',\n);\n\nvar_dump($messageResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/messages \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "to": "+56912345678",\n          "idempotencyKey": "msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE",\n          "replyTo": "support@example.com",\n          "subject": "Your order confirmation",\n          "text": "Your verification code is 123456",\n          "voiceLanguage": "es-ES"\n        }\'',
       },
     },
   },
@@ -135,37 +135,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.messages.list(channel?: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice', cursor?: string, limit?: number, status?: string, to?: string): { id: string; channel: channel; createdAt: string; messageType: message_type; status: message_status; to: string; content?: message_content; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }`\n\n**get** `/v1/messages`\n\nList messages previously sent by this project.\n\n### Parameters\n\n- `channel?: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  Delivery channel. Use 'auto' for intelligent routing.\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: string`\n\n- `to?: string`\n\n### Returns\n\n- `{ id: string; channel: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: string; status: string; to: string; content?: { buttons?: object[]; contacts?: object[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: object[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `channel: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `createdAt: string`\n  - `messageType: string`\n  - `status: string`\n  - `to: string`\n  - `content?: { buttons?: { id: string; title: string; }[]; contacts?: { name?: string; phones?: string[]; }[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: { rows: { id: string; title: string; description?: string; }[]; title: string; }[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }`\n  - `cost?: number`\n  - `costProvider?: number`\n  - `costTotal?: number`\n  - `errorCode?: string`\n  - `errorMessage?: string`\n  - `from?: string`\n  - `metadata?: object`\n  - `providerMessageId?: string`\n  - `senderId?: string`\n  - `text?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const message of client.messages.list()) {\n  console.log(message);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'messages list',
-        example: "zavudev messages list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Messages.List',
+      typescript: {
+        method: 'client.messages.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Messages.List(context.TODO(), zavudev.MessageListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/messages \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'messages->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->messages->list(\n  channel: Channel::AUTO,\n  cursor: 'cursor',\n  limit: 100,\n  status: MessageStatus::QUEUED,\n  to: 'to',\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const message of client.messages.list()) {\n  console.log(message.id);\n}",
       },
       python: {
         method: 'messages.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.messages.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Messages.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Messages.List(context.TODO(), zavudev.MessageListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'messages.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.messages.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.messages.list',
+      cli: {
+        method: 'messages list',
+        example: "zavudev messages list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'messages->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const message of client.messages.list()) {\n  console.log(message.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->messages->list(\n  channel: Channel::AUTO,\n  cursor: 'cursor',\n  limit: 100,\n  status: MessageStatus::QUEUED,\n  to: 'to',\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/messages \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -183,38 +183,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.messages.retrieve(messageId: string): { message: message; }`\n\n**get** `/v1/messages/{messageId}`\n\nGet message by ID\n\n### Parameters\n\n- `messageId: string`\n\n### Returns\n\n- `{ message: { id: string; channel: channel; createdAt: string; messageType: message_type; status: message_status; to: string; content?: message_content; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }; }`\n\n  - `message: { id: string; channel: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: string; status: string; to: string; content?: { buttons?: object[]; contacts?: object[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: object[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst messageResponse = await client.messages.retrieve('messageId');\n\nconsole.log(messageResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'messages retrieve',
-        example: "zavudev messages retrieve \\\n  --api-key 'My API Key' \\\n  --message-id messageId",
-      },
-      go: {
-        method: 'client.Messages.Get',
+      typescript: {
+        method: 'client.messages.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmessageResponse, err := client.Messages.Get(context.TODO(), "messageId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'messages->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->retrieve('messageId');\n\nvar_dump($messageResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst messageResponse = await client.messages.retrieve('messageId');\n\nconsole.log(messageResponse.message);",
       },
       python: {
         method: 'messages.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.retrieve(\n    "messageId",\n)\nprint(message_response.message)',
       },
+      go: {
+        method: 'client.Messages.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmessageResponse, err := client.Messages.Get(context.TODO(), "messageId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n',
+      },
       ruby: {
         method: 'messages.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nmessage_response = zavudev.messages.retrieve("messageId")\n\nputs(message_response)',
       },
-      typescript: {
-        method: 'client.messages.retrieve',
+      cli: {
+        method: 'messages retrieve',
+        example: "zavudev messages retrieve \\\n  --api-key 'My API Key' \\\n  --message-id messageId",
+      },
+      php: {
+        method: 'messages->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst messageResponse = await client.messages.retrieve('messageId');\n\nconsole.log(messageResponse.message);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->retrieve('messageId');\n\nvar_dump($messageResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -233,39 +233,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## react\n\n`client.messages.react(messageId: string, emoji: string, Zavu-Sender?: string): { message: message; }`\n\n**post** `/v1/messages/{messageId}/reactions`\n\nSend an emoji reaction to an existing WhatsApp message. Reactions are only supported for WhatsApp messages.\n\n### Parameters\n\n- `messageId: string`\n\n- `emoji: string`\n  Single emoji character to react with.\n\n- `Zavu-Sender?: string`\n\n### Returns\n\n- `{ message: { id: string; channel: channel; createdAt: string; messageType: message_type; status: message_status; to: string; content?: message_content; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }; }`\n\n  - `message: { id: string; channel: 'auto' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: string; status: string; to: string; content?: { buttons?: object[]; contacts?: object[]; ctaDisplayText?: string; ctaHeaderMediaUrl?: string; ctaHeaderText?: string; ctaHeaderType?: 'text' | 'image' | 'video' | 'document'; ctaUrl?: string; emoji?: string; filename?: string; footerText?: string; latitude?: number; listButton?: string; locationAddress?: string; locationName?: string; longitude?: number; mediaId?: string; mediaUrl?: string; mimeType?: string; reactToMessageId?: string; sections?: object[]; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; cost?: number; costProvider?: number; costTotal?: number; errorCode?: string; errorMessage?: string; from?: string; metadata?: object; providerMessageId?: string; senderId?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst messageResponse = await client.messages.react('messageId', { emoji: '👍' });\n\nconsole.log(messageResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'messages react',
+      typescript: {
+        method: 'client.messages.react',
         example:
-          "zavudev messages react \\\n  --api-key 'My API Key' \\\n  --message-id messageId \\\n  --emoji '👍'",
-      },
-      go: {
-        method: 'client.Messages.React',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmessageResponse, err := client.Messages.React(\n\t\tcontext.TODO(),\n\t\t"messageId",\n\t\tzavudev.MessageReactParams{\n\t\t\tEmoji: "👍",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID/reactions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "emoji": "👍"\n        }\'',
-      },
-      php: {
-        method: 'messages->react',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->react(\n  'messageId', emoji: '👍', zavuSender: 'sender_12345'\n);\n\nvar_dump($messageResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst messageResponse = await client.messages.react('messageId', { emoji: '👍' });\n\nconsole.log(messageResponse.message);",
       },
       python: {
         method: 'messages.react',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.react(\n    message_id="messageId",\n    emoji="👍",\n)\nprint(message_response.message)',
       },
+      go: {
+        method: 'client.Messages.React',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmessageResponse, err := client.Messages.React(\n\t\tcontext.TODO(),\n\t\t"messageId",\n\t\tzavudev.MessageReactParams{\n\t\t\tEmoji: "👍",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n',
+      },
       ruby: {
         method: 'messages.react',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nmessage_response = zavudev.messages.react("messageId", emoji: "👍")\n\nputs(message_response)',
       },
-      typescript: {
-        method: 'client.messages.react',
+      cli: {
+        method: 'messages react',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst messageResponse = await client.messages.react('messageId', { emoji: '👍' });\n\nconsole.log(messageResponse.message);",
+          "zavudev messages react \\\n  --api-key 'My API Key' \\\n  --message-id messageId \\\n  --emoji '👍'",
+      },
+      php: {
+        method: 'messages->react',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->react(\n  'messageId', emoji: '👍', zavuSender: 'sender_12345'\n);\n\nvar_dump($messageResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID/reactions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "emoji": "👍"\n        }\'',
       },
     },
   },
@@ -283,37 +283,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.templates.list(cursor?: string, limit?: number): { id: string; body: string; category: whatsapp_category; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: object[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: object; }`\n\n**get** `/v1/templates`\n\nList WhatsApp message templates for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; body: string; category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: { namespace?: string; status?: string; templateName?: string; }; }`\n\n  - `id: string`\n  - `body: string`\n  - `category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'`\n  - `language: string`\n  - `name: string`\n  - `addSecurityRecommendation?: boolean`\n  - `buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]`\n  - `codeExpirationMinutes?: number`\n  - `createdAt?: string`\n  - `footer?: string`\n  - `headerContent?: string`\n  - `headerType?: string`\n  - `instagramBody?: string`\n  - `smsBody?: string`\n  - `status?: 'draft' | 'pending' | 'approved' | 'rejected'`\n  - `telegramBody?: string`\n  - `updatedAt?: string`\n  - `variables?: string[]`\n  - `whatsapp?: { namespace?: string; status?: string; templateName?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const template of client.templates.list()) {\n  console.log(template);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'templates list',
-        example: "zavudev templates list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Templates.List',
+      typescript: {
+        method: 'client.templates.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Templates.List(context.TODO(), zavudev.TemplateListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/templates \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'templates->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->templates->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const template of client.templates.list()) {\n  console.log(template.id);\n}",
       },
       python: {
         method: 'templates.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.templates.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Templates.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Templates.List(context.TODO(), zavudev.TemplateListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'templates.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.templates.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.templates.list',
+      cli: {
+        method: 'templates list',
+        example: "zavudev templates list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'templates->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const template of client.templates.list()) {\n  console.log(template.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->templates->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/templates \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -346,39 +346,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.templates.create(body: string, language: string, name: string, addSecurityRecommendation?: boolean, buttons?: { text: string; type: 'quick_reply' | 'url' | 'phone' | 'otp'; example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; url?: string; }[], codeExpirationMinutes?: number, footer?: string, headerContent?: string, headerType?: 'text' | 'image' | 'video' | 'document', instagramBody?: string, smsBody?: string, telegramBody?: string, variables?: string[], whatsappCategory?: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'): { id: string; body: string; category: whatsapp_category; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: object[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: object; }`\n\n**post** `/v1/templates`\n\nCreate a WhatsApp message template. Note: Templates must be approved by Meta before use.\n\n### Parameters\n\n- `body: string`\n  Default template body. Used when no channel-specific body is set.\n\n- `language: string`\n\n- `name: string`\n\n- `addSecurityRecommendation?: boolean`\n  Add 'Do not share this code' disclaimer. Only for AUTHENTICATION templates.\n\n- `buttons?: { text: string; type: 'quick_reply' | 'url' | 'phone' | 'otp'; example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; url?: string; }[]`\n  Template buttons (max 3).\n\n- `codeExpirationMinutes?: number`\n  Code expiration time in minutes. Only for AUTHENTICATION templates.\n\n- `footer?: string`\n  Footer text for the template.\n\n- `headerContent?: string`\n  Header content (text string or media URL).\n\n- `headerType?: 'text' | 'image' | 'video' | 'document'`\n  Type of header for the template.\n\n- `instagramBody?: string`\n  Channel-specific body for Instagram. Falls back to `body` if not set.\n\n- `smsBody?: string`\n  Channel-specific body for SMS. Falls back to `body` if not set.\n\n- `telegramBody?: string`\n  Channel-specific body for Telegram. Falls back to `body` if not set.\n\n- `variables?: string[]`\n\n- `whatsappCategory?: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'`\n  WhatsApp template category.\n\n### Returns\n\n- `{ id: string; body: string; category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: { namespace?: string; status?: string; templateName?: string; }; }`\n\n  - `id: string`\n  - `body: string`\n  - `category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'`\n  - `language: string`\n  - `name: string`\n  - `addSecurityRecommendation?: boolean`\n  - `buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]`\n  - `codeExpirationMinutes?: number`\n  - `createdAt?: string`\n  - `footer?: string`\n  - `headerContent?: string`\n  - `headerType?: string`\n  - `instagramBody?: string`\n  - `smsBody?: string`\n  - `status?: 'draft' | 'pending' | 'approved' | 'rejected'`\n  - `telegramBody?: string`\n  - `updatedAt?: string`\n  - `variables?: string[]`\n  - `whatsapp?: { namespace?: string; status?: string; templateName?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst template = await client.templates.create({\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n});\n\nconsole.log(template);\n```",
     perLanguage: {
-      cli: {
-        method: 'templates create',
+      typescript: {
+        method: 'client.templates.create',
         example:
-          "zavudev templates create \\\n  --api-key 'My API Key' \\\n  --body 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.' \\\n  --language en \\\n  --name order_confirmation",
-      },
-      go: {
-        method: 'client.Templates.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttemplate, err := client.Templates.New(context.TODO(), zavudev.TemplateNewParams{\n\t\tBody:             "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n\t\tLanguage:         "en",\n\t\tName:             "order_confirmation",\n\t\tVariables:        []string{"customer_name", "order_id"},\n\t\tWhatsappCategory: zavudev.WhatsappCategoryUtility,\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", template.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/templates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "body": "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n          "language": "en",\n          "name": "order_confirmation"\n        }\'',
-      },
-      php: {
-        method: 'templates->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->create(\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  addSecurityRecommendation: true,\n  buttons: [\n    [\n      'text' => 'text',\n      'type' => 'quick_reply',\n      'example' => 'ORD-12345',\n      'otpType' => 'COPY_CODE',\n      'packageName' => 'packageName',\n      'phoneNumber' => 'phoneNumber',\n      'signatureHash' => 'signatureHash',\n      'url' => 'https://example.com',\n    ],\n  ],\n  codeExpirationMinutes: 1,\n  footer: 'footer',\n  headerContent: 'headerContent',\n  headerType: 'text',\n  instagramBody: 'instagramBody',\n  smsBody: 'smsBody',\n  telegramBody: 'telegramBody',\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: WhatsappCategory::UTILITY,\n);\n\nvar_dump($template);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst template = await client.templates.create({\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: 'UTILITY',\n});\n\nconsole.log(template.id);",
       },
       python: {
         method: 'templates.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.create(\n    body="Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n    language="en",\n    name="order_confirmation",\n    variables=["customer_name", "order_id"],\n    whatsapp_category="UTILITY",\n)\nprint(template.id)',
       },
+      go: {
+        method: 'client.Templates.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttemplate, err := client.Templates.New(context.TODO(), zavudev.TemplateNewParams{\n\t\tBody:             "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n\t\tLanguage:         "en",\n\t\tName:             "order_confirmation",\n\t\tVariables:        []string{"customer_name", "order_id"},\n\t\tWhatsappCategory: zavudev.WhatsappCategoryUtility,\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", template.ID)\n}\n',
+      },
       ruby: {
         method: 'templates.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ntemplate = zavudev.templates.create(\n  body: "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n  language: "en",\n  name: "order_confirmation"\n)\n\nputs(template)',
       },
-      typescript: {
-        method: 'client.templates.create',
+      cli: {
+        method: 'templates create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst template = await client.templates.create({\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: 'UTILITY',\n});\n\nconsole.log(template.id);",
+          "zavudev templates create \\\n  --api-key 'My API Key' \\\n  --body 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.' \\\n  --language en \\\n  --name order_confirmation",
+      },
+      php: {
+        method: 'templates->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->create(\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  addSecurityRecommendation: true,\n  buttons: [\n    [\n      'text' => 'text',\n      'type' => 'quick_reply',\n      'example' => 'ORD-12345',\n      'otpType' => 'COPY_CODE',\n      'packageName' => 'packageName',\n      'phoneNumber' => 'phoneNumber',\n      'signatureHash' => 'signatureHash',\n      'url' => 'https://example.com',\n    ],\n  ],\n  codeExpirationMinutes: 1,\n  footer: 'footer',\n  headerContent: 'headerContent',\n  headerType: 'text',\n  instagramBody: 'instagramBody',\n  smsBody: 'smsBody',\n  telegramBody: 'telegramBody',\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: WhatsappCategory::UTILITY,\n);\n\nvar_dump($template);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/templates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "body": "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n          "language": "en",\n          "name": "order_confirmation",\n          "variables": [\n            "customer_name",\n            "order_id"\n          ],\n          "whatsappCategory": "UTILITY"\n        }\'',
       },
     },
   },
@@ -396,38 +396,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.templates.retrieve(templateId: string): { id: string; body: string; category: whatsapp_category; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: object[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: object; }`\n\n**get** `/v1/templates/{templateId}`\n\nGet template\n\n### Parameters\n\n- `templateId: string`\n\n### Returns\n\n- `{ id: string; body: string; category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: { namespace?: string; status?: string; templateName?: string; }; }`\n\n  - `id: string`\n  - `body: string`\n  - `category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'`\n  - `language: string`\n  - `name: string`\n  - `addSecurityRecommendation?: boolean`\n  - `buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]`\n  - `codeExpirationMinutes?: number`\n  - `createdAt?: string`\n  - `footer?: string`\n  - `headerContent?: string`\n  - `headerType?: string`\n  - `instagramBody?: string`\n  - `smsBody?: string`\n  - `status?: 'draft' | 'pending' | 'approved' | 'rejected'`\n  - `telegramBody?: string`\n  - `updatedAt?: string`\n  - `variables?: string[]`\n  - `whatsapp?: { namespace?: string; status?: string; templateName?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst template = await client.templates.retrieve('templateId');\n\nconsole.log(template);\n```",
     perLanguage: {
-      cli: {
-        method: 'templates retrieve',
-        example: "zavudev templates retrieve \\\n  --api-key 'My API Key' \\\n  --template-id templateId",
-      },
-      go: {
-        method: 'client.Templates.Get',
+      typescript: {
+        method: 'client.templates.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttemplate, err := client.Templates.Get(context.TODO(), "templateId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", template.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'templates->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->retrieve('templateId');\n\nvar_dump($template);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst template = await client.templates.retrieve('templateId');\n\nconsole.log(template.id);",
       },
       python: {
         method: 'templates.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.retrieve(\n    "templateId",\n)\nprint(template.id)',
       },
+      go: {
+        method: 'client.Templates.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttemplate, err := client.Templates.Get(context.TODO(), "templateId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", template.ID)\n}\n',
+      },
       ruby: {
         method: 'templates.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ntemplate = zavudev.templates.retrieve("templateId")\n\nputs(template)',
       },
-      typescript: {
-        method: 'client.templates.retrieve',
+      cli: {
+        method: 'templates retrieve',
+        example: "zavudev templates retrieve \\\n  --api-key 'My API Key' \\\n  --template-id templateId",
+      },
+      php: {
+        method: 'templates->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst template = await client.templates.retrieve('templateId');\n\nconsole.log(template.id);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->retrieve('templateId');\n\nvar_dump($template);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -443,38 +443,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.templates.delete(templateId: string): void`\n\n**delete** `/v1/templates/{templateId}`\n\nDelete template\n\n### Parameters\n\n- `templateId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.templates.delete('templateId')\n```",
     perLanguage: {
-      cli: {
-        method: 'templates delete',
-        example: "zavudev templates delete \\\n  --api-key 'My API Key' \\\n  --template-id templateId",
-      },
-      go: {
-        method: 'client.Templates.Delete',
+      typescript: {
+        method: 'client.templates.delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Templates.Delete(context.TODO(), "templateId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'templates->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->templates->delete('templateId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.templates.delete('templateId');",
       },
       python: {
         method: 'templates.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.templates.delete(\n    "templateId",\n)',
       },
+      go: {
+        method: 'client.Templates.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Templates.Delete(context.TODO(), "templateId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'templates.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.templates.delete("templateId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.templates.delete',
+      cli: {
+        method: 'templates delete',
+        example: "zavudev templates delete \\\n  --api-key 'My API Key' \\\n  --template-id templateId",
+      },
+      php: {
+        method: 'templates->delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.templates.delete('templateId');",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->templates->delete('templateId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -497,39 +497,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## submit\n\n`client.templates.submit(templateId: string, senderId: string, category?: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'): { id: string; body: string; category: whatsapp_category; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: object[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: object; }`\n\n**post** `/v1/templates/{templateId}/submit`\n\nSubmit a WhatsApp template to Meta for approval. The template must be in draft status and associated with a sender that has a WhatsApp Business Account configured.\n\n### Parameters\n\n- `templateId: string`\n\n- `senderId: string`\n  The sender ID with the WhatsApp Business Account to submit the template to.\n\n- `category?: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'`\n  Template category. If not provided, uses the category set on the template.\n\n### Returns\n\n- `{ id: string; body: string; category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'; language: string; name: string; addSecurityRecommendation?: boolean; buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]; codeExpirationMinutes?: number; createdAt?: string; footer?: string; headerContent?: string; headerType?: string; instagramBody?: string; smsBody?: string; status?: 'draft' | 'pending' | 'approved' | 'rejected'; telegramBody?: string; updatedAt?: string; variables?: string[]; whatsapp?: { namespace?: string; status?: string; templateName?: string; }; }`\n\n  - `id: string`\n  - `body: string`\n  - `category: 'UTILITY' | 'MARKETING' | 'AUTHENTICATION'`\n  - `language: string`\n  - `name: string`\n  - `addSecurityRecommendation?: boolean`\n  - `buttons?: { example?: string; otpType?: 'COPY_CODE' | 'ONE_TAP'; packageName?: string; phoneNumber?: string; signatureHash?: string; text?: string; type?: 'quick_reply' | 'url' | 'phone' | 'otp'; url?: string; }[]`\n  - `codeExpirationMinutes?: number`\n  - `createdAt?: string`\n  - `footer?: string`\n  - `headerContent?: string`\n  - `headerType?: string`\n  - `instagramBody?: string`\n  - `smsBody?: string`\n  - `status?: 'draft' | 'pending' | 'approved' | 'rejected'`\n  - `telegramBody?: string`\n  - `updatedAt?: string`\n  - `variables?: string[]`\n  - `whatsapp?: { namespace?: string; status?: string; templateName?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst template = await client.templates.submit('templateId', { senderId: 'sender_abc123' });\n\nconsole.log(template);\n```",
     perLanguage: {
-      cli: {
-        method: 'templates submit',
+      typescript: {
+        method: 'client.templates.submit',
         example:
-          "zavudev templates submit \\\n  --api-key 'My API Key' \\\n  --template-id templateId \\\n  --sender-id sender_abc123",
-      },
-      go: {
-        method: 'client.Templates.Submit',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttemplate, err := client.Templates.Submit(\n\t\tcontext.TODO(),\n\t\t"templateId",\n\t\tzavudev.TemplateSubmitParams{\n\t\t\tSenderID: "sender_abc123",\n\t\t\tCategory: zavudev.WhatsappCategoryUtility,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", template.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123"\n        }\'',
-      },
-      php: {
-        method: 'templates->submit',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->submit(\n  'templateId', senderID: 'sender_abc123', category: WhatsappCategory::UTILITY\n);\n\nvar_dump($template);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst template = await client.templates.submit('templateId', {\n  senderId: 'sender_abc123',\n  category: 'UTILITY',\n});\n\nconsole.log(template.id);",
       },
       python: {
         method: 'templates.submit',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.submit(\n    template_id="templateId",\n    sender_id="sender_abc123",\n    category="UTILITY",\n)\nprint(template.id)',
       },
+      go: {
+        method: 'client.Templates.Submit',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttemplate, err := client.Templates.Submit(\n\t\tcontext.TODO(),\n\t\t"templateId",\n\t\tzavudev.TemplateSubmitParams{\n\t\t\tSenderID: "sender_abc123",\n\t\t\tCategory: zavudev.WhatsappCategoryUtility,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", template.ID)\n}\n',
+      },
       ruby: {
         method: 'templates.submit',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ntemplate = zavudev.templates.submit("templateId", sender_id: "sender_abc123")\n\nputs(template)',
       },
-      typescript: {
-        method: 'client.templates.submit',
+      cli: {
+        method: 'templates submit',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst template = await client.templates.submit('templateId', {\n  senderId: 'sender_abc123',\n  category: 'UTILITY',\n});\n\nconsole.log(template.id);",
+          "zavudev templates submit \\\n  --api-key 'My API Key' \\\n  --template-id templateId \\\n  --sender-id sender_abc123",
+      },
+      php: {
+        method: 'templates->submit',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->submit(\n  'templateId', senderID: 'sender_abc123', category: WhatsappCategory::UTILITY\n);\n\nvar_dump($template);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123",\n          "category": "UTILITY"\n        }\'',
       },
     },
   },
@@ -547,37 +547,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.senders.list(cursor?: string, limit?: number): { id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**get** `/v1/senders`\n\nList senders\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `createdAt?: string`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const sender of client.senders.list()) {\n  console.log(sender);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'senders list',
-        example: "zavudev senders list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Senders.List',
+      typescript: {
+        method: 'client.senders.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.List(context.TODO(), zavudev.SenderListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/senders \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const sender of client.senders.list()) {\n  console.log(sender.id);\n}",
       },
       python: {
         method: 'senders.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Senders.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.List(context.TODO(), zavudev.SenderListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'senders.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.senders.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.senders.list',
+      cli: {
+        method: 'senders list',
+        example: "zavudev senders list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'senders->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const sender of client.senders.list()) {\n  console.log(sender.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/senders \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -601,39 +601,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.senders.create(name: string, phoneNumber: string, setAsDefault?: boolean, webhookEvents?: string[], webhookUrl?: string): { id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**post** `/v1/senders`\n\nCreate sender\n\n### Parameters\n\n- `name: string`\n\n- `phoneNumber: string`\n\n- `setAsDefault?: boolean`\n\n- `webhookEvents?: string[]`\n  Events to subscribe to.\n\n- `webhookUrl?: string`\n  HTTPS URL for webhook events.\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `createdAt?: string`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.create({ name: 'name', phoneNumber: 'phoneNumber' });\n\nconsole.log(sender);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders create',
+      typescript: {
+        method: 'client.senders.create',
         example:
-          "zavudev senders create \\\n  --api-key 'My API Key' \\\n  --name name \\\n  --phone-number phoneNumber",
-      },
-      go: {
-        method: 'client.Senders.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsender, err := client.Senders.New(context.TODO(), zavudev.SenderNewParams{\n\t\tName:        "name",\n\t\tPhoneNumber: "phoneNumber",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", sender.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "phoneNumber": "phoneNumber"\n        }\'',
-      },
-      php: {
-        method: 'senders->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->create(\n  name: 'name',\n  phoneNumber: 'phoneNumber',\n  setAsDefault: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst sender = await client.senders.create({ name: 'name', phoneNumber: 'phoneNumber' });\n\nconsole.log(sender.id);",
       },
       python: {
         method: 'senders.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.create(\n    name="name",\n    phone_number="phoneNumber",\n)\nprint(sender.id)',
       },
+      go: {
+        method: 'client.Senders.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsender, err := client.Senders.New(context.TODO(), zavudev.SenderNewParams{\n\t\tName:        "name",\n\t\tPhoneNumber: "phoneNumber",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", sender.ID)\n}\n',
+      },
       ruby: {
         method: 'senders.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsender = zavudev.senders.create(name: "name", phone_number: "phoneNumber")\n\nputs(sender)',
       },
-      typescript: {
-        method: 'client.senders.create',
+      cli: {
+        method: 'senders create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst sender = await client.senders.create({ name: 'name', phoneNumber: 'phoneNumber' });\n\nconsole.log(sender.id);",
+          "zavudev senders create \\\n  --api-key 'My API Key' \\\n  --name name \\\n  --phone-number phoneNumber",
+      },
+      php: {
+        method: 'senders->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->create(\n  name: 'name',\n  phoneNumber: 'phoneNumber',\n  setAsDefault: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "phoneNumber": "phoneNumber"\n        }\'',
       },
     },
   },
@@ -651,38 +651,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.senders.retrieve(senderId: string): { id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**get** `/v1/senders/{senderId}`\n\nGet sender\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `createdAt?: string`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.retrieve('senderId');\n\nconsole.log(sender);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders retrieve',
-        example: "zavudev senders retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Get',
+      typescript: {
+        method: 'client.senders.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsender, err := client.Senders.Get(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", sender.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->retrieve('senderId');\n\nvar_dump($sender);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst sender = await client.senders.retrieve('senderId');\n\nconsole.log(sender.id);",
       },
       python: {
         method: 'senders.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.retrieve(\n    "senderId",\n)\nprint(sender.id)',
       },
+      go: {
+        method: 'client.Senders.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsender, err := client.Senders.Get(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", sender.ID)\n}\n',
+      },
       ruby: {
         method: 'senders.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsender = zavudev.senders.retrieve("senderId")\n\nputs(sender)',
       },
-      typescript: {
-        method: 'client.senders.retrieve',
+      cli: {
+        method: 'senders retrieve',
+        example: "zavudev senders retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst sender = await client.senders.retrieve('senderId');\n\nconsole.log(sender.id);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->retrieve('senderId');\n\nvar_dump($sender);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -708,38 +708,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.senders.update(senderId: string, emailReceivingEnabled?: boolean, name?: string, setAsDefault?: boolean, webhookActive?: boolean, webhookEvents?: string[], webhookUrl?: string): { id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**patch** `/v1/senders/{senderId}`\n\nUpdate sender\n\n### Parameters\n\n- `senderId: string`\n\n- `emailReceivingEnabled?: boolean`\n  Enable or disable inbound email receiving for this sender.\n\n- `name?: string`\n\n- `setAsDefault?: boolean`\n\n- `webhookActive?: boolean`\n  Whether the webhook is active.\n\n- `webhookEvents?: string[]`\n  Events to subscribe to.\n\n- `webhookUrl?: string`\n  HTTPS URL for webhook events. Set to null to remove webhook.\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; createdAt?: string; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `createdAt?: string`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.update('senderId');\n\nconsole.log(sender);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders update',
-        example: "zavudev senders update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Update',
+      typescript: {
+        method: 'client.senders.update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsender, err := client.Senders.Update(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", sender.ID)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'senders->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->update(\n  'senderId',\n  emailReceivingEnabled: true,\n  name: 'name',\n  setAsDefault: true,\n  webhookActive: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst sender = await client.senders.update('senderId');\n\nconsole.log(sender.id);",
       },
       python: {
         method: 'senders.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.update(\n    sender_id="senderId",\n)\nprint(sender.id)',
       },
+      go: {
+        method: 'client.Senders.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsender, err := client.Senders.Update(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", sender.ID)\n}\n',
+      },
       ruby: {
         method: 'senders.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsender = zavudev.senders.update("senderId")\n\nputs(sender)',
       },
-      typescript: {
-        method: 'client.senders.update',
+      cli: {
+        method: 'senders update',
+        example: "zavudev senders update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst sender = await client.senders.update('senderId');\n\nconsole.log(sender.id);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->update(\n  'senderId',\n  emailReceivingEnabled: true,\n  name: 'name',\n  setAsDefault: true,\n  webhookActive: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -755,38 +755,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.senders.delete(senderId: string): void`\n\n**delete** `/v1/senders/{senderId}`\n\nDelete sender\n\n### Parameters\n\n- `senderId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.senders.delete('senderId')\n```",
     perLanguage: {
-      cli: {
-        method: 'senders delete',
-        example: "zavudev senders delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Delete',
+      typescript: {
+        method: 'client.senders.delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Delete(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->delete('senderId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.delete('senderId');",
       },
       python: {
         method: 'senders.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.delete(\n    "senderId",\n)',
       },
+      go: {
+        method: 'client.Senders.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Delete(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'senders.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.senders.delete("senderId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.senders.delete',
+      cli: {
+        method: 'senders delete',
+        example: "zavudev senders delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.delete('senderId');",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->delete('senderId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -804,39 +804,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## regenerate_webhook_secret\n\n`client.senders.regenerateWebhookSecret(senderId: string): { secret: string; }`\n\n**post** `/v1/senders/{senderId}/webhook/secret`\n\nRegenerate the webhook secret for a sender. The old secret will be invalidated immediately.\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ secret: string; }`\n\n  - `secret: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst webhookSecretResponse = await client.senders.regenerateWebhookSecret('senderId');\n\nconsole.log(webhookSecretResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders regenerate_webhook_secret',
+      typescript: {
+        method: 'client.senders.regenerateWebhookSecret',
         example:
-          "zavudev senders regenerate-webhook-secret \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.RegenerateWebhookSecret',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\twebhookSecretResponse, err := client.Senders.RegenerateWebhookSecret(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", webhookSecretResponse.Secret)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/webhook/secret \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->regenerateWebhookSecret',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$webhookSecretResponse = $client->senders->regenerateWebhookSecret('senderId');\n\nvar_dump($webhookSecretResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst webhookSecretResponse = await client.senders.regenerateWebhookSecret('senderId');\n\nconsole.log(webhookSecretResponse.secret);",
       },
       python: {
         method: 'senders.regenerate_webhook_secret',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_secret_response = client.senders.regenerate_webhook_secret(\n    "senderId",\n)\nprint(webhook_secret_response.secret)',
       },
+      go: {
+        method: 'client.Senders.RegenerateWebhookSecret',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\twebhookSecretResponse, err := client.Senders.RegenerateWebhookSecret(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", webhookSecretResponse.Secret)\n}\n',
+      },
       ruby: {
         method: 'senders.regenerate_webhook_secret',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nwebhook_secret_response = zavudev.senders.regenerate_webhook_secret("senderId")\n\nputs(webhook_secret_response)',
       },
-      typescript: {
-        method: 'client.senders.regenerateWebhookSecret',
+      cli: {
+        method: 'senders regenerate_webhook_secret',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst webhookSecretResponse = await client.senders.regenerateWebhookSecret('senderId');\n\nconsole.log(webhookSecretResponse.secret);",
+          "zavudev senders regenerate-webhook-secret \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->regenerateWebhookSecret',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$webhookSecretResponse = $client->senders->regenerateWebhookSecret('senderId');\n\nvar_dump($webhookSecretResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/webhook/secret \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -855,38 +855,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## get_profile\n\n`client.senders.getProfile(senderId: string): { profile: whatsapp_business_profile; }`\n\n**get** `/v1/senders/{senderId}/profile`\n\nGet the WhatsApp Business profile for a sender. The sender must have a WhatsApp Business Account connected.\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ profile: { about?: string; address?: string; description?: string; email?: string; profilePictureUrl?: string; vertical?: whatsapp_business_profile_vertical; websites?: string[]; }; }`\n\n  - `profile: { about?: string; address?: string; description?: string; email?: string; profilePictureUrl?: string; vertical?: string; websites?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst whatsappBusinessProfileResponse = await client.senders.getProfile('senderId');\n\nconsole.log(whatsappBusinessProfileResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders get_profile',
-        example: "zavudev senders get-profile \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.GetProfile',
+      typescript: {
+        method: 'client.senders.getProfile',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\twhatsappBusinessProfileResponse, err := client.Senders.GetProfile(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", whatsappBusinessProfileResponse.Profile)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->getProfile',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappBusinessProfileResponse = $client->senders->getProfile('senderId');\n\nvar_dump($whatsappBusinessProfileResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst whatsappBusinessProfileResponse = await client.senders.getProfile('senderId');\n\nconsole.log(whatsappBusinessProfileResponse.profile);",
       },
       python: {
         method: 'senders.get_profile',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwhatsapp_business_profile_response = client.senders.get_profile(\n    "senderId",\n)\nprint(whatsapp_business_profile_response.profile)',
       },
+      go: {
+        method: 'client.Senders.GetProfile',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\twhatsappBusinessProfileResponse, err := client.Senders.GetProfile(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", whatsappBusinessProfileResponse.Profile)\n}\n',
+      },
       ruby: {
         method: 'senders.get_profile',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nwhatsapp_business_profile_response = zavudev.senders.get_profile("senderId")\n\nputs(whatsapp_business_profile_response)',
       },
-      typescript: {
-        method: 'client.senders.getProfile',
+      cli: {
+        method: 'senders get_profile',
+        example: "zavudev senders get-profile \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->getProfile',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst whatsappBusinessProfileResponse = await client.senders.getProfile('senderId');\n\nconsole.log(whatsappBusinessProfileResponse.profile);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappBusinessProfileResponse = $client->senders->getProfile('senderId');\n\nvar_dump($whatsappBusinessProfileResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -913,38 +913,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update_profile\n\n`client.senders.updateProfile(senderId: string, about?: string, address?: string, description?: string, email?: string, vertical?: string, websites?: string[]): { profile: whatsapp_business_profile; success: boolean; }`\n\n**patch** `/v1/senders/{senderId}/profile`\n\nUpdate the WhatsApp Business profile for a sender. The sender must have a WhatsApp Business Account connected.\n\n### Parameters\n\n- `senderId: string`\n\n- `about?: string`\n  Short description of the business (max 139 characters).\n\n- `address?: string`\n  Physical address of the business (max 256 characters).\n\n- `description?: string`\n  Extended description of the business (max 512 characters).\n\n- `email?: string`\n  Business email address.\n\n- `vertical?: string`\n  Business category for WhatsApp Business profile.\n\n- `websites?: string[]`\n  Business website URLs (maximum 2).\n\n### Returns\n\n- `{ profile: { about?: string; address?: string; description?: string; email?: string; profilePictureUrl?: string; vertical?: whatsapp_business_profile_vertical; websites?: string[]; }; success: boolean; }`\n\n  - `profile: { about?: string; address?: string; description?: string; email?: string; profilePictureUrl?: string; vertical?: string; websites?: string[]; }`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.senders.updateProfile('senderId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders update_profile',
-        example: "zavudev senders update-profile \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.UpdateProfile',
+      typescript: {
+        method: 'client.senders.updateProfile',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.UpdateProfile(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderUpdateProfileParams{\n\t\t\tAbout:       zavudev.String("Succulent specialists!"),\n\t\t\tDescription: zavudev.String("We specialize in providing high-quality succulents."),\n\t\t\tEmail:       zavudev.String("contact@example.com"),\n\t\t\tVertical:    zavudev.WhatsappBusinessProfileVerticalRetail,\n\t\t\tWebsites:    []string{"https://www.example.com"},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Profile)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'senders->updateProfile',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->updateProfile(\n  'senderId',\n  about: 'Succulent specialists!',\n  address: 'address',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: WhatsappBusinessProfileVertical::RETAIL,\n  websites: ['https://www.example.com'],\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.updateProfile('senderId', {\n  about: 'Succulent specialists!',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: 'RETAIL',\n  websites: ['https://www.example.com'],\n});\n\nconsole.log(response.profile);",
       },
       python: {
         method: 'senders.update_profile',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.update_profile(\n    sender_id="senderId",\n    about="Succulent specialists!",\n    description="We specialize in providing high-quality succulents.",\n    email="contact@example.com",\n    vertical="RETAIL",\n    websites=["https://www.example.com"],\n)\nprint(response.profile)',
       },
+      go: {
+        method: 'client.Senders.UpdateProfile',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.UpdateProfile(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderUpdateProfileParams{\n\t\t\tAbout:       zavudev.String("Succulent specialists!"),\n\t\t\tDescription: zavudev.String("We specialize in providing high-quality succulents."),\n\t\t\tEmail:       zavudev.String("contact@example.com"),\n\t\t\tVertical:    zavudev.WhatsappBusinessProfileVerticalRetail,\n\t\t\tWebsites:    []string{"https://www.example.com"},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Profile)\n}\n',
+      },
       ruby: {
         method: 'senders.update_profile',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.senders.update_profile("senderId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.senders.updateProfile',
+      cli: {
+        method: 'senders update_profile',
+        example: "zavudev senders update-profile \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->updateProfile',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.updateProfile('senderId', {\n  about: 'Succulent specialists!',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: 'RETAIL',\n  websites: ['https://www.example.com'],\n});\n\nconsole.log(response.profile);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->updateProfile(\n  'senderId',\n  about: 'Succulent specialists!',\n  address: 'address',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: WhatsappBusinessProfileVertical::RETAIL,\n  websites: ['https://www.example.com'],\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "about": "Succulent specialists!",\n          "description": "We specialize in providing high-quality succulents.",\n          "email": "contact@example.com",\n          "vertical": "RETAIL",\n          "websites": [\n            "https://www.example.com"\n          ]\n        }\'',
       },
     },
   },
@@ -963,39 +963,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## upload_profile_picture\n\n`client.senders.uploadProfilePicture(senderId: string, imageUrl: string, mimeType: 'image/jpeg' | 'image/png'): { profile: whatsapp_business_profile; success: boolean; }`\n\n**post** `/v1/senders/{senderId}/profile/picture`\n\nUpload a new profile picture for the WhatsApp Business profile. The image will be uploaded to Meta and set as the profile picture.\n\n### Parameters\n\n- `senderId: string`\n\n- `imageUrl: string`\n  URL of the image to upload.\n\n- `mimeType: 'image/jpeg' | 'image/png'`\n  MIME type of the image.\n\n### Returns\n\n- `{ profile: { about?: string; address?: string; description?: string; email?: string; profilePictureUrl?: string; vertical?: whatsapp_business_profile_vertical; websites?: string[]; }; success: boolean; }`\n\n  - `profile: { about?: string; address?: string; description?: string; email?: string; profilePictureUrl?: string; vertical?: string; websites?: string[]; }`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.senders.uploadProfilePicture('senderId', { imageUrl: 'https://example.com/profile.jpg', mimeType: 'image/jpeg' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'senders upload_profile_picture',
+      typescript: {
+        method: 'client.senders.uploadProfilePicture',
         example:
-          "zavudev senders upload-profile-picture \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --image-url https://example.com/profile.jpg \\\n  --mime-type image/jpeg",
-      },
-      go: {
-        method: 'client.Senders.UploadProfilePicture',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.UploadProfilePicture(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderUploadProfilePictureParams{\n\t\t\tImageURL: "https://example.com/profile.jpg",\n\t\t\tMimeType: zavudev.SenderUploadProfilePictureParamsMimeTypeImageJpeg,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Profile)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile/picture \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "imageUrl": "https://example.com/profile.jpg",\n          "mimeType": "image/jpeg"\n        }\'',
-      },
-      php: {
-        method: 'senders->uploadProfilePicture',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->uploadProfilePicture(\n  'senderId',\n  imageURL: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.uploadProfilePicture('senderId', {\n  imageUrl: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n});\n\nconsole.log(response.profile);",
       },
       python: {
         method: 'senders.upload_profile_picture',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.upload_profile_picture(\n    sender_id="senderId",\n    image_url="https://example.com/profile.jpg",\n    mime_type="image/jpeg",\n)\nprint(response.profile)',
       },
+      go: {
+        method: 'client.Senders.UploadProfilePicture',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.UploadProfilePicture(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderUploadProfilePictureParams{\n\t\t\tImageURL: "https://example.com/profile.jpg",\n\t\t\tMimeType: zavudev.SenderUploadProfilePictureParamsMimeTypeImageJpeg,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Profile)\n}\n',
+      },
       ruby: {
         method: 'senders.upload_profile_picture',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.senders.upload_profile_picture(\n  "senderId",\n  image_url: "https://example.com/profile.jpg",\n  mime_type: :"image/jpeg"\n)\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.senders.uploadProfilePicture',
+      cli: {
+        method: 'senders upload_profile_picture',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.uploadProfilePicture('senderId', {\n  imageUrl: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n});\n\nconsole.log(response.profile);",
+          "zavudev senders upload-profile-picture \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --image-url https://example.com/profile.jpg \\\n  --mime-type image/jpeg",
+      },
+      php: {
+        method: 'senders->uploadProfilePicture',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->uploadProfilePicture(\n  'senderId',\n  imageURL: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile/picture \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "imageUrl": "https://example.com/profile.jpg",\n          "mimeType": "image/jpeg"\n        }\'',
       },
     },
   },
@@ -1013,38 +1013,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.senders.agent.retrieve(senderId: string): { agent: agent; }`\n\n**get** `/v1/senders/{senderId}/agent`\n\nGet the AI agent configuration for a sender.\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ agent: { id: string; createdAt: string; enabled: boolean; model: string; name: string; provider: agent_provider; senderId: string; systemPrompt: string; updatedAt: string; contextWindowMessages?: number; includeContactMetadata?: boolean; maxTokens?: number; stats?: object; temperature?: number; triggerOnChannels?: string[]; triggerOnMessageTypes?: string[]; }; }`\n\n  - `agent: { id: string; createdAt: string; enabled: boolean; model: string; name: string; provider: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu'; senderId: string; systemPrompt: string; updatedAt: string; contextWindowMessages?: number; includeContactMetadata?: boolean; maxTokens?: number; stats?: { totalCost?: number; totalInvocations?: number; totalTokensUsed?: number; }; temperature?: number; triggerOnChannels?: string[]; triggerOnMessageTypes?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst agentResponse = await client.senders.agent.retrieve('senderId');\n\nconsole.log(agentResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'agent retrieve',
-        example: "zavudev senders:agent retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Get',
+      typescript: {
+        method: 'client.senders.agent.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentResponse, err := client.Senders.Agent.Get(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentResponse.Agent)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->retrieve('senderId');\n\nvar_dump($agentResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentResponse = await client.senders.agent.retrieve('senderId');\n\nconsole.log(agentResponse.agent);",
       },
       python: {
         method: 'senders.agent.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.retrieve(\n    "senderId",\n)\nprint(agent_response.agent)',
       },
+      go: {
+        method: 'client.Senders.Agent.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentResponse, err := client.Senders.Agent.Get(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentResponse.Agent)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nagent_response = zavudev.senders.agent.retrieve("senderId")\n\nputs(agent_response)',
       },
-      typescript: {
-        method: 'client.senders.agent.retrieve',
+      cli: {
+        method: 'agent retrieve',
+        example: "zavudev senders:agent retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentResponse = await client.senders.agent.retrieve('senderId');\n\nconsole.log(agentResponse.agent);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->retrieve('senderId');\n\nvar_dump($agentResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1075,39 +1075,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.senders.agent.create(senderId: string, model: string, name: string, provider: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu', systemPrompt: string, apiKey?: string, contextWindowMessages?: number, includeContactMetadata?: boolean, maxTokens?: number, temperature?: number, triggerOnChannels?: string[], triggerOnMessageTypes?: string[]): { agent: agent; }`\n\n**post** `/v1/senders/{senderId}/agent`\n\nCreate an AI agent for a sender. Each sender can have at most one agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `model: string`\n\n- `name: string`\n\n- `provider: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu'`\n  LLM provider for the AI agent.\n\n- `systemPrompt: string`\n\n- `apiKey?: string`\n  API key for the LLM provider. Required unless provider is 'zavu'.\n\n- `contextWindowMessages?: number`\n\n- `includeContactMetadata?: boolean`\n\n- `maxTokens?: number`\n\n- `temperature?: number`\n\n- `triggerOnChannels?: string[]`\n\n- `triggerOnMessageTypes?: string[]`\n\n### Returns\n\n- `{ agent: { id: string; createdAt: string; enabled: boolean; model: string; name: string; provider: agent_provider; senderId: string; systemPrompt: string; updatedAt: string; contextWindowMessages?: number; includeContactMetadata?: boolean; maxTokens?: number; stats?: object; temperature?: number; triggerOnChannels?: string[]; triggerOnMessageTypes?: string[]; }; }`\n\n  - `agent: { id: string; createdAt: string; enabled: boolean; model: string; name: string; provider: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu'; senderId: string; systemPrompt: string; updatedAt: string; contextWindowMessages?: number; includeContactMetadata?: boolean; maxTokens?: number; stats?: { totalCost?: number; totalInvocations?: number; totalTokensUsed?: number; }; temperature?: number; triggerOnChannels?: string[]; triggerOnMessageTypes?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst agentResponse = await client.senders.agent.create('senderId', {\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: 'openai',\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n});\n\nconsole.log(agentResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'agent create',
+      typescript: {
+        method: 'client.senders.agent.create',
         example:
-          "zavudev senders:agent create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --model gpt-4o-mini \\\n  --name 'Customer Support' \\\n  --provider openai \\\n  --system-prompt 'You are a helpful customer support agent. Be friendly and concise.'",
-      },
-      go: {
-        method: 'client.Senders.Agent.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentResponse, err := client.Senders.Agent.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentNewParams{\n\t\t\tModel:        "gpt-4o-mini",\n\t\t\tName:         "Customer Support",\n\t\t\tProvider:     zavudev.AgentProviderOpenAI,\n\t\t\tSystemPrompt: "You are a helpful customer support agent. Be friendly and concise.",\n\t\t\tAPIKey:       zavudev.String("sk-..."),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentResponse.Agent)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "model": "gpt-4o-mini",\n          "name": "Customer Support",\n          "provider": "openai",\n          "systemPrompt": "You are a helpful customer support agent. Be friendly and concise."\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->create(\n  'senderId',\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n  contextWindowMessages: 1,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n);\n\nvar_dump($agentResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentResponse = await client.senders.agent.create('senderId', {\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: 'openai',\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n});\n\nconsole.log(agentResponse.agent);",
       },
       python: {
         method: 'senders.agent.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.create(\n    sender_id="senderId",\n    model="gpt-4o-mini",\n    name="Customer Support",\n    provider="openai",\n    system_prompt="You are a helpful customer support agent. Be friendly and concise.",\n    api_key="sk-...",\n)\nprint(agent_response.agent)',
       },
+      go: {
+        method: 'client.Senders.Agent.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentResponse, err := client.Senders.Agent.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentNewParams{\n\t\t\tModel:        "gpt-4o-mini",\n\t\t\tName:         "Customer Support",\n\t\t\tProvider:     zavudev.AgentProviderOpenAI,\n\t\t\tSystemPrompt: "You are a helpful customer support agent. Be friendly and concise.",\n\t\t\tAPIKey:       zavudev.String("sk-..."),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentResponse.Agent)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nagent_response = zavudev.senders.agent.create(\n  "senderId",\n  model: "gpt-4o-mini",\n  name: "Customer Support",\n  provider: :openai,\n  system_prompt: "You are a helpful customer support agent. Be friendly and concise."\n)\n\nputs(agent_response)',
       },
-      typescript: {
-        method: 'client.senders.agent.create',
+      cli: {
+        method: 'agent create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentResponse = await client.senders.agent.create('senderId', {\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: 'openai',\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n});\n\nconsole.log(agentResponse.agent);",
+          "zavudev senders:agent create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --model gpt-4o-mini \\\n  --name 'Customer Support' \\\n  --provider openai \\\n  --system-prompt 'You are a helpful customer support agent. Be friendly and concise.'",
+      },
+      php: {
+        method: 'senders->agent->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->create(\n  'senderId',\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n  contextWindowMessages: 1,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n);\n\nvar_dump($agentResponse);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "model": "gpt-4o-mini",\n          "name": "Customer Support",\n          "provider": "openai",\n          "systemPrompt": "You are a helpful customer support agent. Be friendly and concise.",\n          "apiKey": "sk-..."\n        }\'',
       },
     },
   },
@@ -1139,38 +1139,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.senders.agent.update(senderId: string, apiKey?: string, contextWindowMessages?: number, enabled?: boolean, includeContactMetadata?: boolean, maxTokens?: number, model?: string, name?: string, provider?: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu', systemPrompt?: string, temperature?: number, triggerOnChannels?: string[], triggerOnMessageTypes?: string[]): { agent: agent; }`\n\n**patch** `/v1/senders/{senderId}/agent`\n\nUpdate an AI agent's configuration.\n\n### Parameters\n\n- `senderId: string`\n\n- `apiKey?: string`\n\n- `contextWindowMessages?: number`\n\n- `enabled?: boolean`\n\n- `includeContactMetadata?: boolean`\n\n- `maxTokens?: number`\n\n- `model?: string`\n\n- `name?: string`\n\n- `provider?: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu'`\n  LLM provider for the AI agent.\n\n- `systemPrompt?: string`\n\n- `temperature?: number`\n\n- `triggerOnChannels?: string[]`\n\n- `triggerOnMessageTypes?: string[]`\n\n### Returns\n\n- `{ agent: { id: string; createdAt: string; enabled: boolean; model: string; name: string; provider: agent_provider; senderId: string; systemPrompt: string; updatedAt: string; contextWindowMessages?: number; includeContactMetadata?: boolean; maxTokens?: number; stats?: object; temperature?: number; triggerOnChannels?: string[]; triggerOnMessageTypes?: string[]; }; }`\n\n  - `agent: { id: string; createdAt: string; enabled: boolean; model: string; name: string; provider: 'openai' | 'anthropic' | 'google' | 'mistral' | 'zavu'; senderId: string; systemPrompt: string; updatedAt: string; contextWindowMessages?: number; includeContactMetadata?: boolean; maxTokens?: number; stats?: { totalCost?: number; totalInvocations?: number; totalTokensUsed?: number; }; temperature?: number; triggerOnChannels?: string[]; triggerOnMessageTypes?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst agentResponse = await client.senders.agent.update('senderId');\n\nconsole.log(agentResponse);\n```",
     perLanguage: {
-      cli: {
-        method: 'agent update',
-        example: "zavudev senders:agent update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Update',
+      typescript: {
+        method: 'client.senders.agent.update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentResponse, err := client.Senders.Agent.Update(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentResponse.Agent)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'senders->agent->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->update(\n  'senderId',\n  apiKey: 'apiKey',\n  contextWindowMessages: 1,\n  enabled: true,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  model: 'model',\n  name: 'name',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'systemPrompt',\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n);\n\nvar_dump($agentResponse);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentResponse = await client.senders.agent.update('senderId');\n\nconsole.log(agentResponse.agent);",
       },
       python: {
         method: 'senders.agent.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.update(\n    sender_id="senderId",\n)\nprint(agent_response.agent)',
       },
+      go: {
+        method: 'client.Senders.Agent.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentResponse, err := client.Senders.Agent.Update(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentResponse.Agent)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nagent_response = zavudev.senders.agent.update("senderId")\n\nputs(agent_response)',
       },
-      typescript: {
-        method: 'client.senders.agent.update',
+      cli: {
+        method: 'agent update',
+        example: "zavudev senders:agent update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentResponse = await client.senders.agent.update('senderId');\n\nconsole.log(agentResponse.agent);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->update(\n  'senderId',\n  apiKey: 'apiKey',\n  contextWindowMessages: 1,\n  enabled: true,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  model: 'model',\n  name: 'name',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'systemPrompt',\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n);\n\nvar_dump($agentResponse);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -1186,38 +1186,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.senders.agent.delete(senderId: string): void`\n\n**delete** `/v1/senders/{senderId}/agent`\n\nDelete an AI agent.\n\n### Parameters\n\n- `senderId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.senders.agent.delete('senderId')\n```",
     perLanguage: {
-      cli: {
-        method: 'agent delete',
-        example: "zavudev senders:agent delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Delete',
+      typescript: {
+        method: 'client.senders.agent.delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.Delete(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->delete('senderId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.delete('senderId');",
       },
       python: {
         method: 'senders.agent.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.delete(\n    "senderId",\n)',
       },
+      go: {
+        method: 'client.Senders.Agent.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.Delete(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'senders.agent.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.senders.agent.delete("senderId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.senders.agent.delete',
+      cli: {
+        method: 'agent delete',
+        example: "zavudev senders:agent delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.delete('senderId');",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->delete('senderId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1235,38 +1235,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## stats\n\n`client.senders.agent.stats(senderId: string): { errorCount: number; successCount: number; totalCost: number; totalInvocations: number; totalTokensUsed: number; avgLatencyMs?: number; }`\n\n**get** `/v1/senders/{senderId}/agent/stats`\n\nGet statistics for an AI agent including invocations, tokens, and costs.\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ errorCount: number; successCount: number; totalCost: number; totalInvocations: number; totalTokensUsed: number; avgLatencyMs?: number; }`\n\n  - `errorCount: number`\n  - `successCount: number`\n  - `totalCost: number`\n  - `totalInvocations: number`\n  - `totalTokensUsed: number`\n  - `avgLatencyMs?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst agentStats = await client.senders.agent.stats('senderId');\n\nconsole.log(agentStats);\n```",
     perLanguage: {
-      cli: {
-        method: 'agent stats',
-        example: "zavudev senders:agent stats \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Stats',
+      typescript: {
+        method: 'client.senders.agent.stats',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentStats, err := client.Senders.Agent.Stats(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentStats.ErrorCount)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/stats \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->stats',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentStats = $client->senders->agent->stats('senderId');\n\nvar_dump($agentStats);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentStats = await client.senders.agent.stats('senderId');\n\nconsole.log(agentStats.errorCount);",
       },
       python: {
         method: 'senders.agent.stats',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_stats = client.senders.agent.stats(\n    "senderId",\n)\nprint(agent_stats.error_count)',
       },
+      go: {
+        method: 'client.Senders.Agent.Stats',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tagentStats, err := client.Senders.Agent.Stats(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", agentStats.ErrorCount)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.stats',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nagent_stats = zavudev.senders.agent.stats("senderId")\n\nputs(agent_stats)',
       },
-      typescript: {
-        method: 'client.senders.agent.stats',
+      cli: {
+        method: 'agent stats',
+        example: "zavudev senders:agent stats \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->stats',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst agentStats = await client.senders.agent.stats('senderId');\n\nconsole.log(agentStats.errorCount);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentStats = $client->senders->agent->stats('senderId');\n\nvar_dump($agentStats);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/stats \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1289,39 +1289,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.senders.agent.executions.list(senderId: string, cursor?: string, limit?: number, status?: 'success' | 'error' | 'filtered' | 'rate_limited' | 'balance_insufficient'): { id: string; agentId: string; cost: number; createdAt: string; inputTokens: number; latencyMs: number; outputTokens: number; status: agent_execution_status; errorMessage?: string; inboundMessageId?: string; responseMessageId?: string; responseText?: string; }`\n\n**get** `/v1/senders/{senderId}/agent/executions`\n\nList recent agent executions with pagination.\n\n### Parameters\n\n- `senderId: string`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'success' | 'error' | 'filtered' | 'rate_limited' | 'balance_insufficient'`\n  Status of an agent execution.\n\n### Returns\n\n- `{ id: string; agentId: string; cost: number; createdAt: string; inputTokens: number; latencyMs: number; outputTokens: number; status: 'success' | 'error' | 'filtered' | 'rate_limited' | 'balance_insufficient'; errorMessage?: string; inboundMessageId?: string; responseMessageId?: string; responseText?: string; }`\n\n  - `id: string`\n  - `agentId: string`\n  - `cost: number`\n  - `createdAt: string`\n  - `inputTokens: number`\n  - `latencyMs: number`\n  - `outputTokens: number`\n  - `status: 'success' | 'error' | 'filtered' | 'rate_limited' | 'balance_insufficient'`\n  - `errorMessage?: string`\n  - `inboundMessageId?: string`\n  - `responseMessageId?: string`\n  - `responseText?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentExecution of client.senders.agent.executions.list('senderId')) {\n  console.log(agentExecution);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'executions list',
+      typescript: {
+        method: 'client.senders.agent.executions.list',
         example:
-          "zavudev senders:agent:executions list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Executions.List',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.Executions.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentExecutionListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->executions->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->executions->list(\n  'senderId',\n  cursor: 'cursor',\n  limit: 100,\n  status: AgentExecutionStatus::SUCCESS,\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentExecution of client.senders.agent.executions.list('senderId')) {\n  console.log(agentExecution.id);\n}",
       },
       python: {
         method: 'senders.agent.executions.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.executions.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Senders.Agent.Executions.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.Executions.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentExecutionListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.executions.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.senders.agent.executions.list("senderId")\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.senders.agent.executions.list',
+      cli: {
+        method: 'executions list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentExecution of client.senders.agent.executions.list('senderId')) {\n  console.log(agentExecution.id);\n}",
+          "zavudev senders:agent:executions list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->executions->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->executions->list(\n  'senderId',\n  cursor: 'cursor',\n  limit: 100,\n  status: AgentExecutionStatus::SUCCESS,\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1339,38 +1339,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.senders.agent.flows.list(senderId: string, cursor?: string, enabled?: boolean, limit?: number): { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: flow_step[]; trigger: flow_trigger; updatedAt: string; description?: string; }`\n\n**get** `/v1/senders/{senderId}/agent/flows`\n\nList flows for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `cursor?: string`\n\n- `enabled?: boolean`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]; trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }; updatedAt: string; description?: string; }`\n\n  - `id: string`\n  - `agentId: string`\n  - `createdAt: string`\n  - `enabled: boolean`\n  - `name: string`\n  - `priority: number`\n  - `steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]`\n  - `trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }`\n  - `updatedAt: string`\n  - `description?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentFlow of client.senders.agent.flows.list('senderId')) {\n  console.log(agentFlow);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'flows list',
-        example: "zavudev senders:agent:flows list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Flows.List',
+      typescript: {
+        method: 'client.senders.agent.flows.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.Flows.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentFlowListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->flows->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->flows->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentFlow of client.senders.agent.flows.list('senderId')) {\n  console.log(agentFlow.id);\n}",
       },
       python: {
         method: 'senders.agent.flows.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.flows.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Senders.Agent.Flows.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.Flows.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentFlowListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.flows.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.senders.agent.flows.list("senderId")\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.senders.agent.flows.list',
+      cli: {
+        method: 'flows list',
+        example: "zavudev senders:agent:flows list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->flows->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentFlow of client.senders.agent.flows.list('senderId')) {\n  console.log(agentFlow.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->flows->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1396,39 +1396,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.senders.agent.flows.create(senderId: string, name: string, steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[], trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }, description?: string, enabled?: boolean, priority?: number): { flow: agent_flow; }`\n\n**post** `/v1/senders/{senderId}/agent/flows`\n\nCreate a new flow for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `name: string`\n\n- `steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]`\n\n- `trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }`\n  - `type: 'keyword' | 'intent' | 'always' | 'manual'`\n    Type of trigger for a flow.\n  - `intent?: string`\n    Intent that triggers the flow (for intent type).\n  - `keywords?: string[]`\n    Keywords that trigger the flow (for keyword type).\n\n- `description?: string`\n\n- `enabled?: boolean`\n\n- `priority?: number`\n\n### Returns\n\n- `{ flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: flow_step[]; trigger: flow_trigger; updatedAt: string; description?: string; }; }`\n\n  - `flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]; trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst flow = await client.senders.agent.flows.create('senderId', {\n  name: 'Lead Capture',\n  steps: [{\n  id: 'welcome',\n  config: { text: 'bar' },\n  type: 'message',\n}, {\n  id: 'ask_name',\n  config: { variable: 'bar', prompt: 'bar' },\n  type: 'collect',\n}],\n  trigger: { type: 'keyword' },\n});\n\nconsole.log(flow);\n```",
     perLanguage: {
-      cli: {
-        method: 'flows create',
+      typescript: {
+        method: 'client.senders.agent.flows.create',
         example:
-          "zavudev senders:agent:flows create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --name 'Lead Capture' \\\n  --step '{id: welcome, config: {text: bar}, type: message}' \\\n  --step '{id: ask_name, config: {variable: bar, prompt: bar}, type: collect}' \\\n  --trigger '{type: keyword}'",
-      },
-      go: {
-        method: 'client.Senders.Agent.Flows.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tflow, err := client.Senders.Agent.Flows.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentFlowNewParams{\n\t\t\tName: "Lead Capture",\n\t\t\tSteps: []zavudev.FlowStepParam{{\n\t\t\t\tID:   "welcome",\n\t\t\t\tType: zavudev.FlowStepTypeMessage,\n\t\t\t\tConfig: map[string]any{\n\t\t\t\t\t"text": "Thanks for your interest! Let me get some info.",\n\t\t\t\t},\n\t\t\t\tNextStepID: zavudev.String("ask_name"),\n\t\t\t}, {\n\t\t\t\tID:   "ask_name",\n\t\t\t\tType: zavudev.FlowStepTypeCollect,\n\t\t\t\tConfig: map[string]any{\n\t\t\t\t\t"variable": "name",\n\t\t\t\t\t"prompt":   "What\'s your name?",\n\t\t\t\t},\n\t\t\t}},\n\t\t\tTrigger: zavudev.FlowTriggerParam{\n\t\t\t\tType:     zavudev.FlowTriggerTypeKeyword,\n\t\t\t\tKeywords: []string{"info", "pricing", "demo"},\n\t\t\t},\n\t\t\tDescription: zavudev.String("Capture lead information"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", flow.Flow)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Lead Capture",\n          "steps": [\n            {\n              "id": "welcome",\n              "config": {\n                "text": "bar"\n              },\n              "type": "message",\n              "nextStepId": "ask_name"\n            },\n            {\n              "id": "ask_name",\n              "config": {\n                "variable": "bar",\n                "prompt": "bar"\n              },\n              "type": "collect"\n            }\n          ],\n          "trigger": {\n            "type": "keyword",\n            "keywords": [\n              "info",\n              "pricing",\n              "demo"\n            ]\n          }\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->flows->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->create(\n  'senderId',\n  name: 'Lead Capture',\n  steps: [\n    [\n      'id' => 'welcome',\n      'config' => ['text' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'ask_name',\n    ],\n    [\n      'id' => 'ask_name',\n      'config' => ['variable' => 'bar', 'prompt' => 'bar'],\n      'type' => 'collect',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword',\n    'intent' => 'intent',\n    'keywords' => ['info', 'pricing', 'demo'],\n  ],\n  description: 'Capture lead information',\n  enabled: true,\n  priority: 0,\n);\n\nvar_dump($flow);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst flow = await client.senders.agent.flows.create('senderId', {\n  name: 'Lead Capture',\n  steps: [\n    {\n      id: 'welcome',\n      type: 'message',\n      config: { text: 'Thanks for your interest! Let me get some info.' },\n      nextStepId: 'ask_name',\n    },\n    {\n      id: 'ask_name',\n      type: 'collect',\n      config: { variable: 'name', prompt: \"What's your name?\" },\n    },\n  ],\n  trigger: { type: 'keyword', keywords: ['info', 'pricing', 'demo'] },\n  description: 'Capture lead information',\n});\n\nconsole.log(flow.flow);",
       },
       python: {
         method: 'senders.agent.flows.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.create(\n    sender_id="senderId",\n    name="Lead Capture",\n    steps=[{\n        "id": "welcome",\n        "type": "message",\n        "config": {\n            "text": "Thanks for your interest! Let me get some info."\n        },\n        "next_step_id": "ask_name",\n    }, {\n        "id": "ask_name",\n        "type": "collect",\n        "config": {\n            "variable": "name",\n            "prompt": "What\'s your name?",\n        },\n    }],\n    trigger={\n        "type": "keyword",\n        "keywords": ["info", "pricing", "demo"],\n    },\n    description="Capture lead information",\n)\nprint(flow.flow)',
       },
+      go: {
+        method: 'client.Senders.Agent.Flows.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tflow, err := client.Senders.Agent.Flows.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentFlowNewParams{\n\t\t\tName: "Lead Capture",\n\t\t\tSteps: []zavudev.FlowStepParam{{\n\t\t\t\tID:   "welcome",\n\t\t\t\tType: zavudev.FlowStepTypeMessage,\n\t\t\t\tConfig: map[string]any{\n\t\t\t\t\t"text": "Thanks for your interest! Let me get some info.",\n\t\t\t\t},\n\t\t\t\tNextStepID: zavudev.String("ask_name"),\n\t\t\t}, {\n\t\t\t\tID:   "ask_name",\n\t\t\t\tType: zavudev.FlowStepTypeCollect,\n\t\t\t\tConfig: map[string]any{\n\t\t\t\t\t"variable": "name",\n\t\t\t\t\t"prompt":   "What\'s your name?",\n\t\t\t\t},\n\t\t\t}},\n\t\t\tTrigger: zavudev.FlowTriggerParam{\n\t\t\t\tType:     zavudev.FlowTriggerTypeKeyword,\n\t\t\t\tKeywords: []string{"info", "pricing", "demo"},\n\t\t\t},\n\t\t\tDescription: zavudev.String("Capture lead information"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", flow.Flow)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.flows.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nflow = zavudev.senders.agent.flows.create(\n  "senderId",\n  name: "Lead Capture",\n  steps: [\n    {id: "welcome", config: {text: "bar"}, type: :message},\n    {id: "ask_name", config: {variable: "bar", prompt: "bar"}, type: :collect}\n  ],\n  trigger: {type: :keyword}\n)\n\nputs(flow)',
       },
-      typescript: {
-        method: 'client.senders.agent.flows.create',
+      cli: {
+        method: 'flows create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst flow = await client.senders.agent.flows.create('senderId', {\n  name: 'Lead Capture',\n  steps: [\n    {\n      id: 'welcome',\n      type: 'message',\n      config: { text: 'Thanks for your interest! Let me get some info.' },\n      nextStepId: 'ask_name',\n    },\n    {\n      id: 'ask_name',\n      type: 'collect',\n      config: { variable: 'name', prompt: \"What's your name?\" },\n    },\n  ],\n  trigger: { type: 'keyword', keywords: ['info', 'pricing', 'demo'] },\n  description: 'Capture lead information',\n});\n\nconsole.log(flow.flow);",
+          "zavudev senders:agent:flows create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --name 'Lead Capture' \\\n  --step '{id: welcome, config: {text: bar}, type: message}' \\\n  --step '{id: ask_name, config: {variable: bar, prompt: bar}, type: collect}' \\\n  --trigger '{type: keyword}'",
+      },
+      php: {
+        method: 'senders->agent->flows->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->create(\n  'senderId',\n  name: 'Lead Capture',\n  steps: [\n    [\n      'id' => 'welcome',\n      'config' => ['text' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'ask_name',\n    ],\n    [\n      'id' => 'ask_name',\n      'config' => ['variable' => 'bar', 'prompt' => 'bar'],\n      'type' => 'collect',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword',\n    'intent' => 'intent',\n    'keywords' => ['info', 'pricing', 'demo'],\n  ],\n  description: 'Capture lead information',\n  enabled: true,\n  priority: 0,\n);\n\nvar_dump($flow);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Lead Capture",\n          "steps": [\n            {\n              "id": "welcome",\n              "config": {\n                "text": "bar"\n              },\n              "type": "message",\n              "nextStepId": "ask_name"\n            },\n            {\n              "id": "ask_name",\n              "config": {\n                "variable": "bar",\n                "prompt": "bar"\n              },\n              "type": "collect"\n            }\n          ],\n          "trigger": {\n            "type": "keyword",\n            "keywords": [\n              "info",\n              "pricing",\n              "demo"\n            ]\n          },\n          "description": "Capture lead information"\n        }\'',
       },
     },
   },
@@ -1446,39 +1446,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.senders.agent.flows.retrieve(senderId: string, flowId: string): { flow: agent_flow; }`\n\n**get** `/v1/senders/{senderId}/agent/flows/{flowId}`\n\nGet a specific flow.\n\n### Parameters\n\n- `senderId: string`\n\n- `flowId: string`\n\n### Returns\n\n- `{ flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: flow_step[]; trigger: flow_trigger; updatedAt: string; description?: string; }; }`\n\n  - `flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]; trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst flow = await client.senders.agent.flows.retrieve('flowId', { senderId: 'senderId' });\n\nconsole.log(flow);\n```",
     perLanguage: {
-      cli: {
-        method: 'flows retrieve',
+      typescript: {
+        method: 'client.senders.agent.flows.retrieve',
         example:
-          "zavudev senders:agent:flows retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Flows.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tflow, err := client.Senders.Agent.Flows.Get(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", flow.Flow)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->flows->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->retrieve(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($flow);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst flow = await client.senders.agent.flows.retrieve('flowId', { senderId: 'senderId' });\n\nconsole.log(flow.flow);",
       },
       python: {
         method: 'senders.agent.flows.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.retrieve(\n    flow_id="flowId",\n    sender_id="senderId",\n)\nprint(flow.flow)',
       },
+      go: {
+        method: 'client.Senders.Agent.Flows.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tflow, err := client.Senders.Agent.Flows.Get(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", flow.Flow)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.flows.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nflow = zavudev.senders.agent.flows.retrieve("flowId", sender_id: "senderId")\n\nputs(flow)',
       },
-      typescript: {
-        method: 'client.senders.agent.flows.retrieve',
+      cli: {
+        method: 'flows retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst flow = await client.senders.agent.flows.retrieve('flowId', { senderId: 'senderId' });\n\nconsole.log(flow.flow);",
+          "zavudev senders:agent:flows retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId",
+      },
+      php: {
+        method: 'senders->agent->flows->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->retrieve(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($flow);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1505,39 +1505,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.senders.agent.flows.update(senderId: string, flowId: string, description?: string, enabled?: boolean, name?: string, priority?: number, steps?: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[], trigger?: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }): { flow: agent_flow; }`\n\n**patch** `/v1/senders/{senderId}/agent/flows/{flowId}`\n\nUpdate a flow.\n\n### Parameters\n\n- `senderId: string`\n\n- `flowId: string`\n\n- `description?: string`\n\n- `enabled?: boolean`\n\n- `name?: string`\n\n- `priority?: number`\n\n- `steps?: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]`\n\n- `trigger?: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }`\n  - `type: 'keyword' | 'intent' | 'always' | 'manual'`\n    Type of trigger for a flow.\n  - `intent?: string`\n    Intent that triggers the flow (for intent type).\n  - `keywords?: string[]`\n    Keywords that trigger the flow (for keyword type).\n\n### Returns\n\n- `{ flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: flow_step[]; trigger: flow_trigger; updatedAt: string; description?: string; }; }`\n\n  - `flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]; trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst flow = await client.senders.agent.flows.update('flowId', { senderId: 'senderId' });\n\nconsole.log(flow);\n```",
     perLanguage: {
-      cli: {
-        method: 'flows update',
+      typescript: {
+        method: 'client.senders.agent.flows.update',
         example:
-          "zavudev senders:agent:flows update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Flows.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tflow, err := client.Senders.Agent.Flows.Update(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowUpdateParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", flow.Flow)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'senders->agent->flows->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->update(\n  'flowId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  priority: 0,\n  steps: [\n    [\n      'id' => 'id',\n      'config' => ['foo' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword', 'intent' => 'intent', 'keywords' => ['string']\n  ],\n);\n\nvar_dump($flow);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst flow = await client.senders.agent.flows.update('flowId', { senderId: 'senderId' });\n\nconsole.log(flow.flow);",
       },
       python: {
         method: 'senders.agent.flows.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.update(\n    flow_id="flowId",\n    sender_id="senderId",\n)\nprint(flow.flow)',
       },
+      go: {
+        method: 'client.Senders.Agent.Flows.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tflow, err := client.Senders.Agent.Flows.Update(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowUpdateParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", flow.Flow)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.flows.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nflow = zavudev.senders.agent.flows.update("flowId", sender_id: "senderId")\n\nputs(flow)',
       },
-      typescript: {
-        method: 'client.senders.agent.flows.update',
+      cli: {
+        method: 'flows update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst flow = await client.senders.agent.flows.update('flowId', { senderId: 'senderId' });\n\nconsole.log(flow.flow);",
+          "zavudev senders:agent:flows update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId",
+      },
+      php: {
+        method: 'senders->agent->flows->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->update(\n  'flowId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  priority: 0,\n  steps: [\n    [\n      'id' => 'id',\n      'config' => ['foo' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword', 'intent' => 'intent', 'keywords' => ['string']\n  ],\n);\n\nvar_dump($flow);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -1553,39 +1553,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.senders.agent.flows.delete(senderId: string, flowId: string): void`\n\n**delete** `/v1/senders/{senderId}/agent/flows/{flowId}`\n\nDelete a flow. Cannot delete flows with active sessions.\n\n### Parameters\n\n- `senderId: string`\n\n- `flowId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.senders.agent.flows.delete('flowId', { senderId: 'senderId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'flows delete',
+      typescript: {
+        method: 'client.senders.agent.flows.delete',
         example:
-          "zavudev senders:agent:flows delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Flows.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.Flows.Delete(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->flows->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->flows->delete(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.flows.delete('flowId', { senderId: 'senderId' });",
       },
       python: {
         method: 'senders.agent.flows.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.flows.delete(\n    flow_id="flowId",\n    sender_id="senderId",\n)',
       },
+      go: {
+        method: 'client.Senders.Agent.Flows.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.Flows.Delete(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'senders.agent.flows.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.senders.agent.flows.delete("flowId", sender_id: "senderId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.senders.agent.flows.delete',
+      cli: {
+        method: 'flows delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.flows.delete('flowId', { senderId: 'senderId' });",
+          "zavudev senders:agent:flows delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId",
+      },
+      php: {
+        method: 'senders->agent->flows->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->flows->delete(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1603,39 +1603,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## duplicate\n\n`client.senders.agent.flows.duplicate(senderId: string, flowId: string, newName: string): { flow: agent_flow; }`\n\n**post** `/v1/senders/{senderId}/agent/flows/{flowId}/duplicate`\n\nCreate a copy of an existing flow with a new name.\n\n### Parameters\n\n- `senderId: string`\n\n- `flowId: string`\n\n- `newName: string`\n\n### Returns\n\n- `{ flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: flow_step[]; trigger: flow_trigger; updatedAt: string; description?: string; }; }`\n\n  - `flow: { id: string; agentId: string; createdAt: string; enabled: boolean; name: string; priority: number; steps: { id: string; config: object; type: 'message' | 'collect' | 'condition' | 'tool' | 'llm' | 'transfer'; nextStepId?: string; }[]; trigger: { type: 'keyword' | 'intent' | 'always' | 'manual'; intent?: string; keywords?: string[]; }; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.senders.agent.flows.duplicate('flowId', { senderId: 'senderId', newName: 'Lead Capture (Copy)' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'flows duplicate',
+      typescript: {
+        method: 'client.senders.agent.flows.duplicate',
         example:
-          "zavudev senders:agent:flows duplicate \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId \\\n  --new-name 'Lead Capture (Copy)'",
-      },
-      go: {
-        method: 'client.Senders.Agent.Flows.Duplicate',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.Agent.Flows.Duplicate(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowDuplicateParams{\n\t\t\tSenderID: "senderId",\n\t\t\tNewName:  "Lead Capture (Copy)",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Flow)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID/duplicate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "newName": "Lead Capture (Copy)"\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->flows->duplicate',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->flows->duplicate(\n  'flowId', senderID: 'senderId', newName: 'Lead Capture (Copy)'\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.agent.flows.duplicate('flowId', {\n  senderId: 'senderId',\n  newName: 'Lead Capture (Copy)',\n});\n\nconsole.log(response.flow);",
       },
       python: {
         method: 'senders.agent.flows.duplicate',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.agent.flows.duplicate(\n    flow_id="flowId",\n    sender_id="senderId",\n    new_name="Lead Capture (Copy)",\n)\nprint(response.flow)',
       },
+      go: {
+        method: 'client.Senders.Agent.Flows.Duplicate',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.Agent.Flows.Duplicate(\n\t\tcontext.TODO(),\n\t\t"flowId",\n\t\tzavudev.SenderAgentFlowDuplicateParams{\n\t\t\tSenderID: "senderId",\n\t\t\tNewName:  "Lead Capture (Copy)",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Flow)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.flows.duplicate',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.senders.agent.flows.duplicate("flowId", sender_id: "senderId", new_name: "Lead Capture (Copy)")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.senders.agent.flows.duplicate',
+      cli: {
+        method: 'flows duplicate',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.agent.flows.duplicate('flowId', {\n  senderId: 'senderId',\n  newName: 'Lead Capture (Copy)',\n});\n\nconsole.log(response.flow);",
+          "zavudev senders:agent:flows duplicate \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --flow-id flowId \\\n  --new-name 'Lead Capture (Copy)'",
+      },
+      php: {
+        method: 'senders->agent->flows->duplicate',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->flows->duplicate(\n  'flowId', senderID: 'senderId', newName: 'Lead Capture (Copy)'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID/duplicate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "newName": "Lead Capture (Copy)"\n        }\'',
       },
     },
   },
@@ -1653,38 +1653,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.senders.agent.tools.list(senderId: string, cursor?: string, enabled?: boolean, limit?: number): { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }`\n\n**get** `/v1/senders/{senderId}/agent/tools`\n\nList tools for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `cursor?: string`\n\n- `enabled?: boolean`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n  - `id: string`\n  - `agentId: string`\n  - `createdAt: string`\n  - `description: string`\n  - `enabled: boolean`\n  - `name: string`\n  - `parameters: { properties: object; required: string[]; type: 'object'; }`\n  - `updatedAt: string`\n  - `webhookUrl: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentTool of client.senders.agent.tools.list('senderId')) {\n  console.log(agentTool);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'tools list',
-        example: "zavudev senders:agent:tools list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Tools.List',
+      typescript: {
+        method: 'client.senders.agent.tools.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.Tools.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentToolListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->tools->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->tools->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentTool of client.senders.agent.tools.list('senderId')) {\n  console.log(agentTool.id);\n}",
       },
       python: {
         method: 'senders.agent.tools.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.tools.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Senders.Agent.Tools.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.Tools.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentToolListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.tools.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.senders.agent.tools.list("senderId")\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.senders.agent.tools.list',
+      cli: {
+        method: 'tools list',
+        example: "zavudev senders:agent:tools list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->tools->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentTool of client.senders.agent.tools.list('senderId')) {\n  console.log(agentTool.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->tools->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1710,39 +1710,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.senders.agent.tools.create(senderId: string, description: string, name: string, parameters: { properties: object; required: string[]; type: 'object'; }, webhookUrl: string, enabled?: boolean, webhookSecret?: string): { tool: agent_tool; }`\n\n**post** `/v1/senders/{senderId}/agent/tools`\n\nCreate a new tool for an agent. Tools allow the agent to call external webhooks.\n\n### Parameters\n\n- `senderId: string`\n\n- `description: string`\n\n- `name: string`\n\n- `parameters: { properties: object; required: string[]; type: 'object'; }`\n  - `properties: object`\n  - `required: string[]`\n  - `type: 'object'`\n\n- `webhookUrl: string`\n  Must be HTTPS.\n\n- `enabled?: boolean`\n\n- `webhookSecret?: string`\n  Optional secret for webhook signature verification.\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.create('senderId', {\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: {\n  properties: { order_id: {} },\n  required: ['order_id'],\n  type: 'object',\n},\n  webhookUrl: 'https://api.example.com/webhooks/order-status',\n});\n\nconsole.log(tool);\n```",
     perLanguage: {
-      cli: {
-        method: 'tools create',
+      typescript: {
+        method: 'client.senders.agent.tools.create',
         example:
-          "zavudev senders:agent:tools create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --description 'Get the status of a customer order' \\\n  --name get_order_status \\\n  --parameters '{properties: {order_id: {}}, required: [order_id], type: object}' \\\n  --webhook-url https://api.example.com/webhooks/order-status",
-      },
-      go: {
-        method: 'client.Senders.Agent.Tools.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttool, err := client.Senders.Agent.Tools.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentToolNewParams{\n\t\t\tDescription: "Get the status of a customer order",\n\t\t\tName:        "get_order_status",\n\t\t\tParameters: zavudev.ToolParameters{\n\t\t\t\tType: zavudev.ToolParametersTypeObject,\n\t\t\t\tProperties: map[string]zavudev.ToolParametersProperty{\n\t\t\t\t\t"order_id": {\n\t\t\t\t\t\tType:        zavudev.String("string"),\n\t\t\t\t\t\tDescription: zavudev.String("The order ID to look up"),\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t\tRequired: []string{"order_id"},\n\t\t\t},\n\t\t\tWebhookURL:    "https://api.example.com/webhooks/order-status",\n\t\t\tWebhookSecret: zavudev.String("whsec_..."),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", tool.Tool)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status"\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->tools->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->create(\n  'senderId',\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: [\n    'properties' => [\n      'order_id' => [\n        'description' => 'The order ID to look up', 'type' => 'string'\n      ],\n    ],\n    'required' => ['order_id'],\n    'type' => 'object',\n  ],\n  webhookURL: 'https://api.example.com/webhooks/order-status',\n  enabled: true,\n  webhookSecret: 'whsec_...',\n);\n\nvar_dump($tool);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst tool = await client.senders.agent.tools.create('senderId', {\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: {\n    type: 'object',\n    properties: { order_id: { type: 'string', description: 'The order ID to look up' } },\n    required: ['order_id'],\n  },\n  webhookUrl: 'https://api.example.com/webhooks/order-status',\n  webhookSecret: 'whsec_...',\n});\n\nconsole.log(tool.tool);",
       },
       python: {
         method: 'senders.agent.tools.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.create(\n    sender_id="senderId",\n    description="Get the status of a customer order",\n    name="get_order_status",\n    parameters={\n        "type": "object",\n        "properties": {\n            "order_id": {\n                "type": "string",\n                "description": "The order ID to look up",\n            }\n        },\n        "required": ["order_id"],\n    },\n    webhook_url="https://api.example.com/webhooks/order-status",\n    webhook_secret="whsec_...",\n)\nprint(tool.tool)',
       },
+      go: {
+        method: 'client.Senders.Agent.Tools.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttool, err := client.Senders.Agent.Tools.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentToolNewParams{\n\t\t\tDescription: "Get the status of a customer order",\n\t\t\tName:        "get_order_status",\n\t\t\tParameters: zavudev.ToolParameters{\n\t\t\t\tType: zavudev.ToolParametersTypeObject,\n\t\t\t\tProperties: map[string]zavudev.ToolParametersProperty{\n\t\t\t\t\t"order_id": {\n\t\t\t\t\t\tType:        zavudev.String("string"),\n\t\t\t\t\t\tDescription: zavudev.String("The order ID to look up"),\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t\tRequired: []string{"order_id"},\n\t\t\t},\n\t\t\tWebhookURL:    "https://api.example.com/webhooks/order-status",\n\t\t\tWebhookSecret: zavudev.String("whsec_..."),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", tool.Tool)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.tools.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ntool = zavudev.senders.agent.tools.create(\n  "senderId",\n  description: "Get the status of a customer order",\n  name: "get_order_status",\n  parameters: {properties: {order_id: {}}, required: ["order_id"], type: :object},\n  webhook_url: "https://api.example.com/webhooks/order-status"\n)\n\nputs(tool)',
       },
-      typescript: {
-        method: 'client.senders.agent.tools.create',
+      cli: {
+        method: 'tools create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst tool = await client.senders.agent.tools.create('senderId', {\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: {\n    type: 'object',\n    properties: { order_id: { type: 'string', description: 'The order ID to look up' } },\n    required: ['order_id'],\n  },\n  webhookUrl: 'https://api.example.com/webhooks/order-status',\n  webhookSecret: 'whsec_...',\n});\n\nconsole.log(tool.tool);",
+          "zavudev senders:agent:tools create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --description 'Get the status of a customer order' \\\n  --name get_order_status \\\n  --parameters '{properties: {order_id: {}}, required: [order_id], type: object}' \\\n  --webhook-url https://api.example.com/webhooks/order-status",
+      },
+      php: {
+        method: 'senders->agent->tools->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->create(\n  'senderId',\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: [\n    'properties' => [\n      'order_id' => [\n        'description' => 'The order ID to look up', 'type' => 'string'\n      ],\n    ],\n    'required' => ['order_id'],\n    'type' => 'object',\n  ],\n  webhookURL: 'https://api.example.com/webhooks/order-status',\n  enabled: true,\n  webhookSecret: 'whsec_...',\n);\n\nvar_dump($tool);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status",\n          "webhookSecret": "whsec_..."\n        }\'',
       },
     },
   },
@@ -1760,39 +1760,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.senders.agent.tools.retrieve(senderId: string, toolId: string): { tool: agent_tool; }`\n\n**get** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nGet a specific tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });\n\nconsole.log(tool);\n```",
     perLanguage: {
-      cli: {
-        method: 'tools retrieve',
+      typescript: {
+        method: 'client.senders.agent.tools.retrieve',
         example:
-          "zavudev senders:agent:tools retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Tools.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttool, err := client.Senders.Agent.Tools.Get(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", tool.Tool)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->tools->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->retrieve(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($tool);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst tool = await client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });\n\nconsole.log(tool.tool);",
       },
       python: {
         method: 'senders.agent.tools.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.retrieve(\n    tool_id="toolId",\n    sender_id="senderId",\n)\nprint(tool.tool)',
       },
+      go: {
+        method: 'client.Senders.Agent.Tools.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttool, err := client.Senders.Agent.Tools.Get(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", tool.Tool)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.tools.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ntool = zavudev.senders.agent.tools.retrieve("toolId", sender_id: "senderId")\n\nputs(tool)',
       },
-      typescript: {
-        method: 'client.senders.agent.tools.retrieve',
+      cli: {
+        method: 'tools retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst tool = await client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });\n\nconsole.log(tool.tool);",
+          "zavudev senders:agent:tools retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId",
+      },
+      php: {
+        method: 'senders->agent->tools->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->retrieve(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($tool);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1819,39 +1819,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.senders.agent.tools.update(senderId: string, toolId: string, description?: string, enabled?: boolean, name?: string, parameters?: { properties: object; required: string[]; type: 'object'; }, webhookSecret?: string, webhookUrl?: string): { tool: agent_tool; }`\n\n**patch** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nUpdate a tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n- `description?: string`\n\n- `enabled?: boolean`\n\n- `name?: string`\n\n- `parameters?: { properties: object; required: string[]; type: 'object'; }`\n  - `properties: object`\n  - `required: string[]`\n  - `type: 'object'`\n\n- `webhookSecret?: string`\n\n- `webhookUrl?: string`\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.update('toolId', { senderId: 'senderId' });\n\nconsole.log(tool);\n```",
     perLanguage: {
-      cli: {
-        method: 'tools update',
+      typescript: {
+        method: 'client.senders.agent.tools.update',
         example:
-          "zavudev senders:agent:tools update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Tools.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttool, err := client.Senders.Agent.Tools.Update(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolUpdateParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", tool.Tool)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'senders->agent->tools->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->update(\n  'toolId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  parameters: [\n    'properties' => [\n      'foo' => ['description' => 'description', 'type' => 'type']\n    ],\n    'required' => ['string'],\n    'type' => 'object',\n  ],\n  webhookSecret: 'webhookSecret',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($tool);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst tool = await client.senders.agent.tools.update('toolId', { senderId: 'senderId' });\n\nconsole.log(tool.tool);",
       },
       python: {
         method: 'senders.agent.tools.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.update(\n    tool_id="toolId",\n    sender_id="senderId",\n)\nprint(tool.tool)',
       },
+      go: {
+        method: 'client.Senders.Agent.Tools.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttool, err := client.Senders.Agent.Tools.Update(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolUpdateParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", tool.Tool)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.tools.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ntool = zavudev.senders.agent.tools.update("toolId", sender_id: "senderId")\n\nputs(tool)',
       },
-      typescript: {
-        method: 'client.senders.agent.tools.update',
+      cli: {
+        method: 'tools update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst tool = await client.senders.agent.tools.update('toolId', { senderId: 'senderId' });\n\nconsole.log(tool.tool);",
+          "zavudev senders:agent:tools update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId",
+      },
+      php: {
+        method: 'senders->agent->tools->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->update(\n  'toolId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  parameters: [\n    'properties' => [\n      'foo' => ['description' => 'description', 'type' => 'type']\n    ],\n    'required' => ['string'],\n    'type' => 'object',\n  ],\n  webhookSecret: 'webhookSecret',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($tool);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -1867,39 +1867,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.senders.agent.tools.delete(senderId: string, toolId: string): void`\n\n**delete** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nDelete a tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.senders.agent.tools.delete('toolId', { senderId: 'senderId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'tools delete',
+      typescript: {
+        method: 'client.senders.agent.tools.delete',
         example:
-          "zavudev senders:agent:tools delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId",
-      },
-      go: {
-        method: 'client.Senders.Agent.Tools.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.Tools.Delete(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->tools->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->tools->delete(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.tools.delete('toolId', { senderId: 'senderId' });",
       },
       python: {
         method: 'senders.agent.tools.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.tools.delete(\n    tool_id="toolId",\n    sender_id="senderId",\n)',
       },
+      go: {
+        method: 'client.Senders.Agent.Tools.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.Tools.Delete(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'senders.agent.tools.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.senders.agent.tools.delete("toolId", sender_id: "senderId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.senders.agent.tools.delete',
+      cli: {
+        method: 'tools delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.tools.delete('toolId', { senderId: 'senderId' });",
+          "zavudev senders:agent:tools delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId",
+      },
+      php: {
+        method: 'senders->agent->tools->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->tools->delete(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -1916,39 +1916,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## test\n\n`client.senders.agent.tools.test(senderId: string, toolId: string, testParams: object): { scheduled: boolean; }`\n\n**post** `/v1/senders/{senderId}/agent/tools/{toolId}/test`\n\nTest a tool by triggering its webhook with test parameters.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n- `testParams: object`\n  Parameters to pass to the tool for testing.\n\n### Returns\n\n- `{ scheduled: boolean; }`\n\n  - `scheduled: boolean`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.senders.agent.tools.test('toolId', {\n  senderId: 'senderId',\n  testParams: { order_id: 'bar' },\n});\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'tools test',
+      typescript: {
+        method: 'client.senders.agent.tools.test',
         example:
-          "zavudev senders:agent:tools test \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId \\\n  --test-params '{order_id: bar}'",
-      },
-      go: {
-        method: 'client.Senders.Agent.Tools.Test',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.Agent.Tools.Test(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolTestParams{\n\t\t\tSenderID: "senderId",\n\t\t\tTestParams: map[string]any{\n\t\t\t\t"order_id": "ORD-12345",\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Scheduled)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID/test \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "testParams": {\n            "order_id": "bar"\n          }\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->tools->test',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->tools->test(\n  'toolId', senderID: 'senderId', testParams: ['order_id' => 'bar']\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.agent.tools.test('toolId', {\n  senderId: 'senderId',\n  testParams: { order_id: 'ORD-12345' },\n});\n\nconsole.log(response.scheduled);",
       },
       python: {
         method: 'senders.agent.tools.test',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.agent.tools.test(\n    tool_id="toolId",\n    sender_id="senderId",\n    test_params={\n        "order_id": "ORD-12345"\n    },\n)\nprint(response.scheduled)',
       },
+      go: {
+        method: 'client.Senders.Agent.Tools.Test',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.Agent.Tools.Test(\n\t\tcontext.TODO(),\n\t\t"toolId",\n\t\tzavudev.SenderAgentToolTestParams{\n\t\t\tSenderID: "senderId",\n\t\t\tTestParams: map[string]any{\n\t\t\t\t"order_id": "ORD-12345",\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Scheduled)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.tools.test_',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.senders.agent.tools.test_("toolId", sender_id: "senderId", test_params: {order_id: "bar"})\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.senders.agent.tools.test',
+      cli: {
+        method: 'tools test',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.agent.tools.test('toolId', {\n  senderId: 'senderId',\n  testParams: { order_id: 'ORD-12345' },\n});\n\nconsole.log(response.scheduled);",
+          "zavudev senders:agent:tools test \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --tool-id toolId \\\n  --test-params '{order_id: bar}'",
+      },
+      php: {
+        method: 'senders->agent->tools->test',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->tools->test(\n  'toolId', senderID: 'senderId', testParams: ['order_id' => 'bar']\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID/test \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "testParams": {\n            "order_id": "bar"\n          }\n        }\'',
       },
     },
   },
@@ -1966,39 +1966,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.senders.agent.knowledgeBases.list(senderId: string, cursor?: string, limit?: number): { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }`\n\n**get** `/v1/senders/{senderId}/agent/knowledge-bases`\n\nList knowledge bases for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }`\n\n  - `id: string`\n  - `agentId: string`\n  - `createdAt: string`\n  - `documentCount: number`\n  - `name: string`\n  - `totalChunks: number`\n  - `updatedAt: string`\n  - `description?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentKnowledgeBase of client.senders.agent.knowledgeBases.list('senderId')) {\n  console.log(agentKnowledgeBase);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'knowledge_bases list',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.list',
         example:
-          "zavudev senders:agent:knowledge-bases list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.List',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.KnowledgeBases.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentKnowledgeBaseListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->list(\n  'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentKnowledgeBase of client.senders.agent.knowledgeBases.list('senderId')) {\n  console.log(agentKnowledgeBase.id);\n}",
       },
       python: {
         method: 'senders.agent.knowledge_bases.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.knowledge_bases.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.KnowledgeBases.List(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentKnowledgeBaseListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.senders.agent.knowledge_bases.list("senderId")\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.list',
+      cli: {
+        method: 'knowledge_bases list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentKnowledgeBase of client.senders.agent.knowledgeBases.list('senderId')) {\n  console.log(agentKnowledgeBase.id);\n}",
+          "zavudev senders:agent:knowledge-bases list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->list(\n  'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2016,39 +2016,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.senders.agent.knowledgeBases.create(senderId: string, name: string, description?: string): { knowledgeBase: agent_knowledge_base; }`\n\n**post** `/v1/senders/{senderId}/agent/knowledge-bases`\n\nCreate a new knowledge base for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `name: string`\n\n- `description?: string`\n\n### Returns\n\n- `{ knowledgeBase: { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }; }`\n\n  - `knowledgeBase: { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.create('senderId', { name: 'Product FAQ' });\n\nconsole.log(knowledgeBase);\n```",
     perLanguage: {
-      cli: {
-        method: 'knowledge_bases create',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.create',
         example:
-          "zavudev senders:agent:knowledge-bases create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --name 'Product FAQ'",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tknowledgeBase, err := client.Senders.Agent.KnowledgeBases.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentKnowledgeBaseNewParams{\n\t\t\tName:        "Product FAQ",\n\t\t\tDescription: zavudev.String("Frequently asked questions about our products"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", knowledgeBase.KnowledgeBase)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Product FAQ"\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->create(\n  'senderId',\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n);\n\nvar_dump($knowledgeBase);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.create('senderId', {\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n});\n\nconsole.log(knowledgeBase.knowledgeBase);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.create(\n    sender_id="senderId",\n    name="Product FAQ",\n    description="Frequently asked questions about our products",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tknowledgeBase, err := client.Senders.Agent.KnowledgeBases.New(\n\t\tcontext.TODO(),\n\t\t"senderId",\n\t\tzavudev.SenderAgentKnowledgeBaseNewParams{\n\t\t\tName:        "Product FAQ",\n\t\t\tDescription: zavudev.String("Frequently asked questions about our products"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", knowledgeBase.KnowledgeBase)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nknowledge_base = zavudev.senders.agent.knowledge_bases.create("senderId", name: "Product FAQ")\n\nputs(knowledge_base)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.create',
+      cli: {
+        method: 'knowledge_bases create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.create('senderId', {\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n});\n\nconsole.log(knowledgeBase.knowledgeBase);",
+          "zavudev senders:agent:knowledge-bases create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --name 'Product FAQ'",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->create(\n  'senderId',\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n);\n\nvar_dump($knowledgeBase);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Product FAQ",\n          "description": "Frequently asked questions about our products"\n        }\'',
       },
     },
   },
@@ -2066,39 +2066,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.senders.agent.knowledgeBases.retrieve(senderId: string, kbId: string): { knowledgeBase: agent_knowledge_base; }`\n\n**get** `/v1/senders/{senderId}/agent/knowledge-bases/{kbId}`\n\nGet a specific knowledge base.\n\n### Parameters\n\n- `senderId: string`\n\n- `kbId: string`\n\n### Returns\n\n- `{ knowledgeBase: { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }; }`\n\n  - `knowledgeBase: { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.retrieve('kbId', { senderId: 'senderId' });\n\nconsole.log(knowledgeBase);\n```",
     perLanguage: {
-      cli: {
-        method: 'knowledge_bases retrieve',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.retrieve',
         example:
-          "zavudev senders:agent:knowledge-bases retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tknowledgeBase, err := client.Senders.Agent.KnowledgeBases.Get(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", knowledgeBase.KnowledgeBase)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->retrieve(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($knowledgeBase);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.retrieve('kbId', {\n  senderId: 'senderId',\n});\n\nconsole.log(knowledgeBase.knowledgeBase);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.retrieve(\n    kb_id="kbId",\n    sender_id="senderId",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tknowledgeBase, err := client.Senders.Agent.KnowledgeBases.Get(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", knowledgeBase.KnowledgeBase)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nknowledge_base = zavudev.senders.agent.knowledge_bases.retrieve("kbId", sender_id: "senderId")\n\nputs(knowledge_base)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.retrieve',
+      cli: {
+        method: 'knowledge_bases retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.retrieve('kbId', {\n  senderId: 'senderId',\n});\n\nconsole.log(knowledgeBase.knowledgeBase);",
+          "zavudev senders:agent:knowledge-bases retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->retrieve(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($knowledgeBase);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2116,39 +2116,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.senders.agent.knowledgeBases.update(senderId: string, kbId: string, description?: string, name?: string): { knowledgeBase: agent_knowledge_base; }`\n\n**patch** `/v1/senders/{senderId}/agent/knowledge-bases/{kbId}`\n\nUpdate a knowledge base.\n\n### Parameters\n\n- `senderId: string`\n\n- `kbId: string`\n\n- `description?: string`\n\n- `name?: string`\n\n### Returns\n\n- `{ knowledgeBase: { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }; }`\n\n  - `knowledgeBase: { id: string; agentId: string; createdAt: string; documentCount: number; name: string; totalChunks: number; updatedAt: string; description?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.update('kbId', { senderId: 'senderId' });\n\nconsole.log(knowledgeBase);\n```",
     perLanguage: {
-      cli: {
-        method: 'knowledge_bases update',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.update',
         example:
-          "zavudev senders:agent:knowledge-bases update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tknowledgeBase, err := client.Senders.Agent.KnowledgeBases.Update(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseUpdateParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", knowledgeBase.KnowledgeBase)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->update(\n  'kbId', senderID: 'senderId', description: 'description', name: 'name'\n);\n\nvar_dump($knowledgeBase);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.update('kbId', {\n  senderId: 'senderId',\n});\n\nconsole.log(knowledgeBase.knowledgeBase);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.update(\n    kb_id="kbId",\n    sender_id="senderId",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tknowledgeBase, err := client.Senders.Agent.KnowledgeBases.Update(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseUpdateParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", knowledgeBase.KnowledgeBase)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nknowledge_base = zavudev.senders.agent.knowledge_bases.update("kbId", sender_id: "senderId")\n\nputs(knowledge_base)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.update',
+      cli: {
+        method: 'knowledge_bases update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst knowledgeBase = await client.senders.agent.knowledgeBases.update('kbId', {\n  senderId: 'senderId',\n});\n\nconsole.log(knowledgeBase.knowledgeBase);",
+          "zavudev senders:agent:knowledge-bases update \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->update(\n  'kbId', senderID: 'senderId', description: 'description', name: 'name'\n);\n\nvar_dump($knowledgeBase);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -2164,39 +2164,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.senders.agent.knowledgeBases.delete(senderId: string, kbId: string): void`\n\n**delete** `/v1/senders/{senderId}/agent/knowledge-bases/{kbId}`\n\nDelete a knowledge base and all its documents.\n\n### Parameters\n\n- `senderId: string`\n\n- `kbId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.senders.agent.knowledgeBases.delete('kbId', { senderId: 'senderId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'knowledge_bases delete',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.delete',
         example:
-          "zavudev senders:agent:knowledge-bases delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.KnowledgeBases.Delete(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->delete(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.knowledgeBases.delete('kbId', { senderId: 'senderId' });",
       },
       python: {
         method: 'senders.agent.knowledge_bases.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.knowledge_bases.delete(\n    kb_id="kbId",\n    sender_id="senderId",\n)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.KnowledgeBases.Delete(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.senders.agent.knowledge_bases.delete("kbId", sender_id: "senderId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.delete',
+      cli: {
+        method: 'knowledge_bases delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.knowledgeBases.delete('kbId', { senderId: 'senderId' });",
+          "zavudev senders:agent:knowledge-bases delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->delete(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2214,39 +2214,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.senders.agent.knowledgeBases.documents.list(senderId: string, kbId: string, cursor?: string, limit?: number): { id: string; chunkCount: number; contentLength: number; createdAt: string; isProcessed: boolean; knowledgeBaseId: string; title: string; updatedAt: string; }`\n\n**get** `/v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents`\n\nList documents in a knowledge base.\n\n### Parameters\n\n- `senderId: string`\n\n- `kbId: string`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; chunkCount: number; contentLength: number; createdAt: string; isProcessed: boolean; knowledgeBaseId: string; title: string; updatedAt: string; }`\n\n  - `id: string`\n  - `chunkCount: number`\n  - `contentLength: number`\n  - `createdAt: string`\n  - `isProcessed: boolean`\n  - `knowledgeBaseId: string`\n  - `title: string`\n  - `updatedAt: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentDocument of client.senders.agent.knowledgeBases.documents.list('kbId', { senderId: 'senderId' })) {\n  console.log(agentDocument);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'documents list',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.documents.list',
         example:
-          "zavudev senders:agent:knowledge-bases:documents list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.Documents.List',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.KnowledgeBases.Documents.List(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseDocumentListParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->documents->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->documents->list(\n  'kbId', senderID: 'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentDocument of client.senders.agent.knowledgeBases.documents.list('kbId', {\n  senderId: 'senderId',\n})) {\n  console.log(agentDocument.id);\n}",
       },
       python: {
         method: 'senders.agent.knowledge_bases.documents.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.knowledge_bases.documents.list(\n    kb_id="kbId",\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.Documents.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Senders.Agent.KnowledgeBases.Documents.List(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseDocumentListParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.documents.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.senders.agent.knowledge_bases.documents.list("kbId", sender_id: "senderId")\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.documents.list',
+      cli: {
+        method: 'documents list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const agentDocument of client.senders.agent.knowledgeBases.documents.list('kbId', {\n  senderId: 'senderId',\n})) {\n  console.log(agentDocument.id);\n}",
+          "zavudev senders:agent:knowledge-bases:documents list \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->documents->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->documents->list(\n  'kbId', senderID: 'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2264,39 +2264,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.senders.agent.knowledgeBases.documents.create(senderId: string, kbId: string, content: string, title: string): { document: agent_document; }`\n\n**post** `/v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents`\n\nAdd a document to a knowledge base. The document will be automatically processed for RAG.\n\n### Parameters\n\n- `senderId: string`\n\n- `kbId: string`\n\n- `content: string`\n\n- `title: string`\n\n### Returns\n\n- `{ document: { id: string; chunkCount: number; contentLength: number; createdAt: string; isProcessed: boolean; knowledgeBaseId: string; title: string; updatedAt: string; }; }`\n\n  - `document: { id: string; chunkCount: number; contentLength: number; createdAt: string; isProcessed: boolean; knowledgeBaseId: string; title: string; updatedAt: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst document = await client.senders.agent.knowledgeBases.documents.create('kbId', {\n  senderId: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n});\n\nconsole.log(document);\n```",
     perLanguage: {
-      cli: {
-        method: 'documents create',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.documents.create',
         example:
-          "zavudev senders:agent:knowledge-bases:documents create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId \\\n  --content 'Our return policy allows returns within 30 days of purchase...' \\\n  --title 'Return Policy'",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.Documents.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tdocument, err := client.Senders.Agent.KnowledgeBases.Documents.New(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseDocumentNewParams{\n\t\t\tSenderID: "senderId",\n\t\t\tContent:  "Our return policy allows returns within 30 days of purchase...",\n\t\t\tTitle:    "Return Policy",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", document.Document)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "content": "Our return policy allows returns within 30 days of purchase...",\n          "title": "Return Policy"\n        }\'',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->documents->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$document = $client->senders->agent->knowledgeBases->documents->create(\n  'kbId',\n  senderID: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n);\n\nvar_dump($document);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst document = await client.senders.agent.knowledgeBases.documents.create('kbId', {\n  senderId: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n});\n\nconsole.log(document.document);",
       },
       python: {
         method: 'senders.agent.knowledge_bases.documents.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ndocument = client.senders.agent.knowledge_bases.documents.create(\n    kb_id="kbId",\n    sender_id="senderId",\n    content="Our return policy allows returns within 30 days of purchase...",\n    title="Return Policy",\n)\nprint(document.document)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.Documents.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tdocument, err := client.Senders.Agent.KnowledgeBases.Documents.New(\n\t\tcontext.TODO(),\n\t\t"kbId",\n\t\tzavudev.SenderAgentKnowledgeBaseDocumentNewParams{\n\t\t\tSenderID: "senderId",\n\t\t\tContent:  "Our return policy allows returns within 30 days of purchase...",\n\t\t\tTitle:    "Return Policy",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", document.Document)\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.documents.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ndocument = zavudev.senders.agent.knowledge_bases.documents.create(\n  "kbId",\n  sender_id: "senderId",\n  content: "Our return policy allows returns within 30 days of purchase...",\n  title: "Return Policy"\n)\n\nputs(document)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.documents.create',
+      cli: {
+        method: 'documents create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst document = await client.senders.agent.knowledgeBases.documents.create('kbId', {\n  senderId: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n});\n\nconsole.log(document.document);",
+          "zavudev senders:agent:knowledge-bases:documents create \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId \\\n  --content 'Our return policy allows returns within 30 days of purchase...' \\\n  --title 'Return Policy'",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->documents->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$document = $client->senders->agent->knowledgeBases->documents->create(\n  'kbId',\n  senderID: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n);\n\nvar_dump($document);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "content": "Our return policy allows returns within 30 days of purchase...",\n          "title": "Return Policy"\n        }\'',
       },
     },
   },
@@ -2312,39 +2312,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.senders.agent.knowledgeBases.documents.delete(senderId: string, kbId: string, docId: string): void`\n\n**delete** `/v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents/{docId}`\n\nDelete a document from a knowledge base.\n\n### Parameters\n\n- `senderId: string`\n\n- `kbId: string`\n\n- `docId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.senders.agent.knowledgeBases.documents.delete('docId', { senderId: 'senderId', kbId: 'kbId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'documents delete',
+      typescript: {
+        method: 'client.senders.agent.knowledgeBases.documents.delete',
         example:
-          "zavudev senders:agent:knowledge-bases:documents delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId \\\n  --doc-id docId",
-      },
-      go: {
-        method: 'client.Senders.Agent.KnowledgeBases.Documents.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.KnowledgeBases.Documents.Delete(\n\t\tcontext.TODO(),\n\t\t"docId",\n\t\tzavudev.SenderAgentKnowledgeBaseDocumentDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t\tKBID:     "kbId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents/$DOC_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->agent->knowledgeBases->documents->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->documents->delete(\n  'docId', senderID: 'senderId', kbID: 'kbId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.knowledgeBases.documents.delete('docId', {\n  senderId: 'senderId',\n  kbId: 'kbId',\n});",
       },
       python: {
         method: 'senders.agent.knowledge_bases.documents.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.knowledge_bases.documents.delete(\n    doc_id="docId",\n    sender_id="senderId",\n    kb_id="kbId",\n)',
       },
+      go: {
+        method: 'client.Senders.Agent.KnowledgeBases.Documents.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Senders.Agent.KnowledgeBases.Documents.Delete(\n\t\tcontext.TODO(),\n\t\t"docId",\n\t\tzavudev.SenderAgentKnowledgeBaseDocumentDeleteParams{\n\t\t\tSenderID: "senderId",\n\t\t\tKBID:     "kbId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'senders.agent.knowledge_bases.documents.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.senders.agent.knowledge_bases.documents.delete("docId", sender_id: "senderId", kb_id: "kbId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.senders.agent.knowledgeBases.documents.delete',
+      cli: {
+        method: 'documents delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.senders.agent.knowledgeBases.documents.delete('docId', {\n  senderId: 'senderId',\n  kbId: 'kbId',\n});",
+          "zavudev senders:agent:knowledge-bases:documents delete \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --kb-id kbId \\\n  --doc-id docId",
+      },
+      php: {
+        method: 'senders->agent->knowledgeBases->documents->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->documents->delete(\n  'docId', senderID: 'senderId', kbID: 'kbId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents/$DOC_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2363,39 +2363,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.senders.whatsappSync.retrieve(senderId: string): { sync: whats_app_sync_status; }`\n\n**get** `/v1/senders/{senderId}/whatsapp-sync`\n\nGet the current sync status for a sender's WhatsApp coexistence account. Only available for senders connected in coexistence mode (WhatsApp Business App + Cloud API).\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ sync: { contacts: whats_app_sync_contacts; history: whats_app_sync_history; isCoexistence: boolean; status: 'pending_verification' | 'pending_registration' | 'active' | 'disconnected' | 'error'; }; }`\n\n  - `sync: { contacts: { canSync: boolean; status: 'not_requested' | 'pending' | 'syncing' | 'completed'; requestedAt?: string; }; history: { canSync: boolean; status: 'not_requested' | 'pending' | 'syncing' | 'completed' | 'rejected'; completedAt?: string; requestedAt?: string; }; isCoexistence: boolean; status: 'pending_verification' | 'pending_registration' | 'active' | 'disconnected' | 'error'; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst whatsappSync = await client.senders.whatsappSync.retrieve('senderId');\n\nconsole.log(whatsappSync);\n```",
     perLanguage: {
-      cli: {
-        method: 'whatsapp_sync retrieve',
+      typescript: {
+        method: 'client.senders.whatsappSync.retrieve',
         example:
-          "zavudev senders:whatsapp-sync retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.WhatsappSync.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\twhatsappSync, err := client.Senders.WhatsappSync.Get(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", whatsappSync.Sync)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->whatsappSync->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappSync = $client->senders->whatsappSync->retrieve('senderId');\n\nvar_dump($whatsappSync);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst whatsappSync = await client.senders.whatsappSync.retrieve('senderId');\n\nconsole.log(whatsappSync.sync);",
       },
       python: {
         method: 'senders.whatsapp_sync.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwhatsapp_sync = client.senders.whatsapp_sync.retrieve(\n    "senderId",\n)\nprint(whatsapp_sync.sync)',
       },
+      go: {
+        method: 'client.Senders.WhatsappSync.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\twhatsappSync, err := client.Senders.WhatsappSync.Get(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", whatsappSync.Sync)\n}\n',
+      },
       ruby: {
         method: 'senders.whatsapp_sync.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nwhatsapp_sync = zavudev.senders.whatsapp_sync.retrieve("senderId")\n\nputs(whatsapp_sync)',
       },
-      typescript: {
-        method: 'client.senders.whatsappSync.retrieve',
+      cli: {
+        method: 'whatsapp_sync retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst whatsappSync = await client.senders.whatsappSync.retrieve('senderId');\n\nconsole.log(whatsappSync.sync);",
+          "zavudev senders:whatsapp-sync retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->whatsappSync->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappSync = $client->senders->whatsappSync->retrieve('senderId');\n\nvar_dump($whatsappSync);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2414,39 +2414,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## start_history_sync\n\n`client.senders.whatsappSync.startHistorySync(senderId: string): { message: string; sync: whats_app_sync_status; }`\n\n**post** `/v1/senders/{senderId}/whatsapp-sync/history`\n\nInitiate message history sync from the WhatsApp Business App. This sends a request to the account owner to approve sharing their conversation history. Only available for coexistence accounts with active status.\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ message: string; sync: { contacts: whats_app_sync_contacts; history: whats_app_sync_history; isCoexistence: boolean; status: 'pending_verification' | 'pending_registration' | 'active' | 'disconnected' | 'error'; }; }`\n\n  - `message: string`\n  - `sync: { contacts: { canSync: boolean; status: 'not_requested' | 'pending' | 'syncing' | 'completed'; requestedAt?: string; }; history: { canSync: boolean; status: 'not_requested' | 'pending' | 'syncing' | 'completed' | 'rejected'; completedAt?: string; requestedAt?: string; }; isCoexistence: boolean; status: 'pending_verification' | 'pending_registration' | 'active' | 'disconnected' | 'error'; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.senders.whatsappSync.startHistorySync('senderId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'whatsapp_sync start_history_sync',
+      typescript: {
+        method: 'client.senders.whatsappSync.startHistorySync',
         example:
-          "zavudev senders:whatsapp-sync start-history-sync \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.WhatsappSync.StartHistorySync',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.WhatsappSync.StartHistorySync(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync/history \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->whatsappSync->startHistorySync',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startHistorySync('senderId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.whatsappSync.startHistorySync('senderId');\n\nconsole.log(response.message);",
       },
       python: {
         method: 'senders.whatsapp_sync.start_history_sync',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.whatsapp_sync.start_history_sync(\n    "senderId",\n)\nprint(response.message)',
       },
+      go: {
+        method: 'client.Senders.WhatsappSync.StartHistorySync',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.WhatsappSync.StartHistorySync(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
+      },
       ruby: {
         method: 'senders.whatsapp_sync.start_history_sync',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.senders.whatsapp_sync.start_history_sync("senderId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.senders.whatsappSync.startHistorySync',
+      cli: {
+        method: 'whatsapp_sync start_history_sync',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.whatsappSync.startHistorySync('senderId');\n\nconsole.log(response.message);",
+          "zavudev senders:whatsapp-sync start-history-sync \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->whatsappSync->startHistorySync',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startHistorySync('senderId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync/history \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2465,39 +2465,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## start_contacts_sync\n\n`client.senders.whatsappSync.startContactsSync(senderId: string): { message: string; sync: whats_app_sync_status; }`\n\n**post** `/v1/senders/{senderId}/whatsapp-sync/contacts`\n\nInitiate contact names sync from the WhatsApp Business App. This imports contact names stored in the app to Zavu. Only available for coexistence accounts with active status.\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ message: string; sync: { contacts: whats_app_sync_contacts; history: whats_app_sync_history; isCoexistence: boolean; status: 'pending_verification' | 'pending_registration' | 'active' | 'disconnected' | 'error'; }; }`\n\n  - `message: string`\n  - `sync: { contacts: { canSync: boolean; status: 'not_requested' | 'pending' | 'syncing' | 'completed'; requestedAt?: string; }; history: { canSync: boolean; status: 'not_requested' | 'pending' | 'syncing' | 'completed' | 'rejected'; completedAt?: string; requestedAt?: string; }; isCoexistence: boolean; status: 'pending_verification' | 'pending_registration' | 'active' | 'disconnected' | 'error'; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.senders.whatsappSync.startContactsSync('senderId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'whatsapp_sync start_contacts_sync',
+      typescript: {
+        method: 'client.senders.whatsappSync.startContactsSync',
         example:
-          "zavudev senders:whatsapp-sync start-contacts-sync \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
-      },
-      go: {
-        method: 'client.Senders.WhatsappSync.StartContactsSync',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.WhatsappSync.StartContactsSync(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync/contacts \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'senders->whatsappSync->startContactsSync',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startContactsSync('senderId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.whatsappSync.startContactsSync('senderId');\n\nconsole.log(response.message);",
       },
       python: {
         method: 'senders.whatsapp_sync.start_contacts_sync',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.whatsapp_sync.start_contacts_sync(\n    "senderId",\n)\nprint(response.message)',
       },
+      go: {
+        method: 'client.Senders.WhatsappSync.StartContactsSync',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Senders.WhatsappSync.StartContactsSync(context.TODO(), "senderId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
+      },
       ruby: {
         method: 'senders.whatsapp_sync.start_contacts_sync',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.senders.whatsapp_sync.start_contacts_sync("senderId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.senders.whatsappSync.startContactsSync',
+      cli: {
+        method: 'whatsapp_sync start_contacts_sync',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.senders.whatsappSync.startContactsSync('senderId');\n\nconsole.log(response.message);",
+          "zavudev senders:whatsapp-sync start-contacts-sync \\\n  --api-key 'My API Key' \\\n  --sender-id senderId",
+      },
+      php: {
+        method: 'senders->whatsappSync->startContactsSync',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startContactsSync('senderId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync/contacts \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2515,37 +2515,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.contacts.list(cursor?: string, limit?: number, phoneNumber?: string): { id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: contact_channel[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n**get** `/v1/contacts`\n\nList contacts with their communication channels.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `phoneNumber?: string`\n\n### Returns\n\n- `{ id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `availableChannels: string[]`\n  - `createdAt: string`\n  - `metadata: object`\n  - `verified: boolean`\n  - `channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }[]`\n  - `countryCode?: string`\n  - `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `displayName?: string`\n  - `phoneNumber?: string`\n  - `primaryEmail?: string`\n  - `primaryPhone?: string`\n  - `profileName?: string`\n  - `suggestedMergeWith?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const contact of client.contacts.list()) {\n  console.log(contact);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts list',
-        example: "zavudev contacts list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Contacts.List',
+      typescript: {
+        method: 'client.contacts.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Contacts.List(context.TODO(), zavudev.ContactListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'contacts->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->contacts->list(\n  cursor: 'cursor', limit: 100, phoneNumber: 'phoneNumber'\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const contact of client.contacts.list()) {\n  console.log(contact.id);\n}",
       },
       python: {
         method: 'contacts.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.contacts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Contacts.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Contacts.List(context.TODO(), zavudev.ContactListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'contacts.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.contacts.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.contacts.list',
+      cli: {
+        method: 'contacts list',
+        example: "zavudev contacts list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'contacts->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const contact of client.contacts.list()) {\n  console.log(contact.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->contacts->list(\n  cursor: 'cursor', limit: 100, phoneNumber: 'phoneNumber'\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2563,38 +2563,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.contacts.retrieve(contactId: string): { id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: contact_channel[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n**get** `/v1/contacts/{contactId}`\n\nGet contact\n\n### Parameters\n\n- `contactId: string`\n\n### Returns\n\n- `{ id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `availableChannels: string[]`\n  - `createdAt: string`\n  - `metadata: object`\n  - `verified: boolean`\n  - `channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }[]`\n  - `countryCode?: string`\n  - `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `displayName?: string`\n  - `phoneNumber?: string`\n  - `primaryEmail?: string`\n  - `primaryPhone?: string`\n  - `profileName?: string`\n  - `suggestedMergeWith?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst contact = await client.contacts.retrieve('contactId');\n\nconsole.log(contact);\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts retrieve',
-        example: "zavudev contacts retrieve \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
-      },
-      go: {
-        method: 'client.Contacts.Get',
+      typescript: {
+        method: 'client.contacts.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.Get(context.TODO(), "contactId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'contacts->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieve('contactId');\n\nvar_dump($contact);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.retrieve('contactId');\n\nconsole.log(contact.id);",
       },
       python: {
         method: 'contacts.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.retrieve(\n    "contactId",\n)\nprint(contact.id)',
       },
+      go: {
+        method: 'client.Contacts.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.Get(context.TODO(), "contactId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
+      },
       ruby: {
         method: 'contacts.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncontact = zavudev.contacts.retrieve("contactId")\n\nputs(contact)',
       },
-      typescript: {
-        method: 'client.contacts.retrieve',
+      cli: {
+        method: 'contacts retrieve',
+        example: "zavudev contacts retrieve \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
+      },
+      php: {
+        method: 'contacts->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.retrieve('contactId');\n\nconsole.log(contact.id);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieve('contactId');\n\nvar_dump($contact);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2616,38 +2616,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.contacts.update(contactId: string, defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice', metadata?: object): { id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: contact_channel[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n**patch** `/v1/contacts/{contactId}`\n\nUpdate contact\n\n### Parameters\n\n- `contactId: string`\n\n- `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  Preferred channel for this contact. Set to null to clear.\n\n- `metadata?: object`\n\n### Returns\n\n- `{ id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `availableChannels: string[]`\n  - `createdAt: string`\n  - `metadata: object`\n  - `verified: boolean`\n  - `channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }[]`\n  - `countryCode?: string`\n  - `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `displayName?: string`\n  - `phoneNumber?: string`\n  - `primaryEmail?: string`\n  - `primaryPhone?: string`\n  - `profileName?: string`\n  - `suggestedMergeWith?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst contact = await client.contacts.update('contactId');\n\nconsole.log(contact);\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts update',
-        example: "zavudev contacts update \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
-      },
-      go: {
-        method: 'client.Contacts.Update',
+      typescript: {
+        method: 'client.contacts.update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.Update(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.ContactUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'contacts->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->update(\n  'contactId', defaultChannel: 'sms', metadata: ['foo' => 'string']\n);\n\nvar_dump($contact);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.update('contactId');\n\nconsole.log(contact.id);",
       },
       python: {
         method: 'contacts.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.update(\n    contact_id="contactId",\n)\nprint(contact.id)',
       },
+      go: {
+        method: 'client.Contacts.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.Update(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.ContactUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
+      },
       ruby: {
         method: 'contacts.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncontact = zavudev.contacts.update("contactId")\n\nputs(contact)',
       },
-      typescript: {
-        method: 'client.contacts.update',
+      cli: {
+        method: 'contacts update',
+        example: "zavudev contacts update \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
+      },
+      php: {
+        method: 'contacts->update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.update('contactId');\n\nconsole.log(contact.id);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->update(\n  'contactId', defaultChannel: 'sms', metadata: ['foo' => 'string']\n);\n\nvar_dump($contact);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -2665,39 +2665,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve_by_phone\n\n`client.contacts.retrieveByPhone(phoneNumber: string): { id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: contact_channel[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n**get** `/v1/contacts/phone/{phoneNumber}`\n\nGet contact by phone number\n\n### Parameters\n\n- `phoneNumber: string`\n\n### Returns\n\n- `{ id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `availableChannels: string[]`\n  - `createdAt: string`\n  - `metadata: object`\n  - `verified: boolean`\n  - `channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }[]`\n  - `countryCode?: string`\n  - `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `displayName?: string`\n  - `phoneNumber?: string`\n  - `primaryEmail?: string`\n  - `primaryPhone?: string`\n  - `profileName?: string`\n  - `suggestedMergeWith?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst contact = await client.contacts.retrieveByPhone('phoneNumber');\n\nconsole.log(contact);\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts retrieve_by_phone',
+      typescript: {
+        method: 'client.contacts.retrieveByPhone',
         example:
-          "zavudev contacts retrieve-by-phone \\\n  --api-key 'My API Key' \\\n  --phone-number phoneNumber",
-      },
-      go: {
-        method: 'client.Contacts.GetByPhone',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.GetByPhone(context.TODO(), "phoneNumber")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/phone/$PHONE_NUMBER \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'contacts->retrieveByPhone',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieveByPhone('phoneNumber');\n\nvar_dump($contact);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.retrieveByPhone('phoneNumber');\n\nconsole.log(contact.id);",
       },
       python: {
         method: 'contacts.retrieve_by_phone',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.retrieve_by_phone(\n    "phoneNumber",\n)\nprint(contact.id)',
       },
+      go: {
+        method: 'client.Contacts.GetByPhone',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.GetByPhone(context.TODO(), "phoneNumber")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
+      },
       ruby: {
         method: 'contacts.retrieve_by_phone',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncontact = zavudev.contacts.retrieve_by_phone("phoneNumber")\n\nputs(contact)',
       },
-      typescript: {
-        method: 'client.contacts.retrieveByPhone',
+      cli: {
+        method: 'contacts retrieve_by_phone',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.retrieveByPhone('phoneNumber');\n\nconsole.log(contact.id);",
+          "zavudev contacts retrieve-by-phone \\\n  --api-key 'My API Key' \\\n  --phone-number phoneNumber",
+      },
+      php: {
+        method: 'contacts->retrieveByPhone',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieveByPhone('phoneNumber');\n\nvar_dump($contact);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/phone/$PHONE_NUMBER \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2719,39 +2719,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.contacts.create(channels: { channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; identifier: string; countryCode?: string; isPrimary?: boolean; label?: string; }[], displayName?: string, metadata?: object): { id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: contact_channel[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n**post** `/v1/contacts`\n\nCreate a new contact with one or more communication channels.\n\n### Parameters\n\n- `channels: { channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; identifier: string; countryCode?: string; isPrimary?: boolean; label?: string; }[]`\n  Communication channels for the contact.\n\n- `displayName?: string`\n  Display name for the contact.\n\n- `metadata?: object`\n  Arbitrary metadata to associate with the contact.\n\n### Returns\n\n- `{ id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `availableChannels: string[]`\n  - `createdAt: string`\n  - `metadata: object`\n  - `verified: boolean`\n  - `channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }[]`\n  - `countryCode?: string`\n  - `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `displayName?: string`\n  - `phoneNumber?: string`\n  - `primaryEmail?: string`\n  - `primaryPhone?: string`\n  - `profileName?: string`\n  - `suggestedMergeWith?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst contact = await client.contacts.create({ channels: [{ channel: 'sms', identifier: '+14155551234' }] });\n\nconsole.log(contact);\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts create',
+      typescript: {
+        method: 'client.contacts.create',
         example:
-          "zavudev contacts create \\\n  --api-key 'My API Key' \\\n  --channel \"{channel: sms, identifier: '+14155551234'}\"",
-      },
-      go: {
-        method: 'client.Contacts.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.New(context.TODO(), zavudev.ContactNewParams{\n\t\tChannels: []zavudev.ContactNewParamsChannel{{\n\t\t\tChannel:    "sms",\n\t\t\tIdentifier: "+14155551234",\n\t\t\tIsPrimary:  zavudev.Bool(true),\n\t\t}},\n\t\tDisplayName: zavudev.String("John Doe"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channels": [\n            {\n              "channel": "sms",\n              "identifier": "+14155551234",\n              "isPrimary": true\n            }\n          ],\n          "displayName": "John Doe"\n        }\'',
-      },
-      php: {
-        method: 'contacts->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->create(\n  channels: [\n    [\n      'channel' => 'sms',\n      'identifier' => '+14155551234',\n      'countryCode' => 'US',\n      'isPrimary' => true,\n      'label' => 'work',\n    ],\n  ],\n  displayName: 'John Doe',\n  metadata: ['foo' => 'string'],\n);\n\nvar_dump($contact);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.create({\n  channels: [\n    {\n      channel: 'sms',\n      identifier: '+14155551234',\n      isPrimary: true,\n    },\n  ],\n  displayName: 'John Doe',\n});\n\nconsole.log(contact.id);",
       },
       python: {
         method: 'contacts.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.create(\n    channels=[{\n        "channel": "sms",\n        "identifier": "+14155551234",\n        "is_primary": True,\n    }],\n    display_name="John Doe",\n)\nprint(contact.id)',
       },
+      go: {
+        method: 'client.Contacts.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.New(context.TODO(), zavudev.ContactNewParams{\n\t\tChannels: []zavudev.ContactNewParamsChannel{{\n\t\t\tChannel:    "sms",\n\t\t\tIdentifier: "+14155551234",\n\t\t\tIsPrimary:  zavudev.Bool(true),\n\t\t}},\n\t\tDisplayName: zavudev.String("John Doe"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
+      },
       ruby: {
         method: 'contacts.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncontact = zavudev.contacts.create(channels: [{channel: :sms, identifier: "+14155551234"}])\n\nputs(contact)',
       },
-      typescript: {
-        method: 'client.contacts.create',
+      cli: {
+        method: 'contacts create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.create({\n  channels: [\n    {\n      channel: 'sms',\n      identifier: '+14155551234',\n      isPrimary: true,\n    },\n  ],\n  displayName: 'John Doe',\n});\n\nconsole.log(contact.id);",
+          "zavudev contacts create \\\n  --api-key 'My API Key' \\\n  --channel \"{channel: sms, identifier: '+14155551234'}\"",
+      },
+      php: {
+        method: 'contacts->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->create(\n  channels: [\n    [\n      'channel' => 'sms',\n      'identifier' => '+14155551234',\n      'countryCode' => 'US',\n      'isPrimary' => true,\n      'label' => 'work',\n    ],\n  ],\n  displayName: 'John Doe',\n  metadata: ['foo' => 'string'],\n);\n\nvar_dump($contact);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channels": [\n            {\n              "channel": "sms",\n              "identifier": "+14155551234",\n              "isPrimary": true\n            }\n          ],\n          "displayName": "John Doe"\n        }\'',
       },
     },
   },
@@ -2770,39 +2770,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## merge\n\n`client.contacts.merge(contactId: string, sourceContactId: string): { id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: contact_channel[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n**post** `/v1/contacts/{contactId}/merge`\n\nMerge a source contact into this contact. All channels from the source contact will be moved to the target contact, and the source contact will be marked as merged.\n\n### Parameters\n\n- `contactId: string`\n\n- `sourceContactId: string`\n  ID of the contact to merge into the target contact. The source contact will be marked as merged.\n\n### Returns\n\n- `{ id: string; availableChannels: string[]; createdAt: string; metadata: object; verified: boolean; channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }[]; countryCode?: string; defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; displayName?: string; phoneNumber?: string; primaryEmail?: string; primaryPhone?: string; profileName?: string; suggestedMergeWith?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `availableChannels: string[]`\n  - `createdAt: string`\n  - `metadata: object`\n  - `verified: boolean`\n  - `channels?: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }[]`\n  - `countryCode?: string`\n  - `defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `displayName?: string`\n  - `phoneNumber?: string`\n  - `primaryEmail?: string`\n  - `primaryPhone?: string`\n  - `profileName?: string`\n  - `suggestedMergeWith?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst contact = await client.contacts.merge('contactId', { sourceContactId: 'jx7xyz789' });\n\nconsole.log(contact);\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts merge',
+      typescript: {
+        method: 'client.contacts.merge',
         example:
-          "zavudev contacts merge \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --source-contact-id jx7xyz789",
-      },
-      go: {
-        method: 'client.Contacts.Merge',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.Merge(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.ContactMergeParams{\n\t\t\tSourceContactID: "jx7xyz789",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "sourceContactId": "jx7xyz789"\n        }\'',
-      },
-      php: {
-        method: 'contacts->merge',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->merge('contactId', sourceContactID: 'jx7xyz789');\n\nvar_dump($contact);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.merge('contactId', { sourceContactId: 'jx7xyz789' });\n\nconsole.log(contact.id);",
       },
       python: {
         method: 'contacts.merge',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.merge(\n    contact_id="contactId",\n    source_contact_id="jx7xyz789",\n)\nprint(contact.id)',
       },
+      go: {
+        method: 'client.Contacts.Merge',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcontact, err := client.Contacts.Merge(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.ContactMergeParams{\n\t\t\tSourceContactID: "jx7xyz789",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", contact.ID)\n}\n',
+      },
       ruby: {
         method: 'contacts.merge',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncontact = zavudev.contacts.merge("contactId", source_contact_id: "jx7xyz789")\n\nputs(contact)',
       },
-      typescript: {
-        method: 'client.contacts.merge',
+      cli: {
+        method: 'contacts merge',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst contact = await client.contacts.merge('contactId', { sourceContactId: 'jx7xyz789' });\n\nconsole.log(contact.id);",
+          "zavudev contacts merge \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --source-contact-id jx7xyz789",
+      },
+      php: {
+        method: 'contacts->merge',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->merge('contactId', sourceContactID: 'jx7xyz789');\n\nvar_dump($contact);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "sourceContactId": "jx7xyz789"\n        }\'',
       },
     },
   },
@@ -2818,39 +2818,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## dismiss_merge_suggestion\n\n`client.contacts.dismissMergeSuggestion(contactId: string): void`\n\n**delete** `/v1/contacts/{contactId}/merge-suggestion`\n\nDismiss the merge suggestion for a contact.\n\n### Parameters\n\n- `contactId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.contacts.dismissMergeSuggestion('contactId')\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts dismiss_merge_suggestion',
+      typescript: {
+        method: 'client.contacts.dismissMergeSuggestion',
         example:
-          "zavudev contacts dismiss-merge-suggestion \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
-      },
-      go: {
-        method: 'client.Contacts.DismissMergeSuggestion',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Contacts.DismissMergeSuggestion(context.TODO(), "contactId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge-suggestion \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'contacts->dismissMergeSuggestion',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->dismissMergeSuggestion('contactId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.contacts.dismissMergeSuggestion('contactId');",
       },
       python: {
         method: 'contacts.dismiss_merge_suggestion',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.dismiss_merge_suggestion(\n    "contactId",\n)',
       },
+      go: {
+        method: 'client.Contacts.DismissMergeSuggestion',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Contacts.DismissMergeSuggestion(context.TODO(), "contactId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'contacts.dismiss_merge_suggestion',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.contacts.dismiss_merge_suggestion("contactId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.contacts.dismissMergeSuggestion',
+      cli: {
+        method: 'contacts dismiss_merge_suggestion',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.contacts.dismissMergeSuggestion('contactId');",
+          "zavudev contacts dismiss-merge-suggestion \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
+      },
+      php: {
+        method: 'contacts->dismissMergeSuggestion',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->dismissMergeSuggestion('contactId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge-suggestion \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2875,39 +2875,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## add\n\n`client.contacts.channels.add(contactId: string, channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice', identifier: string, countryCode?: string, isPrimary?: boolean, label?: string): { channel: contact_channel; }`\n\n**post** `/v1/contacts/{contactId}/channels`\n\nAdd a new communication channel to an existing contact.\n\n### Parameters\n\n- `contactId: string`\n\n- `channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'`\n  Channel type.\n\n- `identifier: string`\n  Channel identifier (phone number in E.164 format or email address).\n\n- `countryCode?: string`\n  ISO country code for phone numbers.\n\n- `isPrimary?: boolean`\n  Whether this should be the primary channel for its type.\n\n- `label?: string`\n  Optional label for the channel.\n\n### Returns\n\n- `{ channel: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }; }`\n\n  - `channel: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.contacts.channels.add('contactId', { channel: 'email', identifier: 'john.work@company.com' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'channels add',
+      typescript: {
+        method: 'client.contacts.channels.add',
         example:
-          "zavudev contacts:channels add \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel email \\\n  --identifier john.work@company.com",
-      },
-      go: {
-        method: 'client.Contacts.Channels.Add',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Contacts.Channels.Add(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.ContactChannelAddParams{\n\t\t\tChannel:    zavudev.ContactChannelAddParamsChannelEmail,\n\t\t\tIdentifier: "john.work@company.com",\n\t\t\tLabel:      zavudev.String("work"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Channel)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "email",\n          "identifier": "john.work@company.com",\n          "countryCode": "US",\n          "label": "work"\n        }\'',
-      },
-      php: {
-        method: 'contacts->channels->add',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->add(\n  'contactId',\n  channel: 'email',\n  identifier: 'john.work@company.com',\n  countryCode: 'US',\n  isPrimary: true,\n  label: 'work',\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.contacts.channels.add('contactId', {\n  channel: 'email',\n  identifier: 'john.work@company.com',\n  label: 'work',\n});\n\nconsole.log(response.channel);",
       },
       python: {
         method: 'contacts.channels.add',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.contacts.channels.add(\n    contact_id="contactId",\n    channel="email",\n    identifier="john.work@company.com",\n    label="work",\n)\nprint(response.channel)',
       },
+      go: {
+        method: 'client.Contacts.Channels.Add',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Contacts.Channels.Add(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.ContactChannelAddParams{\n\t\t\tChannel:    zavudev.ContactChannelAddParamsChannelEmail,\n\t\t\tIdentifier: "john.work@company.com",\n\t\t\tLabel:      zavudev.String("work"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Channel)\n}\n',
+      },
       ruby: {
         method: 'contacts.channels.add',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.contacts.channels.add("contactId", channel: :email, identifier: "john.work@company.com")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.contacts.channels.add',
+      cli: {
+        method: 'channels add',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.contacts.channels.add('contactId', {\n  channel: 'email',\n  identifier: 'john.work@company.com',\n  label: 'work',\n});\n\nconsole.log(response.channel);",
+          "zavudev contacts:channels add \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel email \\\n  --identifier john.work@company.com",
+      },
+      php: {
+        method: 'contacts->channels->add',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->add(\n  'contactId',\n  channel: 'email',\n  identifier: 'john.work@company.com',\n  countryCode: 'US',\n  isPrimary: true,\n  label: 'work',\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "email",\n          "identifier": "john.work@company.com",\n          "countryCode": "US",\n          "label": "work"\n        }\'',
       },
     },
   },
@@ -2931,39 +2931,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.contacts.channels.update(contactId: string, channelId: string, label?: string, metadata?: object, verified?: boolean): { channel: contact_channel; }`\n\n**patch** `/v1/contacts/{contactId}/channels/{channelId}`\n\nUpdate a contact's channel properties.\n\n### Parameters\n\n- `contactId: string`\n\n- `channelId: string`\n\n- `label?: string`\n  Optional label for the channel. Set to null to clear.\n\n- `metadata?: object`\n\n- `verified?: boolean`\n  Whether the channel is verified.\n\n### Returns\n\n- `{ channel: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }; }`\n\n  - `channel: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst channel = await client.contacts.channels.update('channelId', { contactId: 'contactId' });\n\nconsole.log(channel);\n```",
     perLanguage: {
-      cli: {
-        method: 'channels update',
+      typescript: {
+        method: 'client.contacts.channels.update',
         example:
-          "zavudev contacts:channels update \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel-id channelId",
-      },
-      go: {
-        method: 'client.Contacts.Channels.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tchannel, err := client.Contacts.Channels.Update(\n\t\tcontext.TODO(),\n\t\t"channelId",\n\t\tzavudev.ContactChannelUpdateParams{\n\t\t\tContactID: "contactId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", channel.Channel)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'contacts->channels->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$channel = $client->contacts->channels->update(\n  'channelId',\n  contactID: 'contactId',\n  label: 'label',\n  metadata: ['foo' => 'string'],\n  verified: true,\n);\n\nvar_dump($channel);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst channel = await client.contacts.channels.update('channelId', { contactId: 'contactId' });\n\nconsole.log(channel.channel);",
       },
       python: {
         method: 'contacts.channels.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nchannel = client.contacts.channels.update(\n    channel_id="channelId",\n    contact_id="contactId",\n)\nprint(channel.channel)',
       },
+      go: {
+        method: 'client.Contacts.Channels.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tchannel, err := client.Contacts.Channels.Update(\n\t\tcontext.TODO(),\n\t\t"channelId",\n\t\tzavudev.ContactChannelUpdateParams{\n\t\t\tContactID: "contactId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", channel.Channel)\n}\n',
+      },
       ruby: {
         method: 'contacts.channels.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nchannel = zavudev.contacts.channels.update("channelId", contact_id: "contactId")\n\nputs(channel)',
       },
-      typescript: {
-        method: 'client.contacts.channels.update',
+      cli: {
+        method: 'channels update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst channel = await client.contacts.channels.update('channelId', { contactId: 'contactId' });\n\nconsole.log(channel.channel);",
+          "zavudev contacts:channels update \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel-id channelId",
+      },
+      php: {
+        method: 'contacts->channels->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$channel = $client->contacts->channels->update(\n  'channelId',\n  contactID: 'contactId',\n  label: 'label',\n  metadata: ['foo' => 'string'],\n  verified: true,\n);\n\nvar_dump($channel);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -2979,39 +2979,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## remove\n\n`client.contacts.channels.remove(contactId: string, channelId: string): void`\n\n**delete** `/v1/contacts/{contactId}/channels/{channelId}`\n\nRemove a communication channel from a contact. Cannot remove the last channel.\n\n### Parameters\n\n- `contactId: string`\n\n- `channelId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.contacts.channels.remove('channelId', { contactId: 'contactId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'channels remove',
+      typescript: {
+        method: 'client.contacts.channels.remove',
         example:
-          "zavudev contacts:channels remove \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel-id channelId",
-      },
-      go: {
-        method: 'client.Contacts.Channels.Remove',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Contacts.Channels.Remove(\n\t\tcontext.TODO(),\n\t\t"channelId",\n\t\tzavudev.ContactChannelRemoveParams{\n\t\t\tContactID: "contactId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'contacts->channels->remove',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->channels->remove(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.contacts.channels.remove('channelId', { contactId: 'contactId' });",
       },
       python: {
         method: 'contacts.channels.remove',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.channels.remove(\n    channel_id="channelId",\n    contact_id="contactId",\n)',
       },
+      go: {
+        method: 'client.Contacts.Channels.Remove',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Contacts.Channels.Remove(\n\t\tcontext.TODO(),\n\t\t"channelId",\n\t\tzavudev.ContactChannelRemoveParams{\n\t\t\tContactID: "contactId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'contacts.channels.remove',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.contacts.channels.remove("channelId", contact_id: "contactId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.contacts.channels.remove',
+      cli: {
+        method: 'channels remove',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.contacts.channels.remove('channelId', { contactId: 'contactId' });",
+          "zavudev contacts:channels remove \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel-id channelId",
+      },
+      php: {
+        method: 'contacts->channels->remove',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->channels->remove(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3029,39 +3029,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## set_primary\n\n`client.contacts.channels.setPrimary(contactId: string, channelId: string): { channel: contact_channel; }`\n\n**post** `/v1/contacts/{contactId}/channels/{channelId}/primary`\n\nSet a channel as the primary channel for its type.\n\n### Parameters\n\n- `contactId: string`\n\n- `channelId: string`\n\n### Returns\n\n- `{ channel: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: object; updatedAt?: string; }; }`\n\n  - `channel: { id: string; channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'voice'; createdAt: string; identifier: string; isPrimary: boolean; verified: boolean; countryCode?: string; label?: string; lastInboundAt?: string; metadata?: object; metrics?: { avgDeliveryTimeMs?: number; failureCount?: number; lastSuccessAt?: string; successCount?: number; totalAttempts?: number; }; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.contacts.channels.setPrimary('channelId', { contactId: 'contactId' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'channels set_primary',
+      typescript: {
+        method: 'client.contacts.channels.setPrimary',
         example:
-          "zavudev contacts:channels set-primary \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel-id channelId",
-      },
-      go: {
-        method: 'client.Contacts.Channels.SetPrimary',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Contacts.Channels.SetPrimary(\n\t\tcontext.TODO(),\n\t\t"channelId",\n\t\tzavudev.ContactChannelSetPrimaryParams{\n\t\t\tContactID: "contactId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Channel)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID/primary \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'contacts->channels->setPrimary',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->setPrimary(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.contacts.channels.setPrimary('channelId', { contactId: 'contactId' });\n\nconsole.log(response.channel);",
       },
       python: {
         method: 'contacts.channels.set_primary',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.contacts.channels.set_primary(\n    channel_id="channelId",\n    contact_id="contactId",\n)\nprint(response.channel)',
       },
+      go: {
+        method: 'client.Contacts.Channels.SetPrimary',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Contacts.Channels.SetPrimary(\n\t\tcontext.TODO(),\n\t\t"channelId",\n\t\tzavudev.ContactChannelSetPrimaryParams{\n\t\t\tContactID: "contactId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Channel)\n}\n',
+      },
       ruby: {
         method: 'contacts.channels.set_primary',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.contacts.channels.set_primary("channelId", contact_id: "contactId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.contacts.channels.setPrimary',
+      cli: {
+        method: 'channels set_primary',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.contacts.channels.setPrimary('channelId', { contactId: 'contactId' });\n\nconsole.log(response.channel);",
+          "zavudev contacts:channels set-primary \\\n  --api-key 'My API Key' \\\n  --contact-id contactId \\\n  --channel-id channelId",
+      },
+      php: {
+        method: 'contacts->channels->setPrimary',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->setPrimary(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID/primary \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3091,39 +3091,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.broadcasts.create(channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice', name: string, content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }, emailHtmlBody?: string, emailSubject?: string, idempotencyKey?: string, messageType?: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template', metadata?: object, scheduledAt?: string, senderId?: string, text?: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts`\n\nCreate a new broadcast campaign. Add contacts after creation, then send.\n\n### Parameters\n\n- `channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  Broadcast delivery channel. Use 'smart' for per-contact intelligent routing.\n\n- `name: string`\n  Name of the broadcast campaign.\n\n- `content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }`\n  Content for non-text broadcast message types.\n  - `filename?: string`\n    Filename for documents.\n  - `mediaId?: string`\n    Media ID if already uploaded.\n  - `mediaUrl?: string`\n    URL of the media file.\n  - `mimeType?: string`\n    MIME type of the media.\n  - `templateButtonVariables?: object`\n    Default button variables for dynamic URL/OTP buttons. Keys are the button index (0, 1, 2). Per-contact values override these.\n  - `templateId?: string`\n    Template ID for template messages.\n  - `templateVariables?: object`\n    Default body variables (can be overridden per contact). Keys are positions (1, 2, ...).\n\n- `emailHtmlBody?: string`\n  HTML body for email broadcasts.\n\n- `emailSubject?: string`\n  Email subject line. Required for email broadcasts.\n\n- `idempotencyKey?: string`\n  Idempotency key to prevent duplicate broadcasts.\n\n- `messageType?: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'`\n  Type of message for broadcast.\n\n- `metadata?: object`\n\n- `scheduledAt?: string`\n  Schedule the broadcast for future delivery.\n\n- `senderId?: string`\n  Sender profile ID. Uses default sender if omitted.\n\n- `text?: string`\n  Text content or caption. Supports template variables: {{name}}, {{1}}, etc.\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst broadcast = await client.broadcasts.create({ channel: 'sms', name: 'Black Friday Sale' });\n\nconsole.log(broadcast);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts create',
+      typescript: {
+        method: 'client.broadcasts.create',
         example:
-          "zavudev broadcasts create \\\n  --api-key 'My API Key' \\\n  --channel sms \\\n  --name 'Black Friday Sale'",
-      },
-      go: {
-        method: 'client.Broadcasts.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcast, err := client.Broadcasts.New(context.TODO(), zavudev.BroadcastNewParams{\n\t\tChannel: zavudev.BroadcastChannelSMS,\n\t\tName:    "Black Friday Sale",\n\t\tText:    zavudev.String("Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off."),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcast.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "sms",\n          "name": "Black Friday Sale",\n          "text": "Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off."\n        }\'',
-      },
-      php: {
-        method: 'broadcasts->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->create(\n  channel: BroadcastChannel::SMS,\n  name: 'Black Friday Sale',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  idempotencyKey: 'idempotencyKey',\n  messageType: BroadcastMessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  senderID: 'senderId',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n);\n\nvar_dump($broadcast);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcast = await client.broadcasts.create({\n  channel: 'sms',\n  name: 'Black Friday Sale',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n});\n\nconsole.log(broadcast.broadcast);",
       },
       python: {
         method: 'broadcasts.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.create(\n    channel="sms",\n    name="Black Friday Sale",\n    text="Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.",\n)\nprint(broadcast.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcast, err := client.Broadcasts.New(context.TODO(), zavudev.BroadcastNewParams{\n\t\tChannel: zavudev.BroadcastChannelSMS,\n\t\tName:    "Black Friday Sale",\n\t\tText:    zavudev.String("Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off."),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcast.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbroadcast = zavudev.broadcasts.create(channel: :sms, name: "Black Friday Sale")\n\nputs(broadcast)',
       },
-      typescript: {
-        method: 'client.broadcasts.create',
+      cli: {
+        method: 'broadcasts create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcast = await client.broadcasts.create({\n  channel: 'sms',\n  name: 'Black Friday Sale',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n});\n\nconsole.log(broadcast.broadcast);",
+          "zavudev broadcasts create \\\n  --api-key 'My API Key' \\\n  --channel sms \\\n  --name 'Black Friday Sale'",
+      },
+      php: {
+        method: 'broadcasts->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->create(\n  channel: BroadcastChannel::SMS,\n  name: 'Black Friday Sale',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  idempotencyKey: 'idempotencyKey',\n  messageType: BroadcastMessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  senderID: 'senderId',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n);\n\nvar_dump($broadcast);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "sms",\n          "name": "Black Friday Sale",\n          "text": "Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off."\n        }\'',
       },
     },
   },
@@ -3141,38 +3141,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.broadcasts.list(cursor?: string, limit?: number, status?: string): { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n**get** `/v1/broadcasts`\n\nList broadcasts for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: string`\n  Current status of the broadcast.\n\n### Returns\n\n- `{ id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'`\n  - `createdAt: string`\n  - `messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'`\n  - `name: string`\n  - `status: string`\n  - `totalContacts: number`\n  - `actualCost?: number`\n  - `completedAt?: string`\n  - `content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }`\n  - `deliveredCount?: number`\n  - `emailSubject?: string`\n  - `estimatedCost?: number`\n  - `failedCount?: number`\n  - `metadata?: object`\n  - `pendingCount?: number`\n  - `reservedAmount?: number`\n  - `reviewAttempts?: number`\n  - `reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }`\n  - `scheduledAt?: string`\n  - `senderId?: string`\n  - `sendingCount?: number`\n  - `startedAt?: string`\n  - `text?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const broadcast of client.broadcasts.list()) {\n  console.log(broadcast);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts list',
-        example: "zavudev broadcasts list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Broadcasts.List',
+      typescript: {
+        method: 'client.broadcasts.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Broadcasts.List(context.TODO(), zavudev.BroadcastListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->list(\n  cursor: 'cursor', limit: 100, status: BroadcastStatus::DRAFT\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const broadcast of client.broadcasts.list()) {\n  console.log(broadcast.id);\n}",
       },
       python: {
         method: 'broadcasts.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.broadcasts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Broadcasts.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Broadcasts.List(context.TODO(), zavudev.BroadcastListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.broadcasts.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.broadcasts.list',
+      cli: {
+        method: 'broadcasts list',
+        example: "zavudev broadcasts list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'broadcasts->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const broadcast of client.broadcasts.list()) {\n  console.log(broadcast.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->list(\n  cursor: 'cursor', limit: 100, status: BroadcastStatus::DRAFT\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3190,38 +3190,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.broadcasts.retrieve(broadcastId: string): { broadcast: broadcast; }`\n\n**get** `/v1/broadcasts/{broadcastId}`\n\nGet broadcast\n\n### Parameters\n\n- `broadcastId: string`\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst broadcast = await client.broadcasts.retrieve('broadcastId');\n\nconsole.log(broadcast);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts retrieve',
-        example: "zavudev broadcasts retrieve \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Get',
+      typescript: {
+        method: 'client.broadcasts.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcast, err := client.Broadcasts.Get(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcast.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->retrieve('broadcastId');\n\nvar_dump($broadcast);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcast = await client.broadcasts.retrieve('broadcastId');\n\nconsole.log(broadcast.broadcast);",
       },
       python: {
         method: 'broadcasts.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.retrieve(\n    "broadcastId",\n)\nprint(broadcast.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcast, err := client.Broadcasts.Get(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcast.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbroadcast = zavudev.broadcasts.retrieve("broadcastId")\n\nputs(broadcast)',
       },
-      typescript: {
-        method: 'client.broadcasts.retrieve',
+      cli: {
+        method: 'broadcasts retrieve',
+        example: "zavudev broadcasts retrieve \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcast = await client.broadcasts.retrieve('broadcastId');\n\nconsole.log(broadcast.broadcast);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->retrieve('broadcastId');\n\nvar_dump($broadcast);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3247,38 +3247,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.broadcasts.update(broadcastId: string, content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }, emailHtmlBody?: string, emailSubject?: string, metadata?: object, name?: string, text?: string): { broadcast: broadcast; }`\n\n**patch** `/v1/broadcasts/{broadcastId}`\n\nUpdate a broadcast in draft status.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }`\n  Content for non-text broadcast message types.\n  - `filename?: string`\n    Filename for documents.\n  - `mediaId?: string`\n    Media ID if already uploaded.\n  - `mediaUrl?: string`\n    URL of the media file.\n  - `mimeType?: string`\n    MIME type of the media.\n  - `templateButtonVariables?: object`\n    Default button variables for dynamic URL/OTP buttons. Keys are the button index (0, 1, 2). Per-contact values override these.\n  - `templateId?: string`\n    Template ID for template messages.\n  - `templateVariables?: object`\n    Default body variables (can be overridden per contact). Keys are positions (1, 2, ...).\n\n- `emailHtmlBody?: string`\n\n- `emailSubject?: string`\n\n- `metadata?: object`\n\n- `name?: string`\n\n- `text?: string`\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst broadcast = await client.broadcasts.update('broadcastId');\n\nconsole.log(broadcast);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts update',
-        example: "zavudev broadcasts update \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Update',
+      typescript: {
+        method: 'client.broadcasts.update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcast, err := client.Broadcasts.Update(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcast.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'broadcasts->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->update(\n  'broadcastId',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  text: 'text',\n);\n\nvar_dump($broadcast);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcast = await client.broadcasts.update('broadcastId');\n\nconsole.log(broadcast.broadcast);",
       },
       python: {
         method: 'broadcasts.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.update(\n    broadcast_id="broadcastId",\n)\nprint(broadcast.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcast, err := client.Broadcasts.Update(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcast.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbroadcast = zavudev.broadcasts.update("broadcastId")\n\nputs(broadcast)',
       },
-      typescript: {
-        method: 'client.broadcasts.update',
+      cli: {
+        method: 'broadcasts update',
+        example: "zavudev broadcasts update \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcast = await client.broadcasts.update('broadcastId');\n\nconsole.log(broadcast.broadcast);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->update(\n  'broadcastId',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  text: 'text',\n);\n\nvar_dump($broadcast);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -3294,38 +3294,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.broadcasts.delete(broadcastId: string): void`\n\n**delete** `/v1/broadcasts/{broadcastId}`\n\nDelete a broadcast in draft status.\n\n### Parameters\n\n- `broadcastId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.broadcasts.delete('broadcastId')\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts delete',
-        example: "zavudev broadcasts delete \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Delete',
+      typescript: {
+        method: 'client.broadcasts.delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Broadcasts.Delete(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->delete('broadcastId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.broadcasts.delete('broadcastId');",
       },
       python: {
         method: 'broadcasts.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.broadcasts.delete(\n    "broadcastId",\n)',
       },
+      go: {
+        method: 'client.Broadcasts.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Broadcasts.Delete(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'broadcasts.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.broadcasts.delete("broadcastId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.broadcasts.delete',
+      cli: {
+        method: 'broadcasts delete',
+        example: "zavudev broadcasts delete \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.broadcasts.delete('broadcastId');",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->delete('broadcastId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3344,38 +3344,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## send\n\n`client.broadcasts.send(broadcastId: string, scheduledAt?: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts/{broadcastId}/send`\n\nStart sending the broadcast immediately or schedule for later. Broadcasts go through automated AI content review before sending. If the review passes, the broadcast proceeds. If rejected, use PATCH to edit content, then call POST /retry-review. Reserves the estimated cost from your balance.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `scheduledAt?: string`\n  Schedule for future delivery. Omit to send immediately.\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.send('broadcastId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts send',
-        example: "zavudev broadcasts send \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Send',
+      typescript: {
+        method: 'client.broadcasts.send',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Send(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastSendParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/send \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->send',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->send(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z')\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.send('broadcastId');\n\nconsole.log(response.broadcast);",
       },
       python: {
         method: 'broadcasts.send',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.send(\n    broadcast_id="broadcastId",\n)\nprint(response.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.Send',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Send(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastSendParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.send_',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.broadcasts.send_("broadcastId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.broadcasts.send',
+      cli: {
+        method: 'broadcasts send',
+        example: "zavudev broadcasts send \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->send',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.send('broadcastId');\n\nconsole.log(response.broadcast);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->send(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z')\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/send \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3394,38 +3394,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## cancel\n\n`client.broadcasts.cancel(broadcastId: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts/{broadcastId}/cancel`\n\nCancel a broadcast. Pending contacts will be skipped, but already queued messages may still be delivered.\n\n### Parameters\n\n- `broadcastId: string`\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.cancel('broadcastId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts cancel',
-        example: "zavudev broadcasts cancel \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Cancel',
+      typescript: {
+        method: 'client.broadcasts.cancel',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Cancel(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->cancel',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->cancel('broadcastId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.cancel('broadcastId');\n\nconsole.log(response.broadcast);",
       },
       python: {
         method: 'broadcasts.cancel',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.cancel(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.Cancel',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Cancel(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.cancel',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.broadcasts.cancel("broadcastId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.broadcasts.cancel',
+      cli: {
+        method: 'broadcasts cancel',
+        example: "zavudev broadcasts cancel \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->cancel',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.cancel('broadcastId');\n\nconsole.log(response.broadcast);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->cancel('broadcastId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3444,38 +3444,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## progress\n\n`client.broadcasts.progress(broadcastId: string): { broadcastId: string; delivered: number; failed: number; pending: number; percentComplete: number; sending: number; skipped: number; status: broadcast_status; total: number; actualCost?: number; estimatedCompletionAt?: string; estimatedCost?: number; reservedAmount?: number; startedAt?: string; }`\n\n**get** `/v1/broadcasts/{broadcastId}/progress`\n\nGet real-time progress of a broadcast including delivery counts and estimated completion time.\n\n### Parameters\n\n- `broadcastId: string`\n\n### Returns\n\n- `{ broadcastId: string; delivered: number; failed: number; pending: number; percentComplete: number; sending: number; skipped: number; status: string; total: number; actualCost?: number; estimatedCompletionAt?: string; estimatedCost?: number; reservedAmount?: number; startedAt?: string; }`\n\n  - `broadcastId: string`\n  - `delivered: number`\n  - `failed: number`\n  - `pending: number`\n  - `percentComplete: number`\n  - `sending: number`\n  - `skipped: number`\n  - `status: string`\n  - `total: number`\n  - `actualCost?: number`\n  - `estimatedCompletionAt?: string`\n  - `estimatedCost?: number`\n  - `reservedAmount?: number`\n  - `startedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst broadcastProgress = await client.broadcasts.progress('broadcastId');\n\nconsole.log(broadcastProgress);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts progress',
-        example: "zavudev broadcasts progress \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Progress',
+      typescript: {
+        method: 'client.broadcasts.progress',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcastProgress, err := client.Broadcasts.Progress(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcastProgress.BroadcastID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/progress \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->progress',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcastProgress = $client->broadcasts->progress('broadcastId');\n\nvar_dump($broadcastProgress);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcastProgress = await client.broadcasts.progress('broadcastId');\n\nconsole.log(broadcastProgress.broadcastId);",
       },
       python: {
         method: 'broadcasts.progress',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast_progress = client.broadcasts.progress(\n    "broadcastId",\n)\nprint(broadcast_progress.broadcast_id)',
       },
+      go: {
+        method: 'client.Broadcasts.Progress',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbroadcastProgress, err := client.Broadcasts.Progress(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", broadcastProgress.BroadcastID)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.progress',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbroadcast_progress = zavudev.broadcasts.progress("broadcastId")\n\nputs(broadcast_progress)',
       },
-      typescript: {
-        method: 'client.broadcasts.progress',
+      cli: {
+        method: 'broadcasts progress',
+        example: "zavudev broadcasts progress \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->progress',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst broadcastProgress = await client.broadcasts.progress('broadcastId');\n\nconsole.log(broadcastProgress.broadcastId);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcastProgress = $client->broadcasts->progress('broadcastId');\n\nvar_dump($broadcastProgress);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/progress \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3493,39 +3493,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## reschedule\n\n`client.broadcasts.reschedule(broadcastId: string, scheduledAt: string): { broadcast: broadcast; }`\n\n**patch** `/v1/broadcasts/{broadcastId}/schedule`\n\nUpdate the scheduled time for a broadcast. The broadcast must be in scheduled status.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `scheduledAt: string`\n  New scheduled time for the broadcast.\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.reschedule('broadcastId', { scheduledAt: '2024-01-15T14:00:00Z' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts reschedule',
+      typescript: {
+        method: 'client.broadcasts.reschedule',
         example:
-          "zavudev broadcasts reschedule \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId \\\n  --scheduled-at \"'2024-01-15T14:00:00Z'\"",
-      },
-      go: {
-        method: 'client.Broadcasts.Reschedule',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"time"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Reschedule(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastRescheduleParams{\n\t\t\tScheduledAt: time.Now(),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/schedule \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "scheduledAt": "2024-01-15T14:00:00Z"\n        }\'',
-      },
-      php: {
-        method: 'broadcasts->reschedule',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->reschedule(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2024-01-15T14:00:00Z')\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.reschedule('broadcastId', {\n  scheduledAt: '2024-01-15T14:00:00Z',\n});\n\nconsole.log(response.broadcast);",
       },
       python: {
         method: 'broadcasts.reschedule',
         example:
           'import os\nfrom datetime import datetime\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.reschedule(\n    broadcast_id="broadcastId",\n    scheduled_at=datetime.fromisoformat("2024-01-15T14:00:00"),\n)\nprint(response.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.Reschedule',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"time"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Reschedule(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastRescheduleParams{\n\t\t\tScheduledAt: time.Now(),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.reschedule',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.broadcasts.reschedule("broadcastId", scheduled_at: "2024-01-15T14:00:00Z")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.broadcasts.reschedule',
+      cli: {
+        method: 'broadcasts reschedule',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.reschedule('broadcastId', {\n  scheduledAt: '2024-01-15T14:00:00Z',\n});\n\nconsole.log(response.broadcast);",
+          "zavudev broadcasts reschedule \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId \\\n  --scheduled-at \"'2024-01-15T14:00:00Z'\"",
+      },
+      php: {
+        method: 'broadcasts->reschedule',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->reschedule(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2024-01-15T14:00:00Z')\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/schedule \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "scheduledAt": "2024-01-15T14:00:00Z"\n        }\'',
       },
     },
   },
@@ -3544,39 +3544,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retry_review\n\n`client.broadcasts.retryReview(broadcastId: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts/{broadcastId}/retry-review`\n\nResubmit a rejected broadcast for AI review after editing content. Maximum 3 review attempts allowed per broadcast.\n\n### Parameters\n\n- `broadcastId: string`\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.retryReview('broadcastId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts retry_review',
+      typescript: {
+        method: 'client.broadcasts.retryReview',
         example:
-          "zavudev broadcasts retry-review \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.RetryReview',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.RetryReview(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/retry-review \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->retryReview',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->retryReview('broadcastId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.retryReview('broadcastId');\n\nconsole.log(response.broadcast);",
       },
       python: {
         method: 'broadcasts.retry_review',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.retry_review(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.RetryReview',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.RetryReview(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.retry_review',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.broadcasts.retry_review("broadcastId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.broadcasts.retryReview',
+      cli: {
+        method: 'broadcasts retry_review',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.retryReview('broadcastId');\n\nconsole.log(response.broadcast);",
+          "zavudev broadcasts retry-review \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->retryReview',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->retryReview('broadcastId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/retry-review \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3595,39 +3595,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## escalate_review\n\n`client.broadcasts.escalateReview(broadcastId: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts/{broadcastId}/escalate`\n\nRequest manual review by the Zavu team for a rejected broadcast. Use this after automated review rejection if you believe the content is legitimate.\n\n### Parameters\n\n- `broadcastId: string`\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'voice'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.escalateReview('broadcastId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'broadcasts escalate_review',
+      typescript: {
+        method: 'client.broadcasts.escalateReview',
         example:
-          "zavudev broadcasts escalate-review \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.EscalateReview',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.EscalateReview(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/escalate \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->escalateReview',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->escalateReview('broadcastId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.escalateReview('broadcastId');\n\nconsole.log(response.broadcast);",
       },
       python: {
         method: 'broadcasts.escalate_review',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.escalate_review(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      go: {
+        method: 'client.Broadcasts.EscalateReview',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.EscalateReview(context.TODO(), "broadcastId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Broadcast)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.escalate_review',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.broadcasts.escalate_review("broadcastId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.broadcasts.escalateReview',
+      cli: {
+        method: 'broadcasts escalate_review',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.escalateReview('broadcastId');\n\nconsole.log(response.broadcast);",
+          "zavudev broadcasts escalate-review \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->escalateReview',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->escalateReview('broadcastId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/escalate \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3648,39 +3648,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## add\n\n`client.broadcasts.contacts.add(broadcastId: string, contacts: { recipient: string; templateButtonVariables?: object; templateVariables?: object; }[]): { added: number; duplicates: number; invalid: number; errors?: object[]; }`\n\n**post** `/v1/broadcasts/{broadcastId}/contacts`\n\nAdd contacts to a broadcast in batch. Maximum 1000 contacts per request.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `contacts: { recipient: string; templateButtonVariables?: object; templateVariables?: object; }[]`\n  List of contacts to add (max 1000 per request).\n\n### Returns\n\n- `{ added: number; duplicates: number; invalid: number; errors?: { reason?: string; recipient?: string; }[]; }`\n\n  - `added: number`\n  - `duplicates: number`\n  - `invalid: number`\n  - `errors?: { reason?: string; recipient?: string; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.contacts.add('broadcastId', { contacts: [{ recipient: '+14155551234' }, { recipient: '+14155555678' }] });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts add',
+      typescript: {
+        method: 'client.broadcasts.contacts.add',
         example:
-          "zavudev broadcasts:contacts add \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId \\\n  --contact \"{recipient: '+14155551234'}\" \\\n  --contact \"{recipient: '+14155555678'}\"",
-      },
-      go: {
-        method: 'client.Broadcasts.Contacts.Add',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Contacts.Add(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastContactAddParams{\n\t\t\tContacts: []zavudev.BroadcastContactAddParamsContact{{\n\t\t\t\tRecipient: "+14155551234",\n\t\t\t\tTemplateVariables: map[string]string{\n\t\t\t\t\t"name":     "John",\n\t\t\t\t\t"order_id": "ORD-001",\n\t\t\t\t},\n\t\t\t}, {\n\t\t\t\tRecipient: "+14155555678",\n\t\t\t\tTemplateVariables: map[string]string{\n\t\t\t\t\t"name":     "Jane",\n\t\t\t\t\t"order_id": "ORD-002",\n\t\t\t\t},\n\t\t\t}},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Invalid)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "contacts": [\n            {\n              "recipient": "+14155551234",\n              "templateVariables": {\n                "name": "John",\n                "order_id": "ORD-001"\n              }\n            },\n            {\n              "recipient": "+14155555678",\n              "templateVariables": {\n                "name": "Jane",\n                "order_id": "ORD-002"\n              }\n            }\n          ]\n        }\'',
-      },
-      php: {
-        method: 'broadcasts->contacts->add',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->contacts->add(\n  'broadcastId',\n  contacts: [\n    [\n      'recipient' => '+14155551234',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateVariables' => ['name' => 'John', 'order_id' => 'ORD-001'],\n    ],\n    [\n      'recipient' => '+14155555678',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateVariables' => ['name' => 'Jane', 'order_id' => 'ORD-002'],\n    ],\n  ],\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.contacts.add('broadcastId', {\n  contacts: [\n    {\n      recipient: '+14155551234',\n      templateVariables: { name: 'John', order_id: 'ORD-001' },\n    },\n    {\n      recipient: '+14155555678',\n      templateVariables: { name: 'Jane', order_id: 'ORD-002' },\n    },\n  ],\n});\n\nconsole.log(response.invalid);",
       },
       python: {
         method: 'broadcasts.contacts.add',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.contacts.add(\n    broadcast_id="broadcastId",\n    contacts=[{\n        "recipient": "+14155551234",\n        "template_variables": {\n            "name": "John",\n            "order_id": "ORD-001",\n        },\n    }, {\n        "recipient": "+14155555678",\n        "template_variables": {\n            "name": "Jane",\n            "order_id": "ORD-002",\n        },\n    }],\n)\nprint(response.invalid)',
       },
+      go: {
+        method: 'client.Broadcasts.Contacts.Add',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Broadcasts.Contacts.Add(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastContactAddParams{\n\t\t\tContacts: []zavudev.BroadcastContactAddParamsContact{{\n\t\t\t\tRecipient: "+14155551234",\n\t\t\t\tTemplateVariables: map[string]string{\n\t\t\t\t\t"name":     "John",\n\t\t\t\t\t"order_id": "ORD-001",\n\t\t\t\t},\n\t\t\t}, {\n\t\t\t\tRecipient: "+14155555678",\n\t\t\t\tTemplateVariables: map[string]string{\n\t\t\t\t\t"name":     "Jane",\n\t\t\t\t\t"order_id": "ORD-002",\n\t\t\t\t},\n\t\t\t}},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Invalid)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.contacts.add',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.broadcasts.contacts.add(\n  "broadcastId",\n  contacts: [{recipient: "+14155551234"}, {recipient: "+14155555678"}]\n)\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.broadcasts.contacts.add',
+      cli: {
+        method: 'contacts add',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.broadcasts.contacts.add('broadcastId', {\n  contacts: [\n    {\n      recipient: '+14155551234',\n      templateVariables: { name: 'John', order_id: 'ORD-001' },\n    },\n    {\n      recipient: '+14155555678',\n      templateVariables: { name: 'Jane', order_id: 'ORD-002' },\n    },\n  ],\n});\n\nconsole.log(response.invalid);",
+          "zavudev broadcasts:contacts add \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId \\\n  --contact \"{recipient: '+14155551234'}\" \\\n  --contact \"{recipient: '+14155555678'}\"",
+      },
+      php: {
+        method: 'broadcasts->contacts->add',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->contacts->add(\n  'broadcastId',\n  contacts: [\n    [\n      'recipient' => '+14155551234',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateVariables' => ['name' => 'John', 'order_id' => 'ORD-001'],\n    ],\n    [\n      'recipient' => '+14155555678',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateVariables' => ['name' => 'Jane', 'order_id' => 'ORD-002'],\n    ],\n  ],\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "contacts": [\n            {\n              "recipient": "+14155551234",\n              "templateVariables": {\n                "name": "John",\n                "order_id": "ORD-001"\n              }\n            },\n            {\n              "recipient": "+14155555678",\n              "templateVariables": {\n                "name": "Jane",\n                "order_id": "ORD-002"\n              }\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -3703,39 +3703,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.broadcasts.contacts.list(broadcastId: string, cursor?: string, limit?: number, status?: 'pending' | 'queued' | 'sending' | 'delivered' | 'failed' | 'skipped'): { id: string; createdAt: string; recipient: string; recipientType: 'phone' | 'email'; status: broadcast_contact_status; cost?: number; errorCode?: string; errorMessage?: string; messageId?: string; processedAt?: string; templateButtonVariables?: object; templateVariables?: object; }`\n\n**get** `/v1/broadcasts/{broadcastId}/contacts`\n\nList contacts in a broadcast with optional status filter.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'pending' | 'queued' | 'sending' | 'delivered' | 'failed' | 'skipped'`\n  Status of a contact within a broadcast.\n\n### Returns\n\n- `{ id: string; createdAt: string; recipient: string; recipientType: 'phone' | 'email'; status: 'pending' | 'queued' | 'sending' | 'delivered' | 'failed' | 'skipped'; cost?: number; errorCode?: string; errorMessage?: string; messageId?: string; processedAt?: string; templateButtonVariables?: object; templateVariables?: object; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `recipient: string`\n  - `recipientType: 'phone' | 'email'`\n  - `status: 'pending' | 'queued' | 'sending' | 'delivered' | 'failed' | 'skipped'`\n  - `cost?: number`\n  - `errorCode?: string`\n  - `errorMessage?: string`\n  - `messageId?: string`\n  - `processedAt?: string`\n  - `templateButtonVariables?: object`\n  - `templateVariables?: object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const broadcastContact of client.broadcasts.contacts.list('broadcastId')) {\n  console.log(broadcastContact);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts list',
+      typescript: {
+        method: 'client.broadcasts.contacts.list',
         example:
-          "zavudev broadcasts:contacts list \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
-      },
-      go: {
-        method: 'client.Broadcasts.Contacts.List',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Broadcasts.Contacts.List(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastContactListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->contacts->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->contacts->list(\n  'broadcastId',\n  cursor: 'cursor',\n  limit: 100,\n  status: BroadcastContactStatus::PENDING,\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const broadcastContact of client.broadcasts.contacts.list('broadcastId')) {\n  console.log(broadcastContact.id);\n}",
       },
       python: {
         method: 'broadcasts.contacts.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.broadcasts.contacts.list(\n    broadcast_id="broadcastId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Broadcasts.Contacts.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Broadcasts.Contacts.List(\n\t\tcontext.TODO(),\n\t\t"broadcastId",\n\t\tzavudev.BroadcastContactListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'broadcasts.contacts.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.broadcasts.contacts.list("broadcastId")\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.broadcasts.contacts.list',
+      cli: {
+        method: 'contacts list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const broadcastContact of client.broadcasts.contacts.list('broadcastId')) {\n  console.log(broadcastContact.id);\n}",
+          "zavudev broadcasts:contacts list \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId",
+      },
+      php: {
+        method: 'broadcasts->contacts->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->contacts->list(\n  'broadcastId',\n  cursor: 'cursor',\n  limit: 100,\n  status: BroadcastContactStatus::PENDING,\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3751,39 +3751,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## remove\n\n`client.broadcasts.contacts.remove(broadcastId: string, contactId: string): void`\n\n**delete** `/v1/broadcasts/{broadcastId}/contacts/{contactId}`\n\nRemove a contact from a broadcast in draft status.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `contactId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.broadcasts.contacts.remove('contactId', { broadcastId: 'broadcastId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'contacts remove',
+      typescript: {
+        method: 'client.broadcasts.contacts.remove',
         example:
-          "zavudev broadcasts:contacts remove \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId \\\n  --contact-id contactId",
-      },
-      go: {
-        method: 'client.Broadcasts.Contacts.Remove',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Broadcasts.Contacts.Remove(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.BroadcastContactRemoveParams{\n\t\t\tBroadcastID: "broadcastId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts/$CONTACT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'broadcasts->contacts->remove',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->contacts->remove(\n  'contactId', broadcastID: 'broadcastId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.broadcasts.contacts.remove('contactId', { broadcastId: 'broadcastId' });",
       },
       python: {
         method: 'broadcasts.contacts.remove',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.broadcasts.contacts.remove(\n    contact_id="contactId",\n    broadcast_id="broadcastId",\n)',
       },
+      go: {
+        method: 'client.Broadcasts.Contacts.Remove',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Broadcasts.Contacts.Remove(\n\t\tcontext.TODO(),\n\t\t"contactId",\n\t\tzavudev.BroadcastContactRemoveParams{\n\t\t\tBroadcastID: "broadcastId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'broadcasts.contacts.remove',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.broadcasts.contacts.remove("contactId", broadcast_id: "broadcastId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.broadcasts.contacts.remove',
+      cli: {
+        method: 'contacts remove',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.broadcasts.contacts.remove('contactId', { broadcastId: 'broadcastId' });",
+          "zavudev broadcasts:contacts remove \\\n  --api-key 'My API Key' \\\n  --broadcast-id broadcastId \\\n  --contact-id contactId",
+      },
+      php: {
+        method: 'broadcasts->contacts->remove',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->contacts->remove(\n  'contactId', broadcastID: 'broadcastId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts/$CONTACT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3801,39 +3801,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## validate_phone\n\n`client.introspect.validatePhone(phoneNumber: string): { countryCode: string; phoneNumber: string; validNumber: boolean; availableChannels?: string[]; carrier?: object; lineType?: line_type; nationalFormat?: string; }`\n\n**post** `/v1/introspect/phone`\n\nValidate a phone number and check if a WhatsApp conversation window is open.\n\n### Parameters\n\n- `phoneNumber: string`\n\n### Returns\n\n- `{ countryCode: string; phoneNumber: string; validNumber: boolean; availableChannels?: string[]; carrier?: { name?: string; type?: 'mobile' | 'landline' | 'voip' | 'toll_free' | 'unknown'; }; lineType?: 'mobile' | 'landline' | 'voip' | 'toll_free' | 'unknown'; nationalFormat?: string; }`\n\n  - `countryCode: string`\n  - `phoneNumber: string`\n  - `validNumber: boolean`\n  - `availableChannels?: string[]`\n  - `carrier?: { name?: string; type?: 'mobile' | 'landline' | 'voip' | 'toll_free' | 'unknown'; }`\n  - `lineType?: 'mobile' | 'landline' | 'voip' | 'toll_free' | 'unknown'`\n  - `nationalFormat?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.introspect.validatePhone({ phoneNumber: '+56912345678' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'introspect validate_phone',
+      typescript: {
+        method: 'client.introspect.validatePhone',
         example:
-          "zavudev introspect validate-phone \\\n  --api-key 'My API Key' \\\n  --phone-number +56912345678",
-      },
-      go: {
-        method: 'client.Introspect.ValidatePhone',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Introspect.ValidatePhone(context.TODO(), zavudev.IntrospectValidatePhoneParams{\n\t\tPhoneNumber: "+56912345678",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ValidNumber)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/introspect/phone \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+56912345678"\n        }\'',
-      },
-      php: {
-        method: 'introspect->validatePhone',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->introspect->validatePhone(phoneNumber: '+56912345678');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.introspect.validatePhone({ phoneNumber: '+56912345678' });\n\nconsole.log(response.validNumber);",
       },
       python: {
         method: 'introspect.validate_phone',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.introspect.validate_phone(\n    phone_number="+56912345678",\n)\nprint(response.valid_number)',
       },
+      go: {
+        method: 'client.Introspect.ValidatePhone',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Introspect.ValidatePhone(context.TODO(), zavudev.IntrospectValidatePhoneParams{\n\t\tPhoneNumber: "+56912345678",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ValidNumber)\n}\n',
+      },
       ruby: {
         method: 'introspect.validate_phone',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.introspect.validate_phone(phone_number: "+56912345678")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.introspect.validatePhone',
+      cli: {
+        method: 'introspect validate_phone',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.introspect.validatePhone({ phoneNumber: '+56912345678' });\n\nconsole.log(response.validNumber);",
+          "zavudev introspect validate-phone \\\n  --api-key 'My API Key' \\\n  --phone-number +56912345678",
+      },
+      php: {
+        method: 'introspect->validatePhone',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->introspect->validatePhone(phoneNumber: '+56912345678');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/introspect/phone \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+56912345678"\n        }\'',
       },
     },
   },
@@ -3856,39 +3856,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## search_available\n\n`client.phoneNumbers.searchAvailable(countryCode: string, contains?: string, limit?: number, type?: 'local' | 'mobile' | 'tollFree'): { items: available_phone_number[]; }`\n\n**get** `/v1/phone-numbers/available`\n\nSearch for available phone numbers to purchase by country and type.\n\n### Parameters\n\n- `countryCode: string`\n  Two-letter ISO country code.\n\n- `contains?: string`\n  Search for numbers containing this string.\n\n- `limit?: number`\n  Maximum number of results to return.\n\n- `type?: 'local' | 'mobile' | 'tollFree'`\n  Type of phone number to search for.\n\n### Returns\n\n- `{ items: { capabilities: phone_number_capabilities; phoneNumber: string; pricing: phone_number_pricing; friendlyName?: string; locality?: string; region?: string; }[]; }`\n\n  - `items: { capabilities: { mms?: boolean; sms?: boolean; voice?: boolean; }; phoneNumber: string; pricing: { isFreeEligible?: boolean; monthlyPrice?: number; upfrontPrice?: number; }; friendlyName?: string; locality?: string; region?: string; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.phoneNumbers.searchAvailable({ countryCode: 'xx' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers search_available',
+      typescript: {
+        method: 'client.phoneNumbers.searchAvailable',
         example:
-          "zavudev phone-numbers search-available \\\n  --api-key 'My API Key' \\\n  --country-code xx",
-      },
-      go: {
-        method: 'client.PhoneNumbers.SearchAvailable',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.PhoneNumbers.SearchAvailable(context.TODO(), zavudev.PhoneNumberSearchAvailableParams{\n\t\tCountryCode: "xx",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/phone-numbers/available \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'phoneNumbers->searchAvailable',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->searchAvailable(\n  countryCode: 'xx',\n  contains: 'contains',\n  limit: 50,\n  type: PhoneNumberType::LOCAL,\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.phoneNumbers.searchAvailable({ countryCode: 'xx' });\n\nconsole.log(response.items);",
       },
       python: {
         method: 'phone_numbers.search_available',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.search_available(\n    country_code="xx",\n)\nprint(response.items)',
       },
+      go: {
+        method: 'client.PhoneNumbers.SearchAvailable',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.PhoneNumbers.SearchAvailable(context.TODO(), zavudev.PhoneNumberSearchAvailableParams{\n\t\tCountryCode: "xx",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.search_available',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.phone_numbers.search_available(country_code: "xx")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.searchAvailable',
+      cli: {
+        method: 'phone_numbers search_available',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.phoneNumbers.searchAvailable({ countryCode: 'xx' });\n\nconsole.log(response.items);",
+          "zavudev phone-numbers search-available \\\n  --api-key 'My API Key' \\\n  --country-code xx",
+      },
+      php: {
+        method: 'phoneNumbers->searchAvailable',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->searchAvailable(\n  countryCode: 'xx',\n  contains: 'contains',\n  limit: 50,\n  type: PhoneNumberType::LOCAL,\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers/available \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3907,38 +3907,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## requirements\n\n`client.phoneNumbers.requirements(countryCode: string, type?: 'local' | 'mobile' | 'tollFree'): { items: requirement[]; }`\n\n**get** `/v1/phone-numbers/requirements`\n\nGet regulatory requirements for purchasing phone numbers in a specific country. Some countries require additional documentation (addresses, identity documents) before phone numbers can be activated.\n\n### Parameters\n\n- `countryCode: string`\n  Two-letter ISO country code.\n\n- `type?: 'local' | 'mobile' | 'tollFree'`\n  Type of phone number (local, mobile, tollFree).\n\n### Returns\n\n- `{ items: { id: string; action: string; countryCode: string; phoneNumberType: string; requirementTypes: requirement_type[]; }[]; }`\n\n  - `items: { id: string; action: string; countryCode: string; phoneNumberType: string; requirementTypes: { id: string; description: string; name: string; type: requirement_field_type; acceptanceCriteria?: requirement_acceptance_criteria; example?: string; }[]; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.phoneNumbers.requirements({ countryCode: 'xx' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers requirements',
-        example: "zavudev phone-numbers requirements \\\n  --api-key 'My API Key' \\\n  --country-code xx",
-      },
-      go: {
-        method: 'client.PhoneNumbers.Requirements',
+      typescript: {
+        method: 'client.phoneNumbers.requirements',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.PhoneNumbers.Requirements(context.TODO(), zavudev.PhoneNumberRequirementsParams{\n\t\tCountryCode: "xx",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/phone-numbers/requirements \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'phoneNumbers->requirements',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->requirements(\n  countryCode: 'xx', type: PhoneNumberType::LOCAL\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.phoneNumbers.requirements({ countryCode: 'xx' });\n\nconsole.log(response.items);",
       },
       python: {
         method: 'phone_numbers.requirements',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.requirements(\n    country_code="xx",\n)\nprint(response.items)',
       },
+      go: {
+        method: 'client.PhoneNumbers.Requirements',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.PhoneNumbers.Requirements(context.TODO(), zavudev.PhoneNumberRequirementsParams{\n\t\tCountryCode: "xx",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.requirements',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.phone_numbers.requirements(country_code: "xx")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.requirements',
+      cli: {
+        method: 'phone_numbers requirements',
+        example: "zavudev phone-numbers requirements \\\n  --api-key 'My API Key' \\\n  --country-code xx",
+      },
+      php: {
+        method: 'phoneNumbers->requirements',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.phoneNumbers.requirements({ countryCode: 'xx' });\n\nconsole.log(response.items);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->requirements(\n  countryCode: 'xx', type: PhoneNumberType::LOCAL\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers/requirements \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -3956,39 +3956,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## purchase\n\n`client.phoneNumbers.purchase(phoneNumber: string, name?: string): { phoneNumber: owned_phone_number; }`\n\n**post** `/v1/phone-numbers`\n\nPurchase an available phone number. The first US phone number is free for each team.\n\n### Parameters\n\n- `phoneNumber: string`\n  Phone number in E.164 format.\n\n- `name?: string`\n  Optional custom name for the phone number.\n\n### Returns\n\n- `{ phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }; }`\n\n  - `phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }; status: 'active' | 'suspended' | 'pending'; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.phoneNumbers.purchase({ phoneNumber: '+15551234567' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers purchase',
+      typescript: {
+        method: 'client.phoneNumbers.purchase',
         example:
-          "zavudev phone-numbers purchase \\\n  --api-key 'My API Key' \\\n  --phone-number +15551234567",
-      },
-      go: {
-        method: 'client.PhoneNumbers.Purchase',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.PhoneNumbers.Purchase(context.TODO(), zavudev.PhoneNumberPurchaseParams{\n\t\tPhoneNumber: "+15551234567",\n\t\tName:        zavudev.String("Primary Line"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.PhoneNumber)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+15551234567"\n        }\'',
-      },
-      php: {
-        method: 'phoneNumbers->purchase',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->purchase(\n  phoneNumber: '+15551234567', name: 'Primary Line'\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.phoneNumbers.purchase({\n  phoneNumber: '+15551234567',\n  name: 'Primary Line',\n});\n\nconsole.log(response.phoneNumber);",
       },
       python: {
         method: 'phone_numbers.purchase',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.purchase(\n    phone_number="+15551234567",\n    name="Primary Line",\n)\nprint(response.phone_number)',
       },
+      go: {
+        method: 'client.PhoneNumbers.Purchase',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.PhoneNumbers.Purchase(context.TODO(), zavudev.PhoneNumberPurchaseParams{\n\t\tPhoneNumber: "+15551234567",\n\t\tName:        zavudev.String("Primary Line"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.PhoneNumber)\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.purchase',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.phone_numbers.purchase(phone_number: "+15551234567")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.purchase',
+      cli: {
+        method: 'phone_numbers purchase',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.phoneNumbers.purchase({\n  phoneNumber: '+15551234567',\n  name: 'Primary Line',\n});\n\nconsole.log(response.phoneNumber);",
+          "zavudev phone-numbers purchase \\\n  --api-key 'My API Key' \\\n  --phone-number +15551234567",
+      },
+      php: {
+        method: 'phoneNumbers->purchase',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->purchase(\n  phoneNumber: '+15551234567', name: 'Primary Line'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+15551234567",\n          "name": "Primary Line"\n        }\'',
       },
     },
   },
@@ -4006,38 +4006,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.phoneNumbers.list(cursor?: string, limit?: number, status?: 'active' | 'suspended' | 'pending'): { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n**get** `/v1/phone-numbers`\n\nList all phone numbers owned by this project.\n\n### Parameters\n\n- `cursor?: string`\n  Pagination cursor.\n\n- `limit?: number`\n\n- `status?: 'active' | 'suspended' | 'pending'`\n  Filter by phone number status.\n\n### Returns\n\n- `{ id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }; status: 'active' | 'suspended' | 'pending'; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n  - `id: string`\n  - `capabilities: string[]`\n  - `createdAt: string`\n  - `phoneNumber: string`\n  - `pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }`\n  - `status: 'active' | 'suspended' | 'pending'`\n  - `name?: string`\n  - `nextRenewalDate?: string`\n  - `senderId?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const ownedPhoneNumber of client.phoneNumbers.list()) {\n  console.log(ownedPhoneNumber);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers list',
-        example: "zavudev phone-numbers list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.PhoneNumbers.List',
+      typescript: {
+        method: 'client.phoneNumbers.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.PhoneNumbers.List(context.TODO(), zavudev.PhoneNumberListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'phoneNumbers->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->phoneNumbers->list(\n  cursor: 'cursor', limit: 100, status: PhoneNumberStatus::ACTIVE\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const ownedPhoneNumber of client.phoneNumbers.list()) {\n  console.log(ownedPhoneNumber.id);\n}",
       },
       python: {
         method: 'phone_numbers.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.phone_numbers.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.PhoneNumbers.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.PhoneNumbers.List(context.TODO(), zavudev.PhoneNumberListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.phone_numbers.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.list',
+      cli: {
+        method: 'phone_numbers list',
+        example: "zavudev phone-numbers list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'phoneNumbers->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const ownedPhoneNumber of client.phoneNumbers.list()) {\n  console.log(ownedPhoneNumber.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->phoneNumbers->list(\n  cursor: 'cursor', limit: 100, status: PhoneNumberStatus::ACTIVE\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4055,39 +4055,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.phoneNumbers.retrieve(phoneNumberId: string): { phoneNumber: owned_phone_number; }`\n\n**get** `/v1/phone-numbers/{phoneNumberId}`\n\nGet details of a specific phone number.\n\n### Parameters\n\n- `phoneNumberId: string`\n\n### Returns\n\n- `{ phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }; }`\n\n  - `phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }; status: 'active' | 'suspended' | 'pending'; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst phoneNumber = await client.phoneNumbers.retrieve('phoneNumberId');\n\nconsole.log(phoneNumber);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers retrieve',
+      typescript: {
+        method: 'client.phoneNumbers.retrieve',
         example:
-          "zavudev phone-numbers retrieve \\\n  --api-key 'My API Key' \\\n  --phone-number-id phoneNumberId",
-      },
-      go: {
-        method: 'client.PhoneNumbers.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tphoneNumber, err := client.PhoneNumbers.Get(context.TODO(), "phoneNumberId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", phoneNumber.PhoneNumber)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'phoneNumbers->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->retrieve('phoneNumberId');\n\nvar_dump($phoneNumber);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst phoneNumber = await client.phoneNumbers.retrieve('phoneNumberId');\n\nconsole.log(phoneNumber.phoneNumber);",
       },
       python: {
         method: 'phone_numbers.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_number = client.phone_numbers.retrieve(\n    "phoneNumberId",\n)\nprint(phone_number.phone_number)',
       },
+      go: {
+        method: 'client.PhoneNumbers.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tphoneNumber, err := client.PhoneNumbers.Get(context.TODO(), "phoneNumberId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", phoneNumber.PhoneNumber)\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nphone_number = zavudev.phone_numbers.retrieve("phoneNumberId")\n\nputs(phone_number)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.retrieve',
+      cli: {
+        method: 'phone_numbers retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst phoneNumber = await client.phoneNumbers.retrieve('phoneNumberId');\n\nconsole.log(phoneNumber.phoneNumber);",
+          "zavudev phone-numbers retrieve \\\n  --api-key 'My API Key' \\\n  --phone-number-id phoneNumberId",
+      },
+      php: {
+        method: 'phoneNumbers->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->retrieve('phoneNumberId');\n\nvar_dump($phoneNumber);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4105,39 +4105,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.phoneNumbers.update(phoneNumberId: string, name?: string, senderId?: string): { phoneNumber: owned_phone_number; }`\n\n**patch** `/v1/phone-numbers/{phoneNumberId}`\n\nUpdate a phone number's name or sender assignment.\n\n### Parameters\n\n- `phoneNumberId: string`\n\n- `name?: string`\n  Custom name for the phone number. Set to null to clear.\n\n- `senderId?: string`\n  Sender ID to assign the phone number to. Set to null to unassign.\n\n### Returns\n\n- `{ phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }; }`\n\n  - `phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }; status: 'active' | 'suspended' | 'pending'; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst phoneNumber = await client.phoneNumbers.update('phoneNumberId');\n\nconsole.log(phoneNumber);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers update',
+      typescript: {
+        method: 'client.phoneNumbers.update',
         example:
-          "zavudev phone-numbers update \\\n  --api-key 'My API Key' \\\n  --phone-number-id phoneNumberId",
-      },
-      go: {
-        method: 'client.PhoneNumbers.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tphoneNumber, err := client.PhoneNumbers.Update(\n\t\tcontext.TODO(),\n\t\t"phoneNumberId",\n\t\tzavudev.PhoneNumberUpdateParams{\n\t\t\tName: zavudev.String("Support Line"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", phoneNumber.PhoneNumber)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'phoneNumbers->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->update(\n  'phoneNumberId', name: 'Support Line', senderID: 'senderId'\n);\n\nvar_dump($phoneNumber);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst phoneNumber = await client.phoneNumbers.update('phoneNumberId', { name: 'Support Line' });\n\nconsole.log(phoneNumber.phoneNumber);",
       },
       python: {
         method: 'phone_numbers.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_number = client.phone_numbers.update(\n    phone_number_id="phoneNumberId",\n    name="Support Line",\n)\nprint(phone_number.phone_number)',
       },
+      go: {
+        method: 'client.PhoneNumbers.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tphoneNumber, err := client.PhoneNumbers.Update(\n\t\tcontext.TODO(),\n\t\t"phoneNumberId",\n\t\tzavudev.PhoneNumberUpdateParams{\n\t\t\tName: zavudev.String("Support Line"),\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", phoneNumber.PhoneNumber)\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nphone_number = zavudev.phone_numbers.update("phoneNumberId")\n\nputs(phone_number)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.update',
+      cli: {
+        method: 'phone_numbers update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst phoneNumber = await client.phoneNumbers.update('phoneNumberId', { name: 'Support Line' });\n\nconsole.log(phoneNumber.phoneNumber);",
+          "zavudev phone-numbers update \\\n  --api-key 'My API Key' \\\n  --phone-number-id phoneNumberId",
+      },
+      php: {
+        method: 'phoneNumbers->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->update(\n  'phoneNumberId', name: 'Support Line', senderID: 'senderId'\n);\n\nvar_dump($phoneNumber);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Support Line"\n        }\'',
       },
     },
   },
@@ -4153,39 +4153,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## release\n\n`client.phoneNumbers.release(phoneNumberId: string): void`\n\n**delete** `/v1/phone-numbers/{phoneNumberId}`\n\nRelease a phone number. The phone number must not be assigned to a sender.\n\n### Parameters\n\n- `phoneNumberId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.phoneNumbers.release('phoneNumberId')\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers release',
+      typescript: {
+        method: 'client.phoneNumbers.release',
         example:
-          "zavudev phone-numbers release \\\n  --api-key 'My API Key' \\\n  --phone-number-id phoneNumberId",
-      },
-      go: {
-        method: 'client.PhoneNumbers.Release',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.PhoneNumbers.Release(context.TODO(), "phoneNumberId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'phoneNumbers->release',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->phoneNumbers->release('phoneNumberId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.phoneNumbers.release('phoneNumberId');",
       },
       python: {
         method: 'phone_numbers.release',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.phone_numbers.release(\n    "phoneNumberId",\n)',
       },
+      go: {
+        method: 'client.PhoneNumbers.Release',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.PhoneNumbers.Release(context.TODO(), "phoneNumberId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'phone_numbers.release',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.phone_numbers.release("phoneNumberId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.phoneNumbers.release',
+      cli: {
+        method: 'phone_numbers release',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.phoneNumbers.release('phoneNumberId');",
+          "zavudev phone-numbers release \\\n  --api-key 'My API Key' \\\n  --phone-number-id phoneNumberId",
+      },
+      php: {
+        method: 'phoneNumbers->release',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->phoneNumbers->release('phoneNumberId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4214,39 +4214,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.addresses.create(countryCode: string, locality: string, postalCode: string, streetAddress: string, administrativeArea?: string, businessName?: string, extendedAddress?: string, firstName?: string, lastName?: string): { address: address; }`\n\n**post** `/v1/addresses`\n\nCreate a regulatory address for phone number purchases. Some countries require a verified address before phone numbers can be activated.\n\n### Parameters\n\n- `countryCode: string`\n\n- `locality: string`\n\n- `postalCode: string`\n\n- `streetAddress: string`\n\n- `administrativeArea?: string`\n\n- `businessName?: string`\n\n- `extendedAddress?: string`\n\n- `firstName?: string`\n\n- `lastName?: string`\n\n### Returns\n\n- `{ address: { id: string; countryCode: string; createdAt: string; locality: string; postalCode: string; status: address_status; streetAddress: string; administrativeArea?: string; businessName?: string; extendedAddress?: string; firstName?: string; lastName?: string; updatedAt?: string; }; }`\n\n  - `address: { id: string; countryCode: string; createdAt: string; locality: string; postalCode: string; status: 'pending' | 'verified' | 'rejected'; streetAddress: string; administrativeArea?: string; businessName?: string; extendedAddress?: string; firstName?: string; lastName?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst address = await client.addresses.create({\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n});\n\nconsole.log(address);\n```",
     perLanguage: {
-      cli: {
-        method: 'addresses create',
+      typescript: {
+        method: 'client.addresses.create',
         example:
-          "zavudev addresses create \\\n  --api-key 'My API Key' \\\n  --country-code DE \\\n  --locality Berlin \\\n  --postal-code 10115 \\\n  --street-address '123 Main St'",
-      },
-      go: {
-        method: 'client.Addresses.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\taddress, err := client.Addresses.New(context.TODO(), zavudev.AddressNewParams{\n\t\tCountryCode:   "DE",\n\t\tLocality:      "Berlin",\n\t\tPostalCode:    "10115",\n\t\tStreetAddress: "123 Main St",\n\t\tFirstName:     zavudev.String("John"),\n\t\tLastName:      zavudev.String("Doe"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", address.Address)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/addresses \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "countryCode": "DE",\n          "locality": "Berlin",\n          "postalCode": "10115",\n          "streetAddress": "123 Main St"\n        }\'',
-      },
-      php: {
-        method: 'addresses->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->create(\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  administrativeArea: 'administrativeArea',\n  businessName: 'businessName',\n  extendedAddress: 'extendedAddress',\n  firstName: 'John',\n  lastName: 'Doe',\n);\n\nvar_dump($address);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst address = await client.addresses.create({\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  firstName: 'John',\n  lastName: 'Doe',\n});\n\nconsole.log(address.address);",
       },
       python: {
         method: 'addresses.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\naddress = client.addresses.create(\n    country_code="DE",\n    locality="Berlin",\n    postal_code="10115",\n    street_address="123 Main St",\n    first_name="John",\n    last_name="Doe",\n)\nprint(address.address)',
       },
+      go: {
+        method: 'client.Addresses.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\taddress, err := client.Addresses.New(context.TODO(), zavudev.AddressNewParams{\n\t\tCountryCode:   "DE",\n\t\tLocality:      "Berlin",\n\t\tPostalCode:    "10115",\n\t\tStreetAddress: "123 Main St",\n\t\tFirstName:     zavudev.String("John"),\n\t\tLastName:      zavudev.String("Doe"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", address.Address)\n}\n',
+      },
       ruby: {
         method: 'addresses.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\naddress = zavudev.addresses.create(\n  country_code: "DE",\n  locality: "Berlin",\n  postal_code: "10115",\n  street_address: "123 Main St"\n)\n\nputs(address)',
       },
-      typescript: {
-        method: 'client.addresses.create',
+      cli: {
+        method: 'addresses create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst address = await client.addresses.create({\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  firstName: 'John',\n  lastName: 'Doe',\n});\n\nconsole.log(address.address);",
+          "zavudev addresses create \\\n  --api-key 'My API Key' \\\n  --country-code DE \\\n  --locality Berlin \\\n  --postal-code 10115 \\\n  --street-address '123 Main St'",
+      },
+      php: {
+        method: 'addresses->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->create(\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  administrativeArea: 'administrativeArea',\n  businessName: 'businessName',\n  extendedAddress: 'extendedAddress',\n  firstName: 'John',\n  lastName: 'Doe',\n);\n\nvar_dump($address);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/addresses \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "countryCode": "DE",\n          "locality": "Berlin",\n          "postalCode": "10115",\n          "streetAddress": "123 Main St",\n          "firstName": "John",\n          "lastName": "Doe"\n        }\'',
       },
     },
   },
@@ -4264,37 +4264,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.addresses.list(cursor?: string, limit?: number): { id: string; countryCode: string; createdAt: string; locality: string; postalCode: string; status: address_status; streetAddress: string; administrativeArea?: string; businessName?: string; extendedAddress?: string; firstName?: string; lastName?: string; updatedAt?: string; }`\n\n**get** `/v1/addresses`\n\nList regulatory addresses for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; countryCode: string; createdAt: string; locality: string; postalCode: string; status: 'pending' | 'verified' | 'rejected'; streetAddress: string; administrativeArea?: string; businessName?: string; extendedAddress?: string; firstName?: string; lastName?: string; updatedAt?: string; }`\n  A regulatory address for phone number requirements.\n\n  - `id: string`\n  - `countryCode: string`\n  - `createdAt: string`\n  - `locality: string`\n  - `postalCode: string`\n  - `status: 'pending' | 'verified' | 'rejected'`\n  - `streetAddress: string`\n  - `administrativeArea?: string`\n  - `businessName?: string`\n  - `extendedAddress?: string`\n  - `firstName?: string`\n  - `lastName?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const address of client.addresses.list()) {\n  console.log(address);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'addresses list',
-        example: "zavudev addresses list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Addresses.List',
+      typescript: {
+        method: 'client.addresses.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Addresses.List(context.TODO(), zavudev.AddressListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/addresses \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'addresses->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->addresses->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const address of client.addresses.list()) {\n  console.log(address.id);\n}",
       },
       python: {
         method: 'addresses.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.addresses.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Addresses.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Addresses.List(context.TODO(), zavudev.AddressListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'addresses.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.addresses.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.addresses.list',
+      cli: {
+        method: 'addresses list',
+        example: "zavudev addresses list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'addresses->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const address of client.addresses.list()) {\n  console.log(address.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->addresses->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/addresses \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4312,38 +4312,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.addresses.retrieve(addressId: string): { address: address; }`\n\n**get** `/v1/addresses/{addressId}`\n\nGet a specific regulatory address.\n\n### Parameters\n\n- `addressId: string`\n\n### Returns\n\n- `{ address: { id: string; countryCode: string; createdAt: string; locality: string; postalCode: string; status: address_status; streetAddress: string; administrativeArea?: string; businessName?: string; extendedAddress?: string; firstName?: string; lastName?: string; updatedAt?: string; }; }`\n\n  - `address: { id: string; countryCode: string; createdAt: string; locality: string; postalCode: string; status: 'pending' | 'verified' | 'rejected'; streetAddress: string; administrativeArea?: string; businessName?: string; extendedAddress?: string; firstName?: string; lastName?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst address = await client.addresses.retrieve('addressId');\n\nconsole.log(address);\n```",
     perLanguage: {
-      cli: {
-        method: 'addresses retrieve',
-        example: "zavudev addresses retrieve \\\n  --api-key 'My API Key' \\\n  --address-id addressId",
-      },
-      go: {
-        method: 'client.Addresses.Get',
+      typescript: {
+        method: 'client.addresses.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\taddress, err := client.Addresses.Get(context.TODO(), "addressId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", address.Address)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'addresses->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->retrieve('addressId');\n\nvar_dump($address);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst address = await client.addresses.retrieve('addressId');\n\nconsole.log(address.address);",
       },
       python: {
         method: 'addresses.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\naddress = client.addresses.retrieve(\n    "addressId",\n)\nprint(address.address)',
       },
+      go: {
+        method: 'client.Addresses.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\taddress, err := client.Addresses.Get(context.TODO(), "addressId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", address.Address)\n}\n',
+      },
       ruby: {
         method: 'addresses.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\naddress = zavudev.addresses.retrieve("addressId")\n\nputs(address)',
       },
-      typescript: {
-        method: 'client.addresses.retrieve',
+      cli: {
+        method: 'addresses retrieve',
+        example: "zavudev addresses retrieve \\\n  --api-key 'My API Key' \\\n  --address-id addressId",
+      },
+      php: {
+        method: 'addresses->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst address = await client.addresses.retrieve('addressId');\n\nconsole.log(address.address);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->retrieve('addressId');\n\nvar_dump($address);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4359,38 +4359,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.addresses.delete(addressId: string): void`\n\n**delete** `/v1/addresses/{addressId}`\n\nDelete a regulatory address. Cannot delete addresses that are in use.\n\n### Parameters\n\n- `addressId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.addresses.delete('addressId')\n```",
     perLanguage: {
-      cli: {
-        method: 'addresses delete',
-        example: "zavudev addresses delete \\\n  --api-key 'My API Key' \\\n  --address-id addressId",
-      },
-      go: {
-        method: 'client.Addresses.Delete',
+      typescript: {
+        method: 'client.addresses.delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Addresses.Delete(context.TODO(), "addressId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'addresses->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->addresses->delete('addressId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.addresses.delete('addressId');",
       },
       python: {
         method: 'addresses.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.addresses.delete(\n    "addressId",\n)',
       },
+      go: {
+        method: 'client.Addresses.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Addresses.Delete(context.TODO(), "addressId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'addresses.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.addresses.delete("addressId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.addresses.delete',
+      cli: {
+        method: 'addresses delete',
+        example: "zavudev addresses delete \\\n  --api-key 'My API Key' \\\n  --address-id addressId",
+      },
+      php: {
+        method: 'addresses->delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.addresses.delete('addressId');",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->addresses->delete('addressId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4407,38 +4407,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## upload_url\n\n`client.regulatoryDocuments.uploadURL(): { uploadUrl: string; }`\n\n**post** `/v1/documents/upload-url`\n\nGet a presigned URL to upload a document file. After uploading, use the storageId to create the document record.\n\n### Returns\n\n- `{ uploadUrl: string; }`\n\n  - `uploadUrl: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.regulatoryDocuments.uploadURL();\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'regulatory_documents upload_url',
-        example: "zavudev regulatory-documents upload-url \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.RegulatoryDocuments.UploadURL',
+      typescript: {
+        method: 'client.regulatoryDocuments.uploadURL',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.RegulatoryDocuments.UploadURL(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.UploadURL)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/documents/upload-url \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'regulatoryDocuments->uploadURL',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->regulatoryDocuments->uploadURL();\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.regulatoryDocuments.uploadURL();\n\nconsole.log(response.uploadUrl);",
       },
       python: {
         method: 'regulatory_documents.upload_url',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.regulatory_documents.upload_url()\nprint(response.upload_url)',
       },
+      go: {
+        method: 'client.RegulatoryDocuments.UploadURL',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.RegulatoryDocuments.UploadURL(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.UploadURL)\n}\n',
+      },
       ruby: {
         method: 'regulatory_documents.upload_url',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.regulatory_documents.upload_url\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.regulatoryDocuments.uploadURL',
+      cli: {
+        method: 'regulatory_documents upload_url',
+        example: "zavudev regulatory-documents upload-url \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'regulatoryDocuments->uploadURL',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.regulatoryDocuments.uploadURL();\n\nconsole.log(response.uploadUrl);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->regulatoryDocuments->uploadURL();\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/documents/upload-url \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4463,39 +4463,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.regulatoryDocuments.create(documentType: string, fileSize: number, mimeType: string, name: string, storageId: string): { document: regulatory_document; }`\n\n**post** `/v1/documents`\n\nCreate a regulatory document record after uploading the file. Use the upload-url endpoint first to get an upload URL.\n\n### Parameters\n\n- `documentType: string`\n\n- `fileSize: number`\n\n- `mimeType: string`\n\n- `name: string`\n\n- `storageId: string`\n  Storage ID from the upload-url endpoint.\n\n### Returns\n\n- `{ document: { id: string; createdAt: string; documentType: string; name: string; status: 'pending' | 'uploaded' | 'verified' | 'rejected'; fileSize?: number; mimeType?: string; rejectionReason?: string; updatedAt?: string; }; }`\n\n  - `document: { id: string; createdAt: string; documentType: string; name: string; status: 'pending' | 'uploaded' | 'verified' | 'rejected'; fileSize?: number; mimeType?: string; rejectionReason?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst regulatoryDocument = await client.regulatoryDocuments.create({\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageId: 'kg2abc123...',\n});\n\nconsole.log(regulatoryDocument);\n```",
     perLanguage: {
-      cli: {
-        method: 'regulatory_documents create',
+      typescript: {
+        method: 'client.regulatoryDocuments.create',
         example:
-          "zavudev regulatory-documents create \\\n  --api-key 'My API Key' \\\n  --document-type passport \\\n  --file-size 102400 \\\n  --mime-type image/jpeg \\\n  --name 'Passport Scan' \\\n  --storage-id kg2abc123...",
-      },
-      go: {
-        method: 'client.RegulatoryDocuments.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tregulatoryDocument, err := client.RegulatoryDocuments.New(context.TODO(), zavudev.RegulatoryDocumentNewParams{\n\t\tDocumentType: zavudev.RegulatoryDocumentNewParamsDocumentTypePassport,\n\t\tFileSize:     102400,\n\t\tMimeType:     "image/jpeg",\n\t\tName:         "Passport Scan",\n\t\tStorageID:    "kg2abc123...",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", regulatoryDocument.Document)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "documentType": "passport",\n          "fileSize": 102400,\n          "mimeType": "image/jpeg",\n          "name": "Passport Scan",\n          "storageId": "kg2abc123..."\n        }\'',
-      },
-      php: {
-        method: 'regulatoryDocuments->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->create(\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageID: 'kg2abc123...',\n);\n\nvar_dump($regulatoryDocument);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst regulatoryDocument = await client.regulatoryDocuments.create({\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageId: 'kg2abc123...',\n});\n\nconsole.log(regulatoryDocument.document);",
       },
       python: {
         method: 'regulatory_documents.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nregulatory_document = client.regulatory_documents.create(\n    document_type="passport",\n    file_size=102400,\n    mime_type="image/jpeg",\n    name="Passport Scan",\n    storage_id="kg2abc123...",\n)\nprint(regulatory_document.document)',
       },
+      go: {
+        method: 'client.RegulatoryDocuments.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tregulatoryDocument, err := client.RegulatoryDocuments.New(context.TODO(), zavudev.RegulatoryDocumentNewParams{\n\t\tDocumentType: zavudev.RegulatoryDocumentNewParamsDocumentTypePassport,\n\t\tFileSize:     102400,\n\t\tMimeType:     "image/jpeg",\n\t\tName:         "Passport Scan",\n\t\tStorageID:    "kg2abc123...",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", regulatoryDocument.Document)\n}\n',
+      },
       ruby: {
         method: 'regulatory_documents.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nregulatory_document = zavudev.regulatory_documents.create(\n  document_type: :passport,\n  file_size: 102400,\n  mime_type: "image/jpeg",\n  name: "Passport Scan",\n  storage_id: "kg2abc123..."\n)\n\nputs(regulatory_document)',
       },
-      typescript: {
-        method: 'client.regulatoryDocuments.create',
+      cli: {
+        method: 'regulatory_documents create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst regulatoryDocument = await client.regulatoryDocuments.create({\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageId: 'kg2abc123...',\n});\n\nconsole.log(regulatoryDocument.document);",
+          "zavudev regulatory-documents create \\\n  --api-key 'My API Key' \\\n  --document-type passport \\\n  --file-size 102400 \\\n  --mime-type image/jpeg \\\n  --name 'Passport Scan' \\\n  --storage-id kg2abc123...",
+      },
+      php: {
+        method: 'regulatoryDocuments->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->create(\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageID: 'kg2abc123...',\n);\n\nvar_dump($regulatoryDocument);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "documentType": "passport",\n          "fileSize": 102400,\n          "mimeType": "image/jpeg",\n          "name": "Passport Scan",\n          "storageId": "kg2abc123..."\n        }\'',
       },
     },
   },
@@ -4513,37 +4513,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.regulatoryDocuments.list(cursor?: string, limit?: number): { id: string; createdAt: string; documentType: string; name: string; status: 'pending' | 'uploaded' | 'verified' | 'rejected'; fileSize?: number; mimeType?: string; rejectionReason?: string; updatedAt?: string; }`\n\n**get** `/v1/documents`\n\nList regulatory documents for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; createdAt: string; documentType: string; name: string; status: 'pending' | 'uploaded' | 'verified' | 'rejected'; fileSize?: number; mimeType?: string; rejectionReason?: string; updatedAt?: string; }`\n  A regulatory document for phone number requirements.\n\n  - `id: string`\n  - `createdAt: string`\n  - `documentType: string`\n  - `name: string`\n  - `status: 'pending' | 'uploaded' | 'verified' | 'rejected'`\n  - `fileSize?: number`\n  - `mimeType?: string`\n  - `rejectionReason?: string`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const regulatoryDocument of client.regulatoryDocuments.list()) {\n  console.log(regulatoryDocument);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'regulatory_documents list',
-        example: "zavudev regulatory-documents list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.RegulatoryDocuments.List',
+      typescript: {
+        method: 'client.regulatoryDocuments.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.RegulatoryDocuments.List(context.TODO(), zavudev.RegulatoryDocumentListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'regulatoryDocuments->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->regulatoryDocuments->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const regulatoryDocument of client.regulatoryDocuments.list()) {\n  console.log(regulatoryDocument.id);\n}",
       },
       python: {
         method: 'regulatory_documents.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.regulatory_documents.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.RegulatoryDocuments.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.RegulatoryDocuments.List(context.TODO(), zavudev.RegulatoryDocumentListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'regulatory_documents.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.regulatory_documents.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.regulatoryDocuments.list',
+      cli: {
+        method: 'regulatory_documents list',
+        example: "zavudev regulatory-documents list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'regulatoryDocuments->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const regulatoryDocument of client.regulatoryDocuments.list()) {\n  console.log(regulatoryDocument.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->regulatoryDocuments->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4561,39 +4561,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.regulatoryDocuments.retrieve(documentId: string): { document: regulatory_document; }`\n\n**get** `/v1/documents/{documentId}`\n\nGet a specific regulatory document.\n\n### Parameters\n\n- `documentId: string`\n\n### Returns\n\n- `{ document: { id: string; createdAt: string; documentType: string; name: string; status: 'pending' | 'uploaded' | 'verified' | 'rejected'; fileSize?: number; mimeType?: string; rejectionReason?: string; updatedAt?: string; }; }`\n\n  - `document: { id: string; createdAt: string; documentType: string; name: string; status: 'pending' | 'uploaded' | 'verified' | 'rejected'; fileSize?: number; mimeType?: string; rejectionReason?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst regulatoryDocument = await client.regulatoryDocuments.retrieve('documentId');\n\nconsole.log(regulatoryDocument);\n```",
     perLanguage: {
-      cli: {
-        method: 'regulatory_documents retrieve',
+      typescript: {
+        method: 'client.regulatoryDocuments.retrieve',
         example:
-          "zavudev regulatory-documents retrieve \\\n  --api-key 'My API Key' \\\n  --document-id documentId",
-      },
-      go: {
-        method: 'client.RegulatoryDocuments.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tregulatoryDocument, err := client.RegulatoryDocuments.Get(context.TODO(), "documentId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", regulatoryDocument.Document)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'regulatoryDocuments->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->retrieve('documentId');\n\nvar_dump($regulatoryDocument);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst regulatoryDocument = await client.regulatoryDocuments.retrieve('documentId');\n\nconsole.log(regulatoryDocument.document);",
       },
       python: {
         method: 'regulatory_documents.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nregulatory_document = client.regulatory_documents.retrieve(\n    "documentId",\n)\nprint(regulatory_document.document)',
       },
+      go: {
+        method: 'client.RegulatoryDocuments.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tregulatoryDocument, err := client.RegulatoryDocuments.Get(context.TODO(), "documentId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", regulatoryDocument.Document)\n}\n',
+      },
       ruby: {
         method: 'regulatory_documents.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nregulatory_document = zavudev.regulatory_documents.retrieve("documentId")\n\nputs(regulatory_document)',
       },
-      typescript: {
-        method: 'client.regulatoryDocuments.retrieve',
+      cli: {
+        method: 'regulatory_documents retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst regulatoryDocument = await client.regulatoryDocuments.retrieve('documentId');\n\nconsole.log(regulatoryDocument.document);",
+          "zavudev regulatory-documents retrieve \\\n  --api-key 'My API Key' \\\n  --document-id documentId",
+      },
+      php: {
+        method: 'regulatoryDocuments->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->retrieve('documentId');\n\nvar_dump($regulatoryDocument);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4609,39 +4609,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.regulatoryDocuments.delete(documentId: string): void`\n\n**delete** `/v1/documents/{documentId}`\n\nDelete a regulatory document. Cannot delete verified documents.\n\n### Parameters\n\n- `documentId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.regulatoryDocuments.delete('documentId')\n```",
     perLanguage: {
-      cli: {
-        method: 'regulatory_documents delete',
+      typescript: {
+        method: 'client.regulatoryDocuments.delete',
         example:
-          "zavudev regulatory-documents delete \\\n  --api-key 'My API Key' \\\n  --document-id documentId",
-      },
-      go: {
-        method: 'client.RegulatoryDocuments.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.RegulatoryDocuments.Delete(context.TODO(), "documentId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'regulatoryDocuments->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->regulatoryDocuments->delete('documentId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.regulatoryDocuments.delete('documentId');",
       },
       python: {
         method: 'regulatory_documents.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.regulatory_documents.delete(\n    "documentId",\n)',
       },
+      go: {
+        method: 'client.RegulatoryDocuments.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.RegulatoryDocuments.Delete(context.TODO(), "documentId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'regulatory_documents.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.regulatory_documents.delete("documentId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.regulatoryDocuments.delete',
+      cli: {
+        method: 'regulatory_documents delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.regulatoryDocuments.delete('documentId');",
+          "zavudev regulatory-documents delete \\\n  --api-key 'My API Key' \\\n  --document-id documentId",
+      },
+      php: {
+        method: 'regulatoryDocuments->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->regulatoryDocuments->delete('documentId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4667,38 +4667,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.invitations.create(allowedPhoneCountries?: string[], clientEmail?: string, clientName?: string, clientPhone?: string, expiresInDays?: number, phoneNumberId?: string): { invitation: invitation; }`\n\n**post** `/v1/invitations`\n\nCreate a partner invitation link for a client to connect their WhatsApp Business account. The client will complete Meta's embedded signup flow and the resulting sender will be created in your project.\n\n### Parameters\n\n- `allowedPhoneCountries?: string[]`\n  ISO country codes for allowed phone numbers.\n\n- `clientEmail?: string`\n  Email of the client being invited.\n\n- `clientName?: string`\n  Name of the client being invited.\n\n- `clientPhone?: string`\n  Phone number of the client in E.164 format.\n\n- `expiresInDays?: number`\n  Number of days until the invitation expires.\n\n- `phoneNumberId?: string`\n  ID of a Zavu phone number to pre-assign for WhatsApp registration. If provided, the client will use this number instead of their own.\n\n### Returns\n\n- `{ invitation: { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }; }`\n\n  - `invitation: { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst invitation = await client.invitations.create();\n\nconsole.log(invitation);\n```",
     perLanguage: {
-      cli: {
-        method: 'invitations create',
-        example: "zavudev invitations create \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Invitations.New',
+      typescript: {
+        method: 'client.invitations.create',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tinvitation, err := client.Invitations.New(context.TODO(), zavudev.InvitationNewParams{\n\t\tClientName: zavudev.String("Acme Corp"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", invitation.Invitation)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/invitations \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'invitations->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->create(\n  allowedPhoneCountries: ['US', 'MX'],\n  clientEmail: 'contact@acme.com',\n  clientName: 'Acme Corp',\n  clientPhone: '+14155551234',\n  expiresInDays: 1,\n  phoneNumberID: 'pn_abc123',\n);\n\nvar_dump($invitation);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst invitation = await client.invitations.create({ clientName: 'Acme Corp' });\n\nconsole.log(invitation.invitation);",
       },
       python: {
         method: 'invitations.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ninvitation = client.invitations.create(\n    client_name="Acme Corp",\n)\nprint(invitation.invitation)',
       },
+      go: {
+        method: 'client.Invitations.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tinvitation, err := client.Invitations.New(context.TODO(), zavudev.InvitationNewParams{\n\t\tClientName: zavudev.String("Acme Corp"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", invitation.Invitation)\n}\n',
+      },
       ruby: {
         method: 'invitations.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ninvitation = zavudev.invitations.create\n\nputs(invitation)',
       },
-      typescript: {
-        method: 'client.invitations.create',
+      cli: {
+        method: 'invitations create',
+        example: "zavudev invitations create \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'invitations->create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst invitation = await client.invitations.create({ clientName: 'Acme Corp' });\n\nconsole.log(invitation.invitation);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->create(\n  allowedPhoneCountries: ['US', 'MX'],\n  clientEmail: 'contact@acme.com',\n  clientName: 'Acme Corp',\n  clientPhone: '+14155551234',\n  expiresInDays: 1,\n  phoneNumberID: 'pn_abc123',\n);\n\nvar_dump($invitation);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/invitations \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4720,38 +4720,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.invitations.list(cursor?: string, limit?: number, status?: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'): { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }`\n\n**get** `/v1/invitations`\n\nList partner invitations for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'`\n  Current status of the partner invitation.\n\n### Returns\n\n- `{ id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }`\n\n  - `id: string`\n  - `token: string`\n  - `createdAt: string`\n  - `expiresAt: string`\n  - `status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'`\n  - `updatedAt: string`\n  - `url: string`\n  - `clientEmail?: string`\n  - `clientName?: string`\n  - `clientPhone?: string`\n  - `completedAt?: string`\n  - `phoneNumberId?: string`\n  - `senderId?: string`\n  - `startedAt?: string`\n  - `viewedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const invitation of client.invitations.list()) {\n  console.log(invitation);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'invitations list',
-        example: "zavudev invitations list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Invitations.List',
+      typescript: {
+        method: 'client.invitations.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Invitations.List(context.TODO(), zavudev.InvitationListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/invitations \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'invitations->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->invitations->list(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const invitation of client.invitations.list()) {\n  console.log(invitation.id);\n}",
       },
       python: {
         method: 'invitations.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.invitations.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Invitations.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Invitations.List(context.TODO(), zavudev.InvitationListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'invitations.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.invitations.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.invitations.list',
+      cli: {
+        method: 'invitations list',
+        example: "zavudev invitations list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'invitations->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const invitation of client.invitations.list()) {\n  console.log(invitation.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->invitations->list(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/invitations \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4769,39 +4769,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.invitations.retrieve(invitationId: string): { invitation: invitation; }`\n\n**get** `/v1/invitations/{invitationId}`\n\nGet invitation\n\n### Parameters\n\n- `invitationId: string`\n\n### Returns\n\n- `{ invitation: { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }; }`\n\n  - `invitation: { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst invitation = await client.invitations.retrieve('invitationId');\n\nconsole.log(invitation);\n```",
     perLanguage: {
-      cli: {
-        method: 'invitations retrieve',
+      typescript: {
+        method: 'client.invitations.retrieve',
         example:
-          "zavudev invitations retrieve \\\n  --api-key 'My API Key' \\\n  --invitation-id invitationId",
-      },
-      go: {
-        method: 'client.Invitations.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tinvitation, err := client.Invitations.Get(context.TODO(), "invitationId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", invitation.Invitation)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/invitations/$INVITATION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'invitations->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->retrieve('invitationId');\n\nvar_dump($invitation);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst invitation = await client.invitations.retrieve('invitationId');\n\nconsole.log(invitation.invitation);",
       },
       python: {
         method: 'invitations.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ninvitation = client.invitations.retrieve(\n    "invitationId",\n)\nprint(invitation.invitation)',
       },
+      go: {
+        method: 'client.Invitations.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tinvitation, err := client.Invitations.Get(context.TODO(), "invitationId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", invitation.Invitation)\n}\n',
+      },
       ruby: {
         method: 'invitations.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ninvitation = zavudev.invitations.retrieve("invitationId")\n\nputs(invitation)',
       },
-      typescript: {
-        method: 'client.invitations.retrieve',
+      cli: {
+        method: 'invitations retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst invitation = await client.invitations.retrieve('invitationId');\n\nconsole.log(invitation.invitation);",
+          "zavudev invitations retrieve \\\n  --api-key 'My API Key' \\\n  --invitation-id invitationId",
+      },
+      php: {
+        method: 'invitations->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->retrieve('invitationId');\n\nvar_dump($invitation);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/invitations/$INVITATION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4819,38 +4819,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## cancel\n\n`client.invitations.cancel(invitationId: string): { invitation: invitation; }`\n\n**post** `/v1/invitations/{invitationId}/cancel`\n\nCancel an active invitation. The client will no longer be able to use the invitation link.\n\n### Parameters\n\n- `invitationId: string`\n\n### Returns\n\n- `{ invitation: { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }; }`\n\n  - `invitation: { id: string; token: string; createdAt: string; expiresAt: string; status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled'; updatedAt: string; url: string; clientEmail?: string; clientName?: string; clientPhone?: string; completedAt?: string; phoneNumberId?: string; senderId?: string; startedAt?: string; viewedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.invitations.cancel('invitationId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'invitations cancel',
-        example: "zavudev invitations cancel \\\n  --api-key 'My API Key' \\\n  --invitation-id invitationId",
-      },
-      go: {
-        method: 'client.Invitations.Cancel',
+      typescript: {
+        method: 'client.invitations.cancel',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Invitations.Cancel(context.TODO(), "invitationId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Invitation)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/invitations/$INVITATION_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'invitations->cancel',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->invitations->cancel('invitationId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.invitations.cancel('invitationId');\n\nconsole.log(response.invitation);",
       },
       python: {
         method: 'invitations.cancel',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invitations.cancel(\n    "invitationId",\n)\nprint(response.invitation)',
       },
+      go: {
+        method: 'client.Invitations.Cancel',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Invitations.Cancel(context.TODO(), "invitationId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Invitation)\n}\n',
+      },
       ruby: {
         method: 'invitations.cancel',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.invitations.cancel("invitationId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.invitations.cancel',
+      cli: {
+        method: 'invitations cancel',
+        example: "zavudev invitations cancel \\\n  --api-key 'My API Key' \\\n  --invitation-id invitationId",
+      },
+      php: {
+        method: 'invitations->cancel',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.invitations.cancel('invitationId');\n\nconsole.log(response.invitation);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->invitations->cancel('invitationId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/invitations/$INVITATION_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4873,39 +4873,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.exports.create(dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[], dateFrom?: string, dateTo?: string): { export: data_export; }`\n\n**post** `/v1/exports`\n\nCreate a new data export job. The export will be processed asynchronously and the download URL will be available when status is 'completed'. Export links expire after 24 hours.\n\n### Parameters\n\n- `dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]`\n  List of data types to include in the export.\n\n- `dateFrom?: string`\n  Start date for data to export (inclusive).\n\n- `dateTo?: string`\n  End date for data to export (inclusive).\n\n### Returns\n\n- `{ export: { id: string; createdAt: string; dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]; expiresAt: string; status: 'pending' | 'processing' | 'completed' | 'failed'; completedAt?: string; dateFrom?: string; dateTo?: string; downloadUrl?: string; errorMessage?: string; fileSize?: number; }; }`\n\n  - `export: { id: string; createdAt: string; dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]; expiresAt: string; status: 'pending' | 'processing' | 'completed' | 'failed'; completedAt?: string; dateFrom?: string; dateTo?: string; downloadUrl?: string; errorMessage?: string; fileSize?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _export = await client.exports.create({ dataTypes: ['messages', 'conversations'] });\n\nconsole.log(_export);\n```",
     perLanguage: {
-      cli: {
-        method: 'exports create',
+      typescript: {
+        method: 'client.exports.create',
         example:
-          "zavudev exports create \\\n  --api-key 'My API Key' \\\n  --data-type messages \\\n  --data-type conversations",
-      },
-      go: {
-        method: 'client.Exports.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"time"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\texport, err := client.Exports.New(context.TODO(), zavudev.ExportNewParams{\n\t\tDataTypes: []string{"messages", "conversations"},\n\t\tDateFrom:  zavudev.Time(time.Now()),\n\t\tDateTo:    zavudev.Time(time.Now()),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", export.Export)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/exports \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "dataTypes": [\n            "messages",\n            "conversations"\n          ]\n        }\'',
-      },
-      php: {
-        method: 'exports->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$export = $client->exports->create(\n  dataTypes: ['messages', 'conversations'],\n  dateFrom: new \\DateTimeImmutable('2024-01-01T00:00:00Z'),\n  dateTo: new \\DateTimeImmutable('2024-12-31T23:59:59Z'),\n);\n\nvar_dump($export);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _export = await client.exports.create({\n  dataTypes: ['messages', 'conversations'],\n  dateFrom: '2024-01-01T00:00:00Z',\n  dateTo: '2024-12-31T23:59:59Z',\n});\n\nconsole.log(_export['export']);",
       },
       python: {
         method: 'exports.create',
         example:
           'import os\nfrom datetime import datetime\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nexport = client.exports.create(\n    data_types=["messages", "conversations"],\n    date_from=datetime.fromisoformat("2024-01-01T00:00:00"),\n    date_to=datetime.fromisoformat("2024-12-31T23:59:59"),\n)\nprint(export.export)',
       },
+      go: {
+        method: 'client.Exports.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"time"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\texport, err := client.Exports.New(context.TODO(), zavudev.ExportNewParams{\n\t\tDataTypes: []string{"messages", "conversations"},\n\t\tDateFrom:  zavudev.Time(time.Now()),\n\t\tDateTo:    zavudev.Time(time.Now()),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", export.Export)\n}\n',
+      },
       ruby: {
         method: 'exports.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nexport = zavudev.exports.create(data_types: [:messages, :conversations])\n\nputs(export)',
       },
-      typescript: {
-        method: 'client.exports.create',
+      cli: {
+        method: 'exports create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _export = await client.exports.create({\n  dataTypes: ['messages', 'conversations'],\n  dateFrom: '2024-01-01T00:00:00Z',\n  dateTo: '2024-12-31T23:59:59Z',\n});\n\nconsole.log(_export['export']);",
+          "zavudev exports create \\\n  --api-key 'My API Key' \\\n  --data-type messages \\\n  --data-type conversations",
+      },
+      php: {
+        method: 'exports->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$export = $client->exports->create(\n  dataTypes: ['messages', 'conversations'],\n  dateFrom: new \\DateTimeImmutable('2024-01-01T00:00:00Z'),\n  dateTo: new \\DateTimeImmutable('2024-12-31T23:59:59Z'),\n);\n\nvar_dump($export);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/exports \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "dataTypes": [\n            "messages",\n            "conversations"\n          ],\n          "dateFrom": "2024-01-01T00:00:00Z",\n          "dateTo": "2024-12-31T23:59:59Z"\n        }\'',
       },
     },
   },
@@ -4927,37 +4927,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.exports.list(cursor?: string, limit?: number, status?: 'pending' | 'processing' | 'completed' | 'failed'): { id: string; createdAt: string; dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]; expiresAt: string; status: 'pending' | 'processing' | 'completed' | 'failed'; completedAt?: string; dateFrom?: string; dateTo?: string; downloadUrl?: string; errorMessage?: string; fileSize?: number; }`\n\n**get** `/v1/exports`\n\nList data exports for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'pending' | 'processing' | 'completed' | 'failed'`\n  Status of a data export job.\n\n### Returns\n\n- `{ id: string; createdAt: string; dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]; expiresAt: string; status: 'pending' | 'processing' | 'completed' | 'failed'; completedAt?: string; dateFrom?: string; dateTo?: string; downloadUrl?: string; errorMessage?: string; fileSize?: number; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]`\n  - `expiresAt: string`\n  - `status: 'pending' | 'processing' | 'completed' | 'failed'`\n  - `completedAt?: string`\n  - `dateFrom?: string`\n  - `dateTo?: string`\n  - `downloadUrl?: string`\n  - `errorMessage?: string`\n  - `fileSize?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const dataExport of client.exports.list()) {\n  console.log(dataExport);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'exports list',
-        example: "zavudev exports list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Exports.List',
+      typescript: {
+        method: 'client.exports.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Exports.List(context.TODO(), zavudev.ExportListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/exports \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'exports->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->exports->list(cursor: 'cursor', limit: 100, status: 'pending');\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const dataExport of client.exports.list()) {\n  console.log(dataExport.id);\n}",
       },
       python: {
         method: 'exports.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.exports.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Exports.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Exports.List(context.TODO(), zavudev.ExportListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'exports.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.exports.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.exports.list',
+      cli: {
+        method: 'exports list',
+        example: "zavudev exports list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'exports->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const dataExport of client.exports.list()) {\n  console.log(dataExport.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->exports->list(cursor: 'cursor', limit: 100, status: 'pending');\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/exports \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -4975,38 +4975,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.exports.retrieve(exportId: string): { export: data_export; }`\n\n**get** `/v1/exports/{exportId}`\n\nGet details of a specific data export, including download URL when completed.\n\n### Parameters\n\n- `exportId: string`\n\n### Returns\n\n- `{ export: { id: string; createdAt: string; dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]; expiresAt: string; status: 'pending' | 'processing' | 'completed' | 'failed'; completedAt?: string; dateFrom?: string; dateTo?: string; downloadUrl?: string; errorMessage?: string; fileSize?: number; }; }`\n\n  - `export: { id: string; createdAt: string; dataTypes: 'messages' | 'conversations' | 'webhookDeliveries' | 'agentExecutions' | 'activities'[]; expiresAt: string; status: 'pending' | 'processing' | 'completed' | 'failed'; completedAt?: string; dateFrom?: string; dateTo?: string; downloadUrl?: string; errorMessage?: string; fileSize?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _export = await client.exports.retrieve('exportId');\n\nconsole.log(_export);\n```",
     perLanguage: {
-      cli: {
-        method: 'exports retrieve',
-        example: "zavudev exports retrieve \\\n  --api-key 'My API Key' \\\n  --export-id exportId",
-      },
-      go: {
-        method: 'client.Exports.Get',
+      typescript: {
+        method: 'client.exports.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\texport, err := client.Exports.Get(context.TODO(), "exportId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", export.Export)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/exports/$EXPORT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'exports->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$export = $client->exports->retrieve('exportId');\n\nvar_dump($export);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _export = await client.exports.retrieve('exportId');\n\nconsole.log(_export['export']);",
       },
       python: {
         method: 'exports.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nexport = client.exports.retrieve(\n    "exportId",\n)\nprint(export.export)',
       },
+      go: {
+        method: 'client.Exports.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\texport, err := client.Exports.Get(context.TODO(), "exportId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", export.Export)\n}\n',
+      },
       ruby: {
         method: 'exports.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nexport = zavudev.exports.retrieve("exportId")\n\nputs(export)',
       },
-      typescript: {
-        method: 'client.exports.retrieve',
+      cli: {
+        method: 'exports retrieve',
+        example: "zavudev exports retrieve \\\n  --api-key 'My API Key' \\\n  --export-id exportId",
+      },
+      php: {
+        method: 'exports->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _export = await client.exports.retrieve('exportId');\n\nconsole.log(_export['export']);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$export = $client->exports->retrieve('exportId');\n\nvar_dump($export);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/exports/$EXPORT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5025,39 +5025,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## submit_for_verification\n\n`client.urls.submitForVerification(url: string): { url: verified_url; }`\n\n**post** `/v1/urls`\n\nSubmit a URL for verification. URLs are automatically checked against Google Web Risk API. Safe URLs are auto-approved, malicious URLs are blocked. URL shorteners (bit.ly, t.co, etc.) are always blocked.\n\n**Important:** All SMS and Email messages containing URLs require those URLs to be verified before the message can be sent. This endpoint allows pre-verification of URLs.\n\n### Parameters\n\n- `url: string`\n  The URL to submit for verification.\n\n### Returns\n\n- `{ url: { id: string; createdAt: string; domain: string; status: 'pending' | 'approved' | 'rejected' | 'malicious'; url: string; approvalType?: 'manual' | 'auto_web_risk'; updatedAt?: string; }; }`\n\n  - `url: { id: string; createdAt: string; domain: string; status: 'pending' | 'approved' | 'rejected' | 'malicious'; url: string; approvalType?: 'manual' | 'auto_web_risk'; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.urls.submitForVerification({ url: 'https://example.com/page' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'urls submit_for_verification',
+      typescript: {
+        method: 'client.urls.submitForVerification',
         example:
-          "zavudev urls submit-for-verification \\\n  --api-key 'My API Key' \\\n  --url https://example.com/page",
-      },
-      go: {
-        method: 'client.URLs.SubmitForVerification',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.URLs.SubmitForVerification(context.TODO(), zavudev.URLSubmitForVerificationParams{\n\t\tURL: "https://example.com/page",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.URL)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/urls \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "url": "https://example.com/page"\n        }\'',
-      },
-      php: {
-        method: 'urls->submitForVerification',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->submitForVerification(\n  url: 'https://example.com/page'\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.urls.submitForVerification({ url: 'https://example.com/page' });\n\nconsole.log(response.url);",
       },
       python: {
         method: 'urls.submit_for_verification',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.urls.submit_for_verification(\n    url="https://example.com/page",\n)\nprint(response.url)',
       },
+      go: {
+        method: 'client.URLs.SubmitForVerification',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.URLs.SubmitForVerification(context.TODO(), zavudev.URLSubmitForVerificationParams{\n\t\tURL: "https://example.com/page",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.URL)\n}\n',
+      },
       ruby: {
         method: 'urls.submit_for_verification',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.urls.submit_for_verification(url: "https://example.com/page")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.urls.submitForVerification',
+      cli: {
+        method: 'urls submit_for_verification',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.urls.submitForVerification({ url: 'https://example.com/page' });\n\nconsole.log(response.url);",
+          "zavudev urls submit-for-verification \\\n  --api-key 'My API Key' \\\n  --url https://example.com/page",
+      },
+      php: {
+        method: 'urls->submitForVerification',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->submitForVerification(\n  url: 'https://example.com/page'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/urls \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "url": "https://example.com/page"\n        }\'',
       },
     },
   },
@@ -5079,37 +5079,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list_verified\n\n`client.urls.listVerified(cursor?: string, limit?: number, status?: 'pending' | 'approved' | 'rejected' | 'malicious'): { id: string; createdAt: string; domain: string; status: 'pending' | 'approved' | 'rejected' | 'malicious'; url: string; approvalType?: 'manual' | 'auto_web_risk'; updatedAt?: string; }`\n\n**get** `/v1/urls`\n\nList URLs that have been verified for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'pending' | 'approved' | 'rejected' | 'malicious'`\n  Filter by verification status.\n\n### Returns\n\n- `{ id: string; createdAt: string; domain: string; status: 'pending' | 'approved' | 'rejected' | 'malicious'; url: string; approvalType?: 'manual' | 'auto_web_risk'; updatedAt?: string; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `domain: string`\n  - `status: 'pending' | 'approved' | 'rejected' | 'malicious'`\n  - `url: string`\n  - `approvalType?: 'manual' | 'auto_web_risk'`\n  - `updatedAt?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const verifiedURL of client.urls.listVerified()) {\n  console.log(verifiedURL);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'urls list_verified',
-        example: "zavudev urls list-verified \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.URLs.ListVerified',
+      typescript: {
+        method: 'client.urls.listVerified',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.URLs.ListVerified(context.TODO(), zavudev.URLListVerifiedParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/urls \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'urls->listVerified',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->urls->listVerified(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const verifiedURL of client.urls.listVerified()) {\n  console.log(verifiedURL.id);\n}",
       },
       python: {
         method: 'urls.list_verified',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.urls.list_verified()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.URLs.ListVerified',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.URLs.ListVerified(context.TODO(), zavudev.URLListVerifiedParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'urls.list_verified',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.urls.list_verified\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.urls.listVerified',
+      cli: {
+        method: 'urls list_verified',
+        example: "zavudev urls list-verified \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'urls->listVerified',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const verifiedURL of client.urls.listVerified()) {\n  console.log(verifiedURL.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->urls->listVerified(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/urls \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5127,38 +5127,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve_details\n\n`client.urls.retrieveDetails(urlId: string): { url: verified_url; }`\n\n**get** `/v1/urls/{urlId}`\n\nGet details of a specific verified URL.\n\n### Parameters\n\n- `urlId: string`\n\n### Returns\n\n- `{ url: { id: string; createdAt: string; domain: string; status: 'pending' | 'approved' | 'rejected' | 'malicious'; url: string; approvalType?: 'manual' | 'auto_web_risk'; updatedAt?: string; }; }`\n\n  - `url: { id: string; createdAt: string; domain: string; status: 'pending' | 'approved' | 'rejected' | 'malicious'; url: string; approvalType?: 'manual' | 'auto_web_risk'; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.urls.retrieveDetails('urlId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'urls retrieve_details',
-        example: "zavudev urls retrieve-details \\\n  --api-key 'My API Key' \\\n  --url-id urlId",
-      },
-      go: {
-        method: 'client.URLs.GetDetails',
+      typescript: {
+        method: 'client.urls.retrieveDetails',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.URLs.GetDetails(context.TODO(), "urlId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.URL)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/urls/$URL_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'urls->retrieveDetails',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->retrieveDetails('urlId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.urls.retrieveDetails('urlId');\n\nconsole.log(response.url);",
       },
       python: {
         method: 'urls.retrieve_details',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.urls.retrieve_details(\n    "urlId",\n)\nprint(response.url)',
       },
+      go: {
+        method: 'client.URLs.GetDetails',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.URLs.GetDetails(context.TODO(), "urlId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.URL)\n}\n',
+      },
       ruby: {
         method: 'urls.retrieve_details',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.urls.retrieve_details("urlId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.urls.retrieveDetails',
+      cli: {
+        method: 'urls retrieve_details',
+        example: "zavudev urls retrieve-details \\\n  --api-key 'My API Key' \\\n  --url-id urlId",
+      },
+      php: {
+        method: 'urls->retrieveDetails',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.urls.retrieveDetails('urlId');\n\nconsole.log(response.url);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->retrieveDetails('urlId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/urls/$URL_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5176,37 +5176,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.balance.retrieve(): { balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n**get** `/v1/balance`\n\nGet balance for the API key's team. If the API key belongs to a sub-account, also includes the sub-account's total spending and credit limit.\n\n### Returns\n\n- `{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n  - `balance: number`\n  - `currency: string`\n  - `creditLimit?: number`\n  - `isSubAccount?: boolean`\n  - `totalSpent?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst balance = await client.balance.retrieve();\n\nconsole.log(balance);\n```",
     perLanguage: {
-      cli: {
-        method: 'balance retrieve',
-        example: "zavudev balance retrieve \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Balance.Get',
+      typescript: {
+        method: 'client.balance.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbalance, err := client.Balance.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", balance.Balance)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'balance->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$balance = $client->balance->retrieve();\n\nvar_dump($balance);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst balance = await client.balance.retrieve();\n\nconsole.log(balance.balance);",
       },
       python: {
         method: 'balance.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbalance = client.balance.retrieve()\nprint(balance.balance)',
       },
+      go: {
+        method: 'client.Balance.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbalance, err := client.Balance.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", balance.Balance)\n}\n',
+      },
       ruby: {
         method: 'balance.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbalance = zavudev.balance.retrieve\n\nputs(balance)',
       },
-      typescript: {
-        method: 'client.balance.retrieve',
+      cli: {
+        method: 'balance retrieve',
+        example: "zavudev balance retrieve \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'balance->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst balance = await client.balance.retrieve();\n\nconsole.log(balance.balance);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$balance = $client->balance->retrieve();\n\nvar_dump($balance);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5224,37 +5224,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.plan.retrieve(): { billingInterval: 'monthly' | 'annual'; status: 'active' | 'past_due' | 'canceled' | 'trialing'; tier: 'free' | 'pro' | 'scale' | 'enterprise'; cancelAtPeriodEnd?: boolean; currentPeriodEnd?: string; currentPeriodStart?: string; limits?: object; }`\n\n**get** `/v1/plan`\n\nGet the current subscription plan for the API key's team, including tier, billing interval, and period dates.\n\n### Returns\n\n- `{ billingInterval: 'monthly' | 'annual'; status: 'active' | 'past_due' | 'canceled' | 'trialing'; tier: 'free' | 'pro' | 'scale' | 'enterprise'; cancelAtPeriodEnd?: boolean; currentPeriodEnd?: string; currentPeriodStart?: string; limits?: { broadcasts?: boolean; emails?: number; messagesA2P?: number; phoneNumbers?: number; senders?: number; subAccounts?: boolean; wabaConnections?: number; }; }`\n\n  - `billingInterval: 'monthly' | 'annual'`\n  - `status: 'active' | 'past_due' | 'canceled' | 'trialing'`\n  - `tier: 'free' | 'pro' | 'scale' | 'enterprise'`\n  - `cancelAtPeriodEnd?: boolean`\n  - `currentPeriodEnd?: string`\n  - `currentPeriodStart?: string`\n  - `limits?: { broadcasts?: boolean; emails?: number; messagesA2P?: number; phoneNumbers?: number; senders?: number; subAccounts?: boolean; wabaConnections?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst plan = await client.plan.retrieve();\n\nconsole.log(plan);\n```",
     perLanguage: {
-      cli: {
-        method: 'plan retrieve',
-        example: "zavudev plan retrieve \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Plan.Get',
+      typescript: {
+        method: 'client.plan.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tplan, err := client.Plan.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", plan.BillingInterval)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/plan \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'plan->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$plan = $client->plan->retrieve();\n\nvar_dump($plan);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst plan = await client.plan.retrieve();\n\nconsole.log(plan.billingInterval);",
       },
       python: {
         method: 'plan.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nplan = client.plan.retrieve()\nprint(plan.billing_interval)',
       },
+      go: {
+        method: 'client.Plan.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tplan, err := client.Plan.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", plan.BillingInterval)\n}\n',
+      },
       ruby: {
         method: 'plan.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nplan = zavudev.plan.retrieve\n\nputs(plan)',
       },
-      typescript: {
-        method: 'client.plan.retrieve',
+      cli: {
+        method: 'plan retrieve',
+        example: "zavudev plan retrieve \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'plan->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst plan = await client.plan.retrieve();\n\nconsole.log(plan.billingInterval);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$plan = $client->plan->retrieve();\n\nvar_dump($plan);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/plan \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5272,37 +5272,37 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.usage.retrieve(): { emailsSent: number; limits: object; messagesA2P: number; monthKey: string; tier: 'free' | 'pro' | 'scale' | 'enterprise'; }`\n\n**get** `/v1/usage`\n\nGet the current month's usage counters for A2P messages and emails, along with the tier limits.\n\n### Returns\n\n- `{ emailsSent: number; limits: { emails?: number; messagesA2P?: number; }; messagesA2P: number; monthKey: string; tier: 'free' | 'pro' | 'scale' | 'enterprise'; }`\n\n  - `emailsSent: number`\n  - `limits: { emails?: number; messagesA2P?: number; }`\n  - `messagesA2P: number`\n  - `monthKey: string`\n  - `tier: 'free' | 'pro' | 'scale' | 'enterprise'`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst usage = await client.usage.retrieve();\n\nconsole.log(usage);\n```",
     perLanguage: {
-      cli: {
-        method: 'usage retrieve',
-        example: "zavudev usage retrieve \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Usage.Get',
+      typescript: {
+        method: 'client.usage.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tusage, err := client.Usage.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", usage.EmailsSent)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.zavu.dev/v1/usage \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'usage->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$usage = $client->usage->retrieve();\n\nvar_dump($usage);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst usage = await client.usage.retrieve();\n\nconsole.log(usage.emailsSent);",
       },
       python: {
         method: 'usage.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nusage = client.usage.retrieve()\nprint(usage.emails_sent)',
       },
+      go: {
+        method: 'client.Usage.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tusage, err := client.Usage.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", usage.EmailsSent)\n}\n',
+      },
       ruby: {
         method: 'usage.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nusage = zavudev.usage.retrieve\n\nputs(usage)',
       },
-      typescript: {
-        method: 'client.usage.retrieve',
+      cli: {
+        method: 'usage retrieve',
+        example: "zavudev usage retrieve \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'usage->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst usage = await client.usage.retrieve();\n\nconsole.log(usage.emailsSent);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$usage = $client->usage->retrieve();\n\nvar_dump($usage);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/usage \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5312,47 +5312,47 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'post',
     summary: 'Create sub-account',
     description:
-      "Create a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response.",
+      "Create a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response. Requires a parent project API key; sub-account API keys receive HTTP 403.",
     stainlessPath: '(resource) sub_accounts > (method) create',
     qualified: 'client.subAccounts.create',
     params: ['name: string;', 'creditLimit?: number;', 'externalId?: string;', 'metadata?: object;'],
     response:
       "{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }",
     markdown:
-      "## create\n\n`client.subAccounts.create(name: string, creditLimit?: number, externalId?: string, metadata?: object): { subAccount: sub_account; }`\n\n**post** `/v1/sub-accounts`\n\nCreate a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response.\n\n### Parameters\n\n- `name: string`\n  Name of the sub-account.\n\n- `creditLimit?: number`\n  Spending cap in cents. When reached, messages from this sub-account will be blocked. Omit or set to 0 for no limit.\n\n- `externalId?: string`\n  External reference ID for your own tracking.\n\n- `metadata?: object`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.create({ name: 'Client ABC' });\n\nconsole.log(subAccount);\n```",
+      "## create\n\n`client.subAccounts.create(name: string, creditLimit?: number, externalId?: string, metadata?: object): { subAccount: sub_account; }`\n\n**post** `/v1/sub-accounts`\n\nCreate a new sub-account (project) with its own API key. All charges are billed to the parent team's balance. Use creditLimit to set a spending cap. The sub-account's API key is returned only in the creation response. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `name: string`\n  Name of the sub-account.\n\n- `creditLimit?: number`\n  Spending cap in cents. When reached, messages from this sub-account will be blocked. Omit or set to 0 for no limit.\n\n- `externalId?: string`\n  External reference ID for your own tracking.\n\n- `metadata?: object`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.create({ name: 'Client ABC' });\n\nconsole.log(subAccount);\n```",
     perLanguage: {
-      cli: {
-        method: 'sub_accounts create',
-        example: "zavudev sub-accounts create \\\n  --api-key 'My API Key' \\\n  --name 'Client ABC'",
-      },
-      go: {
-        method: 'client.SubAccounts.New',
+      typescript: {
+        method: 'client.subAccounts.create',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsubAccount, err := client.SubAccounts.New(context.TODO(), zavudev.SubAccountNewParams{\n\t\tName: "Client ABC",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subAccount.SubAccount)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Client ABC"\n        }\'',
-      },
-      php: {
-        method: 'subAccounts->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->create(\n  name: 'Client ABC',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n);\n\nvar_dump($subAccount);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst subAccount = await client.subAccounts.create({ name: 'Client ABC' });\n\nconsole.log(subAccount.subAccount);",
       },
       python: {
         method: 'sub_accounts.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.create(\n    name="Client ABC",\n)\nprint(sub_account.sub_account)',
       },
+      go: {
+        method: 'client.SubAccounts.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsubAccount, err := client.SubAccounts.New(context.TODO(), zavudev.SubAccountNewParams{\n\t\tName: "Client ABC",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subAccount.SubAccount)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsub_account = zavudev.sub_accounts.create(name: "Client ABC")\n\nputs(sub_account)',
       },
-      typescript: {
-        method: 'client.subAccounts.create',
+      cli: {
+        method: 'sub_accounts create',
+        example: "zavudev sub-accounts create \\\n  --api-key 'My API Key' \\\n  --name 'Client ABC'",
+      },
+      php: {
+        method: 'subAccounts->create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst subAccount = await client.subAccounts.create({ name: 'Client ABC' });\n\nconsole.log(subAccount.subAccount);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->create(\n  name: 'Client ABC',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n);\n\nvar_dump($subAccount);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Client ABC"\n        }\'',
       },
     },
   },
@@ -5361,47 +5361,48 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts',
     httpMethod: 'get',
     summary: 'List sub-accounts',
-    description: 'List sub-accounts for this team.',
+    description:
+      'List sub-accounts for this team. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) list',
     qualified: 'client.subAccounts.list',
     params: ['cursor?: string;', 'limit?: number;'],
     response:
       "{ id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }",
     markdown:
-      "## list\n\n`client.subAccounts.list(cursor?: string, limit?: number): { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n**get** `/v1/sub-accounts`\n\nList sub-accounts for this team.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `name: string`\n  - `status: 'active' | 'inactive'`\n  - `totalSpent: number`\n  - `apiKey?: string`\n  - `creditLimit?: number`\n  - `externalId?: string`\n  - `metadata?: object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const subAccount of client.subAccounts.list()) {\n  console.log(subAccount);\n}\n```",
+      "## list\n\n`client.subAccounts.list(cursor?: string, limit?: number): { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n**get** `/v1/sub-accounts`\n\nList sub-accounts for this team. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n  - `id: string`\n  - `createdAt: string`\n  - `name: string`\n  - `status: 'active' | 'inactive'`\n  - `totalSpent: number`\n  - `apiKey?: string`\n  - `creditLimit?: number`\n  - `externalId?: string`\n  - `metadata?: object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const subAccount of client.subAccounts.list()) {\n  console.log(subAccount);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'sub_accounts list',
-        example: "zavudev sub-accounts list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.SubAccounts.List',
+      typescript: {
+        method: 'client.subAccounts.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.SubAccounts.List(context.TODO(), zavudev.SubAccountListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'subAccounts->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->subAccounts->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const subAccount of client.subAccounts.list()) {\n  console.log(subAccount.id);\n}",
       },
       python: {
         method: 'sub_accounts.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.sub_accounts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.SubAccounts.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.SubAccounts.List(context.TODO(), zavudev.SubAccountListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.sub_accounts.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.subAccounts.list',
+      cli: {
+        method: 'sub_accounts list',
+        example: "zavudev sub-accounts list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'subAccounts->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const subAccount of client.subAccounts.list()) {\n  console.log(subAccount.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->subAccounts->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5410,47 +5411,47 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}',
     httpMethod: 'get',
     summary: 'Get sub-account',
-    description: 'Get sub-account',
+    description: 'Get sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) retrieve',
     qualified: 'client.subAccounts.retrieve',
     params: ['id: string;'],
     response:
       "{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }",
     markdown:
-      "## retrieve\n\n`client.subAccounts.retrieve(id: string): { subAccount: sub_account; }`\n\n**get** `/v1/sub-accounts/{id}`\n\nGet sub-account\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.retrieve('id');\n\nconsole.log(subAccount);\n```",
+      "## retrieve\n\n`client.subAccounts.retrieve(id: string): { subAccount: sub_account; }`\n\n**get** `/v1/sub-accounts/{id}`\n\nGet sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.retrieve('id');\n\nconsole.log(subAccount);\n```",
     perLanguage: {
-      cli: {
-        method: 'sub_accounts retrieve',
-        example: "zavudev sub-accounts retrieve \\\n  --api-key 'My API Key' \\\n  --id id",
-      },
-      go: {
-        method: 'client.SubAccounts.Get',
+      typescript: {
+        method: 'client.subAccounts.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsubAccount, err := client.SubAccounts.Get(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subAccount.SubAccount)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'subAccounts->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->retrieve('id');\n\nvar_dump($subAccount);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst subAccount = await client.subAccounts.retrieve('id');\n\nconsole.log(subAccount.subAccount);",
       },
       python: {
         method: 'sub_accounts.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.retrieve(\n    "id",\n)\nprint(sub_account.sub_account)',
       },
+      go: {
+        method: 'client.SubAccounts.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsubAccount, err := client.SubAccounts.Get(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subAccount.SubAccount)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsub_account = zavudev.sub_accounts.retrieve("id")\n\nputs(sub_account)',
       },
-      typescript: {
-        method: 'client.subAccounts.retrieve',
+      cli: {
+        method: 'sub_accounts retrieve',
+        example: "zavudev sub-accounts retrieve \\\n  --api-key 'My API Key' \\\n  --id id",
+      },
+      php: {
+        method: 'subAccounts->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst subAccount = await client.subAccounts.retrieve('id');\n\nconsole.log(subAccount.subAccount);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->retrieve('id');\n\nvar_dump($subAccount);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5459,7 +5460,8 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}',
     httpMethod: 'patch',
     summary: 'Update sub-account',
-    description: 'Update sub-account',
+    description:
+      'Update sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) update',
     qualified: 'client.subAccounts.update',
     params: [
@@ -5473,40 +5475,40 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }",
     markdown:
-      "## update\n\n`client.subAccounts.update(id: string, creditLimit?: number, externalId?: string, metadata?: object, name?: string, status?: 'active' | 'inactive'): { subAccount: sub_account; }`\n\n**patch** `/v1/sub-accounts/{id}`\n\nUpdate sub-account\n\n### Parameters\n\n- `id: string`\n\n- `creditLimit?: number`\n\n- `externalId?: string`\n\n- `metadata?: object`\n\n- `name?: string`\n\n- `status?: 'active' | 'inactive'`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.update('id');\n\nconsole.log(subAccount);\n```",
+      "## update\n\n`client.subAccounts.update(id: string, creditLimit?: number, externalId?: string, metadata?: object, name?: string, status?: 'active' | 'inactive'): { subAccount: sub_account; }`\n\n**patch** `/v1/sub-accounts/{id}`\n\nUpdate sub-account. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n- `creditLimit?: number`\n\n- `externalId?: string`\n\n- `metadata?: object`\n\n- `name?: string`\n\n- `status?: 'active' | 'inactive'`\n\n### Returns\n\n- `{ subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }; }`\n\n  - `subAccount: { id: string; createdAt: string; name: string; status: 'active' | 'inactive'; totalSpent: number; apiKey?: string; creditLimit?: number; externalId?: string; metadata?: object; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst subAccount = await client.subAccounts.update('id');\n\nconsole.log(subAccount);\n```",
     perLanguage: {
-      cli: {
-        method: 'sub_accounts update',
-        example: "zavudev sub-accounts update \\\n  --api-key 'My API Key' \\\n  --id id",
-      },
-      go: {
-        method: 'client.SubAccounts.Update',
+      typescript: {
+        method: 'client.subAccounts.update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsubAccount, err := client.SubAccounts.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tzavudev.SubAccountUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subAccount.SubAccount)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'subAccounts->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->update(\n  'id',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n  name: 'name',\n  status: 'active',\n);\n\nvar_dump($subAccount);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst subAccount = await client.subAccounts.update('id');\n\nconsole.log(subAccount.subAccount);",
       },
       python: {
         method: 'sub_accounts.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.update(\n    id="id",\n)\nprint(sub_account.sub_account)',
       },
+      go: {
+        method: 'client.SubAccounts.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsubAccount, err := client.SubAccounts.Update(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tzavudev.SubAccountUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", subAccount.SubAccount)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsub_account = zavudev.sub_accounts.update("id")\n\nputs(sub_account)',
       },
-      typescript: {
-        method: 'client.subAccounts.update',
+      cli: {
+        method: 'sub_accounts update',
+        example: "zavudev sub-accounts update \\\n  --api-key 'My API Key' \\\n  --id id",
+      },
+      php: {
+        method: 'subAccounts->update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst subAccount = await client.subAccounts.update('id');\n\nconsole.log(subAccount.subAccount);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->update(\n  'id',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n  name: 'name',\n  status: 'active',\n);\n\nvar_dump($subAccount);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -5516,46 +5518,46 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'delete',
     summary: 'Deactivate sub-account',
     description:
-      'Deactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked.',
+      'Deactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts > (method) deactivate',
     qualified: 'client.subAccounts.deactivate',
     params: ['id: string;'],
     response: '{ keysRevoked: number; message: string; }',
     markdown:
-      "## deactivate\n\n`client.subAccounts.deactivate(id: string): { keysRevoked: number; message: string; }`\n\n**delete** `/v1/sub-accounts/{id}`\n\nDeactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ keysRevoked: number; message: string; }`\n\n  - `keysRevoked: number`\n  - `message: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.deactivate('id');\n\nconsole.log(response);\n```",
+      "## deactivate\n\n`client.subAccounts.deactivate(id: string): { keysRevoked: number; message: string; }`\n\n**delete** `/v1/sub-accounts/{id}`\n\nDeactivate a sub-account. Remaining balance is returned to the parent team and all API keys are revoked. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ keysRevoked: number; message: string; }`\n\n  - `keysRevoked: number`\n  - `message: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.deactivate('id');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'sub_accounts deactivate',
-        example: "zavudev sub-accounts deactivate \\\n  --api-key 'My API Key' \\\n  --id id",
-      },
-      go: {
-        method: 'client.SubAccounts.Deactivate',
+      typescript: {
+        method: 'client.subAccounts.deactivate',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.SubAccounts.Deactivate(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.KeysRevoked)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'subAccounts->deactivate',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->deactivate('id');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subAccounts.deactivate('id');\n\nconsole.log(response.keysRevoked);",
       },
       python: {
         method: 'sub_accounts.deactivate',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.sub_accounts.deactivate(\n    "id",\n)\nprint(response.keys_revoked)',
       },
+      go: {
+        method: 'client.SubAccounts.Deactivate',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.SubAccounts.Deactivate(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.KeysRevoked)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.deactivate',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.sub_accounts.deactivate("id")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.subAccounts.deactivate',
+      cli: {
+        method: 'sub_accounts deactivate',
+        example: "zavudev sub-accounts deactivate \\\n  --api-key 'My API Key' \\\n  --id id",
+      },
+      php: {
+        method: 'subAccounts->deactivate',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subAccounts.deactivate('id');\n\nconsole.log(response.keysRevoked);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->deactivate('id');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5565,47 +5567,47 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: 'Get sub-account spending',
     description:
-      "Get spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap).",
+      "Get spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap). Requires a parent project API key; sub-account API keys receive HTTP 403.",
     stainlessPath: '(resource) sub_accounts > (method) get_balance',
     qualified: 'client.subAccounts.getBalance',
     params: ['id: string;'],
     response:
       '{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }',
     markdown:
-      "## get_balance\n\n`client.subAccounts.getBalance(id: string): { balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n**get** `/v1/sub-accounts/{id}/balance`\n\nGet spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap).\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n  - `balance: number`\n  - `currency: string`\n  - `creditLimit?: number`\n  - `isSubAccount?: boolean`\n  - `totalSpent?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.getBalance('id');\n\nconsole.log(response);\n```",
+      "## get_balance\n\n`client.subAccounts.getBalance(id: string): { balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n**get** `/v1/sub-accounts/{id}/balance`\n\nGet spending information for a sub-account. Returns the parent team's balance, the sub-account's total spending, and its credit limit (spending cap). Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ balance: number; currency: string; creditLimit?: number; isSubAccount?: boolean; totalSpent?: number; }`\n\n  - `balance: number`\n  - `currency: string`\n  - `creditLimit?: number`\n  - `isSubAccount?: boolean`\n  - `totalSpent?: number`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.subAccounts.getBalance('id');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'sub_accounts get_balance',
-        example: "zavudev sub-accounts get-balance \\\n  --api-key 'My API Key' \\\n  --id id",
-      },
-      go: {
-        method: 'client.SubAccounts.GetBalance',
+      typescript: {
+        method: 'client.subAccounts.getBalance',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.SubAccounts.GetBalance(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Balance)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'subAccounts->getBalance',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->getBalance('id');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subAccounts.getBalance('id');\n\nconsole.log(response.balance);",
       },
       python: {
         method: 'sub_accounts.get_balance',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.sub_accounts.get_balance(\n    "id",\n)\nprint(response.balance)',
       },
+      go: {
+        method: 'client.SubAccounts.GetBalance',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.SubAccounts.GetBalance(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Balance)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.get_balance',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.sub_accounts.get_balance("id")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.subAccounts.getBalance',
+      cli: {
+        method: 'sub_accounts get_balance',
+        example: "zavudev sub-accounts get-balance \\\n  --api-key 'My API Key' \\\n  --id id",
+      },
+      php: {
+        method: 'subAccounts->getBalance',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.subAccounts.getBalance('id');\n\nconsole.log(response.balance);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->getBalance('id');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5614,47 +5616,48 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}/api-keys',
     httpMethod: 'get',
     summary: 'List sub-account API keys',
-    description: 'List sub-account API keys',
+    description:
+      'List sub-account API keys. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts.api_keys > (method) list',
     qualified: 'client.subAccounts.apiKeys.list',
     params: ['id: string;'],
     response:
       "{ items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]; }",
     markdown:
-      "## list\n\n`client.subAccounts.apiKeys.list(id: string): { items: object[]; }`\n\n**get** `/v1/sub-accounts/{id}/api-keys`\n\nList sub-account API keys\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]; }`\n\n  - `items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKeys = await client.subAccounts.apiKeys.list('id');\n\nconsole.log(apiKeys);\n```",
+      "## list\n\n`client.subAccounts.apiKeys.list(id: string): { items: object[]; }`\n\n**get** `/v1/sub-accounts/{id}/api-keys`\n\nList sub-account API keys. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]; }`\n\n  - `items: { id: string; createdAt: number; environment: 'live' | 'test'; keyPrefix: string; name: string; key?: string; lastUsedAt?: number; permissions?: string[]; revokedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKeys = await client.subAccounts.apiKeys.list('id');\n\nconsole.log(apiKeys);\n```",
     perLanguage: {
-      cli: {
-        method: 'api_keys list',
-        example: "zavudev sub-accounts:api-keys list \\\n  --api-key 'My API Key' \\\n  --id id",
-      },
-      go: {
-        method: 'client.SubAccounts.APIKeys.List',
+      typescript: {
+        method: 'client.subAccounts.apiKeys.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tapiKeys, err := client.SubAccounts.APIKeys.List(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", apiKeys.Items)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'subAccounts->apiKeys->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKeys = $client->subAccounts->apiKeys->list('id');\n\nvar_dump($apiKeys);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst apiKeys = await client.subAccounts.apiKeys.list('id');\n\nconsole.log(apiKeys.items);",
       },
       python: {
         method: 'sub_accounts.api_keys.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\napi_keys = client.sub_accounts.api_keys.list(\n    "id",\n)\nprint(api_keys.items)',
       },
+      go: {
+        method: 'client.SubAccounts.APIKeys.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tapiKeys, err := client.SubAccounts.APIKeys.List(context.TODO(), "id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", apiKeys.Items)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.api_keys.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\napi_keys = zavudev.sub_accounts.api_keys.list("id")\n\nputs(api_keys)',
       },
-      typescript: {
-        method: 'client.subAccounts.apiKeys.list',
+      cli: {
+        method: 'api_keys list',
+        example: "zavudev sub-accounts:api-keys list \\\n  --api-key 'My API Key' \\\n  --id id",
+      },
+      php: {
+        method: 'subAccounts->apiKeys->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst apiKeys = await client.subAccounts.apiKeys.list('id');\n\nconsole.log(apiKeys.items);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKeys = $client->subAccounts->apiKeys->list('id');\n\nvar_dump($apiKeys);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5663,47 +5666,48 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}/api-keys',
     httpMethod: 'post',
     summary: 'Create sub-account API key',
-    description: 'Create sub-account API key',
+    description:
+      'Create sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts.api_keys > (method) create',
     qualified: 'client.subAccounts.apiKeys.create',
     params: ['id: string;', 'name: string;', "environment?: 'live' | 'test';", 'permissions?: string[];'],
     response: "{ apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }; }",
     markdown:
-      "## create\n\n`client.subAccounts.apiKeys.create(id: string, name: string, environment?: 'live' | 'test', permissions?: string[]): { apiKey: object; }`\n\n**post** `/v1/sub-accounts/{id}/api-keys`\n\nCreate sub-account API key\n\n### Parameters\n\n- `id: string`\n\n- `name: string`\n\n- `environment?: 'live' | 'test'`\n\n- `permissions?: string[]`\n\n### Returns\n\n- `{ apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }; }`\n\n  - `apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKey = await client.subAccounts.apiKeys.create('id', { name: 'Production Key' });\n\nconsole.log(apiKey);\n```",
+      "## create\n\n`client.subAccounts.apiKeys.create(id: string, name: string, environment?: 'live' | 'test', permissions?: string[]): { apiKey: object; }`\n\n**post** `/v1/sub-accounts/{id}/api-keys`\n\nCreate sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n- `name: string`\n\n- `environment?: 'live' | 'test'`\n\n- `permissions?: string[]`\n\n### Returns\n\n- `{ apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }; }`\n\n  - `apiKey: { id: string; environment: 'live' | 'test'; key: string; name: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst apiKey = await client.subAccounts.apiKeys.create('id', { name: 'Production Key' });\n\nconsole.log(apiKey);\n```",
     perLanguage: {
-      cli: {
-        method: 'api_keys create',
+      typescript: {
+        method: 'client.subAccounts.apiKeys.create',
         example:
-          "zavudev sub-accounts:api-keys create \\\n  --api-key 'My API Key' \\\n  --id id \\\n  --name 'Production Key'",
-      },
-      go: {
-        method: 'client.SubAccounts.APIKeys.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tapiKey, err := client.SubAccounts.APIKeys.New(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tzavudev.SubAccountAPIKeyNewParams{\n\t\t\tName:        "Production Key",\n\t\t\tEnvironment: zavudev.SubAccountAPIKeyNewParamsEnvironmentLive,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", apiKey.APIKey)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Production Key"\n        }\'',
-      },
-      php: {
-        method: 'subAccounts->apiKeys->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKey = $client->subAccounts->apiKeys->create(\n  'id', name: 'Production Key', environment: 'live', permissions: ['string']\n);\n\nvar_dump($apiKey);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst apiKey = await client.subAccounts.apiKeys.create('id', {\n  name: 'Production Key',\n  environment: 'live',\n});\n\nconsole.log(apiKey.apiKey);",
       },
       python: {
         method: 'sub_accounts.api_keys.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\napi_key = client.sub_accounts.api_keys.create(\n    id="id",\n    name="Production Key",\n    environment="live",\n)\nprint(api_key.api_key)',
       },
+      go: {
+        method: 'client.SubAccounts.APIKeys.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tapiKey, err := client.SubAccounts.APIKeys.New(\n\t\tcontext.TODO(),\n\t\t"id",\n\t\tzavudev.SubAccountAPIKeyNewParams{\n\t\t\tName:        "Production Key",\n\t\t\tEnvironment: zavudev.SubAccountAPIKeyNewParamsEnvironmentLive,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", apiKey.APIKey)\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.api_keys.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\napi_key = zavudev.sub_accounts.api_keys.create("id", name: "Production Key")\n\nputs(api_key)',
       },
-      typescript: {
-        method: 'client.subAccounts.apiKeys.create',
+      cli: {
+        method: 'api_keys create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst apiKey = await client.subAccounts.apiKeys.create('id', {\n  name: 'Production Key',\n  environment: 'live',\n});\n\nconsole.log(apiKey.apiKey);",
+          "zavudev sub-accounts:api-keys create \\\n  --api-key 'My API Key' \\\n  --id id \\\n  --name 'Production Key'",
+      },
+      php: {
+        method: 'subAccounts->apiKeys->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKey = $client->subAccounts->apiKeys->create(\n  'id', name: 'Production Key', environment: 'live', permissions: ['string']\n);\n\nvar_dump($apiKey);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Production Key",\n          "environment": "live"\n        }\'',
       },
     },
   },
@@ -5712,46 +5716,47 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/v1/sub-accounts/{id}/api-keys/{keyId}',
     httpMethod: 'delete',
     summary: 'Revoke sub-account API key',
-    description: 'Revoke sub-account API key',
+    description:
+      'Revoke sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.',
     stainlessPath: '(resource) sub_accounts.api_keys > (method) revoke',
     qualified: 'client.subAccounts.apiKeys.revoke',
     params: ['id: string;', 'keyId: string;'],
     markdown:
-      "## revoke\n\n`client.subAccounts.apiKeys.revoke(id: string, keyId: string): void`\n\n**delete** `/v1/sub-accounts/{id}/api-keys/{keyId}`\n\nRevoke sub-account API key\n\n### Parameters\n\n- `id: string`\n\n- `keyId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.subAccounts.apiKeys.revoke('keyId', { id: 'id' })\n```",
+      "## revoke\n\n`client.subAccounts.apiKeys.revoke(id: string, keyId: string): void`\n\n**delete** `/v1/sub-accounts/{id}/api-keys/{keyId}`\n\nRevoke sub-account API key. Requires a parent project API key; sub-account API keys receive HTTP 403.\n\n### Parameters\n\n- `id: string`\n\n- `keyId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.subAccounts.apiKeys.revoke('keyId', { id: 'id' })\n```",
     perLanguage: {
-      cli: {
-        method: 'api_keys revoke',
+      typescript: {
+        method: 'client.subAccounts.apiKeys.revoke',
         example:
-          "zavudev sub-accounts:api-keys revoke \\\n  --api-key 'My API Key' \\\n  --id id \\\n  --key-id keyId",
-      },
-      go: {
-        method: 'client.SubAccounts.APIKeys.Revoke',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.SubAccounts.APIKeys.Revoke(\n\t\tcontext.TODO(),\n\t\t"keyId",\n\t\tzavudev.SubAccountAPIKeyRevokeParams{\n\t\t\tID: "id",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys/$KEY_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'subAccounts->apiKeys->revoke',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->subAccounts->apiKeys->revoke('keyId', id: 'id');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.subAccounts.apiKeys.revoke('keyId', { id: 'id' });",
       },
       python: {
         method: 'sub_accounts.api_keys.revoke',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.sub_accounts.api_keys.revoke(\n    key_id="keyId",\n    id="id",\n)',
       },
+      go: {
+        method: 'client.SubAccounts.APIKeys.Revoke',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.SubAccounts.APIKeys.Revoke(\n\t\tcontext.TODO(),\n\t\t"keyId",\n\t\tzavudev.SubAccountAPIKeyRevokeParams{\n\t\t\tID: "id",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'sub_accounts.api_keys.revoke',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.sub_accounts.api_keys.revoke("keyId", id: "id")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.subAccounts.apiKeys.revoke',
+      cli: {
+        method: 'api_keys revoke',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.subAccounts.apiKeys.revoke('keyId', { id: 'id' });",
+          "zavudev sub-accounts:api-keys revoke \\\n  --api-key 'My API Key' \\\n  --id id \\\n  --key-id keyId",
+      },
+      php: {
+        method: 'subAccounts->apiKeys->revoke',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->subAccounts->apiKeys->revoke('keyId', id: 'id');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys/$KEY_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5769,38 +5774,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.number10dlc.brands.list(cursor?: string, limit?: number): { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n**get** `/v1/10dlc/brands`\n\nList 10DLC brand registrations for this project.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n  - `id: string`\n  - `city: string`\n  - `country: string`\n  - `createdAt: string`\n  - `displayName: string`\n  - `email: string`\n  - `entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'`\n  - `phone: string`\n  - `postalCode: string`\n  - `state: string`\n  - `status: 'draft' | 'pending' | 'verified' | 'rejected'`\n  - `street: string`\n  - `updatedAt: string`\n  - `vertical: string`\n  - `brandRelationship?: string`\n  - `brandScore?: number`\n  - `companyName?: string`\n  - `ein?: string`\n  - `failureReason?: string`\n  - `firstName?: string`\n  - `lastName?: string`\n  - `stockExchange?: string`\n  - `stockSymbol?: string`\n  - `submittedAt?: string`\n  - `verifiedAt?: string`\n  - `website?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const tenDlcBrand of client.number10dlc.brands.list()) {\n  console.log(tenDlcBrand);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'brands list',
-        example: "zavudev number-10dlc:brands list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.List',
+      typescript: {
+        method: 'client.number10dlc.brands.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Number10dlc.Brands.List(context.TODO(), zavudev.Number10dlcBrandListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->brands->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->brands->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const tenDlcBrand of client.number10dlc.brands.list()) {\n  console.log(tenDlcBrand.id);\n}",
       },
       python: {
         method: 'number_10dlc.brands.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.number_10dlc.brands.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Number10dlc.Brands.List(context.TODO(), zavudev.Number10dlcBrandListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.number_10dlc.brands.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.list',
+      cli: {
+        method: 'brands list',
+        example: "zavudev number-10dlc:brands list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'number10dlc->brands->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const tenDlcBrand of client.number10dlc.brands.list()) {\n  console.log(tenDlcBrand.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->brands->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5837,39 +5842,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.number10dlc.brands.create(city: string, country: string, displayName: string, email: string, entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR', phone: string, postalCode: string, state: string, street: string, vertical: string, companyName?: string, ein?: string, firstName?: string, lastName?: string, stockExchange?: string, stockSymbol?: string, website?: string): { brand: ten_dlc_brand; }`\n\n**post** `/v1/10dlc/brands`\n\nCreate a 10DLC brand registration. The brand starts in draft status. Submit it for review using the submit endpoint.\n\n### Parameters\n\n- `city: string`\n\n- `country: string`\n  Two-letter ISO country code.\n\n- `displayName: string`\n  Display name of the brand.\n\n- `email: string`\n\n- `entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'`\n  Business entity type for 10DLC brand registration.\n\n- `phone: string`\n  Contact phone in E.164 format.\n\n- `postalCode: string`\n\n- `state: string`\n\n- `street: string`\n\n- `vertical: string`\n  Industry vertical.\n\n- `companyName?: string`\n  Legal company name.\n\n- `ein?: string`\n  Employer Identification Number (format: XX-XXXXXXX).\n\n- `firstName?: string`\n\n- `lastName?: string`\n\n- `stockExchange?: string`\n\n- `stockSymbol?: string`\n\n- `website?: string`\n\n### Returns\n\n- `{ brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }; }`\n\n  - `brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst brand = await client.number10dlc.brands.create({\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n});\n\nconsole.log(brand);\n```",
     perLanguage: {
-      cli: {
-        method: 'brands create',
+      typescript: {
+        method: 'client.number10dlc.brands.create',
         example:
-          "zavudev number-10dlc:brands create \\\n  --api-key 'My API Key' \\\n  --city 'San Francisco' \\\n  --country US \\\n  --display-name 'Acme Corp' \\\n  --email compliance@acme.com \\\n  --entity-type PRIVATE_PROFIT \\\n  --phone +14155551234 \\\n  --postal-code 94102 \\\n  --state CA \\\n  --street '123 Main St' \\\n  --vertical Technology",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbrand, err := client.Number10dlc.Brands.New(context.TODO(), zavudev.Number10dlcBrandNewParams{\n\t\tCity:        "San Francisco",\n\t\tCountry:     "US",\n\t\tDisplayName: "Acme Corp",\n\t\tEmail:       "compliance@acme.com",\n\t\tEntityType:  zavudev.Number10dlcBrandNewParamsEntityTypePrivateProfit,\n\t\tPhone:       "+14155551234",\n\t\tPostalCode:  "94102",\n\t\tState:       "CA",\n\t\tStreet:      "123 Main St",\n\t\tVertical:    "Technology",\n\t\tCompanyName: zavudev.String("Acme Corporation"),\n\t\tEin:         zavudev.String("12-3456789"),\n\t\tWebsite:     zavudev.String("https://acme.com"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "city": "San Francisco",\n          "country": "US",\n          "displayName": "Acme Corp",\n          "email": "compliance@acme.com",\n          "entityType": "PRIVATE_PROFIT",\n          "phone": "+14155551234",\n          "postalCode": "94102",\n          "state": "CA",\n          "street": "123 Main St",\n          "vertical": "Technology",\n          "ein": "12-3456789"\n        }\'',
-      },
-      php: {
-        method: 'number10dlc->brands->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->create(\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n  companyName: 'Acme Corporation',\n  ein: '12-3456789',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  website: 'https://acme.com',\n);\n\nvar_dump($brand);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.number10dlc.brands.create({\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n  companyName: 'Acme Corporation',\n  ein: '12-3456789',\n  website: 'https://acme.com',\n});\n\nconsole.log(brand.brand);",
       },
       python: {
         method: 'number_10dlc.brands.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.create(\n    city="San Francisco",\n    country="US",\n    display_name="Acme Corp",\n    email="compliance@acme.com",\n    entity_type="PRIVATE_PROFIT",\n    phone="+14155551234",\n    postal_code="94102",\n    state="CA",\n    street="123 Main St",\n    vertical="Technology",\n    company_name="Acme Corporation",\n    ein="12-3456789",\n    website="https://acme.com",\n)\nprint(brand.brand)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbrand, err := client.Number10dlc.Brands.New(context.TODO(), zavudev.Number10dlcBrandNewParams{\n\t\tCity:        "San Francisco",\n\t\tCountry:     "US",\n\t\tDisplayName: "Acme Corp",\n\t\tEmail:       "compliance@acme.com",\n\t\tEntityType:  zavudev.Number10dlcBrandNewParamsEntityTypePrivateProfit,\n\t\tPhone:       "+14155551234",\n\t\tPostalCode:  "94102",\n\t\tState:       "CA",\n\t\tStreet:      "123 Main St",\n\t\tVertical:    "Technology",\n\t\tCompanyName: zavudev.String("Acme Corporation"),\n\t\tEin:         zavudev.String("12-3456789"),\n\t\tWebsite:     zavudev.String("https://acme.com"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbrand = zavudev.number_10dlc.brands.create(\n  city: "San Francisco",\n  country: "US",\n  display_name: "Acme Corp",\n  email: "compliance@acme.com",\n  entity_type: :PRIVATE_PROFIT,\n  phone: "+14155551234",\n  postal_code: "94102",\n  state: "CA",\n  street: "123 Main St",\n  vertical: "Technology"\n)\n\nputs(brand)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.create',
+      cli: {
+        method: 'brands create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.number10dlc.brands.create({\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n  companyName: 'Acme Corporation',\n  ein: '12-3456789',\n  website: 'https://acme.com',\n});\n\nconsole.log(brand.brand);",
+          "zavudev number-10dlc:brands create \\\n  --api-key 'My API Key' \\\n  --city 'San Francisco' \\\n  --country US \\\n  --display-name 'Acme Corp' \\\n  --email compliance@acme.com \\\n  --entity-type PRIVATE_PROFIT \\\n  --phone +14155551234 \\\n  --postal-code 94102 \\\n  --state CA \\\n  --street '123 Main St' \\\n  --vertical Technology",
+      },
+      php: {
+        method: 'number10dlc->brands->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->create(\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n  companyName: 'Acme Corporation',\n  ein: '12-3456789',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  website: 'https://acme.com',\n);\n\nvar_dump($brand);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "city": "San Francisco",\n          "country": "US",\n          "displayName": "Acme Corp",\n          "email": "compliance@acme.com",\n          "entityType": "PRIVATE_PROFIT",\n          "phone": "+14155551234",\n          "postalCode": "94102",\n          "state": "CA",\n          "street": "123 Main St",\n          "vertical": "Technology",\n          "companyName": "Acme Corporation",\n          "ein": "12-3456789",\n          "website": "https://acme.com"\n        }\'',
       },
     },
   },
@@ -5885,38 +5890,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list_use_cases\n\n`client.number10dlc.brands.listUseCases(): { useCases: object[]; }`\n\n**get** `/v1/10dlc/brands/use-cases`\n\nList available use cases for 10DLC campaign registration.\n\n### Returns\n\n- `{ useCases: { description?: string; name?: string; }[]; }`\n\n  - `useCases: { description?: string; name?: string; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.number10dlc.brands.listUseCases();\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'brands list_use_cases',
-        example: "zavudev number-10dlc:brands list-use-cases \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.ListUseCases',
+      typescript: {
+        method: 'client.number10dlc.brands.listUseCases',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Brands.ListUseCases(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.UseCases)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands/use-cases \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->brands->listUseCases',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->listUseCases();\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.brands.listUseCases();\n\nconsole.log(response.useCases);",
       },
       python: {
         method: 'number_10dlc.brands.list_use_cases',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.list_use_cases()\nprint(response.use_cases)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.ListUseCases',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Brands.ListUseCases(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.UseCases)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.list_use_cases',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.number_10dlc.brands.list_use_cases\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.listUseCases',
+      cli: {
+        method: 'brands list_use_cases',
+        example: "zavudev number-10dlc:brands list-use-cases \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'number10dlc->brands->listUseCases',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.brands.listUseCases();\n\nconsole.log(response.useCases);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->listUseCases();\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands/use-cases \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -5934,38 +5939,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.number10dlc.brands.retrieve(brandId: string): { brand: ten_dlc_brand; }`\n\n**get** `/v1/10dlc/brands/{brandId}`\n\nGet 10DLC brand\n\n### Parameters\n\n- `brandId: string`\n\n### Returns\n\n- `{ brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }; }`\n\n  - `brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst brand = await client.number10dlc.brands.retrieve('brandId');\n\nconsole.log(brand);\n```",
     perLanguage: {
-      cli: {
-        method: 'brands retrieve',
-        example: "zavudev number-10dlc:brands retrieve \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.Get',
+      typescript: {
+        method: 'client.number10dlc.brands.retrieve',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbrand, err := client.Number10dlc.Brands.Get(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->brands->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->retrieve('brandId');\n\nvar_dump($brand);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.number10dlc.brands.retrieve('brandId');\n\nconsole.log(brand.brand);",
       },
       python: {
         method: 'number_10dlc.brands.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.retrieve(\n    "brandId",\n)\nprint(brand.brand)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbrand, err := client.Number10dlc.Brands.Get(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbrand = zavudev.number_10dlc.brands.retrieve("brandId")\n\nputs(brand)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.retrieve',
+      cli: {
+        method: 'brands retrieve',
+        example: "zavudev number-10dlc:brands retrieve \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
+      },
+      php: {
+        method: 'number10dlc->brands->retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.number10dlc.brands.retrieve('brandId');\n\nconsole.log(brand.brand);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->retrieve('brandId');\n\nvar_dump($brand);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6002,38 +6007,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.number10dlc.brands.update(brandId: string, city?: string, companyName?: string, country?: string, displayName?: string, ein?: string, email?: string, entityType?: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR', firstName?: string, lastName?: string, phone?: string, postalCode?: string, state?: string, stockExchange?: string, stockSymbol?: string, street?: string, vertical?: string, website?: string): { brand: ten_dlc_brand; }`\n\n**patch** `/v1/10dlc/brands/{brandId}`\n\nUpdate a 10DLC brand in draft status. Cannot update after submission.\n\n### Parameters\n\n- `brandId: string`\n\n- `city?: string`\n\n- `companyName?: string`\n\n- `country?: string`\n\n- `displayName?: string`\n\n- `ein?: string`\n\n- `email?: string`\n\n- `entityType?: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'`\n  Business entity type for 10DLC brand registration.\n\n- `firstName?: string`\n\n- `lastName?: string`\n\n- `phone?: string`\n\n- `postalCode?: string`\n\n- `state?: string`\n\n- `stockExchange?: string`\n\n- `stockSymbol?: string`\n\n- `street?: string`\n\n- `vertical?: string`\n\n- `website?: string`\n\n### Returns\n\n- `{ brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }; }`\n\n  - `brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst brand = await client.number10dlc.brands.update('brandId');\n\nconsole.log(brand);\n```",
     perLanguage: {
-      cli: {
-        method: 'brands update',
-        example: "zavudev number-10dlc:brands update \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.Update',
+      typescript: {
+        method: 'client.number10dlc.brands.update',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbrand, err := client.Number10dlc.Brands.Update(\n\t\tcontext.TODO(),\n\t\t"brandId",\n\t\tzavudev.Number10dlcBrandUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'number10dlc->brands->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->update(\n  'brandId',\n  city: 'city',\n  companyName: 'companyName',\n  country: 'xx',\n  displayName: 'displayName',\n  ein: 'ein',\n  email: 'dev@stainless.com',\n  entityType: 'PRIVATE_PROFIT',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  phone: 'phone',\n  postalCode: 'postalCode',\n  state: 'state',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  street: 'street',\n  vertical: 'vertical',\n  website: 'https://example.com',\n);\n\nvar_dump($brand);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.number10dlc.brands.update('brandId');\n\nconsole.log(brand.brand);",
       },
       python: {
         method: 'number_10dlc.brands.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.update(\n    brand_id="brandId",\n)\nprint(brand.brand)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbrand, err := client.Number10dlc.Brands.Update(\n\t\tcontext.TODO(),\n\t\t"brandId",\n\t\tzavudev.Number10dlcBrandUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nbrand = zavudev.number_10dlc.brands.update("brandId")\n\nputs(brand)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.update',
+      cli: {
+        method: 'brands update',
+        example: "zavudev number-10dlc:brands update \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
+      },
+      php: {
+        method: 'number10dlc->brands->update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst brand = await client.number10dlc.brands.update('brandId');\n\nconsole.log(brand.brand);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->update(\n  'brandId',\n  city: 'city',\n  companyName: 'companyName',\n  country: 'xx',\n  displayName: 'displayName',\n  ein: 'ein',\n  email: 'dev@stainless.com',\n  entityType: 'PRIVATE_PROFIT',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  phone: 'phone',\n  postalCode: 'postalCode',\n  state: 'state',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  street: 'street',\n  vertical: 'vertical',\n  website: 'https://example.com',\n);\n\nvar_dump($brand);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -6049,38 +6054,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.number10dlc.brands.delete(brandId: string): void`\n\n**delete** `/v1/10dlc/brands/{brandId}`\n\nDelete 10DLC brand\n\n### Parameters\n\n- `brandId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.number10dlc.brands.delete('brandId')\n```",
     perLanguage: {
-      cli: {
-        method: 'brands delete',
-        example: "zavudev number-10dlc:brands delete \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.Delete',
+      typescript: {
+        method: 'client.number10dlc.brands.delete',
         example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Number10dlc.Brands.Delete(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->brands->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->brands->delete('brandId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.number10dlc.brands.delete('brandId');",
       },
       python: {
         method: 'number_10dlc.brands.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.brands.delete(\n    "brandId",\n)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Number10dlc.Brands.Delete(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.number_10dlc.brands.delete("brandId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.delete',
+      cli: {
+        method: 'brands delete',
+        example: "zavudev number-10dlc:brands delete \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
+      },
+      php: {
+        method: 'number10dlc->brands->delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.number10dlc.brands.delete('brandId');",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->brands->delete('brandId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6099,38 +6104,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## submit\n\n`client.number10dlc.brands.submit(brandId: string): { brand: ten_dlc_brand; }`\n\n**post** `/v1/10dlc/brands/{brandId}/submit`\n\nSubmit a draft brand to The Campaign Registry (TCR) for vetting. The brand must be in draft status. A $35 registration fee is charged from your balance.\n\n### Parameters\n\n- `brandId: string`\n\n### Returns\n\n- `{ brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }; }`\n\n  - `brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.number10dlc.brands.submit('brandId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'brands submit',
-        example: "zavudev number-10dlc:brands submit \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.Submit',
+      typescript: {
+        method: 'client.number10dlc.brands.submit',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Brands.Submit(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Brand)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID/submit \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->brands->submit',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->submit('brandId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.brands.submit('brandId');\n\nconsole.log(response.brand);",
       },
       python: {
         method: 'number_10dlc.brands.submit',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.submit(\n    "brandId",\n)\nprint(response.brand)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.Submit',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Brands.Submit(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Brand)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.submit',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.number_10dlc.brands.submit("brandId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.submit',
+      cli: {
+        method: 'brands submit',
+        example: "zavudev number-10dlc:brands submit \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
+      },
+      php: {
+        method: 'number10dlc->brands->submit',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.brands.submit('brandId');\n\nconsole.log(response.brand);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->submit('brandId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID/submit \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6149,39 +6154,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## sync_status\n\n`client.number10dlc.brands.syncStatus(brandId: string): { brand: ten_dlc_brand; }`\n\n**post** `/v1/10dlc/brands/{brandId}/sync`\n\nSync the brand status with the registration provider. Use this to check for approval updates after submission.\n\n### Parameters\n\n- `brandId: string`\n\n### Returns\n\n- `{ brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }; }`\n\n  - `brand: { id: string; city: string; country: string; createdAt: string; displayName: string; email: string; entityType: 'PRIVATE_PROFIT' | 'PUBLIC_PROFIT' | 'NON_PROFIT' | 'GOVERNMENT' | 'SOLE_PROPRIETOR'; phone: string; postalCode: string; state: string; status: 'draft' | 'pending' | 'verified' | 'rejected'; street: string; updatedAt: string; vertical: string; brandRelationship?: string; brandScore?: number; companyName?: string; ein?: string; failureReason?: string; firstName?: string; lastName?: string; stockExchange?: string; stockSymbol?: string; submittedAt?: string; verifiedAt?: string; website?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.number10dlc.brands.syncStatus('brandId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'brands sync_status',
+      typescript: {
+        method: 'client.number10dlc.brands.syncStatus',
         example:
-          "zavudev number-10dlc:brands sync-status \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
-      },
-      go: {
-        method: 'client.Number10dlc.Brands.SyncStatus',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Brands.SyncStatus(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Brand)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID/sync \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->brands->syncStatus',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->syncStatus('brandId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.brands.syncStatus('brandId');\n\nconsole.log(response.brand);",
       },
       python: {
         method: 'number_10dlc.brands.sync_status',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.sync_status(\n    "brandId",\n)\nprint(response.brand)',
       },
+      go: {
+        method: 'client.Number10dlc.Brands.SyncStatus',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Brands.SyncStatus(context.TODO(), "brandId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Brand)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.brands.sync_status',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.number_10dlc.brands.sync_status("brandId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.number10dlc.brands.syncStatus',
+      cli: {
+        method: 'brands sync_status',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.brands.syncStatus('brandId');\n\nconsole.log(response.brand);",
+          "zavudev number-10dlc:brands sync-status \\\n  --api-key 'My API Key' \\\n  --brand-id brandId",
+      },
+      php: {
+        method: 'number10dlc->brands->syncStatus',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->syncStatus('brandId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID/sync \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6199,38 +6204,38 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.number10dlc.campaigns.list(brandId?: string, cursor?: string, limit?: number): { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n**get** `/v1/10dlc/campaigns`\n\nList 10DLC campaign registrations for this project.\n\n### Parameters\n\n- `brandId?: string`\n  Filter campaigns by brand ID.\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n  - `id: string`\n  - `affiliateMarketing: boolean`\n  - `ageGated: boolean`\n  - `brandId: string`\n  - `createdAt: string`\n  - `description: string`\n  - `directLending: boolean`\n  - `embeddedLink: boolean`\n  - `embeddedPhone: boolean`\n  - `name: string`\n  - `numberPooling: boolean`\n  - `sampleMessages: string[]`\n  - `status: 'draft' | 'pending' | 'approved' | 'rejected'`\n  - `subscriberHelp: boolean`\n  - `subscriberOptIn: boolean`\n  - `subscriberOptOut: boolean`\n  - `updatedAt: string`\n  - `useCase: string`\n  - `approvedAt?: string`\n  - `dailyLimit?: number`\n  - `failureReason?: string`\n  - `helpMessage?: string`\n  - `messageFlow?: string`\n  - `monthlyFeeCents?: number`\n  - `optInKeywords?: string[]`\n  - `optOutKeywords?: string[]`\n  - `registrationCostCents?: number`\n  - `submittedAt?: string`\n  - `subUseCases?: string[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const tenDlcCampaign of client.number10dlc.campaigns.list()) {\n  console.log(tenDlcCampaign);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns list',
-        example: "zavudev number-10dlc:campaigns list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.List',
+      typescript: {
+        method: 'client.number10dlc.campaigns.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Number10dlc.Campaigns.List(context.TODO(), zavudev.Number10dlcCampaignListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->campaigns->list(\n  brandID: 'brandId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const tenDlcCampaign of client.number10dlc.campaigns.list()) {\n  console.log(tenDlcCampaign.id);\n}",
       },
       python: {
         method: 'number_10dlc.campaigns.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.number_10dlc.campaigns.list()\npage = page.items[0]\nprint(page.id)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Number10dlc.Campaigns.List(context.TODO(), zavudev.Number10dlcCampaignListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\npage = zavudev.number_10dlc.campaigns.list\n\nputs(page)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.list',
+      cli: {
+        method: 'campaigns list',
+        example: "zavudev number-10dlc:campaigns list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'number10dlc->campaigns->list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const tenDlcCampaign of client.number10dlc.campaigns.list()) {\n  console.log(tenDlcCampaign.id);\n}",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->campaigns->list(\n  brandID: 'brandId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6269,39 +6274,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## create\n\n`client.number10dlc.campaigns.create(affiliateMarketing: boolean, ageGated: boolean, brandId: string, description: string, directLending: boolean, embeddedLink: boolean, embeddedPhone: boolean, name: string, numberPooling: boolean, sampleMessages: string[], subscriberHelp: boolean, subscriberOptIn: boolean, subscriberOptOut: boolean, useCase: string, helpMessage?: string, messageFlow?: string, optInKeywords?: string[], optOutKeywords?: string[], subUseCases?: string[]): { campaign: ten_dlc_campaign; }`\n\n**post** `/v1/10dlc/campaigns`\n\nCreate a 10DLC campaign under an existing brand. The campaign starts in draft status. Submit it for carrier review using the submit endpoint.\n\n### Parameters\n\n- `affiliateMarketing: boolean`\n\n- `ageGated: boolean`\n\n- `brandId: string`\n  ID of the brand to create this campaign under.\n\n- `description: string`\n\n- `directLending: boolean`\n\n- `embeddedLink: boolean`\n\n- `embeddedPhone: boolean`\n\n- `name: string`\n\n- `numberPooling: boolean`\n\n- `sampleMessages: string[]`\n\n- `subscriberHelp: boolean`\n\n- `subscriberOptIn: boolean`\n\n- `subscriberOptOut: boolean`\n\n- `useCase: string`\n  Campaign use case (e.g., ACCOUNT_NOTIFICATION, MARKETING, 2FA).\n\n- `helpMessage?: string`\n\n- `messageFlow?: string`\n\n- `optInKeywords?: string[]`\n\n- `optOutKeywords?: string[]`\n\n- `subUseCases?: string[]`\n\n### Returns\n\n- `{ campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }; }`\n\n  - `campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst campaign = await client.number10dlc.campaigns.create({\n  affiliateMarketing: false,\n  ageGated: false,\n  brandId: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: ['Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}', 'Your order #{{order_id}} has been delivered. Thank you for your purchase!'],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n});\n\nconsole.log(campaign);\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns create',
+      typescript: {
+        method: 'client.number10dlc.campaigns.create',
         example:
-          "zavudev number-10dlc:campaigns create \\\n  --api-key 'My API Key' \\\n  --affiliate-marketing=false \\\n  --age-gated=false \\\n  --brand-id brand_abc123 \\\n  --description 'Send order status updates and shipping notifications to customers who opted in.' \\\n  --direct-lending=false \\\n  --embedded-link \\\n  --embedded-phone=false \\\n  --name 'Order Notifications' \\\n  --number-pooling=false \\\n  --sample-message \"'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}'\" \\\n  --sample-message \"'Your order #{{order_id}} has been delivered. Thank you for your purchase!'\" \\\n  --subscriber-help \\\n  --subscriber-opt-in \\\n  --subscriber-opt-out \\\n  --use-case ACCOUNT_NOTIFICATION",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.New',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcampaign, err := client.Number10dlc.Campaigns.New(context.TODO(), zavudev.Number10dlcCampaignNewParams{\n\t\tAffiliateMarketing: false,\n\t\tAgeGated:           false,\n\t\tBrandID:            "brand_abc123",\n\t\tDescription:        "Send order status updates and shipping notifications to customers who opted in.",\n\t\tDirectLending:      false,\n\t\tEmbeddedLink:       true,\n\t\tEmbeddedPhone:      false,\n\t\tName:               "Order Notifications",\n\t\tNumberPooling:      false,\n\t\tSampleMessages:     []string{"Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}", "Your order #{{order_id}} has been delivered. Thank you for your purchase!"},\n\t\tSubscriberHelp:     true,\n\t\tSubscriberOptIn:    true,\n\t\tSubscriberOptOut:   true,\n\t\tUseCase:            "ACCOUNT_NOTIFICATION",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", campaign.Campaign)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "affiliateMarketing": false,\n          "ageGated": false,\n          "brandId": "brand_abc123",\n          "description": "Send order status updates and shipping notifications to customers who opted in.",\n          "directLending": false,\n          "embeddedLink": true,\n          "embeddedPhone": false,\n          "name": "Order Notifications",\n          "numberPooling": false,\n          "sampleMessages": [\n            "Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}",\n            "Your order #{{order_id}} has been delivered. Thank you for your purchase!"\n          ],\n          "subscriberHelp": true,\n          "subscriberOptIn": true,\n          "subscriberOptOut": true,\n          "useCase": "ACCOUNT_NOTIFICATION"\n        }\'',
-      },
-      php: {
-        method: 'number10dlc->campaigns->create',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->create(\n  affiliateMarketing: false,\n  ageGated: false,\n  brandID: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: [\n    'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}',\n    'Your order #{{order_id}} has been delivered. Thank you for your purchase!',\n  ],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  subUseCases: ['string'],\n);\n\nvar_dump($campaign);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst campaign = await client.number10dlc.campaigns.create({\n  affiliateMarketing: false,\n  ageGated: false,\n  brandId: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: [\n    'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}',\n    'Your order #{{order_id}} has been delivered. Thank you for your purchase!',\n  ],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n});\n\nconsole.log(campaign.campaign);",
       },
       python: {
         method: 'number_10dlc.campaigns.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.create(\n    affiliate_marketing=False,\n    age_gated=False,\n    brand_id="brand_abc123",\n    description="Send order status updates and shipping notifications to customers who opted in.",\n    direct_lending=False,\n    embedded_link=True,\n    embedded_phone=False,\n    name="Order Notifications",\n    number_pooling=False,\n    sample_messages=["Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}", "Your order #{{order_id}} has been delivered. Thank you for your purchase!"],\n    subscriber_help=True,\n    subscriber_opt_in=True,\n    subscriber_opt_out=True,\n    use_case="ACCOUNT_NOTIFICATION",\n)\nprint(campaign.campaign)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcampaign, err := client.Number10dlc.Campaigns.New(context.TODO(), zavudev.Number10dlcCampaignNewParams{\n\t\tAffiliateMarketing: false,\n\t\tAgeGated:           false,\n\t\tBrandID:            "brand_abc123",\n\t\tDescription:        "Send order status updates and shipping notifications to customers who opted in.",\n\t\tDirectLending:      false,\n\t\tEmbeddedLink:       true,\n\t\tEmbeddedPhone:      false,\n\t\tName:               "Order Notifications",\n\t\tNumberPooling:      false,\n\t\tSampleMessages:     []string{"Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}", "Your order #{{order_id}} has been delivered. Thank you for your purchase!"},\n\t\tSubscriberHelp:     true,\n\t\tSubscriberOptIn:    true,\n\t\tSubscriberOptOut:   true,\n\t\tUseCase:            "ACCOUNT_NOTIFICATION",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", campaign.Campaign)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.create',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncampaign = zavudev.number_10dlc.campaigns.create(\n  affiliate_marketing: false,\n  age_gated: false,\n  brand_id: "brand_abc123",\n  description: "Send order status updates and shipping notifications to customers who opted in.",\n  direct_lending: false,\n  embedded_link: true,\n  embedded_phone: false,\n  name: "Order Notifications",\n  number_pooling: false,\n  sample_messages: [\n    "Hi {{name}}, your order \\#{{order_id}} has shipped! Track it at {{url}}",\n    "Your order \\#{{order_id}} has been delivered. Thank you for your purchase!"\n  ],\n  subscriber_help: true,\n  subscriber_opt_in: true,\n  subscriber_opt_out: true,\n  use_case: "ACCOUNT_NOTIFICATION"\n)\n\nputs(campaign)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.create',
+      cli: {
+        method: 'campaigns create',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst campaign = await client.number10dlc.campaigns.create({\n  affiliateMarketing: false,\n  ageGated: false,\n  brandId: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: [\n    'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}',\n    'Your order #{{order_id}} has been delivered. Thank you for your purchase!',\n  ],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n});\n\nconsole.log(campaign.campaign);",
+          "zavudev number-10dlc:campaigns create \\\n  --api-key 'My API Key' \\\n  --affiliate-marketing=false \\\n  --age-gated=false \\\n  --brand-id brand_abc123 \\\n  --description 'Send order status updates and shipping notifications to customers who opted in.' \\\n  --direct-lending=false \\\n  --embedded-link \\\n  --embedded-phone=false \\\n  --name 'Order Notifications' \\\n  --number-pooling=false \\\n  --sample-message \"'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}'\" \\\n  --sample-message \"'Your order #{{order_id}} has been delivered. Thank you for your purchase!'\" \\\n  --subscriber-help \\\n  --subscriber-opt-in \\\n  --subscriber-opt-out \\\n  --use-case ACCOUNT_NOTIFICATION",
+      },
+      php: {
+        method: 'number10dlc->campaigns->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->create(\n  affiliateMarketing: false,\n  ageGated: false,\n  brandID: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: [\n    'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}',\n    'Your order #{{order_id}} has been delivered. Thank you for your purchase!',\n  ],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  subUseCases: ['string'],\n);\n\nvar_dump($campaign);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "affiliateMarketing": false,\n          "ageGated": false,\n          "brandId": "brand_abc123",\n          "description": "Send order status updates and shipping notifications to customers who opted in.",\n          "directLending": false,\n          "embeddedLink": true,\n          "embeddedPhone": false,\n          "name": "Order Notifications",\n          "numberPooling": false,\n          "sampleMessages": [\n            "Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}",\n            "Your order #{{order_id}} has been delivered. Thank you for your purchase!"\n          ],\n          "subscriberHelp": true,\n          "subscriberOptIn": true,\n          "subscriberOptOut": true,\n          "useCase": "ACCOUNT_NOTIFICATION"\n        }\'',
       },
     },
   },
@@ -6319,39 +6324,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## retrieve\n\n`client.number10dlc.campaigns.retrieve(campaignId: string): { campaign: ten_dlc_campaign; }`\n\n**get** `/v1/10dlc/campaigns/{campaignId}`\n\nGet 10DLC campaign\n\n### Parameters\n\n- `campaignId: string`\n\n### Returns\n\n- `{ campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }; }`\n\n  - `campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst campaign = await client.number10dlc.campaigns.retrieve('campaignId');\n\nconsole.log(campaign);\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns retrieve',
+      typescript: {
+        method: 'client.number10dlc.campaigns.retrieve',
         example:
-          "zavudev number-10dlc:campaigns retrieve \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcampaign, err := client.Number10dlc.Campaigns.Get(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", campaign.Campaign)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->retrieve',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->retrieve('campaignId');\n\nvar_dump($campaign);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst campaign = await client.number10dlc.campaigns.retrieve('campaignId');\n\nconsole.log(campaign.campaign);",
       },
       python: {
         method: 'number_10dlc.campaigns.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.retrieve(\n    "campaignId",\n)\nprint(campaign.campaign)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcampaign, err := client.Number10dlc.Campaigns.Get(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", campaign.Campaign)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.retrieve',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncampaign = zavudev.number_10dlc.campaigns.retrieve("campaignId")\n\nputs(campaign)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.retrieve',
+      cli: {
+        method: 'campaigns retrieve',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst campaign = await client.number10dlc.campaigns.retrieve('campaignId');\n\nconsole.log(campaign.campaign);",
+          "zavudev number-10dlc:campaigns retrieve \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->retrieve('campaignId');\n\nvar_dump($campaign);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6378,39 +6383,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.number10dlc.campaigns.update(campaignId: string, description?: string, helpMessage?: string, messageFlow?: string, name?: string, optInKeywords?: string[], optOutKeywords?: string[], sampleMessages?: string[]): { campaign: ten_dlc_campaign; }`\n\n**patch** `/v1/10dlc/campaigns/{campaignId}`\n\nUpdate a 10DLC campaign in draft status. Cannot update after submission.\n\n### Parameters\n\n- `campaignId: string`\n\n- `description?: string`\n\n- `helpMessage?: string`\n\n- `messageFlow?: string`\n\n- `name?: string`\n\n- `optInKeywords?: string[]`\n\n- `optOutKeywords?: string[]`\n\n- `sampleMessages?: string[]`\n\n### Returns\n\n- `{ campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }; }`\n\n  - `campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst campaign = await client.number10dlc.campaigns.update('campaignId');\n\nconsole.log(campaign);\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns update',
+      typescript: {
+        method: 'client.number10dlc.campaigns.update',
         example:
-          "zavudev number-10dlc:campaigns update \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcampaign, err := client.Number10dlc.Campaigns.Update(\n\t\tcontext.TODO(),\n\t\t"campaignId",\n\t\tzavudev.Number10dlcCampaignUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", campaign.Campaign)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
-      },
-      php: {
-        method: 'number10dlc->campaigns->update',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->update(\n  'campaignId',\n  description: 'description',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  name: 'name',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  sampleMessages: ['string'],\n);\n\nvar_dump($campaign);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst campaign = await client.number10dlc.campaigns.update('campaignId');\n\nconsole.log(campaign.campaign);",
       },
       python: {
         method: 'number_10dlc.campaigns.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.update(\n    campaign_id="campaignId",\n)\nprint(campaign.campaign)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcampaign, err := client.Number10dlc.Campaigns.Update(\n\t\tcontext.TODO(),\n\t\t"campaignId",\n\t\tzavudev.Number10dlcCampaignUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", campaign.Campaign)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.update',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\ncampaign = zavudev.number_10dlc.campaigns.update("campaignId")\n\nputs(campaign)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.update',
+      cli: {
+        method: 'campaigns update',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst campaign = await client.number10dlc.campaigns.update('campaignId');\n\nconsole.log(campaign.campaign);",
+          "zavudev number-10dlc:campaigns update \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->update(\n  'campaignId',\n  description: 'description',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  name: 'name',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  sampleMessages: ['string'],\n);\n\nvar_dump($campaign);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -6426,39 +6431,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.number10dlc.campaigns.delete(campaignId: string): void`\n\n**delete** `/v1/10dlc/campaigns/{campaignId}`\n\nDelete 10DLC campaign\n\n### Parameters\n\n- `campaignId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.number10dlc.campaigns.delete('campaignId')\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns delete',
+      typescript: {
+        method: 'client.number10dlc.campaigns.delete',
         example:
-          "zavudev number-10dlc:campaigns delete \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Number10dlc.Campaigns.Delete(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->delete',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->delete('campaignId');\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.number10dlc.campaigns.delete('campaignId');",
       },
       python: {
         method: 'number_10dlc.campaigns.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.campaigns.delete(\n    "campaignId",\n)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Number10dlc.Campaigns.Delete(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.delete',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.number_10dlc.campaigns.delete("campaignId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.delete',
+      cli: {
+        method: 'campaigns delete',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.number10dlc.campaigns.delete('campaignId');",
+          "zavudev number-10dlc:campaigns delete \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->delete('campaignId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6477,39 +6482,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## submit\n\n`client.number10dlc.campaigns.submit(campaignId: string): { campaign: ten_dlc_campaign; }`\n\n**post** `/v1/10dlc/campaigns/{campaignId}/submit`\n\nSubmit a draft campaign for carrier review. The campaign must be in draft status and its brand must be verified.\n\n### Parameters\n\n- `campaignId: string`\n\n### Returns\n\n- `{ campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }; }`\n\n  - `campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.number10dlc.campaigns.submit('campaignId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns submit',
+      typescript: {
+        method: 'client.number10dlc.campaigns.submit',
         example:
-          "zavudev number-10dlc:campaigns submit \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.Submit',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Campaigns.Submit(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Campaign)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/submit \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->submit',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->submit('campaignId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.campaigns.submit('campaignId');\n\nconsole.log(response.campaign);",
       },
       python: {
         method: 'number_10dlc.campaigns.submit',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.submit(\n    "campaignId",\n)\nprint(response.campaign)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.Submit',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Campaigns.Submit(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Campaign)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.submit',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.number_10dlc.campaigns.submit("campaignId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.submit',
+      cli: {
+        method: 'campaigns submit',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.campaigns.submit('campaignId');\n\nconsole.log(response.campaign);",
+          "zavudev number-10dlc:campaigns submit \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->submit',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->submit('campaignId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/submit \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6528,39 +6533,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## sync_status\n\n`client.number10dlc.campaigns.syncStatus(campaignId: string): { campaign: ten_dlc_campaign; }`\n\n**post** `/v1/10dlc/campaigns/{campaignId}/sync`\n\nSync the campaign status with the registration provider. Use this to check for approval updates after submission.\n\n### Parameters\n\n- `campaignId: string`\n\n### Returns\n\n- `{ campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }; }`\n\n  - `campaign: { id: string; affiliateMarketing: boolean; ageGated: boolean; brandId: string; createdAt: string; description: string; directLending: boolean; embeddedLink: boolean; embeddedPhone: boolean; name: string; numberPooling: boolean; sampleMessages: string[]; status: 'draft' | 'pending' | 'approved' | 'rejected'; subscriberHelp: boolean; subscriberOptIn: boolean; subscriberOptOut: boolean; updatedAt: string; useCase: string; approvedAt?: string; dailyLimit?: number; failureReason?: string; helpMessage?: string; messageFlow?: string; monthlyFeeCents?: number; optInKeywords?: string[]; optOutKeywords?: string[]; registrationCostCents?: number; submittedAt?: string; subUseCases?: string[]; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.number10dlc.campaigns.syncStatus('campaignId');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'campaigns sync_status',
+      typescript: {
+        method: 'client.number10dlc.campaigns.syncStatus',
         example:
-          "zavudev number-10dlc:campaigns sync-status \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.SyncStatus',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Campaigns.SyncStatus(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Campaign)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/sync \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->syncStatus',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->syncStatus('campaignId');\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.campaigns.syncStatus('campaignId');\n\nconsole.log(response.campaign);",
       },
       python: {
         method: 'number_10dlc.campaigns.sync_status',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.sync_status(\n    "campaignId",\n)\nprint(response.campaign)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.SyncStatus',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Campaigns.SyncStatus(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Campaign)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.sync_status',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.number_10dlc.campaigns.sync_status("campaignId")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.syncStatus',
+      cli: {
+        method: 'campaigns sync_status',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.campaigns.syncStatus('campaignId');\n\nconsole.log(response.campaign);",
+          "zavudev number-10dlc:campaigns sync-status \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->syncStatus',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->syncStatus('campaignId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/sync \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6578,39 +6583,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.number10dlc.campaigns.phoneNumbers.list(campaignId: string): { items: ten_dlc_phone_number_assignment[]; nextCursor?: string; }`\n\n**get** `/v1/10dlc/campaigns/{campaignId}/phone-numbers`\n\nList phone numbers assigned to a 10DLC campaign.\n\n### Parameters\n\n- `campaignId: string`\n\n### Returns\n\n- `{ items: { id: string; campaignId: string; createdAt: string; phoneNumberId: string; status: 'pending' | 'active' | 'failed'; updatedAt: string; assignedAt?: string; failureReason?: string; }[]; nextCursor?: string; }`\n\n  - `items: { id: string; campaignId: string; createdAt: string; phoneNumberId: string; status: 'pending' | 'active' | 'failed'; updatedAt: string; assignedAt?: string; failureReason?: string; }[]`\n  - `nextCursor?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst phoneNumbers = await client.number10dlc.campaigns.phoneNumbers.list('campaignId');\n\nconsole.log(phoneNumbers);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers list',
+      typescript: {
+        method: 'client.number10dlc.campaigns.phoneNumbers.list',
         example:
-          "zavudev number-10dlc:campaigns:phone-numbers list \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.PhoneNumbers.List',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tphoneNumbers, err := client.Number10dlc.Campaigns.PhoneNumbers.List(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", phoneNumbers.Items)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->phoneNumbers->list',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumbers = $client->number10dlc->campaigns->phoneNumbers->list(\n  'campaignId'\n);\n\nvar_dump($phoneNumbers);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst phoneNumbers = await client.number10dlc.campaigns.phoneNumbers.list('campaignId');\n\nconsole.log(phoneNumbers.items);",
       },
       python: {
         method: 'number_10dlc.campaigns.phone_numbers.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_numbers = client.number_10dlc.campaigns.phone_numbers.list(\n    "campaignId",\n)\nprint(phone_numbers.items)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.PhoneNumbers.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tphoneNumbers, err := client.Number10dlc.Campaigns.PhoneNumbers.List(context.TODO(), "campaignId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", phoneNumbers.Items)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.phone_numbers.list',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nphone_numbers = zavudev.number_10dlc.campaigns.phone_numbers.list("campaignId")\n\nputs(phone_numbers)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.phoneNumbers.list',
+      cli: {
+        method: 'phone_numbers list',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst phoneNumbers = await client.number10dlc.campaigns.phoneNumbers.list('campaignId');\n\nconsole.log(phoneNumbers.items);",
+          "zavudev number-10dlc:campaigns:phone-numbers list \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->phoneNumbers->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumbers = $client->number10dlc->campaigns->phoneNumbers->list(\n  'campaignId'\n);\n\nvar_dump($phoneNumbers);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6629,39 +6634,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## assign\n\n`client.number10dlc.campaigns.phoneNumbers.assign(campaignId: string, phoneNumberId: string): { assignment: ten_dlc_phone_number_assignment; }`\n\n**post** `/v1/10dlc/campaigns/{campaignId}/phone-numbers`\n\nAssign a US phone number to an approved 10DLC campaign. The campaign must be in approved status.\n\n### Parameters\n\n- `campaignId: string`\n\n- `phoneNumberId: string`\n  ID of the phone number to assign.\n\n### Returns\n\n- `{ assignment: { id: string; campaignId: string; createdAt: string; phoneNumberId: string; status: 'pending' | 'active' | 'failed'; updatedAt: string; assignedAt?: string; failureReason?: string; }; }`\n\n  - `assignment: { id: string; campaignId: string; createdAt: string; phoneNumberId: string; status: 'pending' | 'active' | 'failed'; updatedAt: string; assignedAt?: string; failureReason?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.number10dlc.campaigns.phoneNumbers.assign('campaignId', { phoneNumberId: 'pn_abc123' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers assign',
+      typescript: {
+        method: 'client.number10dlc.campaigns.phoneNumbers.assign',
         example:
-          "zavudev number-10dlc:campaigns:phone-numbers assign \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId \\\n  --phone-number-id pn_abc123",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.PhoneNumbers.Assign',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Campaigns.PhoneNumbers.Assign(\n\t\tcontext.TODO(),\n\t\t"campaignId",\n\t\tzavudev.Number10dlcCampaignPhoneNumberAssignParams{\n\t\t\tPhoneNumberID: "pn_abc123",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Assignment)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumberId": "pn_abc123"\n        }\'',
-      },
-      php: {
-        method: 'number10dlc->campaigns->phoneNumbers->assign',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->phoneNumbers->assign(\n  'campaignId', phoneNumberID: 'pn_abc123'\n);\n\nvar_dump($response);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.campaigns.phoneNumbers.assign('campaignId', {\n  phoneNumberId: 'pn_abc123',\n});\n\nconsole.log(response.assignment);",
       },
       python: {
         method: 'number_10dlc.campaigns.phone_numbers.assign',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.phone_numbers.assign(\n    campaign_id="campaignId",\n    phone_number_id="pn_abc123",\n)\nprint(response.assignment)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.PhoneNumbers.Assign',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Number10dlc.Campaigns.PhoneNumbers.Assign(\n\t\tcontext.TODO(),\n\t\t"campaignId",\n\t\tzavudev.Number10dlcCampaignPhoneNumberAssignParams{\n\t\t\tPhoneNumberID: "pn_abc123",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Assignment)\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.phone_numbers.assign',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.number_10dlc.campaigns.phone_numbers.assign("campaignId", phone_number_id: "pn_abc123")\n\nputs(response)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.phoneNumbers.assign',
+      cli: {
+        method: 'phone_numbers assign',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.number10dlc.campaigns.phoneNumbers.assign('campaignId', {\n  phoneNumberId: 'pn_abc123',\n});\n\nconsole.log(response.assignment);",
+          "zavudev number-10dlc:campaigns:phone-numbers assign \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId \\\n  --phone-number-id pn_abc123",
+      },
+      php: {
+        method: 'number10dlc->campaigns->phoneNumbers->assign',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->phoneNumbers->assign(\n  'campaignId', phoneNumberID: 'pn_abc123'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumberId": "pn_abc123"\n        }\'',
       },
     },
   },
@@ -6677,39 +6682,39 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## unassign\n\n`client.number10dlc.campaigns.phoneNumbers.unassign(campaignId: string, assignmentId: string): void`\n\n**delete** `/v1/10dlc/campaigns/{campaignId}/phone-numbers/{assignmentId}`\n\nRemove a phone number assignment from a 10DLC campaign.\n\n### Parameters\n\n- `campaignId: string`\n\n- `assignmentId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.number10dlc.campaigns.phoneNumbers.unassign('assignmentId', { campaignId: 'campaignId' })\n```",
     perLanguage: {
-      cli: {
-        method: 'phone_numbers unassign',
+      typescript: {
+        method: 'client.number10dlc.campaigns.phoneNumbers.unassign',
         example:
-          "zavudev number-10dlc:campaigns:phone-numbers unassign \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId \\\n  --assignment-id assignmentId",
-      },
-      go: {
-        method: 'client.Number10dlc.Campaigns.PhoneNumbers.Unassign',
-        example:
-          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Number10dlc.Campaigns.PhoneNumbers.Unassign(\n\t\tcontext.TODO(),\n\t\t"assignmentId",\n\t\tzavudev.Number10dlcCampaignPhoneNumberUnassignParams{\n\t\t\tCampaignID: "campaignId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers/$ASSIGNMENT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
-      },
-      php: {
-        method: 'number10dlc->campaigns->phoneNumbers->unassign',
-        example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->phoneNumbers->unassign(\n  'assignmentId', campaignID: 'campaignId'\n);\n\nvar_dump($result);",
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.number10dlc.campaigns.phoneNumbers.unassign('assignmentId', {\n  campaignId: 'campaignId',\n});",
       },
       python: {
         method: 'number_10dlc.campaigns.phone_numbers.unassign',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.campaigns.phone_numbers.unassign(\n    assignment_id="assignmentId",\n    campaign_id="campaignId",\n)',
       },
+      go: {
+        method: 'client.Number10dlc.Campaigns.PhoneNumbers.Unassign',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Number10dlc.Campaigns.PhoneNumbers.Unassign(\n\t\tcontext.TODO(),\n\t\t"assignmentId",\n\t\tzavudev.Number10dlcCampaignPhoneNumberUnassignParams{\n\t\t\tCampaignID: "campaignId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
       ruby: {
         method: 'number_10dlc.campaigns.phone_numbers.unassign',
         example:
           'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.number_10dlc.campaigns.phone_numbers.unassign("assignmentId", campaign_id: "campaignId")\n\nputs(result)',
       },
-      typescript: {
-        method: 'client.number10dlc.campaigns.phoneNumbers.unassign',
+      cli: {
+        method: 'phone_numbers unassign',
         example:
-          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.number10dlc.campaigns.phoneNumbers.unassign('assignmentId', {\n  campaignId: 'campaignId',\n});",
+          "zavudev number-10dlc:campaigns:phone-numbers unassign \\\n  --api-key 'My API Key' \\\n  --campaign-id campaignId \\\n  --assignment-id assignmentId",
+      },
+      php: {
+        method: 'number10dlc->campaigns->phoneNumbers->unassign',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->phoneNumbers->unassign(\n  'assignmentId', campaignID: 'campaignId'\n);\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers/$ASSIGNMENT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
