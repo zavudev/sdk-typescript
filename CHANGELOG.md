@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.41.1 (2026-05-13)
+
+Full Changelog: [v0.41.0...v0.41.1](https://github.com/zavudev/sdk-typescript/compare/v0.41.0...v0.41.1)
+
+### Chores
+
+* redact api-key headers in debug logs ([d495441](https://github.com/zavudev/sdk-typescript/commit/d495441400205ceaa8050caf56472497ea54b736))
+
 ## 0.41.0 (2026-05-07)
 
 Full Changelog: [v0.40.0...v0.41.0](https://github.com/zavudev/sdk-typescript/compare/v0.40.0...v0.41.0)
