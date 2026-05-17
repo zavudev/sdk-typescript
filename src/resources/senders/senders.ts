@@ -326,6 +326,13 @@ export interface SenderWebhook {
  *
  * - `invitation.status_changed`: A partner invitation status changed (pending,
  *   in_progress, completed, cancelled)
+ *
+ * **Custom domain events:**
+ *
+ * - `domain.verified`: A custom email domain passed verification (DKIM, and
+ *   SPF/DMARC/MAIL FROM if enhanced records are enabled)
+ * - `domain.failed`: A custom email domain failed verification or is partially
+ *   verified
  */
 export type WebhookEvent =
   | 'message.queued'
@@ -338,7 +345,9 @@ export type WebhookEvent =
   | 'broadcast.status_changed'
   | 'conversation.new'
   | 'template.status_changed'
-  | 'invitation.status_changed';
+  | 'invitation.status_changed'
+  | 'domain.verified'
+  | 'domain.failed';
 
 export interface WebhookSecretResponse {
   /**
