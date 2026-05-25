@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from '@zavudev/sdk/internal/to-file';
 import { toFile } from '@zavudev/sdk/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
