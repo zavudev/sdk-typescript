@@ -55,6 +55,7 @@ import {
   Invitations,
   InvitationsCursor,
 } from './resources/invitations';
+import { Me, MeRetrieveResponse } from './resources/me';
 import {
   Channel,
   Message,
@@ -63,6 +64,8 @@ import {
   MessageReactParams,
   MessageResponse,
   MessageSendParams,
+  MessageShowTypingParams,
+  MessageShowTypingResponse,
   MessageStatus,
   MessageType,
   Messages,
@@ -158,6 +161,20 @@ import {
   Contacts,
   ContactsCursor,
 } from './resources/contacts/contacts';
+import {
+  FunctionCreateParams,
+  FunctionCreateResponse,
+  FunctionDeleteResponse,
+  FunctionDeployParams,
+  FunctionDeployResponse,
+  FunctionGetDeploymentResponse,
+  FunctionRetrieveResponse,
+  FunctionTailLogsParams,
+  FunctionTailLogsResponse,
+  FunctionUpdateParams,
+  FunctionUpdateResponse,
+  Functions,
+} from './resources/functions/functions';
 import { Number10dlc } from './resources/number-10dlc/number-10dlc';
 import {
   Sender,
@@ -943,6 +960,8 @@ export class Zavudev {
   usage: API.Usage = new API.Usage(this);
   subAccounts: API.SubAccounts = new API.SubAccounts(this);
   number10dlc: API.Number10dlc = new API.Number10dlc(this);
+  me: API.Me = new API.Me(this);
+  functions: API.Functions = new API.Functions(this);
 }
 
 Zavudev.Messages = Messages;
@@ -962,6 +981,8 @@ Zavudev.Plan = Plan;
 Zavudev.Usage = Usage;
 Zavudev.SubAccounts = SubAccounts;
 Zavudev.Number10dlc = Number10dlc;
+Zavudev.Me = Me;
+Zavudev.Functions = Functions;
 
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
@@ -977,10 +998,12 @@ export declare namespace Zavudev {
     type MessageResponse as MessageResponse,
     type MessageStatus as MessageStatus,
     type MessageType as MessageType,
+    type MessageShowTypingResponse as MessageShowTypingResponse,
     type MessagesCursor as MessagesCursor,
     type MessageListParams as MessageListParams,
     type MessageReactParams as MessageReactParams,
     type MessageSendParams as MessageSendParams,
+    type MessageShowTypingParams as MessageShowTypingParams,
   };
 
   export {
@@ -1156,4 +1179,21 @@ export declare namespace Zavudev {
   };
 
   export { Number10dlc as Number10dlc };
+
+  export { Me as Me, type MeRetrieveResponse as MeRetrieveResponse };
+
+  export {
+    Functions as Functions,
+    type FunctionCreateResponse as FunctionCreateResponse,
+    type FunctionRetrieveResponse as FunctionRetrieveResponse,
+    type FunctionUpdateResponse as FunctionUpdateResponse,
+    type FunctionDeleteResponse as FunctionDeleteResponse,
+    type FunctionDeployResponse as FunctionDeployResponse,
+    type FunctionGetDeploymentResponse as FunctionGetDeploymentResponse,
+    type FunctionTailLogsResponse as FunctionTailLogsResponse,
+    type FunctionCreateParams as FunctionCreateParams,
+    type FunctionUpdateParams as FunctionUpdateParams,
+    type FunctionDeployParams as FunctionDeployParams,
+    type FunctionTailLogsParams as FunctionTailLogsParams,
+  };
 }

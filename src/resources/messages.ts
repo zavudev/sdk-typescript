@@ -106,6 +106,35 @@ export class Messages extends APIResource {
       ]),
     });
   }
+
+  /**
+   * Mark an inbound WhatsApp message as read and display a typing indicator to the
+   * user while you prepare a response. The indicator is automatically dismissed when
+   * you send a reply, or after 25 seconds — whichever comes first. Only valid for
+   * inbound WhatsApp messages. Use this when a reply will take more than a couple of
+   * seconds (LLM agent, tool call, lookup) to improve the recipient's experience.
+   *
+   * @example
+   * ```ts
+   * const response = await client.messages.showTyping(
+   *   'messageId',
+   * );
+   * ```
+   */
+  showTyping(
+    messageID: string,
+    params: MessageShowTypingParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<MessageShowTypingResponse> {
+    const { 'Zavu-Sender': zavuSender } = params ?? {};
+    return this._client.post(path`/v1/messages/${messageID}/typing`, {
+      ...options,
+      headers: buildHeaders([
+        { ...(zavuSender != null ? { 'Zavu-Sender': zavuSender } : undefined) },
+        options?.headers,
+      ]),
+    });
+  }
 }
 
 export type MessagesCursor = Cursor<Message>;
@@ -386,6 +415,10 @@ export type MessageType =
   | 'reaction'
   | 'template';
 
+export interface MessageShowTypingResponse {
+  success: boolean;
+}
+
 export interface MessageListParams extends CursorParams {
   /**
    * Delivery channel. Use 'auto' for intelligent routing.
@@ -524,6 +557,14 @@ export namespace MessageSendParams {
   }
 }
 
+export interface MessageShowTypingParams {
+  /**
+   * Optional sender profile ID. If omitted, the project's default sender will be
+   * used.
+   */
+  'Zavu-Sender'?: string;
+}
+
 export declare namespace Messages {
   export {
     type Channel as Channel,
@@ -532,9 +573,11 @@ export declare namespace Messages {
     type MessageResponse as MessageResponse,
     type MessageStatus as MessageStatus,
     type MessageType as MessageType,
+    type MessageShowTypingResponse as MessageShowTypingResponse,
     type MessagesCursor as MessagesCursor,
     type MessageListParams as MessageListParams,
     type MessageReactParams as MessageReactParams,
     type MessageSendParams as MessageSendParams,
+    type MessageShowTypingParams as MessageShowTypingParams,
   };
 }

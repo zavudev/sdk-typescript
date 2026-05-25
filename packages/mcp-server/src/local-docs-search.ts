@@ -270,6 +270,55 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'show_typing',
+    endpoint: '/v1/messages/{messageId}/typing',
+    httpMethod: 'post',
+    summary: 'Show typing indicator',
+    description:
+      "Mark an inbound WhatsApp message as read and display a typing indicator to the user while you prepare a response. The indicator is automatically dismissed when you send a reply, or after 25 seconds — whichever comes first. Only valid for inbound WhatsApp messages. Use this when a reply will take more than a couple of seconds (LLM agent, tool call, lookup) to improve the recipient's experience.",
+    stainlessPath: '(resource) messages > (method) show_typing',
+    qualified: 'client.messages.showTyping',
+    params: ['messageId: string;', 'Zavu-Sender?: string;'],
+    response: '{ success: boolean; }',
+    markdown:
+      "## show_typing\n\n`client.messages.showTyping(messageId: string, Zavu-Sender?: string): { success: boolean; }`\n\n**post** `/v1/messages/{messageId}/typing`\n\nMark an inbound WhatsApp message as read and display a typing indicator to the user while you prepare a response. The indicator is automatically dismissed when you send a reply, or after 25 seconds — whichever comes first. Only valid for inbound WhatsApp messages. Use this when a reply will take more than a couple of seconds (LLM agent, tool call, lookup) to improve the recipient's experience.\n\n### Parameters\n\n- `messageId: string`\n\n- `Zavu-Sender?: string`\n\n### Returns\n\n- `{ success: boolean; }`\n\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.messages.showTyping('messageId');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.messages.showTyping',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.messages.showTyping('messageId');\n\nconsole.log(response.success);",
+      },
+      python: {
+        method: 'messages.show_typing',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.messages.show_typing(\n    message_id="messageId",\n)\nprint(response.success)',
+      },
+      go: {
+        method: 'client.Messages.ShowTyping',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Messages.ShowTyping(\n\t\tcontext.TODO(),\n\t\t"messageId",\n\t\tzavudev.MessageShowTypingParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Success)\n}\n',
+      },
+      ruby: {
+        method: 'messages.show_typing',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.messages.show_typing("messageId")\n\nputs(response)',
+      },
+      cli: {
+        method: 'messages show_typing',
+        example: "zavudev messages show-typing \\\n  --api-key 'My API Key' \\\n  --message-id messageId",
+      },
+      php: {
+        method: 'messages->showTyping',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->messages->showTyping(\n  'messageId', zavuSender: 'sender_12345'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID/typing \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
     name: 'list',
     endpoint: '/v1/templates',
     httpMethod: 'get',
@@ -1322,6 +1371,57 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/v1/senders/{senderId}/agent/executions/{executionId}',
+    httpMethod: 'get',
+    summary: 'Get a single agent execution',
+    description:
+      'Fetch full details for one execution — including `errorMessage`, `errorCode`, and `responseText`. Use this to debug failures surfaced by the list endpoint.',
+    stainlessPath: '(resource) senders.agent.executions > (method) retrieve',
+    qualified: 'client.senders.agent.executions.retrieve',
+    params: ['senderId: string;', 'executionId: string;'],
+    response:
+      '{ execution: { id: string; agentId: string; cost: number; createdAt: string; inputTokens: number; latencyMs: number; outputTokens: number; status: agent_execution_status; errorMessage?: string; inboundMessageId?: string; responseMessageId?: string; responseText?: string; }; }',
+    markdown:
+      "## retrieve\n\n`client.senders.agent.executions.retrieve(senderId: string, executionId: string): { execution: agent_execution; }`\n\n**get** `/v1/senders/{senderId}/agent/executions/{executionId}`\n\nFetch full details for one execution — including `errorMessage`, `errorCode`, and `responseText`. Use this to debug failures surfaced by the list endpoint.\n\n### Parameters\n\n- `senderId: string`\n\n- `executionId: string`\n\n### Returns\n\n- `{ execution: { id: string; agentId: string; cost: number; createdAt: string; inputTokens: number; latencyMs: number; outputTokens: number; status: agent_execution_status; errorMessage?: string; inboundMessageId?: string; responseMessageId?: string; responseText?: string; }; }`\n\n  - `execution: { id: string; agentId: string; cost: number; createdAt: string; inputTokens: number; latencyMs: number; outputTokens: number; status: 'success' | 'error' | 'filtered' | 'rate_limited' | 'balance_insufficient'; errorMessage?: string; inboundMessageId?: string; responseMessageId?: string; responseText?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst execution = await client.senders.agent.executions.retrieve('executionId', { senderId: 'senderId' });\n\nconsole.log(execution);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.senders.agent.executions.retrieve',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst execution = await client.senders.agent.executions.retrieve('executionId', {\n  senderId: 'senderId',\n});\n\nconsole.log(execution.execution);",
+      },
+      python: {
+        method: 'senders.agent.executions.retrieve',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nexecution = client.senders.agent.executions.retrieve(\n    execution_id="executionId",\n    sender_id="senderId",\n)\nprint(execution.execution)',
+      },
+      go: {
+        method: 'client.Senders.Agent.Executions.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\texecution, err := client.Senders.Agent.Executions.Get(\n\t\tcontext.TODO(),\n\t\t"executionId",\n\t\tzavudev.SenderAgentExecutionGetParams{\n\t\t\tSenderID: "senderId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", execution.Execution)\n}\n',
+      },
+      ruby: {
+        method: 'senders.agent.executions.retrieve',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nexecution = zavudev.senders.agent.executions.retrieve("executionId", sender_id: "senderId")\n\nputs(execution)',
+      },
+      cli: {
+        method: 'executions retrieve',
+        example:
+          "zavudev senders:agent:executions retrieve \\\n  --api-key 'My API Key' \\\n  --sender-id senderId \\\n  --execution-id executionId",
+      },
+      php: {
+        method: 'senders->agent->executions->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$execution = $client->senders->agent->executions->retrieve(\n  'executionId', senderID: 'senderId'\n);\n\nvar_dump($execution);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions/$EXECUTION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -2851,6 +2951,54 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge-suggestion \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/v1/contacts/{contactId}',
+    httpMethod: 'delete',
+    summary: 'Delete contact',
+    description:
+      'Permanently delete a contact and its communication channels. Implements right-to-erasure obligations under GDPR Art. 17, Ley 19.628 (Chile) Art. 12, CCPA § 1798.105, and LGPD Art. 18.VI. The contact, its channels, and any associated agent flow sessions and conversation threads are removed. Past message records and broadcast delivery logs are retained for billing/audit but no longer reference the deleted contact.',
+    stainlessPath: '(resource) contacts > (method) delete',
+    qualified: 'client.contacts.delete',
+    params: ['contactId: string;'],
+    markdown:
+      "## delete\n\n`client.contacts.delete(contactId: string): void`\n\n**delete** `/v1/contacts/{contactId}`\n\nPermanently delete a contact and its communication channels. Implements right-to-erasure obligations under GDPR Art. 17, Ley 19.628 (Chile) Art. 12, CCPA § 1798.105, and LGPD Art. 18.VI. The contact, its channels, and any associated agent flow sessions and conversation threads are removed. Past message records and broadcast delivery logs are retained for billing/audit but no longer reference the deleted contact.\n\n### Parameters\n\n- `contactId: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.contacts.delete('contactId')\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.contacts.delete',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.contacts.delete('contactId');",
+      },
+      python: {
+        method: 'contacts.delete',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.delete(\n    "contactId",\n)',
+      },
+      go: {
+        method: 'client.Contacts.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Contacts.Delete(context.TODO(), "contactId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'contacts.delete',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.contacts.delete("contactId")\n\nputs(result)',
+      },
+      cli: {
+        method: 'contacts delete',
+        example: "zavudev contacts delete \\\n  --api-key 'My API Key' \\\n  --contact-id contactId",
+      },
+      php: {
+        method: 'contacts->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->delete('contactId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
@@ -6715,6 +6863,568 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers/$ASSIGNMENT_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/v1/me',
+    httpMethod: 'get',
+    summary: 'Get current API key context',
+    description:
+      'Returns the project, team, and API key metadata bound to the current Bearer token. Used by CLIs and SDKs to confirm which project they will operate on.',
+    stainlessPath: '(resource) me > (method) retrieve',
+    qualified: 'client.me.retrieve',
+    response:
+      '{ apiKey: { id: string; }; isTestMode: boolean; project: { id: string; isSubAccount: boolean; name: string; }; team: { id: string; name: string; }; }',
+    markdown:
+      "## retrieve\n\n`client.me.retrieve(): { apiKey: object; isTestMode: boolean; project: object; team: object; }`\n\n**get** `/v1/me`\n\nReturns the project, team, and API key metadata bound to the current Bearer token. Used by CLIs and SDKs to confirm which project they will operate on.\n\n### Returns\n\n- `{ apiKey: { id: string; }; isTestMode: boolean; project: { id: string; isSubAccount: boolean; name: string; }; team: { id: string; name: string; }; }`\n\n  - `apiKey: { id: string; }`\n  - `isTestMode: boolean`\n  - `project: { id: string; isSubAccount: boolean; name: string; }`\n  - `team: { id: string; name: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst me = await client.me.retrieve();\n\nconsole.log(me);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.me.retrieve',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst me = await client.me.retrieve();\n\nconsole.log(me.apiKey);",
+      },
+      python: {
+        method: 'me.retrieve',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nme = client.me.retrieve()\nprint(me.api_key)',
+      },
+      go: {
+        method: 'client.Me.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tme, err := client.Me.Get(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", me.APIKey)\n}\n',
+      },
+      ruby: {
+        method: 'me.retrieve',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nme = zavudev.me.retrieve\n\nputs(me)',
+      },
+      cli: {
+        method: 'me retrieve',
+        example: "zavudev me retrieve \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'me->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$me = $client->me->retrieve();\n\nvar_dump($me);",
+      },
+      http: {
+        example: 'curl https://api.zavu.dev/v1/me \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'create',
+    endpoint: '/v1/functions',
+    httpMethod: 'post',
+    summary: 'Create function',
+    description:
+      'Create a new Zavu Function. The function starts in `draft` status. A dedicated API key is auto-provisioned and injected as the `ZAVU_API_KEY` secret so the function can call back into the Zavu API without manual setup.\n\nProvide `sourceCode` to seed the draft. Call `POST /v1/functions/{functionId}/deploy` afterwards to publish.',
+    stainlessPath: '(resource) functions > (method) create',
+    qualified: 'client.functions.create',
+    params: [
+      'name: string;',
+      'slug: string;',
+      'dependencies?: object;',
+      'description?: string;',
+      'httpEnabled?: boolean;',
+      'memoryMb?: 128 | 256 | 512 | 1024;',
+      "runtime?: 'nodejs24';",
+      'sourceCode?: string;',
+      'timeoutSec?: number;',
+    ],
+    response:
+      "{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }",
+    markdown:
+      "## create\n\n`client.functions.create(name: string, slug: string, dependencies?: object, description?: string, httpEnabled?: boolean, memoryMb?: 128 | 256 | 512 | 1024, runtime?: 'nodejs24', sourceCode?: string, timeoutSec?: number): { function: object; }`\n\n**post** `/v1/functions`\n\nCreate a new Zavu Function. The function starts in `draft` status. A dedicated API key is auto-provisioned and injected as the `ZAVU_API_KEY` secret so the function can call back into the Zavu API without manual setup.\n\nProvide `sourceCode` to seed the draft. Call `POST /v1/functions/{functionId}/deploy` afterwards to publish.\n\n### Parameters\n\n- `name: string`\n\n- `slug: string`\n  URL-safe identifier (lowercase, digits, hyphens). Must be unique per project.\n\n- `dependencies?: object`\n  npm dependencies. Keys are package names, values are semver ranges.\n\n- `description?: string`\n\n- `httpEnabled?: boolean`\n  Whether to expose a public HTTPS URL for this function.\n\n- `memoryMb?: 128 | 256 | 512 | 1024`\n\n- `runtime?: 'nodejs24'`\n  Runtime the function is deployed on.\n\n- `sourceCode?: string`\n  TypeScript source code for the function entry point (max ~900KB).\n\n- `timeoutSec?: number`\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.create({ name: 'Order Bot', slug: 'order-bot' });\n\nconsole.log(_function);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.create',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _function = await client.functions.create({\n  name: 'Order Bot',\n  slug: 'order-bot',\n  dependencies: { openai: '^4.20.0' },\n  description: 'Replies to order status questions on WhatsApp.',\n  sourceCode:\n    \"import { defineFunction } from '@zavu/functions';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log('received', event.type);\\n});\\n\",\n});\n\nconsole.log(_function['function']);",
+      },
+      python: {
+        method: 'functions.create',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.create(\n    name="Order Bot",\n    slug="order-bot",\n    dependencies={\n        "openai": "^4.20.0"\n    },\n    description="Replies to order status questions on WhatsApp.",\n    source_code="import { defineFunction } from \'@zavu/functions\';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log(\'received\', event.type);\\n});\\n",\n)\nprint(function.function)',
+      },
+      go: {
+        method: 'client.Functions.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tfunction, err := client.Functions.New(context.TODO(), zavudev.FunctionNewParams{\n\t\tName: "Order Bot",\n\t\tSlug: "order-bot",\n\t\tDependencies: map[string]string{\n\t\t\t"openai": "^4.20.0",\n\t\t},\n\t\tDescription: zavudev.String("Replies to order status questions on WhatsApp."),\n\t\tSourceCode:  zavudev.String("import { defineFunction } from \'@zavu/functions\';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log(\'received\', event.type);\\n});\\n"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", function.Function)\n}\n',
+      },
+      ruby: {
+        method: 'functions.create',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nfunction = zavudev.functions.create(name: "Order Bot", slug: "order-bot")\n\nputs(function)',
+      },
+      cli: {
+        method: 'functions create',
+        example:
+          "zavudev functions create \\\n  --api-key 'My API Key' \\\n  --name 'Order Bot' \\\n  --slug order-bot",
+      },
+      php: {
+        method: 'functions->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->create(\n  name: 'Order Bot',\n  slug: 'order-bot',\n  dependencies: ['openai' => '^4.20.0'],\n  description: 'Replies to order status questions on WhatsApp.',\n  httpEnabled: true,\n  memoryMB: 128,\n  runtime: 'nodejs24',\n  sourceCode: \"import { defineFunction } from '@zavu/functions';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log('received', event.type);\\n});\\n\",\n  timeoutSec: 1,\n);\n\nvar_dump($function);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d "{\n          \\"name\\": \\"Order Bot\\",\n          \\"slug\\": \\"order-bot\\",\n          \\"dependencies\\": {\n            \\"openai\\": \\"^4.20.0\\"\n          },\n          \\"description\\": \\"Replies to order status questions on WhatsApp.\\",\n          \\"sourceCode\\": \\"import { defineFunction } from \'@zavu/functions\';\\\\n\\\\nexport default defineFunction(async (event, ctx) => {\\\\n  ctx.log(\'received\', event.type);\\\\n});\\\\n\\"\n        }"',
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/v1/functions/{functionId}',
+    httpMethod: 'get',
+    summary: 'Get function',
+    description: 'Get function',
+    stainlessPath: '(resource) functions > (method) retrieve',
+    qualified: 'client.functions.retrieve',
+    params: ['functionId: string;'],
+    response:
+      "{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }",
+    markdown:
+      "## retrieve\n\n`client.functions.retrieve(functionId: string): { function: object; }`\n\n**get** `/v1/functions/{functionId}`\n\nGet function\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.retrieve('functionId');\n\nconsole.log(_function);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.retrieve',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _function = await client.functions.retrieve('functionId');\n\nconsole.log(_function['function']);",
+      },
+      python: {
+        method: 'functions.retrieve',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.retrieve(\n    "functionId",\n)\nprint(function.function)',
+      },
+      go: {
+        method: 'client.Functions.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tfunction, err := client.Functions.Get(context.TODO(), "functionId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", function.Function)\n}\n',
+      },
+      ruby: {
+        method: 'functions.retrieve',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nfunction = zavudev.functions.retrieve("functionId")\n\nputs(function)',
+      },
+      cli: {
+        method: 'functions retrieve',
+        example: "zavudev functions retrieve \\\n  --api-key 'My API Key' \\\n  --function-id functionId",
+      },
+      php: {
+        method: 'functions->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->retrieve('functionId');\n\nvar_dump($function);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/v1/functions/{functionId}',
+    httpMethod: 'patch',
+    summary: 'Update function draft',
+    description:
+      'Update the draft source code and/or dependency map without triggering a build. Visible in the dashboard immediately, but the live (deployed) function does not change until `POST /v1/functions/{functionId}/deploy` runs.',
+    stainlessPath: '(resource) functions > (method) update',
+    qualified: 'client.functions.update',
+    params: ['functionId: string;', 'dependencies?: object;', 'sourceCode?: string;'],
+    response:
+      "{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }",
+    markdown:
+      "## update\n\n`client.functions.update(functionId: string, dependencies?: object, sourceCode?: string): { function: object; }`\n\n**patch** `/v1/functions/{functionId}`\n\nUpdate the draft source code and/or dependency map without triggering a build. Visible in the dashboard immediately, but the live (deployed) function does not change until `POST /v1/functions/{functionId}/deploy` runs.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `sourceCode?: string`\n  New source code to publish (replaces the draft).\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.update('functionId');\n\nconsole.log(_function);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.update',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _function = await client.functions.update('functionId');\n\nconsole.log(_function['function']);",
+      },
+      python: {
+        method: 'functions.update',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.update(\n    function_id="functionId",\n)\nprint(function.function)',
+      },
+      go: {
+        method: 'client.Functions.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tfunction, err := client.Functions.Update(\n\t\tcontext.TODO(),\n\t\t"functionId",\n\t\tzavudev.FunctionUpdateParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", function.Function)\n}\n',
+      },
+      ruby: {
+        method: 'functions.update',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nfunction = zavudev.functions.update("functionId")\n\nputs(function)',
+      },
+      cli: {
+        method: 'functions update',
+        example: "zavudev functions update \\\n  --api-key 'My API Key' \\\n  --function-id functionId",
+      },
+      php: {
+        method: 'functions->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->update(\n  'functionId', dependencies: ['foo' => 'string'], sourceCode: 'sourceCode'\n);\n\nvar_dump($function);",
+      },
+      http: {
+        example:
+          "curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/v1/functions/{functionId}',
+    httpMethod: 'delete',
+    summary: 'Delete function',
+    description:
+      'Permanently delete a function and cascade: triggers, secrets, deployment history, managed agents+tools, and revoke the auto-provisioned API key. The AWS Lambda + log group are torn down asynchronously.',
+    stainlessPath: '(resource) functions > (method) delete',
+    qualified: 'client.functions.delete',
+    params: ['functionId: string;'],
+    response: '{ deleted: boolean; name?: string; slug?: string; }',
+    markdown:
+      "## delete\n\n`client.functions.delete(functionId: string): { deleted: boolean; name?: string; slug?: string; }`\n\n**delete** `/v1/functions/{functionId}`\n\nPermanently delete a function and cascade: triggers, secrets, deployment history, managed agents+tools, and revoke the auto-provisioned API key. The AWS Lambda + log group are torn down asynchronously.\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ deleted: boolean; name?: string; slug?: string; }`\n\n  - `deleted: boolean`\n  - `name?: string`\n  - `slug?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.delete('functionId');\n\nconsole.log(_function);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.delete',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst _function = await client.functions.delete('functionId');\n\nconsole.log(_function.deleted);",
+      },
+      python: {
+        method: 'functions.delete',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.delete(\n    "functionId",\n)\nprint(function.deleted)',
+      },
+      go: {
+        method: 'client.Functions.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tfunction, err := client.Functions.Delete(context.TODO(), "functionId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", function.Deleted)\n}\n',
+      },
+      ruby: {
+        method: 'functions.delete',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nfunction = zavudev.functions.delete("functionId")\n\nputs(function)',
+      },
+      cli: {
+        method: 'functions delete',
+        example: "zavudev functions delete \\\n  --api-key 'My API Key' \\\n  --function-id functionId",
+      },
+      php: {
+        method: 'functions->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->delete('functionId');\n\nvar_dump($function);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'deploy',
+    endpoint: '/v1/functions/{functionId}/deploy',
+    httpMethod: 'post',
+    summary: 'Deploy function',
+    description:
+      'Publish the function. If `sourceCode` or `dependencies` are provided in the body, they replace the current draft before deployment. Returns immediately with a deployment ID — poll `GET /v1/functions/deployments/{deploymentId}` until status is `active` or `failed`.',
+    stainlessPath: '(resource) functions > (method) deploy',
+    qualified: 'client.functions.deploy',
+    params: ['functionId: string;', 'dependencies?: object;', 'sourceCode?: string;'],
+    response:
+      "{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }",
+    markdown:
+      "## deploy\n\n`client.functions.deploy(functionId: string, dependencies?: object, sourceCode?: string): { deployment: object; }`\n\n**post** `/v1/functions/{functionId}/deploy`\n\nPublish the function. If `sourceCode` or `dependencies` are provided in the body, they replace the current draft before deployment. Returns immediately with a deployment ID — poll `GET /v1/functions/deployments/{deploymentId}` until status is `active` or `failed`.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `sourceCode?: string`\n  New source code to publish (replaces the draft).\n\n### Returns\n\n- `{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }`\n\n  - `deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.deploy('functionId');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.deploy',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.functions.deploy('functionId');\n\nconsole.log(response.deployment);",
+      },
+      python: {
+        method: 'functions.deploy',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.deploy(\n    function_id="functionId",\n)\nprint(response.deployment)',
+      },
+      go: {
+        method: 'client.Functions.Deploy',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Functions.Deploy(\n\t\tcontext.TODO(),\n\t\t"functionId",\n\t\tzavudev.FunctionDeployParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Deployment)\n}\n',
+      },
+      ruby: {
+        method: 'functions.deploy',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.functions.deploy("functionId")\n\nputs(response)',
+      },
+      cli: {
+        method: 'functions deploy',
+        example: "zavudev functions deploy \\\n  --api-key 'My API Key' \\\n  --function-id functionId",
+      },
+      php: {
+        method: 'functions->deploy',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->deploy(\n  'functionId', dependencies: ['foo' => 'string'], sourceCode: 'sourceCode'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/deploy \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'get_deployment',
+    endpoint: '/v1/functions/deployments/{deploymentId}',
+    httpMethod: 'get',
+    summary: 'Get deployment',
+    description: 'Fetch a deployment to poll its status during a deploy.',
+    stainlessPath: '(resource) functions > (method) get_deployment',
+    qualified: 'client.functions.getDeployment',
+    params: ['deploymentId: string;'],
+    response:
+      "{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }",
+    markdown:
+      "## get_deployment\n\n`client.functions.getDeployment(deploymentId: string): { deployment: object; }`\n\n**get** `/v1/functions/deployments/{deploymentId}`\n\nFetch a deployment to poll its status during a deploy.\n\n### Parameters\n\n- `deploymentId: string`\n\n### Returns\n\n- `{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }`\n\n  - `deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.getDeployment('deploymentId');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.getDeployment',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.functions.getDeployment('deploymentId');\n\nconsole.log(response.deployment);",
+      },
+      python: {
+        method: 'functions.get_deployment',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.get_deployment(\n    "deploymentId",\n)\nprint(response.deployment)',
+      },
+      go: {
+        method: 'client.Functions.GetDeployment',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Functions.GetDeployment(context.TODO(), "deploymentId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Deployment)\n}\n',
+      },
+      ruby: {
+        method: 'functions.get_deployment',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.functions.get_deployment("deploymentId")\n\nputs(response)',
+      },
+      cli: {
+        method: 'functions get_deployment',
+        example:
+          "zavudev functions get-deployment \\\n  --api-key 'My API Key' \\\n  --deployment-id deploymentId",
+      },
+      php: {
+        method: 'functions->getDeployment',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->getDeployment('deploymentId');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/deployments/$DEPLOYMENT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'tail_logs',
+    endpoint: '/v1/functions/{functionId}/logs',
+    httpMethod: 'get',
+    summary: 'Tail function logs',
+    description:
+      'Fetch invocation logs for a function. Logs are paginated via `nextToken`. Pass `startTime` / `endTime` (Unix epoch milliseconds) to bound the window, or `filterPattern` to filter messages.',
+    stainlessPath: '(resource) functions > (method) tail_logs',
+    qualified: 'client.functions.tailLogs',
+    params: [
+      'functionId: string;',
+      'endTime?: number;',
+      'filterPattern?: string;',
+      'limit?: number;',
+      'nextToken?: string;',
+      'startTime?: number;',
+    ],
+    response: '{ events: { message: string; timestamp: string; }[]; nextToken?: string; }',
+    markdown:
+      "## tail_logs\n\n`client.functions.tailLogs(functionId: string, endTime?: number, filterPattern?: string, limit?: number, nextToken?: string, startTime?: number): { events: object[]; nextToken?: string; }`\n\n**get** `/v1/functions/{functionId}/logs`\n\nFetch invocation logs for a function. Logs are paginated via `nextToken`. Pass `startTime` / `endTime` (Unix epoch milliseconds) to bound the window, or `filterPattern` to filter messages.\n\n### Parameters\n\n- `functionId: string`\n\n- `endTime?: number`\n  End of the log window in Unix epoch milliseconds.\n\n- `filterPattern?: string`\n\n- `limit?: number`\n\n- `nextToken?: string`\n\n- `startTime?: number`\n  Start of the log window in Unix epoch milliseconds.\n\n### Returns\n\n- `{ events: { message: string; timestamp: string; }[]; nextToken?: string; }`\n\n  - `events: { message: string; timestamp: string; }[]`\n  - `nextToken?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.tailLogs('functionId');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.tailLogs',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.functions.tailLogs('functionId');\n\nconsole.log(response.events);",
+      },
+      python: {
+        method: 'functions.tail_logs',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.tail_logs(\n    function_id="functionId",\n)\nprint(response.events)',
+      },
+      go: {
+        method: 'client.Functions.TailLogs',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Functions.TailLogs(\n\t\tcontext.TODO(),\n\t\t"functionId",\n\t\tzavudev.FunctionTailLogsParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Events)\n}\n',
+      },
+      ruby: {
+        method: 'functions.tail_logs',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.functions.tail_logs("functionId")\n\nputs(response)',
+      },
+      cli: {
+        method: 'functions tail_logs',
+        example: "zavudev functions tail-logs \\\n  --api-key 'My API Key' \\\n  --function-id functionId",
+      },
+      php: {
+        method: 'functions->tailLogs',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->tailLogs(\n  'functionId',\n  endTime: 0,\n  filterPattern: 'filterPattern',\n  limit: 1,\n  nextToken: 'nextToken',\n  startTime: 0,\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/logs \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/v1/functions/{functionId}/secrets',
+    httpMethod: 'get',
+    summary: 'List function secrets',
+    description:
+      'Lists every secret key set on the function. Plaintext is NEVER returned — only the last 4 characters of each value, for visual confirmation.',
+    stainlessPath: '(resource) functions.secrets > (method) list',
+    qualified: 'client.functions.secrets.list',
+    params: ['functionId: string;'],
+    response:
+      '{ secrets: { id: string; key: string; valueLast4: string; createdAt?: number; syncedToAws?: boolean; updatedAt?: number; }[]; }',
+    markdown:
+      "## list\n\n`client.functions.secrets.list(functionId: string): { secrets: object[]; }`\n\n**get** `/v1/functions/{functionId}/secrets`\n\nLists every secret key set on the function. Plaintext is NEVER returned — only the last 4 characters of each value, for visual confirmation.\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ secrets: { id: string; key: string; valueLast4: string; createdAt?: number; syncedToAws?: boolean; updatedAt?: number; }[]; }`\n\n  - `secrets: { id: string; key: string; valueLast4: string; createdAt?: number; syncedToAws?: boolean; updatedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst secrets = await client.functions.secrets.list('functionId');\n\nconsole.log(secrets);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.secrets.list',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst secrets = await client.functions.secrets.list('functionId');\n\nconsole.log(secrets.secrets);",
+      },
+      python: {
+        method: 'functions.secrets.list',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsecrets = client.functions.secrets.list(\n    "functionId",\n)\nprint(secrets.secrets)',
+      },
+      go: {
+        method: 'client.Functions.Secrets.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tsecrets, err := client.Functions.Secrets.List(context.TODO(), "functionId")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", secrets.Secrets)\n}\n',
+      },
+      ruby: {
+        method: 'functions.secrets.list',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nsecrets = zavudev.functions.secrets.list("functionId")\n\nputs(secrets)',
+      },
+      cli: {
+        method: 'secrets list',
+        example: "zavudev functions:secrets list \\\n  --api-key 'My API Key' \\\n  --function-id functionId",
+      },
+      php: {
+        method: 'functions->secrets->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$secrets = $client->functions->secrets->list('functionId');\n\nvar_dump($secrets);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/secrets \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'set',
+    endpoint: '/v1/functions/{functionId}/secrets/{key}',
+    httpMethod: 'put',
+    summary: 'Set function secret',
+    description:
+      'Create or update a secret on a function. Marks the function out-of-sync; the next `POST /deploy` re-publishes the Lambda with the new env. Keys must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style) and cannot start with reserved prefixes (AWS_, LAMBDA_, etc).',
+    stainlessPath: '(resource) functions.secrets > (method) set',
+    qualified: 'client.functions.secrets.set',
+    params: ['functionId: string;', 'key: string;', 'value: string;'],
+    response: 'object',
+    markdown:
+      "## set\n\n`client.functions.secrets.set(functionId: string, key: string, value: string): object`\n\n**put** `/v1/functions/{functionId}/secrets/{key}`\n\nCreate or update a secret on a function. Marks the function out-of-sync; the next `POST /deploy` re-publishes the Lambda with the new env. Keys must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style) and cannot start with reserved prefixes (AWS_, LAMBDA_, etc).\n\n### Parameters\n\n- `functionId: string`\n\n- `key: string`\n\n- `value: string`\n\n### Returns\n\n- `object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.secrets.set('key', { functionId: 'functionId', value: 'value' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.secrets.set',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.functions.secrets.set('key', {\n  functionId: 'functionId',\n  value: 'value',\n});\n\nconsole.log(response);",
+      },
+      python: {
+        method: 'functions.secrets.set',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.secrets.set(\n    key="key",\n    function_id="functionId",\n    value="value",\n)\nprint(response)',
+      },
+      go: {
+        method: 'client.Functions.Secrets.Set',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Functions.Secrets.Set(\n\t\tcontext.TODO(),\n\t\t"key",\n\t\tzavudev.FunctionSecretSetParams{\n\t\t\tFunctionID: "functionId",\n\t\t\tValue:      "value",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response)\n}\n',
+      },
+      ruby: {
+        method: 'functions.secrets.set',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresponse = zavudev.functions.secrets.set("key", function_id: "functionId", value: "value")\n\nputs(response)',
+      },
+      cli: {
+        method: 'secrets set',
+        example:
+          "zavudev functions:secrets set \\\n  --api-key 'My API Key' \\\n  --function-id functionId \\\n  --key key \\\n  --value value",
+      },
+      php: {
+        method: 'functions->secrets->set',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->secrets->set(\n  'key', functionID: 'functionId', value: 'value'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/secrets/$KEY \\\n    -X PUT \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "value": "value"\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'unset',
+    endpoint: '/v1/functions/{functionId}/secrets/{key}',
+    httpMethod: 'delete',
+    summary: 'Unset function secret',
+    description:
+      "Remove a secret from a function. Doesn't take effect on the running Lambda until the next deploy.",
+    stainlessPath: '(resource) functions.secrets > (method) unset',
+    qualified: 'client.functions.secrets.unset',
+    params: ['functionId: string;', 'key: string;'],
+    markdown:
+      "## unset\n\n`client.functions.secrets.unset(functionId: string, key: string): void`\n\n**delete** `/v1/functions/{functionId}/secrets/{key}`\n\nRemove a secret from a function. Doesn't take effect on the running Lambda until the next deploy.\n\n### Parameters\n\n- `functionId: string`\n\n- `key: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.functions.secrets.unset('key', { functionId: 'functionId' })\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.functions.secrets.unset',
+        example:
+          "import Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev({\n  apiKey: process.env['ZAVUDEV_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.functions.secrets.unset('key', { functionId: 'functionId' });",
+      },
+      python: {
+        method: 'functions.secrets.unset',
+        example:
+          'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.functions.secrets.unset(\n    key="key",\n    function_id="functionId",\n)',
+      },
+      go: {
+        method: 'client.Functions.Secrets.Unset',
+        example:
+          'package main\n\nimport (\n\t"context"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\terr := client.Functions.Secrets.Unset(\n\t\tcontext.TODO(),\n\t\t"key",\n\t\tzavudev.FunctionSecretUnsetParams{\n\t\t\tFunctionID: "functionId",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n}\n',
+      },
+      ruby: {
+        method: 'functions.secrets.unset',
+        example:
+          'require "zavudev"\n\nzavudev = Zavudev::Client.new(api_key: "My API Key")\n\nresult = zavudev.functions.secrets.unset("key", function_id: "functionId")\n\nputs(result)',
+      },
+      cli: {
+        method: 'secrets unset',
+        example:
+          "zavudev functions:secrets unset \\\n  --api-key 'My API Key' \\\n  --function-id functionId \\\n  --key key",
+      },
+      php: {
+        method: 'functions->secrets->unset',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->functions->secrets->unset('key', functionID: 'functionId');\n\nvar_dump($result);",
+      },
+      http: {
+        example:
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/secrets/$KEY \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
     },
   },
