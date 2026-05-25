@@ -140,4 +140,28 @@ describe('resource messages', () => {
       'Zavu-Sender': 'sender_12345',
     });
   });
+
+  // Mock server tests are disabled
+  test.skip('showTyping', async () => {
+    const responsePromise = client.messages.showTyping('messageId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('showTyping: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.messages.showTyping(
+        'messageId',
+        { 'Zavu-Sender': 'sender_12345' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
 });

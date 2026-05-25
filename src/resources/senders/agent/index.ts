@@ -12,7 +12,12 @@ export {
   type AgentUpdateParams,
   type AgentExecutionsCursor,
 } from './agent';
-export { Executions, type ExecutionListParams } from './executions';
+export {
+  Executions,
+  type ExecutionRetrieveResponse,
+  type ExecutionRetrieveParams,
+  type ExecutionListParams,
+} from './executions';
 export {
   Flows,
   type AgentFlow,

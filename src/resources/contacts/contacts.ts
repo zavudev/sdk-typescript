@@ -85,6 +85,26 @@ export class Contacts extends APIResource {
   }
 
   /**
+   * Permanently delete a contact and its communication channels. Implements
+   * right-to-erasure obligations under GDPR Art. 17, Ley 19.628 (Chile) Art. 12,
+   * CCPA § 1798.105, and LGPD Art. 18.VI. The contact, its channels, and any
+   * associated agent flow sessions and conversation threads are removed. Past
+   * message records and broadcast delivery logs are retained for billing/audit but
+   * no longer reference the deleted contact.
+   *
+   * @example
+   * ```ts
+   * await client.contacts.delete('contactId');
+   * ```
+   */
+  delete(contactID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/v1/contacts/${contactID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
+  }
+
+  /**
    * Dismiss the merge suggestion for a contact.
    *
    * @example

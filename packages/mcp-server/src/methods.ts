@@ -35,6 +35,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/messages',
   },
   {
+    clientCallName: 'client.messages.showTyping',
+    fullyQualifiedName: 'messages.showTyping',
+    httpMethod: 'post',
+    httpPath: '/v1/messages/{messageId}/typing',
+  },
+  {
     clientCallName: 'client.templates.create',
     fullyQualifiedName: 'templates.create',
     httpMethod: 'post',
@@ -147,6 +153,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'senders.agent.stats',
     httpMethod: 'get',
     httpPath: '/v1/senders/{senderId}/agent/stats',
+  },
+  {
+    clientCallName: 'client.senders.agent.executions.retrieve',
+    fullyQualifiedName: 'senders.agent.executions.retrieve',
+    httpMethod: 'get',
+    httpPath: '/v1/senders/{senderId}/agent/executions/{executionId}',
   },
   {
     clientCallName: 'client.senders.agent.executions.list',
@@ -315,6 +327,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'contacts.list',
     httpMethod: 'get',
     httpPath: '/v1/contacts',
+  },
+  {
+    clientCallName: 'client.contacts.delete',
+    fullyQualifiedName: 'contacts.delete',
+    httpMethod: 'delete',
+    httpPath: '/v1/contacts/{contactId}',
   },
   {
     clientCallName: 'client.contacts.dismissMergeSuggestion',
@@ -783,6 +801,72 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'number10dlc.campaigns.phoneNumbers.unassign',
     httpMethod: 'delete',
     httpPath: '/v1/10dlc/campaigns/{campaignId}/phone-numbers/{assignmentId}',
+  },
+  {
+    clientCallName: 'client.me.retrieve',
+    fullyQualifiedName: 'me.retrieve',
+    httpMethod: 'get',
+    httpPath: '/v1/me',
+  },
+  {
+    clientCallName: 'client.functions.create',
+    fullyQualifiedName: 'functions.create',
+    httpMethod: 'post',
+    httpPath: '/v1/functions',
+  },
+  {
+    clientCallName: 'client.functions.retrieve',
+    fullyQualifiedName: 'functions.retrieve',
+    httpMethod: 'get',
+    httpPath: '/v1/functions/{functionId}',
+  },
+  {
+    clientCallName: 'client.functions.update',
+    fullyQualifiedName: 'functions.update',
+    httpMethod: 'patch',
+    httpPath: '/v1/functions/{functionId}',
+  },
+  {
+    clientCallName: 'client.functions.delete',
+    fullyQualifiedName: 'functions.delete',
+    httpMethod: 'delete',
+    httpPath: '/v1/functions/{functionId}',
+  },
+  {
+    clientCallName: 'client.functions.deploy',
+    fullyQualifiedName: 'functions.deploy',
+    httpMethod: 'post',
+    httpPath: '/v1/functions/{functionId}/deploy',
+  },
+  {
+    clientCallName: 'client.functions.getDeployment',
+    fullyQualifiedName: 'functions.getDeployment',
+    httpMethod: 'get',
+    httpPath: '/v1/functions/deployments/{deploymentId}',
+  },
+  {
+    clientCallName: 'client.functions.tailLogs',
+    fullyQualifiedName: 'functions.tailLogs',
+    httpMethod: 'get',
+    httpPath: '/v1/functions/{functionId}/logs',
+  },
+  {
+    clientCallName: 'client.functions.secrets.list',
+    fullyQualifiedName: 'functions.secrets.list',
+    httpMethod: 'get',
+    httpPath: '/v1/functions/{functionId}/secrets',
+  },
+  {
+    clientCallName: 'client.functions.secrets.set',
+    fullyQualifiedName: 'functions.secrets.set',
+    httpMethod: 'put',
+    httpPath: '/v1/functions/{functionId}/secrets/{key}',
+  },
+  {
+    clientCallName: 'client.functions.secrets.unset',
+    fullyQualifiedName: 'functions.secrets.unset',
+    httpMethod: 'delete',
+    httpPath: '/v1/functions/{functionId}/secrets/{key}',
   },
 ];
 

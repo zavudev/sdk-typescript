@@ -57,6 +57,20 @@ export {
   type DataExportsCursor,
 } from './exports';
 export {
+  Functions,
+  type FunctionCreateResponse,
+  type FunctionRetrieveResponse,
+  type FunctionUpdateResponse,
+  type FunctionDeleteResponse,
+  type FunctionDeployResponse,
+  type FunctionGetDeploymentResponse,
+  type FunctionTailLogsResponse,
+  type FunctionCreateParams,
+  type FunctionUpdateParams,
+  type FunctionDeployParams,
+  type FunctionTailLogsParams,
+} from './functions/functions';
+export {
   Introspect,
   type LineType,
   type IntrospectValidatePhoneResponse,
@@ -72,6 +86,7 @@ export {
   type InvitationListParams,
   type InvitationsCursor,
 } from './invitations';
+export { Me, type MeRetrieveResponse } from './me';
 export {
   Messages,
   type Channel,
@@ -80,9 +95,11 @@ export {
   type MessageResponse,
   type MessageStatus,
   type MessageType,
+  type MessageShowTypingResponse,
   type MessageListParams,
   type MessageReactParams,
   type MessageSendParams,
+  type MessageShowTypingParams,
   type MessagesCursor,
 } from './messages';
 export { Number10dlc } from './number-10dlc/number-10dlc';

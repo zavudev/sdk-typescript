@@ -2,7 +2,12 @@
 
 import { APIResource } from '../../../core/resource';
 import * as ExecutionsAPI from './executions';
-import { ExecutionListParams, Executions } from './executions';
+import {
+  ExecutionListParams,
+  ExecutionRetrieveParams,
+  ExecutionRetrieveResponse,
+  Executions,
+} from './executions';
 import * as FlowsAPI from './flows';
 import {
   AgentFlow,
@@ -369,7 +374,12 @@ export declare namespace AgentResource {
     type AgentUpdateParams as AgentUpdateParams,
   };
 
-  export { Executions as Executions, type ExecutionListParams as ExecutionListParams };
+  export {
+    Executions as Executions,
+    type ExecutionRetrieveResponse as ExecutionRetrieveResponse,
+    type ExecutionRetrieveParams as ExecutionRetrieveParams,
+    type ExecutionListParams as ExecutionListParams,
+  };
 
   export {
     Flows as Flows,
