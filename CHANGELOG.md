@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.42.0 (2026-05-25)
+
+Full Changelog: [v0.41.1...v0.42.0](https://github.com/zavudev/sdk-typescript/compare/v0.41.1...v0.42.0)
+
+### Features
+
+* **api:** api update ([3eef044](https://github.com/zavudev/sdk-typescript/commit/3eef04407482bbb916a0b1c12d651f7ae138350a))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([b1379ba](https://github.com/zavudev/sdk-typescript/commit/b1379ba4694649439afe9cedf7d29e98724bd82f))
+
+
+### Chores
+
+* **tests:** remove redundant File import ([951f157](https://github.com/zavudev/sdk-typescript/commit/951f157dfada34226381d96c71cce7c5d955453e))
+
 ## 0.41.1 (2026-05-13)
 
 Full Changelog: [v0.41.0...v0.41.1](https://github.com/zavudev/sdk-typescript/compare/v0.41.0...v0.41.1)
