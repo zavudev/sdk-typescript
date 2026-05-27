@@ -144,8 +144,10 @@ export namespace ContactAddParams {
     templateButtonVariables?: { [key: string]: string };
 
     /**
-     * Per-contact body variables. Keys are positions (1, 2, ...) matching the order
-     * placeholders appear in the template body.
+     * Per-contact body variables. Keys are either positions (`1`, `2`, ...) or the
+     * template's named variables (e.g. `customer_name`), matched to placeholders by
+     * order of first appearance and normalized to positional automatically. Do not mix
+     * positional and named keys.
      */
     templateVariables?: { [key: string]: string };
   }
