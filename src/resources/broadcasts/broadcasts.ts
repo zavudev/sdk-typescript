@@ -402,8 +402,10 @@ export interface BroadcastContent {
   templateId?: string;
 
   /**
-   * Default body variables (can be overridden per contact). Keys are positions (1,
-   * 2, ...).
+   * Default body variables (can be overridden per contact). Keys are either
+   * positions (`1`, `2`, ...) or the template's named variables (e.g.
+   * `customer_name`), matched to placeholders by order of first appearance and
+   * normalized to positional automatically. Do not mix positional and named keys.
    */
   templateVariables?: { [key: string]: string };
 }
