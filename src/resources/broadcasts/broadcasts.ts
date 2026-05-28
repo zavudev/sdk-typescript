@@ -358,6 +358,8 @@ export interface BroadcastContact {
 
   templateButtonVariables?: { [key: string]: string };
 
+  templateHeaderVariables?: { [key: string]: string };
+
   templateVariables?: { [key: string]: string };
 }
 
@@ -397,15 +399,22 @@ export interface BroadcastContent {
   templateButtonVariables?: { [key: string]: string };
 
   /**
+   * Default value for a text-header variable, keyed by `1` (can be overridden per
+   * contact). If omitted, Zavu resolves the header from `templateVariables` by the
+   * header placeholder's name.
+   */
+  templateHeaderVariables?: { [key: string]: string };
+
+  /**
    * Template ID for template messages.
    */
   templateId?: string;
 
   /**
-   * Default body variables (can be overridden per contact). Keys are either
-   * positions (`1`, `2`, ...) or the template's named variables (e.g.
-   * `customer_name`), matched to placeholders by order of first appearance and
-   * normalized to positional automatically. Do not mix positional and named keys.
+   * Default body variables (can be overridden per contact). Key them to match the
+   * template body: by position (`1`, `2`, ...) for positional templates, or by name
+   * (e.g. `customer_name`) for named templates. Zavu detects the template's format
+   * and sends the correct payload to Meta. Do not mix positional and named keys.
    */
   templateVariables?: { [key: string]: string };
 }
