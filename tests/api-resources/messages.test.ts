@@ -125,6 +125,7 @@ describe('resource messages', () => {
           },
         ],
         templateButtonVariables: { '0': 'abc-report-token' },
+        templateHeaderVariables: { '1': 'Jorge y Laura' },
         templateId: 'templateId',
         templateVariables: { '1': 'John', '2': 'ORD-12345' },
       },

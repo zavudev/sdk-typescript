@@ -144,8 +144,16 @@ export namespace ContactAddParams {
     templateButtonVariables?: { [key: string]: string };
 
     /**
-     * Per-contact body variables. Keys are positions (1, 2, ...) matching the order
-     * placeholders appear in the template body.
+     * Per-contact value for a text-header variable, keyed by `1`. If omitted, Zavu
+     * resolves the header from `templateVariables` by the header placeholder's name.
+     */
+    templateHeaderVariables?: { [key: string]: string };
+
+    /**
+     * Per-contact body variables. Key them to match the template body: by position
+     * (`1`, `2`, ...) for positional templates, or by name (e.g. `customer_name`) for
+     * named templates. Zavu detects the template's format and sends the correct
+     * payload to Meta. Do not mix positional and named keys.
      */
     templateVariables?: { [key: string]: string };
   }

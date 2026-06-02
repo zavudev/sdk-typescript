@@ -98,8 +98,11 @@ export interface Template {
   id: string;
 
   /**
-   * Default template body with variables: {{1}}, {{2}}, or named variables like
-   * {{contact.first_name}}. Used when no channel-specific body is set.
+   * Default template body with variables: positional ({{1}}, {{2}}) or named
+   * ({{customer_name}}, {{contact.first_name}}). Templates created in Zavu are
+   * submitted to Meta as positional; templates imported from a WhatsApp Business
+   * Account keep their original format (named or positional). Used when no
+   * channel-specific body is set.
    */
   body: string;
 
