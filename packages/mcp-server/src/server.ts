@@ -28,7 +28,7 @@ export const newMcpServer = async ({
   new McpServer(
     {
       name: 'zavudev_sdk_api',
-      version: '0.44.0',
+      version: '0.45.0',
     },
     {
       instructions: await getInstructions({ stainlessApiKey, customInstructionsPath }),
