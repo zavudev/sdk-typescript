@@ -112,6 +112,11 @@ describe('resource messages', () => {
         mediaUrl: 'https://example.com/image.jpg',
         mimeType: 'image/jpeg',
         reactToMessageId: 'reactToMessageId',
+        replyToFrom: 'replyToFrom',
+        replyToMessageId: 'replyToMessageId',
+        replyToMessageType: 'replyToMessageType',
+        replyToProviderMessageId: 'replyToProviderMessageId',
+        replyToText: 'replyToText',
         sections: [
           {
             rows: [

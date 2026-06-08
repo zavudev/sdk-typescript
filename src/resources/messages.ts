@@ -318,6 +318,36 @@ export interface MessageContent {
   reactToMessageId?: string;
 
   /**
+   * Sender of the quoted message (phone number in E.164 format).
+   */
+  replyToFrom?: string;
+
+  /**
+   * Zavu message ID of the quoted message this message replies to. Present on
+   * inbound messages that quote an earlier message. Omitted when the quoted message
+   * is not found in Zavu (e.g. an old or unknown message) — use
+   * replyToProviderMessageId in that case.
+   */
+  replyToMessageId?: string;
+
+  /**
+   * Type of the quoted message (text, image, video, etc.).
+   */
+  replyToMessageType?: string;
+
+  /**
+   * Provider message ID (WhatsApp WAMID) of the quoted message. Present whenever an
+   * inbound message is a reply, even if the quoted message is not stored in Zavu.
+   */
+  replyToProviderMessageId?: string;
+
+  /**
+   * Truncated snippet of the quoted message's text, for display. Empty when the
+   * quoted message has no text (e.g. media).
+   */
+  replyToText?: string;
+
+  /**
    * Sections for list messages.
    */
   sections?: Array<MessageContent.Section>;
