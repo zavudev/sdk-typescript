@@ -150,6 +150,7 @@ export type Channel =
   | 'telegram'
   | 'email'
   | 'instagram'
+  | 'messenger'
   | 'voice';
 
 export interface Message {
@@ -487,7 +488,7 @@ export interface MessageReactParams {
 export interface MessageSendParams {
   /**
    * Body param: Recipient phone number in E.164 format, email address, or numeric
-   * chat ID (for Telegram/Instagram).
+   * chat ID (for Telegram/Instagram/Messenger).
    */
   to: string;
 
