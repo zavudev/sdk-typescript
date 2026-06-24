@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.46.0 (2026-06-24)
+
+Full Changelog: [v0.45.0...v0.46.0](https://github.com/zavudev/sdk-typescript/compare/v0.45.0...v0.46.0)
+
+### Features
+
+* **api:** api update ([fc5ebbf](https://github.com/zavudev/sdk-typescript/commit/fc5ebbfee00afc1c74b1671ea583a2b0a1d7e07a))
+* **api:** api update ([7150743](https://github.com/zavudev/sdk-typescript/commit/7150743e5da629c1db18667745541350e6071d54))
+
+
+### Bug Fixes
+
+* **client:** send content-type header for requests with an omitted optional body ([1c31fd0](https://github.com/zavudev/sdk-typescript/commit/1c31fd0d467ee24f90866834a08f7a94681bba9e))
+
 ## 0.45.0 (2026-06-07)
 
 Full Changelog: [v0.44.0...v0.45.0](https://github.com/zavudev/sdk-typescript/compare/v0.44.0...v0.45.0)

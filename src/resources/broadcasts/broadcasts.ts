@@ -327,6 +327,7 @@ export type BroadcastChannel =
   | 'telegram'
   | 'email'
   | 'instagram'
+  | 'messenger'
   | 'voice';
 
 export interface BroadcastContact {
