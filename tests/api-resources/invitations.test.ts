@@ -30,6 +30,7 @@ describe('resource invitations', () => {
           clientEmail: 'contact@acme.com',
           clientName: 'Acme Corp',
           clientPhone: '+14155551234',
+          connectionType: 'whatsapp_waba',
           expiresInDays: 1,
           phoneNumberId: 'pn_abc123',
         },
