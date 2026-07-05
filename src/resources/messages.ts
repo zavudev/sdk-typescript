@@ -140,13 +140,17 @@ export class Messages extends APIResource {
 export type MessagesCursor = Cursor<Message>;
 
 /**
- * Delivery channel. Use 'auto' for intelligent routing.
+ * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
+ * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
+ * Alternative feature enabled; the sender must have a connected whatsapp_alt
+ * session.
  */
 export type Channel =
   | 'auto'
   | 'sms'
   | 'sms_oneway'
   | 'whatsapp'
+  | 'whatsapp_alt'
   | 'telegram'
   | 'email'
   | 'instagram'
@@ -157,7 +161,10 @@ export interface Message {
   id: string;
 
   /**
-   * Delivery channel. Use 'auto' for intelligent routing.
+   * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
+   * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
+   * Alternative feature enabled; the sender must have a connected whatsapp_alt
+   * session.
    */
   channel: Channel;
 
@@ -463,7 +470,10 @@ export interface MessageShowTypingResponse {
 
 export interface MessageListParams extends CursorParams {
   /**
-   * Delivery channel. Use 'auto' for intelligent routing.
+   * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
+   * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
+   * Alternative feature enabled; the sender must have a connected whatsapp_alt
+   * session.
    */
   channel?: Channel;
 
