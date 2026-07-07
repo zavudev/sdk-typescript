@@ -47,15 +47,7 @@ export {
   type ContactMergeParams,
   type ContactsCursor,
 } from './contacts/contacts';
-export {
-  Exports,
-  type DataExport,
-  type ExportCreateResponse,
-  type ExportRetrieveResponse,
-  type ExportCreateParams,
-  type ExportListParams,
-  type DataExportsCursor,
-} from './exports';
+export { Exports } from './exports';
 export {
   Functions,
   type FunctionCreateResponse,
@@ -128,7 +120,7 @@ export {
   type PhoneNumberSearchAvailableParams,
   type OwnedPhoneNumbersCursor,
 } from './phone-numbers';
-export { Plan, type PlanRetrieveResponse } from './plan';
+export { Plan } from './plan';
 export {
   RegulatoryDocuments,
   type RegulatoryDocument,
@@ -188,4 +180,4 @@ export {
   type URLSubmitForVerificationParams,
   type VerifiedURLsCursor,
 } from './urls';
-export { Usage, type UsageRetrieveResponse } from './usage';
+export { Usage } from './usage';
