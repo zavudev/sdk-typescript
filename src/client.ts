@@ -30,15 +30,7 @@ import {
   AddressesCursor,
 } from './resources/addresses';
 import { Balance, BalanceRetrieveResponse } from './resources/balance';
-import {
-  DataExport,
-  DataExportsCursor,
-  ExportCreateParams,
-  ExportCreateResponse,
-  ExportListParams,
-  ExportRetrieveResponse,
-  Exports,
-} from './resources/exports';
+import { Exports } from './resources/exports';
 import {
   Introspect,
   IntrospectValidatePhoneParams,
@@ -96,7 +88,7 @@ import {
   RequirementFieldType,
   RequirementType,
 } from './resources/phone-numbers';
-import { Plan, PlanRetrieveResponse } from './resources/plan';
+import { Plan } from './resources/plan';
 import {
   RegulatoryDocument,
   RegulatoryDocumentCreateParams,
@@ -125,7 +117,7 @@ import {
   VerifiedURL,
   VerifiedURLsCursor,
 } from './resources/urls';
-import { Usage, UsageRetrieveResponse } from './resources/usage';
+import { Usage } from './resources/usage';
 import {
   Broadcast,
   BroadcastCancelResponse,
@@ -1146,15 +1138,7 @@ export declare namespace Zavudev {
     type InvitationListParams as InvitationListParams,
   };
 
-  export {
-    Exports as Exports,
-    type DataExport as DataExport,
-    type ExportCreateResponse as ExportCreateResponse,
-    type ExportRetrieveResponse as ExportRetrieveResponse,
-    type DataExportsCursor as DataExportsCursor,
-    type ExportCreateParams as ExportCreateParams,
-    type ExportListParams as ExportListParams,
-  };
+  export { Exports as Exports };
 
   export {
     URLs as URLs,
@@ -1168,9 +1152,9 @@ export declare namespace Zavudev {
 
   export { Balance as Balance, type BalanceRetrieveResponse as BalanceRetrieveResponse };
 
-  export { Plan as Plan, type PlanRetrieveResponse as PlanRetrieveResponse };
+  export { Plan as Plan };
 
-  export { Usage as Usage, type UsageRetrieveResponse as UsageRetrieveResponse };
+  export { Usage as Usage };
 
   export {
     SubAccounts as SubAccounts,

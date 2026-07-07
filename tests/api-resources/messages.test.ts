@@ -38,7 +38,7 @@ describe('resource messages', () => {
     await expect(
       client.messages.list(
         {
-          channel: 'auto',
+          channel: 'sms',
           cursor: 'cursor',
           limit: 100,
           status: 'queued',
