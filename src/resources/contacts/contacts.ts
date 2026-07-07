@@ -223,7 +223,7 @@ export interface ContactChannel {
   /**
    * Channel type.
    */
-  channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'messenger' | 'voice';
+  channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'instagram' | 'messenger' | 'voice';
 
   createdAt: string;
 
@@ -309,7 +309,7 @@ export namespace ContactCreateParams {
     /**
      * Channel type.
      */
-    channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'messenger' | 'voice';
+    channel: 'sms' | 'whatsapp' | 'email' | 'telegram' | 'instagram' | 'messenger' | 'voice';
 
     /**
      * Channel identifier (phone number in E.164 format or email address).

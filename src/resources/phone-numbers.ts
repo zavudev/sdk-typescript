@@ -223,7 +223,7 @@ export interface PhoneNumberPricing {
 
 export type PhoneNumberStatus = 'active' | 'suspended' | 'pending';
 
-export type PhoneNumberType = 'local' | 'mobile' | 'tollFree';
+export type PhoneNumberType = 'local' | 'national' | 'tollFree';
 
 /**
  * A group of requirements for a specific country/phone type combination.

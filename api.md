@@ -350,18 +350,6 @@ Methods:
 
 # Exports
 
-Types:
-
-- <code><a href="./src/resources/exports.ts">DataExport</a></code>
-- <code><a href="./src/resources/exports.ts">ExportCreateResponse</a></code>
-- <code><a href="./src/resources/exports.ts">ExportRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/exports">client.exports.<a href="./src/resources/exports.ts">create</a>({ ...params }) -> ExportCreateResponse</code>
-- <code title="get /v1/exports/{exportId}">client.exports.<a href="./src/resources/exports.ts">retrieve</a>(exportID) -> ExportRetrieveResponse</code>
-- <code title="get /v1/exports">client.exports.<a href="./src/resources/exports.ts">list</a>({ ...params }) -> DataExportsCursor</code>
-
 # URLs
 
 Types:
@@ -388,23 +376,7 @@ Methods:
 
 # Plan
 
-Types:
-
-- <code><a href="./src/resources/plan.ts">PlanRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/plan">client.plan.<a href="./src/resources/plan.ts">retrieve</a>() -> PlanRetrieveResponse</code>
-
 # Usage
-
-Types:
-
-- <code><a href="./src/resources/usage.ts">UsageRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/usage">client.usage.<a href="./src/resources/usage.ts">retrieve</a>() -> UsageRetrieveResponse</code>
 
 # SubAccounts
 

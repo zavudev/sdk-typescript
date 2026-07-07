@@ -76,7 +76,7 @@ export interface VerifiedURL {
   /**
    * Status of a verified URL.
    */
-  status: 'pending' | 'approved' | 'rejected' | 'malicious';
+  status: 'pending' | 'approved' | 'rejected' | 'escalated' | 'malicious';
 
   /**
    * The verified URL.
@@ -103,7 +103,7 @@ export interface URLListVerifiedParams extends CursorParams {
   /**
    * Filter by verification status.
    */
-  status?: 'pending' | 'approved' | 'rejected' | 'malicious';
+  status?: 'pending' | 'approved' | 'rejected' | 'escalated' | 'malicious';
 }
 
 export interface URLSubmitForVerificationParams {

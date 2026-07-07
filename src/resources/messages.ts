@@ -140,13 +140,17 @@ export class Messages extends APIResource {
 export type MessagesCursor = Cursor<Message>;
 
 /**
- * Delivery channel. Use 'auto' for intelligent routing.
+ * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
+ * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
+ * Alternative feature enabled; the sender must have a connected whatsapp_alt
+ * session.
  */
 export type Channel =
   | 'auto'
   | 'sms'
   | 'sms_oneway'
   | 'whatsapp'
+  | 'whatsapp_alt'
   | 'telegram'
   | 'email'
   | 'instagram'
@@ -157,7 +161,10 @@ export interface Message {
   id: string;
 
   /**
-   * Delivery channel. Use 'auto' for intelligent routing.
+   * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
+   * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
+   * Alternative feature enabled; the sender must have a connected whatsapp_alt
+   * session.
    */
   channel: Channel;
 
@@ -179,17 +186,18 @@ export interface Message {
   content?: MessageContent;
 
   /**
-   * MAU cost in USD (charged for first contact of the month).
+   * Zavu platform charge in USD for this message. Messaging is billed against your
+   * plan's monthly limits plus usage-based overage.
    */
   cost?: number | null;
 
   /**
-   * Provider cost in USD (Telnyx, SES, etc.).
+   * Carrier and delivery cost in USD.
    */
   costProvider?: number | null;
 
   /**
-   * Total cost in USD (MAU + provider cost).
+   * Total cost in USD (platform charge + delivery cost).
    */
   costTotal?: number | null;
 
@@ -463,11 +471,14 @@ export interface MessageShowTypingResponse {
 
 export interface MessageListParams extends CursorParams {
   /**
-   * Delivery channel. Use 'auto' for intelligent routing.
+   * Filter by delivery channel.
    */
-  channel?: Channel;
+  channel?: 'sms' | 'sms_oneway' | 'whatsapp' | 'email' | 'telegram' | 'instagram' | 'messenger' | 'voice';
 
-  status?: MessageStatus;
+  /**
+   * Filter by status. Not all stored statuses are filterable.
+   */
+  status?: 'queued' | 'sending' | 'sent' | 'delivered' | 'failed' | 'received';
 
   to?: string;
 }

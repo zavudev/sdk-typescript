@@ -587,24 +587,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/invitations/{invitationId}/cancel',
   },
   {
-    clientCallName: 'client.exports.create',
-    fullyQualifiedName: 'exports.create',
-    httpMethod: 'post',
-    httpPath: '/v1/exports',
-  },
-  {
-    clientCallName: 'client.exports.retrieve',
-    fullyQualifiedName: 'exports.retrieve',
-    httpMethod: 'get',
-    httpPath: '/v1/exports/{exportId}',
-  },
-  {
-    clientCallName: 'client.exports.list',
-    fullyQualifiedName: 'exports.list',
-    httpMethod: 'get',
-    httpPath: '/v1/exports',
-  },
-  {
     clientCallName: 'client.urls.listVerified',
     fullyQualifiedName: 'urls.listVerified',
     httpMethod: 'get',
@@ -627,18 +609,6 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'balance.retrieve',
     httpMethod: 'get',
     httpPath: '/v1/balance',
-  },
-  {
-    clientCallName: 'client.plan.retrieve',
-    fullyQualifiedName: 'plan.retrieve',
-    httpMethod: 'get',
-    httpPath: '/v1/plan',
-  },
-  {
-    clientCallName: 'client.usage.retrieve',
-    fullyQualifiedName: 'usage.retrieve',
-    httpMethod: 'get',
-    httpPath: '/v1/usage',
   },
   {
     clientCallName: 'client.subAccounts.create',
