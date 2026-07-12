@@ -40,7 +40,6 @@ export class Senders extends APIResource {
    * ```ts
    * const sender = await client.senders.create({
    *   name: 'name',
-   *   phoneNumber: 'phoneNumber',
    * });
    * ```
    */
@@ -197,6 +196,11 @@ export interface Sender {
   phoneNumber: string;
 
   createdAt?: string;
+
+  /**
+   * From-address for the email channel, if configured.
+   */
+  emailAddress?: string;
 
   /**
    * Whether catch-all receiving is enabled. When true (and emailReceivingEnabled is
@@ -464,7 +468,35 @@ export interface SenderUploadProfilePictureResponse {
 export interface SenderCreateParams {
   name: string;
 
-  phoneNumber: string;
+  /**
+   * From-address for the email channel (e.g. noreply@yourdomain.com). The address's
+   * domain must be a verified email domain in your project. Setting this attaches
+   * the email channel to the sender.
+   */
+  emailAddress?: string;
+
+  /**
+   * ID of the verified email domain to attach. Optional — resolved from
+   * `emailAddress`'s domain when omitted.
+   */
+  emailDomainId?: string;
+
+  /**
+   * Display name shown in the recipient's inbox for the email channel.
+   */
+  emailFromName?: string;
+
+  /**
+   * Enable inbound email receiving on this sender. Requires a verified MX record on
+   * the domain; ignored otherwise.
+   */
+  emailReceivingEnabled?: boolean;
+
+  /**
+   * Phone number in E.164 format. Required for phone-based channels (SMS, WhatsApp).
+   * Omit for an email-only sender.
+   */
+  phoneNumber?: string;
 
   setAsDefault?: boolean;
 
@@ -481,11 +513,28 @@ export interface SenderCreateParams {
 
 export interface SenderUpdateParams {
   /**
+   * Attach or change the sender's email from-address (e.g. noreply@yourdomain.com).
+   * The domain must be a verified email domain in your project.
+   */
+  emailAddress?: string;
+
+  /**
    * Enable or disable domain catch-all. When enabled (with emailReceivingEnabled
    * true), this sender receives email for any address at its domain. Ignored
    * (treated as false) if receiving is not enabled.
    */
   emailCatchAllEnabled?: boolean;
+
+  /**
+   * ID of the verified email domain to attach. Optional — resolved from
+   * `emailAddress`'s domain when omitted.
+   */
+  emailDomainId?: string;
+
+  /**
+   * Display name shown in the recipient's inbox for the email channel.
+   */
+  emailFromName?: string;
 
   /**
    * Enable or disable inbound email receiving for this sender.
