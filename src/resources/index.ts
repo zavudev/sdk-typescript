@@ -47,7 +47,6 @@ export {
   type ContactMergeParams,
   type ContactsCursor,
 } from './contacts/contacts';
-export { Exports } from './exports';
 export {
   Functions,
   type FunctionCreateResponse,
@@ -120,7 +119,6 @@ export {
   type PhoneNumberSearchAvailableParams,
   type OwnedPhoneNumbersCursor,
 } from './phone-numbers';
-export { Plan } from './plan';
 export {
   RegulatoryDocuments,
   type RegulatoryDocument,
@@ -180,4 +178,3 @@ export {
   type URLSubmitForVerificationParams,
   type VerifiedURLsCursor,
 } from './urls';
-export { Usage } from './usage';
