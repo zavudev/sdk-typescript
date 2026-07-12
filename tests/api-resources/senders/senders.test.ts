@@ -10,7 +10,7 @@ const client = new Zavudev({
 describe('resource senders', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.senders.create({ name: 'name', phoneNumber: 'phoneNumber' });
+    const responsePromise = client.senders.create({ name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -24,6 +24,10 @@ describe('resource senders', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.senders.create({
       name: 'name',
+      emailAddress: 'noreply@yourdomain.com',
+      emailDomainId: 'emailDomainId',
+      emailFromName: 'emailFromName',
+      emailReceivingEnabled: true,
       phoneNumber: 'phoneNumber',
       setAsDefault: true,
       webhookEvents: ['message.queued'],

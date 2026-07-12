@@ -30,7 +30,6 @@ import {
   AddressesCursor,
 } from './resources/addresses';
 import { Balance, BalanceRetrieveResponse } from './resources/balance';
-import { Exports } from './resources/exports';
 import {
   Introspect,
   IntrospectValidatePhoneParams,
@@ -88,7 +87,6 @@ import {
   RequirementFieldType,
   RequirementType,
 } from './resources/phone-numbers';
-import { Plan } from './resources/plan';
 import {
   RegulatoryDocument,
   RegulatoryDocumentCreateParams,
@@ -117,7 +115,6 @@ import {
   VerifiedURL,
   VerifiedURLsCursor,
 } from './resources/urls';
-import { Usage } from './resources/usage';
 import {
   Broadcast,
   BroadcastCancelResponse,
@@ -953,11 +950,8 @@ export class Zavudev {
   addresses: API.Addresses = new API.Addresses(this);
   regulatoryDocuments: API.RegulatoryDocuments = new API.RegulatoryDocuments(this);
   invitations: API.Invitations = new API.Invitations(this);
-  exports: API.Exports = new API.Exports(this);
   urls: API.URLs = new API.URLs(this);
   balance: API.Balance = new API.Balance(this);
-  plan: API.Plan = new API.Plan(this);
-  usage: API.Usage = new API.Usage(this);
   subAccounts: API.SubAccounts = new API.SubAccounts(this);
   number10dlc: API.Number10dlc = new API.Number10dlc(this);
   me: API.Me = new API.Me(this);
@@ -974,11 +968,8 @@ Zavudev.PhoneNumbers = PhoneNumbers;
 Zavudev.Addresses = Addresses;
 Zavudev.RegulatoryDocuments = RegulatoryDocuments;
 Zavudev.Invitations = Invitations;
-Zavudev.Exports = Exports;
 Zavudev.URLs = URLs;
 Zavudev.Balance = Balance;
-Zavudev.Plan = Plan;
-Zavudev.Usage = Usage;
 Zavudev.SubAccounts = SubAccounts;
 Zavudev.Number10dlc = Number10dlc;
 Zavudev.Me = Me;
@@ -1138,8 +1129,6 @@ export declare namespace Zavudev {
     type InvitationListParams as InvitationListParams,
   };
 
-  export { Exports as Exports };
-
   export {
     URLs as URLs,
     type VerifiedURL as VerifiedURL,
@@ -1151,10 +1140,6 @@ export declare namespace Zavudev {
   };
 
   export { Balance as Balance, type BalanceRetrieveResponse as BalanceRetrieveResponse };
-
-  export { Plan as Plan };
-
-  export { Usage as Usage };
 
   export {
     SubAccounts as SubAccounts,

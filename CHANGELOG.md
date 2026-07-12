@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.49.0 (2026-07-12)
+
+Full Changelog: [v0.48.0...v0.49.0](https://github.com/zavudev/sdk-typescript/compare/v0.48.0...v0.49.0)
+
+### Features
+
+* **api:** api update ([8b67a28](https://github.com/zavudev/sdk-typescript/commit/8b67a28778fbc087478fb0808f6bbba09fcfb864))
+* **api:** api update ([ca86caa](https://github.com/zavudev/sdk-typescript/commit/ca86caa2e68a4aedd73fc430c08e2ca23b78a7fa))
+* **api:** manual updates ([3052601](https://github.com/zavudev/sdk-typescript/commit/3052601289744aae9a30673da846eef5f7dec534))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([9123060](https://github.com/zavudev/sdk-typescript/commit/9123060c3df7843de98fb15fe6ad2ad37bef4c5e))
+
 ## 0.48.0 (2026-07-07)
 
 Full Changelog: [v0.47.0...v0.48.0](https://github.com/zavudev/sdk-typescript/compare/v0.47.0...v0.48.0)

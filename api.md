@@ -348,8 +348,6 @@ Methods:
 - <code title="get /v1/invitations">client.invitations.<a href="./src/resources/invitations.ts">list</a>({ ...params }) -> InvitationsCursor</code>
 - <code title="post /v1/invitations/{invitationId}/cancel">client.invitations.<a href="./src/resources/invitations.ts">cancel</a>(invitationID) -> InvitationCancelResponse</code>
 
-# Exports
-
 # URLs
 
 Types:
@@ -373,10 +371,6 @@ Types:
 Methods:
 
 - <code title="get /v1/balance">client.balance.<a href="./src/resources/balance.ts">retrieve</a>() -> BalanceRetrieveResponse</code>
-
-# Plan
-
-# Usage
 
 # SubAccounts
 
