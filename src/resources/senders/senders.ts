@@ -199,6 +199,14 @@ export interface Sender {
   createdAt?: string;
 
   /**
+   * Whether catch-all receiving is enabled. When true (and emailReceivingEnabled is
+   * true), this sender receives email addressed to any local part at its domain, not
+   * just its own address. The original recipient is delivered in the message.inbound
+   * webhook's data.to.
+   */
+  emailCatchAllEnabled?: boolean;
+
+  /**
    * Whether inbound email receiving is enabled for this sender.
    */
   emailReceivingEnabled?: boolean;
@@ -472,6 +480,13 @@ export interface SenderCreateParams {
 }
 
 export interface SenderUpdateParams {
+  /**
+   * Enable or disable domain catch-all. When enabled (with emailReceivingEnabled
+   * true), this sender receives email for any address at its domain. Ignored
+   * (treated as false) if receiving is not enabled.
+   */
+  emailCatchAllEnabled?: boolean;
+
   /**
    * Enable or disable inbound email receiving for this sender.
    */
