@@ -186,6 +186,14 @@ export interface Message {
   content?: MessageContent;
 
   /**
+   * ID of the conversation (inbox thread) this message belongs to. Use it to build a
+   * direct dashboard link:
+   * `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`. Omitted only
+   * on legacy messages created before conversation threading.
+   */
+  conversationId?: string;
+
+  /**
    * Zavu platform charge in USD for this message. Messaging is billed against your
    * plan's monthly limits plus usage-based overage.
    */
