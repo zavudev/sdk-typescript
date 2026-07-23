@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.51.0 (2026-07-23)
+
+Full Changelog: [v0.50.0...v0.51.0](https://github.com/zavudev/sdk-typescript/compare/v0.50.0...v0.51.0)
+
+### Features
+
+* **api:** api update ([643cc50](https://github.com/zavudev/sdk-typescript/commit/643cc50a23796b78729897d97fd99d5ca15d388c))
+* **api:** api update ([edd6df0](https://github.com/zavudev/sdk-typescript/commit/edd6df0d6fa5be0276e58e3476f68f7f4124b5d7))
+* **api:** api update ([39f15e2](https://github.com/zavudev/sdk-typescript/commit/39f15e2e427fa35f2559a07f093e20ca9238b3c2))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([d7ad0df](https://github.com/zavudev/sdk-typescript/commit/d7ad0dfcd2e3b242716a049ac0709f9cc6c5f762))
+
 ## 0.50.0 (2026-07-15)
 
 Full Changelog: [v0.49.0...v0.50.0](https://github.com/zavudev/sdk-typescript/compare/v0.49.0...v0.50.0)
