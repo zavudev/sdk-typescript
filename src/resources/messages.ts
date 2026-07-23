@@ -151,17 +151,13 @@ export class Messages extends APIResource {
 export type MessagesCursor = Cursor<Message>;
 
 /**
- * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
- * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
- * Alternative feature enabled; the sender must have a connected whatsapp_alt
- * session.
+ * Delivery channel. Use 'auto' for intelligent routing.
  */
 export type Channel =
   | 'auto'
   | 'sms'
   | 'sms_oneway'
   | 'whatsapp'
-  | 'whatsapp_alt'
   | 'telegram'
   | 'email'
   | 'instagram'
@@ -172,10 +168,7 @@ export interface Message {
   id: string;
 
   /**
-   * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
-   * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
-   * Alternative feature enabled; the sender must have a connected whatsapp_alt
-   * session.
+   * Delivery channel. Use 'auto' for intelligent routing.
    */
   channel: Channel;
 
@@ -518,13 +511,10 @@ export interface MessageReactParams {
 export interface MessageSendParams {
   /**
    * Body param: Recipient phone number in E.164 format, email address, WhatsApp
-   * business-scoped user ID (BSUID, e.g. `US.13491208655302741918`), WhatsApp group
-   * JID (`<id>@g.us`, e.g. `120363000000000000@g.us`), or numeric chat ID (for
-   * Telegram/Instagram/Messenger). A BSUID is routed to WhatsApp and sent via the
-   * `recipient` field; use it to message a contact who adopted a username and whose
-   * phone number is hidden. A group JID is only valid on the `whatsapp_alt` channel
-   * and supports text and media (image, video, audio, document, sticker, location,
-   * contact).
+   * business-scoped user ID (BSUID, e.g. `US.13491208655302741918`), or numeric chat
+   * ID (for Telegram/Instagram/Messenger). A BSUID is routed to WhatsApp and sent
+   * via the `recipient` field; use it to message a contact who adopted a username
+   * and whose phone number is hidden.
    */
   to: string;
 

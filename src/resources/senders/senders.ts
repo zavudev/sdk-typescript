@@ -335,12 +335,6 @@ export interface SenderWebhook {
  *   from the contact — WhatsApp, Telegram, Instagram, Messenger; `null` for SMS
  *   and email). Compare it against the top-level `timestamp` (when Zavu dispatched
  *   the webhook) to detect and ignore delayed deliveries.
- * - `message.status`: A contact posted a WhatsApp status/story (currently WhatsApp
- *   Alternative only). It is NOT a conversation message and never enters the inbox
- *   — it is delivered only if you subscribe to `message.status`. `data` carries
- *   `from` (the author in E.164), `messageType` (`text`, `image`, `video`,
- *   `audio`), `text` (caption/text when present), `mimetype` (for media stories),
- *   and `providerTimestamp`. Media bytes are not included.
  * - `message.unsupported`: Received a message type that is not supported
  *
  * **Broadcast events:**
@@ -376,7 +370,6 @@ export type WebhookEvent =
   | 'message.read'
   | 'message.failed'
   | 'message.inbound'
-  | 'message.status'
   | 'message.unsupported'
   | 'broadcast.status_changed'
   | 'conversation.new'
