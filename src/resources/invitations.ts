@@ -9,17 +9,10 @@ import { path } from '../internal/utils/path';
 export class Invitations extends APIResource {
   /**
    * Create a partner invitation link for a client to connect WhatsApp. The client
-   * opens the returned `url` and connects. Set `connectionType` to choose how they
-   * connect:
-   *
-   * - `whatsapp_waba` (default): the client completes Meta's embedded signup,
-   *   linking an official WhatsApp Business Account.
-   * - `whatsapp_alt`: the client links their number by scanning a QR code. Requires
-   *   the WhatsApp Alternative feature to be enabled for your team (otherwise
-   *   returns 400).
-   *
-   * Either way, the resulting sender is created in your project when the client
-   * completes the flow, and the invitation transitions to `completed`.
+   * opens the returned `url` and completes Meta's embedded signup, linking an
+   * official WhatsApp Business Account. The resulting sender is created in your
+   * project when the client completes the flow, and the invitation transitions to
+   * `completed`.
    *
    * @example
    * ```ts
@@ -119,9 +112,9 @@ export interface Invitation {
 
   /**
    * How the client connects WhatsApp: `whatsapp_waba` (official Cloud API via
-   * embedded signup) or `whatsapp_alt` (QR-linked).
+   * embedded signup).
    */
-  connectionType?: 'whatsapp_waba' | 'whatsapp_alt';
+  connectionType?: 'whatsapp_waba';
 
   /**
    * ID of a pre-assigned Zavu phone number for WhatsApp registration.
@@ -173,11 +166,9 @@ export interface InvitationCreateParams {
 
   /**
    * How the client connects WhatsApp. `whatsapp_waba` (default) runs Meta's embedded
-   * signup to link an official WhatsApp Business Account. `whatsapp_alt` links the
-   * number by scanning a QR code — available only to teams with the WhatsApp
-   * Alternative feature enabled.
+   * signup to link an official WhatsApp Business Account.
    */
-  connectionType?: 'whatsapp_waba' | 'whatsapp_alt';
+  connectionType?: 'whatsapp_waba';
 
   /**
    * Number of days until the invitation expires.

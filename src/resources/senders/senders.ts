@@ -320,22 +320,21 @@ export interface SenderWebhook {
  *
  * **Inbound events:**
  *
- * - `message.inbound`: New message received from a contact. Reactions are
- *   delivered as `message.inbound` with `messageType='reaction'`. When the contact
- *   replied to (quoted) an earlier message, `data.content` carries the reply
- *   context: `replyToMessageId`, `replyToProviderMessageId`, `replyToFrom`,
- *   `replyToText`, and `replyToMessageType`. `data.providerTimestamp` is the
- *   provider's original receive time in Unix milliseconds (the moment the channel
- *   received the message from the contact — WhatsApp, Telegram, Instagram,
- *   Messenger; `null` for SMS and email). Compare it against the top-level
- *   `timestamp` (when Zavu dispatched the webhook) to detect and ignore delayed
- *   deliveries.
- * - `message.status`: A contact posted a WhatsApp status/story (currently WhatsApp
- *   Alternative only). It is NOT a conversation message and never enters the inbox
- *   — it is delivered only if you subscribe to `message.status`. `data` carries
- *   `from` (the author in E.164), `messageType` (`text`, `image`, `video`,
- *   `audio`), `text` (caption/text when present), `mimetype` (for media stories),
- *   and `providerTimestamp`. Media bytes are not included.
+ * - `message.inbound`: New message received from a contact. `data.conversationId`
+ *   is the inbox thread id (deep-link with
+ *   `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`); it is
+ *   `null` while the conversation row is still being created (the first message of
+ *   a brand-new thread, or several near-simultaneous first messages), where
+ *   `conversation.new` carries the id instead — `GET /v1/messages/{messageId}`
+ *   always has it. Reactions are delivered as `message.inbound` with
+ *   `messageType='reaction'`. When the contact replied to (quoted) an earlier
+ *   message, `data.content` carries the reply context: `replyToMessageId`,
+ *   `replyToProviderMessageId`, `replyToFrom`, `replyToText`, and
+ *   `replyToMessageType`. `data.providerTimestamp` is the provider's original
+ *   receive time in Unix milliseconds (the moment the channel received the message
+ *   from the contact — WhatsApp, Telegram, Instagram, Messenger; `null` for SMS
+ *   and email). Compare it against the top-level `timestamp` (when Zavu dispatched
+ *   the webhook) to detect and ignore delayed deliveries.
  * - `message.unsupported`: Received a message type that is not supported
  *
  * **Broadcast events:**
@@ -345,7 +344,11 @@ export interface SenderWebhook {
  *
  * **Other events:**
  *
- * - `conversation.new`: New conversation started with a contact
+ * - `conversation.new`: New conversation started with a contact. `data` carries
+ *   `conversationId` (the inbox thread id — deep-link with
+ *   `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`), the
+ *   `phoneNumber` or `email` key, `channel`, `firstMessageId`, `firstMessageText`,
+ *   and `profileName`.
  * - `template.status_changed`: WhatsApp template approval status changed
  *
  * **Partner events:**
@@ -367,7 +370,6 @@ export type WebhookEvent =
   | 'message.read'
   | 'message.failed'
   | 'message.inbound'
-  | 'message.status'
   | 'message.unsupported'
   | 'broadcast.status_changed'
   | 'conversation.new'

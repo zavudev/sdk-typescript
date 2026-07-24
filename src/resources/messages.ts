@@ -87,6 +87,17 @@ export class Messages extends APIResource {
    * - Unverified accounts: 200 messages per channel per day
    * - Complete KYC verification to increase limits to 10,000/day
    *
+   * **Email recipient pre-flight:** Email messages are validated automatically
+   * before dispatch. Sends that would be a guaranteed hard bounce are failed instead
+   * of sent, protecting your bounce rate: the message transitions to `failed`
+   * (visible via `GET /v1/messages/{messageId}` and the `message.failed` webhook)
+   * with `errorCode` set to `EMAIL_INVALID_RECIPIENT` (malformed address),
+   * `EMAIL_DOMAIN_NOT_FOUND` (recipient domain has no MX or A records), or
+   * `EMAIL_RECIPIENT_SUPPRESSED` (address is on your suppression list after a
+   * previous bounce or complaint). Advisory signals (role addresses, disposable
+   * domains) do not block sends — check them beforehand with
+   * `POST /v1/introspect/email`.
+   *
    * @example
    * ```ts
    * const messageResponse = await client.messages.send({
@@ -140,17 +151,13 @@ export class Messages extends APIResource {
 export type MessagesCursor = Cursor<Message>;
 
 /**
- * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
- * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
- * Alternative feature enabled; the sender must have a connected whatsapp_alt
- * session.
+ * Delivery channel. Use 'auto' for intelligent routing.
  */
 export type Channel =
   | 'auto'
   | 'sms'
   | 'sms_oneway'
   | 'whatsapp'
-  | 'whatsapp_alt'
   | 'telegram'
   | 'email'
   | 'instagram'
@@ -161,10 +168,7 @@ export interface Message {
   id: string;
 
   /**
-   * Delivery channel. Use 'auto' for intelligent routing. `whatsapp_alt` is the
-   * QR-linked WhatsApp channel and is only accepted for teams with the WhatsApp
-   * Alternative feature enabled; the sender must have a connected whatsapp_alt
-   * session.
+   * Delivery channel. Use 'auto' for intelligent routing.
    */
   channel: Channel;
 
@@ -184,6 +188,14 @@ export interface Message {
    * Content for non-text message types (WhatsApp and Telegram).
    */
   content?: MessageContent;
+
+  /**
+   * ID of the conversation (inbox thread) this message belongs to. Use it to build a
+   * direct dashboard link:
+   * `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`. Omitted only
+   * on legacy messages created before conversation threading.
+   */
+  conversationId?: string;
 
   /**
    * Zavu platform charge in USD for this message. Messaging is billed against your
@@ -499,13 +511,10 @@ export interface MessageReactParams {
 export interface MessageSendParams {
   /**
    * Body param: Recipient phone number in E.164 format, email address, WhatsApp
-   * business-scoped user ID (BSUID, e.g. `US.13491208655302741918`), WhatsApp group
-   * JID (`<id>@g.us`, e.g. `120363000000000000@g.us`), or numeric chat ID (for
-   * Telegram/Instagram/Messenger). A BSUID is routed to WhatsApp and sent via the
-   * `recipient` field; use it to message a contact who adopted a username and whose
-   * phone number is hidden. A group JID is only valid on the `whatsapp_alt` channel
-   * and supports text and media (image, video, audio, document, sticker, location,
-   * contact).
+   * business-scoped user ID (BSUID, e.g. `US.13491208655302741918`), or numeric chat
+   * ID (for Telegram/Instagram/Messenger). A BSUID is routed to WhatsApp and sent
+   * via the `recipient` field; use it to message a contact who adopted a username
+   * and whose phone number is hidden.
    */
   to: string;
 
