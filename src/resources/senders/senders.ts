@@ -358,7 +358,12 @@ export interface SenderWebhook {
  *
  * **Voice Agent events:** For every voice event, `data` carries `callId`,
  * `direction`, `from`, `to`, `status`, `durationSeconds`, `endReason`, and
- * `transcriptAvailable`.
+ * `transcriptAvailable`. The terminal events (`call.completed`, `call.failed`)
+ * additionally carry `cost` — what the call was billed, in USD, combining
+ * telephony and the managed voice pipeline — and `currency`. They are dispatched
+ * after the call is charged, so `cost` is populated rather than zero; telephony
+ * can still be settling on an outbound call, in which case
+ * `GET /v1/calls/{callId}` holds the reconciled figure.
  *
  * - `call.initiated`: An outbound call was created and is dialing, or an inbound
  *   call was received. `data.status` = `ringing`
@@ -383,6 +388,7 @@ export type WebhookEvent =
   | 'message.sent'
   | 'message.delivered'
   | 'message.read'
+  | 'message.status'
   | 'message.failed'
   | 'message.inbound'
   | 'message.unsupported'
