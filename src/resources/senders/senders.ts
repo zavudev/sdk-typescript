@@ -356,6 +356,21 @@ export interface SenderWebhook {
  * - `invitation.status_changed`: A partner invitation status changed (pending,
  *   in_progress, completed, cancelled)
  *
+ * **Voice Agent events:** For every voice event, `data` carries `callId`,
+ * `direction`, `from`, `to`, `status`, `durationSeconds`, `endReason`, and
+ * `transcriptAvailable`.
+ *
+ * - `call.initiated`: An outbound call was created and is dialing, or an inbound
+ *   call was received. `data.status` = `ringing`
+ * - `call.answered`: The call was answered and the voice agent is connected.
+ *   `data.status` = `in_progress`
+ * - `call.completed`: The call ended after a conversation. `data.status` =
+ *   `completed`; `durationSeconds` and `endReason` describe how it ended, and
+ *   `transcriptAvailable` indicates whether a transcript can be fetched.
+ * - `call.failed`: The call could not be completed (busy, no answer, canceled, or
+ *   an error). `data.status` is the terminal status and `endReason` explains the
+ *   cause.
+ *
  * **Custom domain events:**
  *
  * - `domain.verified`: A custom email domain passed verification (DKIM, and
@@ -375,6 +390,10 @@ export type WebhookEvent =
   | 'conversation.new'
   | 'template.status_changed'
   | 'invitation.status_changed'
+  | 'call.initiated'
+  | 'call.answered'
+  | 'call.completed'
+  | 'call.failed'
   | 'domain.verified'
   | 'domain.failed';
 

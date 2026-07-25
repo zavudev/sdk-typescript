@@ -201,6 +201,12 @@ export interface Agent {
    */
   maxTokens?: number | null;
 
+  /**
+   * Senders this agent answers on. An agent can serve several; `senderId` remains
+   * the primary one, for compatibility.
+   */
+  senderIds?: Array<string>;
+
   stats?: Agent.Stats;
 
   /**
@@ -217,6 +223,13 @@ export interface Agent {
    * Message types that trigger the agent.
    */
   triggerOnMessageTypes?: Array<string>;
+
+  /**
+   * Voice Agent configuration. When present and enabled, the agent can answer
+   * inbound phone calls and place outbound calls with Zavu's managed voice pipeline.
+   * Requires the Voice Agents feature to be enabled for your team.
+   */
+  voice?: Agent.Voice;
 }
 
 export namespace Agent {
@@ -229,6 +242,110 @@ export namespace Agent {
     totalInvocations?: number;
 
     totalTokensUsed?: number;
+  }
+
+  /**
+   * Voice Agent configuration. When present and enabled, the agent can answer
+   * inbound phone calls and place outbound calls with Zavu's managed voice pipeline.
+   * Requires the Voice Agents feature to be enabled for your team.
+   */
+  export interface Voice {
+    /**
+     * Whether the agent handles voice calls. When false, the sender's number is not
+     * answered by the voice agent and outbound calls are rejected.
+     */
+    enabled: boolean;
+
+    /**
+     * Opening line the agent speaks when the call connects. If omitted, the agent
+     * waits for the caller to speak first.
+     */
+    greeting?: string;
+
+    /**
+     * Greeting per language, keyed by language code. Used when the caller's language
+     * differs from the one `greeting` is written in.
+     */
+    greetings?: { [key: string]: string };
+
+    /**
+     * Whether the caller can interrupt the agent while it is speaking (barge-in). When
+     * true, the agent stops talking as soon as the caller starts.
+     */
+    interruptible?: boolean;
+
+    /**
+     * BCP-47 language code used for both speech recognition and speech synthesis (e.g.
+     * `en`, `es`, `pt-BR`). Auto-detected from the recipient when omitted.
+     */
+    language?: string;
+
+    /**
+     * Hard limit on call length in minutes. The call ends automatically when reached.
+     */
+    maxCallDurationMinutes?: number;
+
+    /**
+     * How long the agent waits during silence before ending the call.
+     */
+    maxIdleSeconds?: number;
+
+    /**
+     * Model that runs the conversation, co-located in the voice network for lowest
+     * latency. Independent of the model used for text messaging. Derived from the
+     * agent's text model when omitted.
+     */
+    model?: string;
+
+    /**
+     * Whether the call audio is recorded.
+     */
+    recordCalls?: boolean;
+
+    /**
+     * Speech-recognition model. Uses the default when omitted.
+     */
+    sttModel?: string;
+
+    /**
+     * Speech-recognition provider. Uses the default when omitted.
+     */
+    sttProvider?: string;
+
+    /**
+     * E.164 phone number the agent can transfer the call to. When set, the agent is
+     * given a transfer tool it can use to hand the call to a human.
+     */
+    transferPhoneNumber?: string;
+
+    /**
+     * Speech-synthesis provider. Uses the default when omitted.
+     */
+    ttsProvider?: string;
+
+    /**
+     * Identifier of the synthesized voice that speaks. Choose from the voices
+     * available in the dashboard. Uses a neutral default when omitted.
+     */
+    ttsVoiceId?: string;
+
+    /**
+     * What the agent does when an answering machine or voicemail is detected on an
+     * outbound call.
+     */
+    voicemailAction?: 'hangup' | 'leave_message';
+
+    /**
+     * Message spoken when `voicemailAction` is `leave_message`. Falls back to
+     * `greeting` when omitted.
+     */
+    voicemailMessage?: string;
+
+    /**
+     * Speech rate. 1.0 is natural. Only honoured by voices that support rate control;
+     * ignored by the others.
+     */
+    voiceSpeed?: number;
   }
 }
 
@@ -326,6 +443,119 @@ export interface AgentCreateParams {
   triggerOnChannels?: Array<string>;
 
   triggerOnMessageTypes?: Array<string>;
+
+  /**
+   * Voice Agent configuration. Enable this to let the agent answer and place phone
+   * calls with Zavu's managed voice pipeline. Requires the Voice Agents feature to
+   * be enabled for your team.
+   */
+  voice?: AgentCreateParams.Voice;
+}
+
+export namespace AgentCreateParams {
+  /**
+   * Voice Agent configuration. Enable this to let the agent answer and place phone
+   * calls with Zavu's managed voice pipeline. Requires the Voice Agents feature to
+   * be enabled for your team.
+   */
+  export interface Voice {
+    /**
+     * Whether the agent handles voice calls. When false, the sender's number is not
+     * answered by the voice agent and outbound calls are rejected.
+     */
+    enabled: boolean;
+
+    /**
+     * Opening line the agent speaks when the call connects. If omitted, the agent
+     * waits for the caller to speak first.
+     */
+    greeting?: string;
+
+    /**
+     * Greeting per language, keyed by language code. Used when the caller's language
+     * differs from the one `greeting` is written in.
+     */
+    greetings?: { [key: string]: string };
+
+    /**
+     * Whether the caller can interrupt the agent while it is speaking (barge-in). When
+     * true, the agent stops talking as soon as the caller starts.
+     */
+    interruptible?: boolean;
+
+    /**
+     * BCP-47 language code used for both speech recognition and speech synthesis (e.g.
+     * `en`, `es`, `pt-BR`). Auto-detected from the recipient when omitted.
+     */
+    language?: string;
+
+    /**
+     * Hard limit on call length in minutes. The call ends automatically when reached.
+     */
+    maxCallDurationMinutes?: number;
+
+    /**
+     * How long the agent waits during silence before ending the call.
+     */
+    maxIdleSeconds?: number;
+
+    /**
+     * Model that runs the conversation, co-located in the voice network for lowest
+     * latency. Independent of the model used for text messaging. Derived from the
+     * agent's text model when omitted.
+     */
+    model?: string;
+
+    /**
+     * Whether the call audio is recorded.
+     */
+    recordCalls?: boolean;
+
+    /**
+     * Speech-recognition model. Uses the default when omitted.
+     */
+    sttModel?: string;
+
+    /**
+     * Speech-recognition provider. Uses the default when omitted.
+     */
+    sttProvider?: string;
+
+    /**
+     * E.164 phone number the agent can transfer the call to. When set, the agent is
+     * given a transfer tool it can use to hand the call to a human.
+     */
+    transferPhoneNumber?: string;
+
+    /**
+     * Speech-synthesis provider. Uses the default when omitted.
+     */
+    ttsProvider?: string;
+
+    /**
+     * Identifier of the synthesized voice that speaks. Choose from the voices
+     * available in the dashboard. Uses a neutral default when omitted.
+     */
+    ttsVoiceId?: string;
+
+    /**
+     * What the agent does when an answering machine or voicemail is detected on an
+     * outbound call.
+     */
+    voicemailAction?: 'hangup' | 'leave_message';
+
+    /**
+     * Message spoken when `voicemailAction` is `leave_message`. Falls back to
+     * `greeting` when omitted.
+     */
+    voicemailMessage?: string;
+
+    /**
+     * Speech rate. 1.0 is natural. Only honoured by voices that support rate control;
+     * ignored by the others.
+     */
+    voiceSpeed?: number;
+  }
 }
 
 export interface AgentUpdateParams {
@@ -355,6 +585,119 @@ export interface AgentUpdateParams {
   triggerOnChannels?: Array<string>;
 
   triggerOnMessageTypes?: Array<string>;
+
+  /**
+   * Voice Agent configuration. Patch this object to enable voice, change the
+   * greeting, or adjust call limits. Requires the Voice Agents feature to be enabled
+   * for your team.
+   */
+  voice?: AgentUpdateParams.Voice;
+}
+
+export namespace AgentUpdateParams {
+  /**
+   * Voice Agent configuration. Patch this object to enable voice, change the
+   * greeting, or adjust call limits. Requires the Voice Agents feature to be enabled
+   * for your team.
+   */
+  export interface Voice {
+    /**
+     * Whether the agent handles voice calls. When false, the sender's number is not
+     * answered by the voice agent and outbound calls are rejected.
+     */
+    enabled: boolean;
+
+    /**
+     * Opening line the agent speaks when the call connects. If omitted, the agent
+     * waits for the caller to speak first.
+     */
+    greeting?: string;
+
+    /**
+     * Greeting per language, keyed by language code. Used when the caller's language
+     * differs from the one `greeting` is written in.
+     */
+    greetings?: { [key: string]: string };
+
+    /**
+     * Whether the caller can interrupt the agent while it is speaking (barge-in). When
+     * true, the agent stops talking as soon as the caller starts.
+     */
+    interruptible?: boolean;
+
+    /**
+     * BCP-47 language code used for both speech recognition and speech synthesis (e.g.
+     * `en`, `es`, `pt-BR`). Auto-detected from the recipient when omitted.
+     */
+    language?: string;
+
+    /**
+     * Hard limit on call length in minutes. The call ends automatically when reached.
+     */
+    maxCallDurationMinutes?: number;
+
+    /**
+     * How long the agent waits during silence before ending the call.
+     */
+    maxIdleSeconds?: number;
+
+    /**
+     * Model that runs the conversation, co-located in the voice network for lowest
+     * latency. Independent of the model used for text messaging. Derived from the
+     * agent's text model when omitted.
+     */
+    model?: string;
+
+    /**
+     * Whether the call audio is recorded.
+     */
+    recordCalls?: boolean;
+
+    /**
+     * Speech-recognition model. Uses the default when omitted.
+     */
+    sttModel?: string;
+
+    /**
+     * Speech-recognition provider. Uses the default when omitted.
+     */
+    sttProvider?: string;
+
+    /**
+     * E.164 phone number the agent can transfer the call to. When set, the agent is
+     * given a transfer tool it can use to hand the call to a human.
+     */
+    transferPhoneNumber?: string;
+
+    /**
+     * Speech-synthesis provider. Uses the default when omitted.
+     */
+    ttsProvider?: string;
+
+    /**
+     * Identifier of the synthesized voice that speaks. Choose from the voices
+     * available in the dashboard. Uses a neutral default when omitted.
+     */
+    ttsVoiceId?: string;
+
+    /**
+     * What the agent does when an answering machine or voicemail is detected on an
+     * outbound call.
+     */
+    voicemailAction?: 'hangup' | 'leave_message';
+
+    /**
+     * Message spoken when `voicemailAction` is `leave_message`. Falls back to
+     * `greeting` when omitted.
+     */
+    voicemailMessage?: string;
+
+    /**
+     * Speech rate. 1.0 is natural. Only honoured by voices that support rate control;
+     * ignored by the others.
+     */
+    voiceSpeed?: number;
+  }
 }
 
 AgentResource.Executions = Executions;
