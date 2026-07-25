@@ -33,7 +33,7 @@ export class Functions extends APIResource {
    *   description:
    *     'Replies to order status questions on WhatsApp.',
    *   sourceCode:
-   *     "import { defineFunction } from '@zavu/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
+   *     "import { defineFunction } from '@zavudev/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
    * });
    * ```
    */

@@ -31,7 +31,7 @@ describe('resource functions', () => {
       memoryMb: 128,
       runtime: 'nodejs24',
       sourceCode:
-        "import { defineFunction } from '@zavu/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
+        "import { defineFunction } from '@zavudev/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
       timeoutSec: 1,
     });
   });
