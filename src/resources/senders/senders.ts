@@ -195,6 +195,14 @@ export interface Sender {
    */
   phoneNumber: string;
 
+  /**
+   * Channels this sender can actually send on right now, computed from its
+   * configuration. Empty means the sender cannot send or receive anything yet: a
+   * phoneNumber alone does not enable SMS or voice. Check this rather than inferring
+   * capability from phoneNumber or emailAddress.
+   */
+  channels?: Array<string>;
+
   createdAt?: string;
 
   /**
