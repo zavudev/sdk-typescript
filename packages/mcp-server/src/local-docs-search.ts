@@ -6788,14 +6788,19 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'patch',
     summary: 'Update function draft',
     description:
-      'Update the draft source code and/or dependency map without triggering a build. Visible in the dashboard immediately, but the live (deployed) function does not change until `POST /v1/functions/{functionId}/deploy` runs.',
+      'Update an existing function. `sourceCode` / `dependencies` edit the draft without triggering a build — they go live on the next `POST /v1/functions/{functionId}/deploy`. `httpEnabled` is applied to the deployed function immediately, so turning the public endpoint on or off does not require a redeploy.',
     stainlessPath: '(resource) functions > (method) update',
     qualified: 'client.functions.update',
-    params: ['functionId: string;', 'dependencies?: object;', 'sourceCode?: string;'],
+    params: [
+      'functionId: string;',
+      'dependencies?: object;',
+      'httpEnabled?: boolean;',
+      'sourceCode?: string;',
+    ],
     response:
       "{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }",
     markdown:
-      "## update\n\n`client.functions.update(functionId: string, dependencies?: object, sourceCode?: string): { function: object; }`\n\n**patch** `/v1/functions/{functionId}`\n\nUpdate the draft source code and/or dependency map without triggering a build. Visible in the dashboard immediately, but the live (deployed) function does not change until `POST /v1/functions/{functionId}/deploy` runs.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `sourceCode?: string`\n  New source code to publish (replaces the draft).\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.update('functionId');\n\nconsole.log(_function);\n```",
+      "## update\n\n`client.functions.update(functionId: string, dependencies?: object, httpEnabled?: boolean, sourceCode?: string): { function: object; }`\n\n**patch** `/v1/functions/{functionId}`\n\nUpdate an existing function. `sourceCode` / `dependencies` edit the draft without triggering a build — they go live on the next `POST /v1/functions/{functionId}/deploy`. `httpEnabled` is applied to the deployed function immediately, so turning the public endpoint on or off does not require a redeploy.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `httpEnabled?: boolean`\n  Expose the function on its public HTTPS URL, or take it down. Applies to the already-deployed function without redeploying; the URL is returned as `publicUrl`.\n\n- `sourceCode?: string`\n  New source code for the draft (replaces it).\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.update('functionId');\n\nconsole.log(_function);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.update',
@@ -6824,7 +6829,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'functions->update',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->update(\n  'functionId', dependencies: ['foo' => 'string'], sourceCode: 'sourceCode'\n);\n\nvar_dump($function);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->update(\n  'functionId',\n  dependencies: ['foo' => 'string'],\n  httpEnabled: true,\n  sourceCode: 'sourceCode',\n);\n\nvar_dump($function);",
       },
       http: {
         example:
