@@ -351,6 +351,12 @@ export interface PhoneNumberSearchAvailableParams {
   countryCode: string;
 
   /**
+   * Comma-separated capabilities the number must have: `sms`, `voice`, `mms`.
+   * Numbers missing any of them are dropped.
+   */
+  capabilities?: string;
+
+  /**
    * Search for numbers containing this string.
    */
   contains?: string;

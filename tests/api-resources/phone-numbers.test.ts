@@ -124,6 +124,7 @@ describe('resource phoneNumbers', () => {
   test.skip('searchAvailable: required and optional params', async () => {
     const response = await client.phoneNumbers.searchAvailable({
       countryCode: 'xx',
+      capabilities: 'voice,sms',
       contains: 'contains',
       limit: 50,
       type: 'local',

@@ -535,8 +535,18 @@ export interface SenderCreateParams {
   emailReceivingEnabled?: boolean;
 
   /**
-   * Phone number in E.164 format. Required for phone-based channels (SMS, WhatsApp).
-   * Omit for an email-only sender.
+   * Let this sender place and answer phone calls. Requires `phoneNumber`; enabling
+   * it without one returns 400. Check the `channels` array on the response to
+   * confirm `voice` is on.
+   */
+  enableVoice?: boolean;
+
+  /**
+   * Phone number in E.164 format, and it must be a number your project already owns
+   * (see `GET /v1/phone-numbers`). The number is routed to the sender as part of
+   * this call, which is what turns the SMS channel on. Passing a number the project
+   * does not own, or one already attached to another sender, returns 400 rather than
+   * creating a sender that cannot send. Omit for an email-only sender.
    */
   phoneNumber?: string;
 
@@ -582,6 +592,13 @@ export interface SenderUpdateParams {
    * Enable or disable inbound email receiving for this sender.
    */
   emailReceivingEnabled?: boolean;
+
+  /**
+   * Turn the voice channel on or off. The sender must already have a phone number
+   * provisioned for calls; enabling it otherwise returns 400 instead of storing a
+   * flag that changes nothing. Confirm with the `channels` array on the response.
+   */
+  enableVoice?: boolean;
 
   name?: string;
 
