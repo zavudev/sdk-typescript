@@ -28,6 +28,7 @@ describe('resource senders', () => {
       emailDomainId: 'emailDomainId',
       emailFromName: 'emailFromName',
       emailReceivingEnabled: true,
+      enableVoice: true,
       phoneNumber: 'phoneNumber',
       setAsDefault: true,
       webhookEvents: ['message.queued'],
