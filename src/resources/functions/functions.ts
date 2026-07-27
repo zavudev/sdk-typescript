@@ -215,7 +215,9 @@ export namespace FunctionCreateResponse {
     description?: string | null;
 
     /**
-     * HTTPS endpoint when httpEnabled is true.
+     * HTTPS endpoint, present only while httpEnabled is true. Null otherwise,
+     * including for a function that was previously exposed — the stored URL stops
+     * serving the moment HTTP is turned off, so it is never returned.
      */
     publicUrl?: string | null;
   }
@@ -287,7 +289,9 @@ export namespace FunctionRetrieveResponse {
     description?: string | null;
 
     /**
-     * HTTPS endpoint when httpEnabled is true.
+     * HTTPS endpoint, present only while httpEnabled is true. Null otherwise,
+     * including for a function that was previously exposed — the stored URL stops
+     * serving the moment HTTP is turned off, so it is never returned.
      */
     publicUrl?: string | null;
   }
@@ -359,7 +363,9 @@ export namespace FunctionUpdateResponse {
     description?: string | null;
 
     /**
-     * HTTPS endpoint when httpEnabled is true.
+     * HTTPS endpoint, present only while httpEnabled is true. Null otherwise,
+     * including for a function that was previously exposed — the stored URL stops
+     * serving the moment HTTP is turned off, so it is never returned.
      */
     publicUrl?: string | null;
   }
