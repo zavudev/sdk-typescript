@@ -177,6 +177,12 @@ export interface Message {
   /**
    * Type of message. Non-text types are supported by WhatsApp and Telegram (varies
    * by type).
+   *
+   * `location_request` asks the recipient to share their location and is
+   * WhatsApp-only. It takes no `content` object — the prompt goes in `text` (max
+   * 1024 characters) and the button label is fixed by WhatsApp. The recipient's
+   * answer arrives as an inbound `location` message whose `content.replyToMessageId`
+   * is the ID of the request.
    */
   messageType: MessageType;
 
@@ -461,6 +467,12 @@ export type MessageStatus =
 /**
  * Type of message. Non-text types are supported by WhatsApp and Telegram (varies
  * by type).
+ *
+ * `location_request` asks the recipient to share their location and is
+ * WhatsApp-only. It takes no `content` object — the prompt goes in `text` (max
+ * 1024 characters) and the button label is fixed by WhatsApp. The recipient's
+ * answer arrives as an inbound `location` message whose `content.replyToMessageId`
+ * is the ID of the request.
  */
 export type MessageType =
   | 'text'
@@ -474,6 +486,7 @@ export type MessageType =
   | 'buttons'
   | 'list'
   | 'cta_url'
+  | 'location_request'
   | 'reaction'
   | 'template';
 
