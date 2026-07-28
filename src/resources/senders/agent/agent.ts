@@ -382,6 +382,14 @@ export interface AgentExecution {
 
   inboundMessageId?: string;
 
+  /**
+   * Knowledge-base chunks retrieved for this answer. Zero on an agent that has
+   * documents attached means the reply was not grounded in them, which is otherwise
+   * indistinguishable from a correct answer in this record. Absent on executions
+   * recorded before this field existed, which is not the same as zero.
+   */
+  knowledgeChunksUsed?: number | null;
+
   responseMessageId?: string | null;
 
   responseText?: string | null;
