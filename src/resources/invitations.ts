@@ -8,11 +8,21 @@ import { path } from '../internal/utils/path';
 
 export class Invitations extends APIResource {
   /**
-   * Create a partner invitation link for a client to connect WhatsApp. The client
-   * opens the returned `url` and completes Meta's embedded signup, linking an
-   * official WhatsApp Business Account. The resulting sender is created in your
-   * project when the client completes the flow, and the invitation transitions to
+   * Create a partner invitation link for a client to connect a Meta channel. The
+   * client opens the returned `url` and authorizes with Meta; the resulting sender
+   * is created in your project when they finish, and the invitation transitions to
    * `completed`.
+   *
+   * `connectionType` picks the channel:
+   *
+   * - `whatsapp_waba` (default): Meta's embedded signup links an official WhatsApp
+   *   Business Account.
+   * - `messenger`: the client picks a Facebook Page they administer; its Messenger
+   *   inbox (including Marketplace chats) is routed to Zavu.
+   *
+   * One invitation connects one channel — create one per channel to onboard a client
+   * on several. `phoneNumberId` and `allowedPhoneCountries` apply to `whatsapp_waba`
+   * only.
    *
    * @example
    * ```ts
@@ -92,8 +102,13 @@ export interface Invitation {
 
   /**
    * Current status of the partner invitation.
+   *
+   * `failed` means the client started the connection and it did not finish (they
+   * cancelled Meta's dialog, denied a permission, or abandoned the tab). A failed
+   * invitation is still usable: the same link can be retried, and it moves back to
+   * `in_progress` when the client tries again.
    */
-  status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled';
+  status: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled' | 'failed';
 
   updatedAt: string;
 
@@ -111,13 +126,33 @@ export interface Invitation {
   completedAt?: string | null;
 
   /**
-   * How the client connects WhatsApp: `whatsapp_waba` (official Cloud API via
-   * embedded signup).
+   * The account the client linked, populated once the invitation is `completed`.
+   * Null before that. Use it to show the partner what was connected without fetching
+   * the sender.
    */
-  connectionType?: 'whatsapp_waba';
+  connectedAccount?: Invitation.ConnectedAccount | null;
 
   /**
-   * ID of a pre-assigned Zavu phone number for WhatsApp registration.
+   * Which Meta channel the client connects: `whatsapp_waba` (official WhatsApp Cloud
+   * API via embedded signup) or `messenger` (a Facebook Page's Messenger inbox,
+   * including Marketplace chats).
+   */
+  connectionType?: 'whatsapp_waba' | 'messenger';
+
+  failedAt?: string | null;
+
+  /**
+   * Stable code for why the last attempt failed, present when `status` is `failed`.
+   * Values include `fb_cancelled` (client closed Meta's dialog), `fb_not_authorized`
+   * (permission denied), `signup_abandoned` (started but never finished),
+   * `meta_no_pages` (the client administers no Facebook Page), and `internal_error`.
+   * Treat unknown codes as a generic failure.
+   */
+  failureReason?: string | null;
+
+  /**
+   * ID of a pre-assigned Zavu phone number for WhatsApp registration. Always null
+   * for `messenger` invitations.
    */
   phoneNumberId?: string | null;
 
@@ -129,6 +164,28 @@ export interface Invitation {
   startedAt?: string | null;
 
   viewedAt?: string | null;
+}
+
+export namespace Invitation {
+  /**
+   * The account the client linked, populated once the invitation is `completed`.
+   * Null before that. Use it to show the partner what was connected without fetching
+   * the sender.
+   */
+  export interface ConnectedAccount {
+    /**
+     * Provider-side identifier: the WhatsApp phone number ID, or the Facebook Page ID.
+     */
+    id: string;
+
+    channel: 'whatsapp' | 'messenger';
+
+    /**
+     * Display name of the connected account: the WhatsApp verified name, or the
+     * Facebook Page name.
+     */
+    name?: string | null;
+  }
 }
 
 export interface InvitationCreateResponse {
@@ -145,7 +202,8 @@ export interface InvitationCancelResponse {
 
 export interface InvitationCreateParams {
   /**
-   * ISO country codes for allowed phone numbers.
+   * ISO country codes for allowed phone numbers. Only valid when `connectionType` is
+   * `whatsapp_waba` — sending it with `messenger` returns 400.
    */
   allowedPhoneCountries?: Array<string>;
 
@@ -165,10 +223,21 @@ export interface InvitationCreateParams {
   clientPhone?: string;
 
   /**
-   * How the client connects WhatsApp. `whatsapp_waba` (default) runs Meta's embedded
-   * signup to link an official WhatsApp Business Account.
+   * Which Meta channel the client connects, and how.
+   *
+   * - `whatsapp_waba` (default): Meta's embedded signup links an official WhatsApp
+   *   Business Account. Accepts `phoneNumberId` and `allowedPhoneCountries`.
+   * - `messenger`: the client authorizes with Facebook and picks a Facebook Page
+   *   they administer. The Page's Messenger inbox — including Marketplace chats — is
+   *   routed to Zavu. They must be an admin of at least one Page. A Page can only be
+   *   connected to one Zavu project at a time: if the client picks a Page that
+   *   another project already connected, the newer connection wins and the older one
+   *   is disconnected.
+   *
+   * One invitation connects one channel. To onboard a client on several channels,
+   * create one invitation per channel; each completes into its own sender.
    */
-  connectionType?: 'whatsapp_waba';
+  connectionType?: 'whatsapp_waba' | 'messenger';
 
   /**
    * Number of days until the invitation expires.
@@ -177,7 +246,9 @@ export interface InvitationCreateParams {
 
   /**
    * ID of a Zavu phone number to pre-assign for WhatsApp registration. If provided,
-   * the client will use this number instead of their own.
+   * the client will use this number instead of their own. Only valid when
+   * `connectionType` is `whatsapp_waba` — sending it with `messenger` returns 400,
+   * since a Facebook Page has no phone number.
    */
   phoneNumberId?: string;
 }
@@ -185,8 +256,13 @@ export interface InvitationCreateParams {
 export interface InvitationListParams extends CursorParams {
   /**
    * Current status of the partner invitation.
+   *
+   * `failed` means the client started the connection and it did not finish (they
+   * cancelled Meta's dialog, denied a permission, or abandoned the tab). A failed
+   * invitation is still usable: the same link can be retried, and it moves back to
+   * `in_progress` when the client tries again.
    */
-  status?: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled';
+  status?: 'pending' | 'in_progress' | 'completed' | 'expired' | 'cancelled' | 'failed';
 }
 
 export declare namespace Invitations {
