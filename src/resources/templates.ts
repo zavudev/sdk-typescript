@@ -210,7 +210,7 @@ export namespace Template {
 
     text?: string;
 
-    type?: 'quick_reply' | 'url' | 'phone' | 'otp';
+    type?: 'quick_reply' | 'url' | 'phone' | 'otp' | 'request_contact_info';
 
     url?: string;
   }
@@ -306,9 +306,12 @@ export interface TemplateCreateParams {
 
 export namespace TemplateCreateParams {
   export interface Button {
-    text: string;
-
-    type: 'quick_reply' | 'url' | 'phone' | 'otp';
+    /**
+     * `request_contact_info` renders a fixed **Share Contact Info** button that asks
+     * the recipient to share their phone number — useful when a contact adopted a
+     * WhatsApp username and you only know their BSUID. It takes no other fields.
+     */
+    type: 'quick_reply' | 'url' | 'phone' | 'otp' | 'request_contact_info';
 
     /**
      * Sample value Meta uses to review templates with a dynamic URL button.
@@ -334,6 +337,12 @@ export namespace TemplateCreateParams {
      * Android app signature hash. Required for ONE_TAP buttons.
      */
     signatureHash?: string;
+
+    /**
+     * Button label. Required for every type except `request_contact_info`, whose label
+     * is fixed by WhatsApp.
+     */
+    text?: string;
 
     /**
      * Button destination. Use `{{1}}` exactly once for a dynamic URL (e.g.
