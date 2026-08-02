@@ -82,10 +82,19 @@ export class Messages extends APIResource {
    * - Window opens when the user messages you first
    * - Use template messages to initiate conversations outside the window
    *
-   * **Daily limits:**
+   * **Plan allowances and email billing:**
    *
-   * - Unverified accounts: 200 messages per channel per day
-   * - Complete KYC verification to increase limits to 10,000/day
+   * - WhatsApp, Telegram, Instagram and Messenger share an allowance of 2,000
+   *   messages per month on Free. Over it, sends return 429 with code
+   *   `a2p_limit_exceeded` and upgrade details; the counter resets on the 1st of
+   *   each month. Paid plans have no message caps
+   * - Email is billed from your prepaid balance in 1,000-message blocks: $0.40 per
+   *   1,000 transactional emails, $0.80 per 1,000 marketing (broadcast) emails. A
+   *   block is charged when your monthly count crosses each 1,000 boundary, and at
+   *   zero balance email sends return 402 with code `insufficient_balance`. Free
+   *   teams start with $2 of credit and additionally cap at 3,000 emails/month and
+   *   100/day. Teams on earlier plans keep their original email quotas instead
+   * - SMS and voice are billed per message from your balance on every plan
    *
    * **Email recipient pre-flight:** Email messages are validated automatically
    * before dispatch. Sends that would be a guaranteed hard bounce are failed instead
