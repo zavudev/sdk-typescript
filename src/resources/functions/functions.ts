@@ -33,7 +33,7 @@ export class Functions extends APIResource {
    *   description:
    *     'Replies to order status questions on WhatsApp.',
    *   sourceCode:
-   *     "import { defineFunction } from '@zavu/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
+   *     "import { defineFunction } from '@zavudev/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
    * });
    * ```
    */
@@ -56,9 +56,11 @@ export class Functions extends APIResource {
   }
 
   /**
-   * Update the draft source code and/or dependency map without triggering a build.
-   * Visible in the dashboard immediately, but the live (deployed) function does not
-   * change until `POST /v1/functions/{functionId}/deploy` runs.
+   * Update an existing function. `sourceCode` / `dependencies` edit the draft
+   * without triggering a build — they go live on the next
+   * `POST /v1/functions/{functionId}/deploy`. `httpEnabled` is applied to the
+   * deployed function immediately, so turning the public endpoint on or off does not
+   * require a redeploy.
    *
    * @example
    * ```ts
@@ -213,7 +215,9 @@ export namespace FunctionCreateResponse {
     description?: string | null;
 
     /**
-     * HTTPS endpoint when httpEnabled is true.
+     * HTTPS endpoint, present only while httpEnabled is true. Null otherwise,
+     * including for a function that was previously exposed — the stored URL stops
+     * serving the moment HTTP is turned off, so it is never returned.
      */
     publicUrl?: string | null;
   }
@@ -285,7 +289,9 @@ export namespace FunctionRetrieveResponse {
     description?: string | null;
 
     /**
-     * HTTPS endpoint when httpEnabled is true.
+     * HTTPS endpoint, present only while httpEnabled is true. Null otherwise,
+     * including for a function that was previously exposed — the stored URL stops
+     * serving the moment HTTP is turned off, so it is never returned.
      */
     publicUrl?: string | null;
   }
@@ -357,7 +363,9 @@ export namespace FunctionUpdateResponse {
     description?: string | null;
 
     /**
-     * HTTPS endpoint when httpEnabled is true.
+     * HTTPS endpoint, present only while httpEnabled is true. Null otherwise,
+     * including for a function that was previously exposed — the stored URL stops
+     * serving the moment HTTP is turned off, so it is never returned.
      */
     publicUrl?: string | null;
   }
@@ -500,7 +508,14 @@ export interface FunctionUpdateParams {
   dependencies?: { [key: string]: string };
 
   /**
-   * New source code to publish (replaces the draft).
+   * Expose the function on its public HTTPS URL, or take it down. Applies to the
+   * already-deployed function without redeploying; the URL is returned as
+   * `publicUrl`.
+   */
+  httpEnabled?: boolean;
+
+  /**
+   * New source code for the draft (replaces it).
    */
   sourceCode?: string;
 }
