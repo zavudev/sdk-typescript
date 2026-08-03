@@ -60,8 +60,9 @@ export class PhoneNumbers extends APIResource {
   }
 
   /**
-   * Purchase an available phone number. The first US phone number is free for each
-   * team.
+   * Purchase an available phone number. Requires a paid plan: the Free plan cannot
+   * purchase phone numbers and receives `402` with code `paid_plan_required`. Paid
+   * plans include the first US number at no charge.
    *
    * @example
    * ```ts
@@ -206,7 +207,8 @@ export interface PhoneNumberCapabilities {
 
 export interface PhoneNumberPricing {
   /**
-   * Whether this number qualifies for the free first US number offer.
+   * Whether this number qualifies as the plan-included first US number on paid
+   * plans.
    */
   isFreeEligible?: boolean;
 
