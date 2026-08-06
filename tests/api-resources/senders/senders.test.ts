@@ -28,6 +28,7 @@ describe('resource senders', () => {
       emailDomainId: 'emailDomainId',
       emailFromName: 'emailFromName',
       emailReceivingEnabled: true,
+      enableSmsOneway: true,
       enableVoice: true,
       phoneNumber: 'phoneNumber',
       setAsDefault: true,

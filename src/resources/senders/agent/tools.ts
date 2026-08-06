@@ -118,7 +118,16 @@ export class Tools extends APIResource {
   }
 
   /**
-   * Test a tool by triggering its webhook with test parameters.
+   * Run a tool with the parameters you supply and return what it answered.
+   *
+   * The call is synchronous: the response carries the tool's status, body, and
+   * duration, so a green result is evidence the tool ran rather than evidence it was
+   * accepted. Each run is also recorded and readable afterwards via
+   * `GET /v1/senders/{senderId}/agent/tools/{toolId}/test-runs`.
+   *
+   * A tool that answers with an error is reported as a run with `success: false` —
+   * the endpoint itself still returns 200. This fires the tool's real webhook, so a
+   * test has whatever side effects the tool has.
    *
    * @example
    * ```ts
@@ -194,7 +203,54 @@ export interface ToolUpdateResponse {
 }
 
 export interface ToolTestResponse {
-  scheduled: boolean;
+  /**
+   * One run of a tool triggered from the test endpoint. Recorded so a test is
+   * verifiable after the fact rather than only visible in the response.
+   */
+  run: ToolTestResponse.Run;
+}
+
+export namespace ToolTestResponse {
+  /**
+   * One run of a tool triggered from the test endpoint. Recorded so a test is
+   * verifiable after the fact rather than only visible in the response.
+   */
+  export interface Run {
+    id: string;
+
+    createdAt: string;
+
+    durationMs: number;
+
+    /**
+     * Whether the tool returned without error. A tool that answered with a non-2xx
+     * status is a failed run, not an error of this endpoint.
+     */
+    success: boolean;
+
+    toolId: string;
+
+    /**
+     * Why the run failed, when it did.
+     */
+    error?: string | null;
+
+    /**
+     * The parameters the tool was called with.
+     */
+    params?: { [key: string]: unknown };
+
+    /**
+     * The tool's response body, truncated.
+     */
+    response?: string | null;
+
+    /**
+     * HTTP status the tool's webhook returned. Absent for tools that do not go over
+     * HTTP.
+     */
+    statusCode?: number | null;
+  }
 }
 
 export interface ToolCreateParams {
