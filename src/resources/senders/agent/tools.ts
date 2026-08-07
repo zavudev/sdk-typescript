@@ -172,6 +172,17 @@ export interface AgentTool {
    * HTTPS URL to call when the tool is executed.
    */
   webhookUrl: string;
+
+  /**
+   * Signing secret for this tool's webhook. **Returned only when the tool is
+   * created**, never on a later read.
+   *
+   * Zavu generates one if you do not supply it, and signs every call to this tool
+   * with it: `X-Zavu-Signature: <hex>`, the HMAC-SHA256 of the request body. Verify
+   * it before trusting the call. Lost it? Rotate with
+   * `POST /v1/senders/{senderId}/agent/tools/{toolId}/webhook/secret`.
+   */
+  webhookSecret?: string;
 }
 
 export interface ToolParameters {
@@ -268,7 +279,9 @@ export interface ToolCreateParams {
   enabled?: boolean;
 
   /**
-   * Optional secret for webhook signature verification.
+   * Signing secret for the webhook. Optional: Zavu generates one when omitted and
+   * returns it on this response only. Supply your own if you already have a secret
+   * you want reused.
    */
   webhookSecret?: string;
 }

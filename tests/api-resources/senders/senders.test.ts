@@ -33,6 +33,7 @@ describe('resource senders', () => {
       phoneNumber: 'phoneNumber',
       setAsDefault: true,
       webhookEvents: ['message.queued'],
+      webhookSignatureVersion: 'v2',
       webhookUrl: 'https://example.com',
     });
   });
