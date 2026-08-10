@@ -90,6 +90,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.send(\n    to="+56912345678",\n    text="Your verification code is 123456",\n)\nprint(message_response.message)',
       },
+      java: {
+        method: 'messages().send',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageSendParams params = MessageSendParams.builder()\n            .to("+56912345678")\n            .build();\n        MessageResponse messageResponse = client.messages().send(params);\n    }\n}',
+      },
       kotlin: {
         method: 'messages().send',
         example:
@@ -155,6 +160,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.messages.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'messages().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageListPage;\nimport com.zavudev.api.models.messages.MessageListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageListPage page = client.messages().list();\n    }\n}',
+      },
       kotlin: {
         method: 'messages().list',
         example:
@@ -212,6 +222,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.retrieve(\n    "messageId",\n)\nprint(message_response.message)',
+      },
+      java: {
+        method: 'messages().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageResponse messageResponse = client.messages().retrieve("messageId");\n    }\n}',
       },
       kotlin: {
         method: 'messages().retrieve',
@@ -273,6 +288,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.react(\n    message_id="messageId",\n    emoji="👍",\n)\nprint(message_response.message)',
       },
+      java: {
+        method: 'messages().react',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageReactParams;\nimport com.zavudev.api.models.messages.MessageResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageReactParams params = MessageReactParams.builder()\n            .messageId("messageId")\n            .emoji("👍")\n            .build();\n        MessageResponse messageResponse = client.messages().react(params);\n    }\n}',
+      },
       kotlin: {
         method: 'messages().react',
         example:
@@ -333,6 +353,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.messages.show_typing(\n    message_id="messageId",\n)\nprint(response.success)',
       },
+      java: {
+        method: 'messages().showTyping',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageShowTypingParams;\nimport com.zavudev.api.models.messages.MessageShowTypingResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageShowTypingResponse response = client.messages().showTyping("messageId");\n    }\n}',
+      },
       kotlin: {
         method: 'messages().showTyping',
         example:
@@ -391,6 +416,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.templates.list()\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'templates().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.TemplateListPage;\nimport com.zavudev.api.models.templates.TemplateListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        TemplateListPage page = client.templates().list();\n    }\n}',
       },
       kotlin: {
         method: 'templates().list',
@@ -465,6 +495,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.create(\n    body="Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n    language="en",\n    name="order_confirmation",\n    variables=["customer_name", "order_id"],\n    whatsapp_category="UTILITY",\n)\nprint(template.id)',
       },
+      java: {
+        method: 'templates().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.Template;\nimport com.zavudev.api.models.templates.TemplateCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        TemplateCreateParams params = TemplateCreateParams.builder()\n            .body("Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.")\n            .language("en")\n            .name("order_confirmation")\n            .build();\n        Template template = client.templates().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'templates().create',
         example:
@@ -525,6 +560,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.retrieve(\n    "templateId",\n)\nprint(template.id)',
       },
+      java: {
+        method: 'templates().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.Template;\nimport com.zavudev.api.models.templates.TemplateRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Template template = client.templates().retrieve("templateId");\n    }\n}',
+      },
       kotlin: {
         method: 'templates().retrieve',
         example:
@@ -581,6 +621,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.templates.delete(\n    "templateId",\n)',
+      },
+      java: {
+        method: 'templates().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.TemplateDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.templates().delete("templateId");\n    }\n}',
       },
       kotlin: {
         method: 'templates().delete',
@@ -646,6 +691,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.submit(\n    template_id="templateId",\n    sender_id="sender_abc123",\n    category="UTILITY",\n)\nprint(template.id)',
       },
+      java: {
+        method: 'templates().submit',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.Template;\nimport com.zavudev.api.models.templates.TemplateSubmitParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        TemplateSubmitParams params = TemplateSubmitParams.builder()\n            .templateId("templateId")\n            .senderId("sender_abc123")\n            .build();\n        Template template = client.templates().submit(params);\n    }\n}',
+      },
       kotlin: {
         method: 'templates().submit',
         example:
@@ -705,6 +755,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.list()\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'senders().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderListPage;\nimport com.zavudev.api.models.senders.SenderListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderListPage page = client.senders().list();\n    }\n}',
       },
       kotlin: {
         method: 'senders().list',
@@ -777,6 +832,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.create(\n    name="name",\n)\nprint(sender.id)',
       },
+      java: {
+        method: 'senders().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.Sender;\nimport com.zavudev.api.models.senders.SenderCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderCreateParams params = SenderCreateParams.builder()\n            .name("name")\n            .build();\n        Sender sender = client.senders().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().create',
         example:
@@ -835,6 +895,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.retrieve(\n    "senderId",\n)\nprint(sender.id)',
+      },
+      java: {
+        method: 'senders().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.Sender;\nimport com.zavudev.api.models.senders.SenderRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Sender sender = client.senders().retrieve("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().retrieve',
@@ -910,6 +975,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.update(\n    sender_id="senderId",\n)\nprint(sender.id)',
       },
+      java: {
+        method: 'senders().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.Sender;\nimport com.zavudev.api.models.senders.SenderUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Sender sender = client.senders().update("senderId");\n    }\n}',
+      },
       kotlin: {
         method: 'senders().update',
         example:
@@ -966,6 +1036,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.delete(\n    "senderId",\n)',
+      },
+      java: {
+        method: 'senders().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.senders().delete("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().delete',
@@ -1025,6 +1100,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.regenerate_webhook_secret',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_secret_response = client.senders.regenerate_webhook_secret(\n    "senderId",\n)\nprint(webhook_secret_response.secret)',
+      },
+      java: {
+        method: 'senders().regenerateWebhookSecret',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderRegenerateWebhookSecretParams;\nimport com.zavudev.api.models.senders.WebhookSecretResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WebhookSecretResponse webhookSecretResponse = client.senders().regenerateWebhookSecret("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().regenerateWebhookSecret',
@@ -1086,6 +1166,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.get_profile',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwhatsapp_business_profile_response = client.senders.get_profile(\n    "senderId",\n)\nprint(whatsapp_business_profile_response.profile)',
+      },
+      java: {
+        method: 'senders().getProfile',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderGetProfileParams;\nimport com.zavudev.api.models.senders.WhatsappBusinessProfileResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappBusinessProfileResponse whatsappBusinessProfileResponse = client.senders().getProfile("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().getProfile',
@@ -1155,6 +1240,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.update_profile(\n    sender_id="senderId",\n    about="Succulent specialists!",\n    description="We specialize in providing high-quality succulents.",\n    email="contact@example.com",\n    vertical="RETAIL",\n    websites=["https://www.example.com"],\n)\nprint(response.profile)',
       },
+      java: {
+        method: 'senders().updateProfile',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderUpdateProfileParams;\nimport com.zavudev.api.models.senders.SenderUpdateProfileResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderUpdateProfileResponse response = client.senders().updateProfile("senderId");\n    }\n}',
+      },
       kotlin: {
         method: 'senders().updateProfile',
         example:
@@ -1215,6 +1305,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.upload_profile_picture(\n    sender_id="senderId",\n    image_url="https://example.com/profile.jpg",\n    mime_type="image/jpeg",\n)\nprint(response.profile)',
       },
+      java: {
+        method: 'senders().uploadProfilePicture',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderUploadProfilePictureParams;\nimport com.zavudev.api.models.senders.SenderUploadProfilePictureResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderUploadProfilePictureParams params = SenderUploadProfilePictureParams.builder()\n            .senderId("senderId")\n            .imageUrl("https://example.com/profile.jpg")\n            .mimeType(SenderUploadProfilePictureParams.MimeType.IMAGE_JPEG)\n            .build();\n        SenderUploadProfilePictureResponse response = client.senders().uploadProfilePicture(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().uploadProfilePicture',
         example:
@@ -1274,6 +1369,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.retrieve(\n    "senderId",\n)\nprint(agent_response.agent)',
+      },
+      java: {
+        method: 'senders().agent().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentResponse;\nimport com.zavudev.api.models.senders.agent.AgentRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentResponse agentResponse = client.senders().agent().retrieve("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().retrieve',
@@ -1347,6 +1447,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.create(\n    sender_id="senderId",\n    model="gpt-4o-mini",\n    name="Customer Support",\n    provider="openai",\n    system_prompt="You are a helpful customer support agent. Be friendly and concise.",\n    api_key="sk-...",\n)\nprint(agent_response.agent)',
+      },
+      java: {
+        method: 'senders().agent().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentCreateParams;\nimport com.zavudev.api.models.senders.agent.AgentProvider;\nimport com.zavudev.api.models.senders.agent.AgentResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentCreateParams params = AgentCreateParams.builder()\n            .senderId("senderId")\n            .model("gpt-4o-mini")\n            .name("Customer Support")\n            .provider(AgentProvider.OPENAI)\n            .systemPrompt("You are a helpful customer support agent. Be friendly and concise.")\n            .build();\n        AgentResponse agentResponse = client.senders().agent().create(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().create',
@@ -1423,6 +1528,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.update(\n    sender_id="senderId",\n)\nprint(agent_response.agent)',
       },
+      java: {
+        method: 'senders().agent().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentResponse;\nimport com.zavudev.api.models.senders.agent.AgentUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentResponse agentResponse = client.senders().agent().update("senderId");\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().update',
         example:
@@ -1479,6 +1589,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.delete(\n    "senderId",\n)',
+      },
+      java: {
+        method: 'senders().agent().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.senders().agent().delete("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().delete',
@@ -1539,6 +1654,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.stats',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_stats = client.senders.agent.stats(\n    "senderId",\n)\nprint(agent_stats.error_count)',
+      },
+      java: {
+        method: 'senders().agent().stats',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentStats;\nimport com.zavudev.api.models.senders.agent.AgentStatsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentStats agentStats = client.senders().agent().stats("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().stats',
@@ -1605,6 +1725,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.executions.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'senders().agent().executions().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionListPage;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ExecutionListPage page = client.senders().agent().executions().list("senderId");\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().executions().list',
         example:
@@ -1666,6 +1791,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nexecution = client.senders.agent.executions.retrieve(\n    execution_id="executionId",\n    sender_id="senderId",\n)\nprint(execution.execution)',
       },
+      java: {
+        method: 'senders().agent().executions().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionRetrieveParams;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ExecutionRetrieveParams params = ExecutionRetrieveParams.builder()\n            .senderId("senderId")\n            .executionId("executionId")\n            .build();\n        ExecutionRetrieveResponse execution = client.senders().agent().executions().retrieve(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().executions().retrieve',
         example:
@@ -1725,6 +1855,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.flows.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.flows.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'senders().agent().flows().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowListPage;\nimport com.zavudev.api.models.senders.agent.flows.FlowListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowListPage page = client.senders().agent().flows().list("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().flows().list',
@@ -1793,6 +1928,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.create(\n    sender_id="senderId",\n    name="Lead Capture",\n    steps=[{\n        "id": "welcome",\n        "type": "message",\n        "config": {\n            "text": "Thanks for your interest! Let me get some info."\n        },\n        "next_step_id": "ask_name",\n    }, {\n        "id": "ask_name",\n        "type": "collect",\n        "config": {\n            "variable": "name",\n            "prompt": "What\'s your name?",\n        },\n    }],\n    trigger={\n        "type": "keyword",\n        "keywords": ["info", "pricing", "demo"],\n    },\n    description="Capture lead information",\n)\nprint(flow.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.senders.agent.flows.FlowCreateParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowCreateResponse;\nimport com.zavudev.api.models.senders.agent.flows.FlowStep;\nimport com.zavudev.api.models.senders.agent.flows.FlowTrigger;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowCreateParams params = FlowCreateParams.builder()\n            .senderId("senderId")\n            .name("Lead Capture")\n            .addStep(FlowStep.builder()\n                .id("welcome")\n                .config(FlowStep.Config.builder()\n                    .putAdditionalProperty("text", JsonValue.from("bar"))\n                    .build())\n                .type(FlowStep.Type.MESSAGE)\n                .build())\n            .addStep(FlowStep.builder()\n                .id("ask_name")\n                .config(FlowStep.Config.builder()\n                    .putAdditionalProperty("variable", JsonValue.from("bar"))\n                    .putAdditionalProperty("prompt", JsonValue.from("bar"))\n                    .build())\n                .type(FlowStep.Type.COLLECT)\n                .build())\n            .trigger(FlowTrigger.builder()\n                .type(FlowTrigger.Type.KEYWORD)\n                .build())\n            .build();\n        FlowCreateResponse flow = client.senders().agent().flows().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().flows().create',
         example:
@@ -1852,6 +1992,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.flows.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.retrieve(\n    flow_id="flowId",\n    sender_id="senderId",\n)\nprint(flow.flow)',
+      },
+      java: {
+        method: 'senders().agent().flows().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowRetrieveParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowRetrieveParams params = FlowRetrieveParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .build();\n        FlowRetrieveResponse flow = client.senders().agent().flows().retrieve(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().flows().retrieve',
@@ -1922,6 +2067,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.update(\n    flow_id="flowId",\n    sender_id="senderId",\n)\nprint(flow.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowUpdateParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowUpdateParams params = FlowUpdateParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .build();\n        FlowUpdateResponse flow = client.senders().agent().flows().update(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().flows().update',
         example:
@@ -1979,6 +2129,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.flows.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.flows.delete(\n    flow_id="flowId",\n    sender_id="senderId",\n)',
+      },
+      java: {
+        method: 'senders().agent().flows().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowDeleteParams params = FlowDeleteParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .build();\n        client.senders().agent().flows().delete(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().flows().delete',
@@ -2040,6 +2195,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.agent.flows.duplicate(\n    flow_id="flowId",\n    sender_id="senderId",\n    new_name="Lead Capture (Copy)",\n)\nprint(response.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().duplicate',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowDuplicateParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowDuplicateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowDuplicateParams params = FlowDuplicateParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .newName("Lead Capture (Copy)")\n            .build();\n        FlowDuplicateResponse response = client.senders().agent().flows().duplicate(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().flows().duplicate',
         example:
@@ -2099,6 +2259,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.tools.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'senders().agent().tools().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolListPage;\nimport com.zavudev.api.models.senders.agent.tools.ToolListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolListPage page = client.senders().agent().tools().list("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().tools().list',
@@ -2167,6 +2332,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.create(\n    sender_id="senderId",\n    description="Get the status of a customer order",\n    name="get_order_status",\n    parameters={\n        "type": "object",\n        "properties": {\n            "order_id": {\n                "type": "string",\n                "description": "The order ID to look up",\n            }\n        },\n        "required": ["order_id"],\n    },\n    webhook_url="https://api.example.com/webhooks/order-status",\n    webhook_secret="whsec_...",\n)\nprint(tool.tool)',
       },
+      java: {
+        method: 'senders().agent().tools().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.senders.agent.tools.ToolCreateParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolCreateResponse;\nimport com.zavudev.api.models.senders.agent.tools.ToolParameters;\nimport java.util.Map;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolCreateParams params = ToolCreateParams.builder()\n            .senderId("senderId")\n            .description("Get the status of a customer order")\n            .name("get_order_status")\n            .parameters(ToolParameters.builder()\n                .properties(ToolParameters.Properties.builder()\n                    .putAdditionalProperty("order_id", JsonValue.from(<String, Object>Map.of()))\n                    .build())\n                .addRequired("order_id")\n                .type(ToolParameters.Type.OBJECT)\n                .build())\n            .webhookUrl("https://api.example.com/webhooks/order-status")\n            .build();\n        ToolCreateResponse tool = client.senders().agent().tools().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().tools().create',
         example:
@@ -2226,6 +2396,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.retrieve(\n    tool_id="toolId",\n    sender_id="senderId",\n)\nprint(tool.tool)',
+      },
+      java: {
+        method: 'senders().agent().tools().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolRetrieveParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolRetrieveParams params = ToolRetrieveParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .build();\n        ToolRetrieveResponse tool = client.senders().agent().tools().retrieve(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().tools().retrieve',
@@ -2296,6 +2471,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.update(\n    tool_id="toolId",\n    sender_id="senderId",\n)\nprint(tool.tool)',
       },
+      java: {
+        method: 'senders().agent().tools().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolUpdateParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolUpdateParams params = ToolUpdateParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .build();\n        ToolUpdateResponse tool = client.senders().agent().tools().update(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().tools().update',
         example:
@@ -2353,6 +2533,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.tools.delete(\n    tool_id="toolId",\n    sender_id="senderId",\n)',
+      },
+      java: {
+        method: 'senders().agent().tools().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolDeleteParams params = ToolDeleteParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .build();\n        client.senders().agent().tools().delete(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().tools().delete',
@@ -2415,6 +2600,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.agent.tools.test(\n    tool_id="toolId",\n    sender_id="senderId",\n    test_params={\n        "order_id": "ORD-12345"\n    },\n)\nprint(response.run)',
       },
+      java: {
+        method: 'senders().agent().tools().test',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.senders.agent.tools.ToolTestParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolTestResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolTestParams params = ToolTestParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .testParams(ToolTestParams.TestParams.builder()\n                .putAdditionalProperty("order_id", JsonValue.from("bar"))\n                .build())\n            .build();\n        ToolTestResponse response = client.senders().agent().tools().test(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().tools().test',
         example:
@@ -2474,6 +2664,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.knowledge_bases.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.knowledge_bases.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'senders().agent().knowledgeBases().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseListPage;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseListPage page = client.senders().agent().knowledgeBases().list("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().knowledgeBases().list',
@@ -2535,6 +2730,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.create(\n    sender_id="senderId",\n    name="Product FAQ",\n    description="Frequently asked questions about our products",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseCreateParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseCreateParams params = KnowledgeBaseCreateParams.builder()\n            .senderId("senderId")\n            .name("Product FAQ")\n            .build();\n        KnowledgeBaseCreateResponse knowledgeBase = client.senders().agent().knowledgeBases().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().knowledgeBases().create',
         example:
@@ -2594,6 +2794,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.knowledge_bases.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.retrieve(\n    kb_id="kbId",\n    sender_id="senderId",\n)\nprint(knowledge_base.knowledge_base)',
+      },
+      java: {
+        method: 'senders().agent().knowledgeBases().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseRetrieveParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseRetrieveParams params = KnowledgeBaseRetrieveParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        KnowledgeBaseRetrieveResponse knowledgeBase = client.senders().agent().knowledgeBases().retrieve(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().knowledgeBases().retrieve',
@@ -2655,6 +2860,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.update(\n    kb_id="kbId",\n    sender_id="senderId",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseUpdateParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseUpdateParams params = KnowledgeBaseUpdateParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        KnowledgeBaseUpdateResponse knowledgeBase = client.senders().agent().knowledgeBases().update(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().knowledgeBases().update',
         example:
@@ -2712,6 +2922,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.knowledge_bases.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.knowledge_bases.delete(\n    kb_id="kbId",\n    sender_id="senderId",\n)',
+      },
+      java: {
+        method: 'senders().agent().knowledgeBases().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseDeleteParams params = KnowledgeBaseDeleteParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        client.senders().agent().knowledgeBases().delete(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().knowledgeBases().delete',
@@ -2773,6 +2988,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.knowledge_bases.documents.list(\n    kb_id="kbId",\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().documents().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentListPage;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        DocumentListParams params = DocumentListParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        DocumentListPage page = client.senders().agent().knowledgeBases().documents().list(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().knowledgeBases().documents().list',
         example:
@@ -2833,6 +3053,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ndocument = client.senders.agent.knowledge_bases.documents.create(\n    kb_id="kbId",\n    sender_id="senderId",\n    content="Our return policy allows returns within 30 days of purchase...",\n    title="Return Policy",\n)\nprint(document.document)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().documents().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentCreateParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        DocumentCreateParams params = DocumentCreateParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .content("Our return policy allows returns within 30 days of purchase...")\n            .title("Return Policy")\n            .build();\n        DocumentCreateResponse document = client.senders().agent().knowledgeBases().documents().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'senders().agent().knowledgeBases().documents().create',
         example:
@@ -2890,6 +3115,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.knowledge_bases.documents.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.knowledge_bases.documents.delete(\n    doc_id="docId",\n    sender_id="senderId",\n    kb_id="kbId",\n)',
+      },
+      java: {
+        method: 'senders().agent().knowledgeBases().documents().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        DocumentDeleteParams params = DocumentDeleteParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .docId("docId")\n            .build();\n        client.senders().agent().knowledgeBases().documents().delete(params);\n    }\n}',
       },
       kotlin: {
         method: 'senders().agent().knowledgeBases().documents().delete',
@@ -2952,6 +3182,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwhatsapp_sync = client.senders.whatsapp_sync.retrieve(\n    "senderId",\n)\nprint(whatsapp_sync.sync)',
       },
+      java: {
+        method: 'senders().whatsappSync().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncRetrieveParams;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappSyncRetrieveResponse whatsappSync = client.senders().whatsappSync().retrieve("senderId");\n    }\n}',
+      },
       kotlin: {
         method: 'senders().whatsappSync().retrieve',
         example:
@@ -3012,6 +3247,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.whatsapp_sync.start_history_sync',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.whatsapp_sync.start_history_sync(\n    "senderId",\n)\nprint(response.message)',
+      },
+      java: {
+        method: 'senders().whatsappSync().startHistorySync',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartHistorySyncParams;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartHistorySyncResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappSyncStartHistorySyncResponse response = client.senders().whatsappSync().startHistorySync("senderId");\n    }\n}',
       },
       kotlin: {
         method: 'senders().whatsappSync().startHistorySync',
@@ -3074,6 +3314,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.whatsapp_sync.start_contacts_sync(\n    "senderId",\n)\nprint(response.message)',
       },
+      java: {
+        method: 'senders().whatsappSync().startContactsSync',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartContactsSyncParams;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartContactsSyncResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappSyncStartContactsSyncResponse response = client.senders().whatsappSync().startContactsSync("senderId");\n    }\n}',
+      },
       kotlin: {
         method: 'senders().whatsappSync().startContactsSync',
         example:
@@ -3134,6 +3379,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.contacts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'contacts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.ContactListPage;\nimport com.zavudev.api.models.contacts.ContactListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactListPage page = client.contacts().list();\n    }\n}',
+      },
       kotlin: {
         method: 'contacts().list',
         example:
@@ -3191,6 +3441,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.retrieve(\n    "contactId",\n)\nprint(contact.id)',
+      },
+      java: {
+        method: 'contacts().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Contact contact = client.contacts().retrieve("contactId");\n    }\n}',
       },
       kotlin: {
         method: 'contacts().retrieve',
@@ -3255,6 +3510,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.update(\n    contact_id="contactId",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Contact contact = client.contacts().update("contactId");\n    }\n}',
+      },
       kotlin: {
         method: 'contacts().update',
         example:
@@ -3313,6 +3573,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts.retrieve_by_phone',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.retrieve_by_phone(\n    "phoneNumber",\n)\nprint(contact.id)',
+      },
+      java: {
+        method: 'contacts().retrieveByPhone',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactRetrieveByPhoneParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Contact contact = client.contacts().retrieveByPhone("phoneNumber");\n    }\n}',
       },
       kotlin: {
         method: 'contacts().retrieveByPhone',
@@ -3378,6 +3643,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.create(\n    channels=[{\n        "channel": "sms",\n        "identifier": "+14155551234",\n        "is_primary": True,\n    }],\n    display_name="John Doe",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactCreateParams params = ContactCreateParams.builder()\n            .addChannel(ContactCreateParams.Channel.builder()\n                .channel(ContactCreateParams.Channel.InnerChannel.SMS)\n                .identifier("+14155551234")\n                .build())\n            .build();\n        Contact contact = client.contacts().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'contacts().create',
         example:
@@ -3439,6 +3709,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.merge(\n    contact_id="contactId",\n    source_contact_id="jx7xyz789",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().merge',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactMergeParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactMergeParams params = ContactMergeParams.builder()\n            .contactId("contactId")\n            .sourceContactId("jx7xyz789")\n            .build();\n        Contact contact = client.contacts().merge(params);\n    }\n}',
+      },
       kotlin: {
         method: 'contacts().merge',
         example:
@@ -3496,6 +3771,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts.dismiss_merge_suggestion',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.dismiss_merge_suggestion(\n    "contactId",\n)',
+      },
+      java: {
+        method: 'contacts().dismissMergeSuggestion',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.ContactDismissMergeSuggestionParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.contacts().dismissMergeSuggestion("contactId");\n    }\n}',
       },
       kotlin: {
         method: 'contacts().dismissMergeSuggestion',
@@ -3555,6 +3835,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.delete(\n    "contactId",\n)',
+      },
+      java: {
+        method: 'contacts().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.ContactDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.contacts().delete("contactId");\n    }\n}',
       },
       kotlin: {
         method: 'contacts().delete',
@@ -3622,6 +3907,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.contacts.channels.add(\n    contact_id="contactId",\n    channel="email",\n    identifier="john.work@company.com",\n    label="work",\n)\nprint(response.channel)',
       },
+      java: {
+        method: 'contacts().channels().add',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelAddParams;\nimport com.zavudev.api.models.contacts.channels.ChannelAddResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelAddParams params = ChannelAddParams.builder()\n            .contactId("contactId")\n            .channel(ChannelAddParams.Channel.EMAIL)\n            .identifier("john.work@company.com")\n            .build();\n        ChannelAddResponse response = client.contacts().channels().add(params);\n    }\n}',
+      },
       kotlin: {
         method: 'contacts().channels().add',
         example:
@@ -3688,6 +3978,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nchannel = client.contacts.channels.update(\n    channel_id="channelId",\n    contact_id="contactId",\n)\nprint(channel.channel)',
       },
+      java: {
+        method: 'contacts().channels().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelUpdateParams;\nimport com.zavudev.api.models.contacts.channels.ChannelUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelUpdateParams params = ChannelUpdateParams.builder()\n            .contactId("contactId")\n            .channelId("channelId")\n            .build();\n        ChannelUpdateResponse channel = client.contacts().channels().update(params);\n    }\n}',
+      },
       kotlin: {
         method: 'contacts().channels().update',
         example:
@@ -3745,6 +4040,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts.channels.remove',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.channels.remove(\n    channel_id="channelId",\n    contact_id="contactId",\n)',
+      },
+      java: {
+        method: 'contacts().channels().remove',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelRemoveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelRemoveParams params = ChannelRemoveParams.builder()\n            .contactId("contactId")\n            .channelId("channelId")\n            .build();\n        client.contacts().channels().remove(params);\n    }\n}',
       },
       kotlin: {
         method: 'contacts().channels().remove',
@@ -3805,6 +4105,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts.channels.set_primary',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.contacts.channels.set_primary(\n    channel_id="channelId",\n    contact_id="contactId",\n)\nprint(response.channel)',
+      },
+      java: {
+        method: 'contacts().channels().setPrimary',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelSetPrimaryParams;\nimport com.zavudev.api.models.contacts.channels.ChannelSetPrimaryResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelSetPrimaryParams params = ChannelSetPrimaryParams.builder()\n            .contactId("contactId")\n            .channelId("channelId")\n            .build();\n        ChannelSetPrimaryResponse response = client.contacts().channels().setPrimary(params);\n    }\n}',
       },
       kotlin: {
         method: 'contacts().channels().setPrimary',
@@ -3878,6 +4183,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.create(\n    channel="sms",\n    name="Black Friday Sale",\n    text="Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.",\n)\nprint(broadcast.broadcast)',
       },
+      java: {
+        method: 'broadcasts().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastChannel;\nimport com.zavudev.api.models.broadcasts.BroadcastCreateParams;\nimport com.zavudev.api.models.broadcasts.BroadcastCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastCreateParams params = BroadcastCreateParams.builder()\n            .channel(BroadcastChannel.SMS)\n            .name("Black Friday Sale")\n            .build();\n        BroadcastCreateResponse broadcast = client.broadcasts().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().create',
         example:
@@ -3938,6 +4248,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.broadcasts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'broadcasts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastListPage;\nimport com.zavudev.api.models.broadcasts.BroadcastListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastListPage page = client.broadcasts().list();\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().list',
         example:
@@ -3996,6 +4311,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.retrieve(\n    "broadcastId",\n)\nprint(broadcast.broadcast)',
+      },
+      java: {
+        method: 'broadcasts().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastRetrieveParams;\nimport com.zavudev.api.models.broadcasts.BroadcastRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastRetrieveResponse broadcast = client.broadcasts().retrieve("broadcastId");\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().retrieve',
@@ -4064,6 +4384,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.update(\n    broadcast_id="broadcastId",\n)\nprint(broadcast.broadcast)',
       },
+      java: {
+        method: 'broadcasts().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastUpdateParams;\nimport com.zavudev.api.models.broadcasts.BroadcastUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastUpdateResponse broadcast = client.broadcasts().update("broadcastId");\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().update',
         example:
@@ -4120,6 +4445,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.broadcasts.delete(\n    "broadcastId",\n)',
+      },
+      java: {
+        method: 'broadcasts().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.broadcasts().delete("broadcastId");\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().delete',
@@ -4181,6 +4511,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.send(\n    broadcast_id="broadcastId",\n)\nprint(response.broadcast)',
       },
+      java: {
+        method: 'broadcasts().send',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastSendParams;\nimport com.zavudev.api.models.broadcasts.BroadcastSendResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastSendResponse response = client.broadcasts().send("broadcastId");\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().send',
         example:
@@ -4240,6 +4575,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.cancel',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.cancel(\n    "broadcastId",\n)\nprint(response.broadcast)',
+      },
+      java: {
+        method: 'broadcasts().cancel',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastCancelParams;\nimport com.zavudev.api.models.broadcasts.BroadcastCancelResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastCancelResponse response = client.broadcasts().cancel("broadcastId");\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().cancel',
@@ -4301,6 +4641,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast_progress = client.broadcasts.progress(\n    "broadcastId",\n)\nprint(broadcast_progress.broadcast_id)',
       },
+      java: {
+        method: 'broadcasts().progress',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastProgress;\nimport com.zavudev.api.models.broadcasts.BroadcastProgressParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastProgress broadcastProgress = client.broadcasts().progress("broadcastId");\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().progress',
         example:
@@ -4359,6 +4704,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.reschedule',
         example:
           'import os\nfrom datetime import datetime\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.reschedule(\n    broadcast_id="broadcastId",\n    scheduled_at=datetime.fromisoformat("2024-01-15T14:00:00"),\n)\nprint(response.broadcast)',
+      },
+      java: {
+        method: 'broadcasts().reschedule',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastRescheduleParams;\nimport com.zavudev.api.models.broadcasts.BroadcastRescheduleResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastRescheduleParams params = BroadcastRescheduleParams.builder()\n            .broadcastId("broadcastId")\n            .scheduledAt(OffsetDateTime.parse("2024-01-15T14:00:00Z"))\n            .build();\n        BroadcastRescheduleResponse response = client.broadcasts().reschedule(params);\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().reschedule',
@@ -4421,6 +4771,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.retry_review(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      java: {
+        method: 'broadcasts().retryReview',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastRetryReviewParams;\nimport com.zavudev.api.models.broadcasts.BroadcastRetryReviewResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastRetryReviewResponse response = client.broadcasts().retryReview("broadcastId");\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().retryReview',
         example:
@@ -4481,6 +4836,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.escalate_review',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.escalate_review(\n    "broadcastId",\n)\nprint(response.broadcast)',
+      },
+      java: {
+        method: 'broadcasts().escalateReview',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastEscalateReviewParams;\nimport com.zavudev.api.models.broadcasts.BroadcastEscalateReviewResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastEscalateReviewResponse response = client.broadcasts().escalateReview("broadcastId");\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().escalateReview',
@@ -4544,6 +4904,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.contacts.add',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.contacts.add(\n    broadcast_id="broadcastId",\n    contacts=[{\n        "recipient": "+14155551234",\n        "template_variables": {\n            "name": "John",\n            "order_id": "ORD-001",\n        },\n    }, {\n        "recipient": "+14155555678",\n        "template_variables": {\n            "name": "Jane",\n            "order_id": "ORD-002",\n        },\n    }],\n)\nprint(response.invalid)',
+      },
+      java: {
+        method: 'broadcasts().contacts().add',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.contacts.ContactAddParams;\nimport com.zavudev.api.models.broadcasts.contacts.ContactAddResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactAddParams params = ContactAddParams.builder()\n            .broadcastId("broadcastId")\n            .addContact(ContactAddParams.Contact.builder()\n                .recipient("+14155551234")\n                .build())\n            .addContact(ContactAddParams.Contact.builder()\n                .recipient("+14155555678")\n                .build())\n            .build();\n        ContactAddResponse response = client.broadcasts().contacts().add(params);\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().contacts().add',
@@ -4610,6 +4975,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.broadcasts.contacts.list(\n    broadcast_id="broadcastId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'broadcasts().contacts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.contacts.ContactListPage;\nimport com.zavudev.api.models.broadcasts.contacts.ContactListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactListPage page = client.broadcasts().contacts().list("broadcastId");\n    }\n}',
+      },
       kotlin: {
         method: 'broadcasts().contacts().list',
         example:
@@ -4667,6 +5037,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.contacts.remove',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.broadcasts.contacts.remove(\n    contact_id="contactId",\n    broadcast_id="broadcastId",\n)',
+      },
+      java: {
+        method: 'broadcasts().contacts().remove',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.contacts.ContactRemoveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactRemoveParams params = ContactRemoveParams.builder()\n            .broadcastId("broadcastId")\n            .contactId("contactId")\n            .build();\n        client.broadcasts().contacts().remove(params);\n    }\n}',
       },
       kotlin: {
         method: 'broadcasts().contacts().remove',
@@ -4727,6 +5102,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'introspect.validate_phone',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.introspect.validate_phone(\n    phone_number="+56912345678",\n)\nprint(response.valid_number)',
+      },
+      java: {
+        method: 'introspect().validatePhone',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.introspect.IntrospectValidatePhoneParams;\nimport com.zavudev.api.models.introspect.IntrospectValidatePhoneResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        IntrospectValidatePhoneParams params = IntrospectValidatePhoneParams.builder()\n            .phoneNumber("+56912345678")\n            .build();\n        IntrospectValidatePhoneResponse response = client.introspect().validatePhone(params);\n    }\n}',
       },
       kotlin: {
         method: 'introspect().validatePhone',
@@ -4794,6 +5174,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.search_available(\n    country_code="xx",\n)\nprint(response.items)',
       },
+      java: {
+        method: 'phoneNumbers().searchAvailable',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberSearchAvailableParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberSearchAvailableResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberSearchAvailableParams params = PhoneNumberSearchAvailableParams.builder()\n            .countryCode("xx")\n            .build();\n        PhoneNumberSearchAvailableResponse response = client.phoneNumbers().searchAvailable(params);\n    }\n}',
+      },
       kotlin: {
         method: 'phoneNumbers().searchAvailable',
         example:
@@ -4855,6 +5240,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.requirements(\n    country_code="xx",\n)\nprint(response.items)',
       },
+      java: {
+        method: 'phoneNumbers().requirements',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRequirementsParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRequirementsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberRequirementsParams params = PhoneNumberRequirementsParams.builder()\n            .countryCode("xx")\n            .build();\n        PhoneNumberRequirementsResponse response = client.phoneNumbers().requirements(params);\n    }\n}',
+      },
       kotlin: {
         method: 'phoneNumbers().requirements',
         example:
@@ -4914,6 +5304,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phone_numbers.purchase',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.purchase(\n    phone_number="+15551234567",\n    name="Primary Line",\n)\nprint(response.phone_number)',
+      },
+      java: {
+        method: 'phoneNumbers().purchase',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberPurchaseParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberPurchaseResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberPurchaseParams params = PhoneNumberPurchaseParams.builder()\n            .phoneNumber("+15551234567")\n            .build();\n        PhoneNumberPurchaseResponse response = client.phoneNumbers().purchase(params);\n    }\n}',
       },
       kotlin: {
         method: 'phoneNumbers().purchase',
@@ -4975,6 +5370,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.phone_numbers.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'phoneNumbers().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberListPage;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberListPage page = client.phoneNumbers().list();\n    }\n}',
+      },
       kotlin: {
         method: 'phoneNumbers().list',
         example:
@@ -5033,6 +5433,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phone_numbers.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_number = client.phone_numbers.retrieve(\n    "phoneNumberId",\n)\nprint(phone_number.phone_number)',
+      },
+      java: {
+        method: 'phoneNumbers().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRetrieveParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberRetrieveResponse phoneNumber = client.phoneNumbers().retrieve("phoneNumberId");\n    }\n}',
       },
       kotlin: {
         method: 'phoneNumbers().retrieve',
@@ -5094,6 +5499,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_number = client.phone_numbers.update(\n    phone_number_id="phoneNumberId",\n    name="Support Line",\n)\nprint(phone_number.phone_number)',
       },
+      java: {
+        method: 'phoneNumbers().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberUpdateParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberUpdateResponse phoneNumber = client.phoneNumbers().update("phoneNumberId");\n    }\n}',
+      },
       kotlin: {
         method: 'phoneNumbers().update',
         example:
@@ -5151,6 +5561,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phone_numbers.release',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.phone_numbers.release(\n    "phoneNumberId",\n)',
+      },
+      java: {
+        method: 'phoneNumbers().release',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberReleaseParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.phoneNumbers().release("phoneNumberId");\n    }\n}',
       },
       kotlin: {
         method: 'phoneNumbers().release',
@@ -5223,6 +5638,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\naddress = client.addresses.create(\n    country_code="DE",\n    locality="Berlin",\n    postal_code="10115",\n    street_address="123 Main St",\n    first_name="John",\n    last_name="Doe",\n)\nprint(address.address)',
       },
+      java: {
+        method: 'addresses().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressCreateParams;\nimport com.zavudev.api.models.addresses.AddressCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AddressCreateParams params = AddressCreateParams.builder()\n            .countryCode("DE")\n            .locality("Berlin")\n            .postalCode("10115")\n            .streetAddress("123 Main St")\n            .build();\n        AddressCreateResponse address = client.addresses().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'addresses().create',
         example:
@@ -5283,6 +5703,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.addresses.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'addresses().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressListPage;\nimport com.zavudev.api.models.addresses.AddressListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AddressListPage page = client.addresses().list();\n    }\n}',
+      },
       kotlin: {
         method: 'addresses().list',
         example:
@@ -5341,6 +5766,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\naddress = client.addresses.retrieve(\n    "addressId",\n)\nprint(address.address)',
       },
+      java: {
+        method: 'addresses().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressRetrieveParams;\nimport com.zavudev.api.models.addresses.AddressRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AddressRetrieveResponse address = client.addresses().retrieve("addressId");\n    }\n}',
+      },
       kotlin: {
         method: 'addresses().retrieve',
         example:
@@ -5397,6 +5827,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addresses.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.addresses.delete(\n    "addressId",\n)',
+      },
+      java: {
+        method: 'addresses().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.addresses().delete("addressId");\n    }\n}',
       },
       kotlin: {
         method: 'addresses().delete',
@@ -5455,6 +5890,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatory_documents.upload_url',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.regulatory_documents.upload_url()\nprint(response.upload_url)',
+      },
+      java: {
+        method: 'regulatoryDocuments().uploadUrl',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentUploadUrlParams;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentUploadUrlResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentUploadUrlResponse response = client.regulatoryDocuments().uploadUrl();\n    }\n}',
       },
       kotlin: {
         method: 'regulatoryDocuments().uploadUrl',
@@ -5522,6 +5962,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nregulatory_document = client.regulatory_documents.create(\n    document_type="passport",\n    file_size=102400,\n    mime_type="image/jpeg",\n    name="Passport Scan",\n    storage_id="kg2abc123...",\n)\nprint(regulatory_document.document)',
       },
+      java: {
+        method: 'regulatoryDocuments().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentCreateParams;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentCreateParams params = RegulatoryDocumentCreateParams.builder()\n            .documentType(RegulatoryDocumentCreateParams.DocumentType.PASSPORT)\n            .fileSize(102400L)\n            .mimeType("image/jpeg")\n            .name("Passport Scan")\n            .storageId("kg2abc123...")\n            .build();\n        RegulatoryDocumentCreateResponse regulatoryDocument = client.regulatoryDocuments().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'regulatoryDocuments().create',
         example:
@@ -5582,6 +6027,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.regulatory_documents.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'regulatoryDocuments().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentListPage;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentListPage page = client.regulatoryDocuments().list();\n    }\n}',
+      },
       kotlin: {
         method: 'regulatoryDocuments().list',
         example:
@@ -5640,6 +6090,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nregulatory_document = client.regulatory_documents.retrieve(\n    "documentId",\n)\nprint(regulatory_document.document)',
       },
+      java: {
+        method: 'regulatoryDocuments().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentRetrieveParams;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentRetrieveResponse regulatoryDocument = client.regulatoryDocuments().retrieve("documentId");\n    }\n}',
+      },
       kotlin: {
         method: 'regulatoryDocuments().retrieve',
         example:
@@ -5697,6 +6152,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatory_documents.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.regulatory_documents.delete(\n    "documentId",\n)',
+      },
+      java: {
+        method: 'regulatoryDocuments().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.regulatoryDocuments().delete("documentId");\n    }\n}',
       },
       kotlin: {
         method: 'regulatoryDocuments().delete',
@@ -5767,6 +6227,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ninvitation = client.invitations.create(\n    client_name="Acme Corp",\n)\nprint(invitation.invitation)',
       },
+      java: {
+        method: 'invitations().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationCreateParams;\nimport com.zavudev.api.models.invitations.InvitationCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationCreateResponse invitation = client.invitations().create();\n    }\n}',
+      },
       kotlin: {
         method: 'invitations().create',
         example:
@@ -5830,6 +6295,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.invitations.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'invitations().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationListPage;\nimport com.zavudev.api.models.invitations.InvitationListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationListPage page = client.invitations().list();\n    }\n}',
+      },
       kotlin: {
         method: 'invitations().list',
         example:
@@ -5888,6 +6358,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invitations.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ninvitation = client.invitations.retrieve(\n    "invitationId",\n)\nprint(invitation.invitation)',
+      },
+      java: {
+        method: 'invitations().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationRetrieveParams;\nimport com.zavudev.api.models.invitations.InvitationRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationRetrieveResponse invitation = client.invitations().retrieve("invitationId");\n    }\n}',
       },
       kotlin: {
         method: 'invitations().retrieve',
@@ -5949,6 +6424,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invitations.cancel(\n    "invitationId",\n)\nprint(response.invitation)',
       },
+      java: {
+        method: 'invitations().cancel',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationCancelParams;\nimport com.zavudev.api.models.invitations.InvitationCancelResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationCancelResponse response = client.invitations().cancel("invitationId");\n    }\n}',
+      },
       kotlin: {
         method: 'invitations().cancel',
         example:
@@ -6008,6 +6488,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls.submit_for_verification',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.urls.submit_for_verification(\n    url="https://example.com/page",\n)\nprint(response.url)',
+      },
+      java: {
+        method: 'urls().submitForVerification',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.urls.UrlSubmitForVerificationParams;\nimport com.zavudev.api.models.urls.UrlSubmitForVerificationResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        UrlSubmitForVerificationParams params = UrlSubmitForVerificationParams.builder()\n            .url("https://example.com/page")\n            .build();\n        UrlSubmitForVerificationResponse response = client.urls().submitForVerification(params);\n    }\n}',
       },
       kotlin: {
         method: 'urls().submitForVerification',
@@ -6073,6 +6558,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.urls.list_verified()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'urls().listVerified',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.urls.UrlListVerifiedPage;\nimport com.zavudev.api.models.urls.UrlListVerifiedParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        UrlListVerifiedPage page = client.urls().listVerified();\n    }\n}',
+      },
       kotlin: {
         method: 'urls().listVerified',
         example:
@@ -6130,6 +6620,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls.retrieve_details',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.urls.retrieve_details(\n    "urlId",\n)\nprint(response.url)',
+      },
+      java: {
+        method: 'urls().retrieveDetails',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.urls.UrlRetrieveDetailsParams;\nimport com.zavudev.api.models.urls.UrlRetrieveDetailsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        UrlRetrieveDetailsResponse response = client.urls().retrieveDetails("urlId");\n    }\n}',
       },
       kotlin: {
         method: 'urls().retrieveDetails',
@@ -6190,6 +6685,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbalance = client.balance.retrieve()\nprint(balance.balance)',
       },
+      java: {
+        method: 'balance().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.balance.BalanceRetrieveParams;\nimport com.zavudev.api.models.balance.BalanceRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BalanceRetrieveResponse balance = client.balance().retrieve();\n    }\n}',
+      },
       kotlin: {
         method: 'balance().retrieve',
         example:
@@ -6248,6 +6748,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'sub_accounts.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.create(\n    name="Client ABC",\n)\nprint(sub_account.sub_account)',
+      },
+      java: {
+        method: 'subAccounts().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountCreateParams;\nimport com.zavudev.api.models.subaccounts.SubAccountCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountCreateParams params = SubAccountCreateParams.builder()\n            .name("Client ABC")\n            .build();\n        SubAccountCreateResponse subAccount = client.subAccounts().create(params);\n    }\n}',
       },
       kotlin: {
         method: 'subAccounts().create',
@@ -6309,6 +6814,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.sub_accounts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'subAccounts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountListPage;\nimport com.zavudev.api.models.subaccounts.SubAccountListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountListPage page = client.subAccounts().list();\n    }\n}',
+      },
       kotlin: {
         method: 'subAccounts().list',
         example:
@@ -6367,6 +6877,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'sub_accounts.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.retrieve(\n    "id",\n)\nprint(sub_account.sub_account)',
+      },
+      java: {
+        method: 'subAccounts().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountRetrieveParams;\nimport com.zavudev.api.models.subaccounts.SubAccountRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountRetrieveResponse subAccount = client.subAccounts().retrieve("id");\n    }\n}',
       },
       kotlin: {
         method: 'subAccounts().retrieve',
@@ -6435,6 +6950,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.update(\n    id="id",\n)\nprint(sub_account.sub_account)',
       },
+      java: {
+        method: 'subAccounts().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountUpdateParams;\nimport com.zavudev.api.models.subaccounts.SubAccountUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountUpdateResponse subAccount = client.subAccounts().update("id");\n    }\n}',
+      },
       kotlin: {
         method: 'subAccounts().update',
         example:
@@ -6493,6 +7013,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'sub_accounts.deactivate',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.sub_accounts.deactivate(\n    "id",\n)\nprint(response.keys_revoked)',
+      },
+      java: {
+        method: 'subAccounts().deactivate',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountDeactivateParams;\nimport com.zavudev.api.models.subaccounts.SubAccountDeactivateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountDeactivateResponse response = client.subAccounts().deactivate("id");\n    }\n}',
       },
       kotlin: {
         method: 'subAccounts().deactivate',
@@ -6554,6 +7079,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.sub_accounts.get_balance(\n    "id",\n)\nprint(response.balance)',
       },
+      java: {
+        method: 'subAccounts().getBalance',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountGetBalanceParams;\nimport com.zavudev.api.models.subaccounts.SubAccountGetBalanceResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountGetBalanceResponse response = client.subAccounts().getBalance("id");\n    }\n}',
+      },
       kotlin: {
         method: 'subAccounts().getBalance',
         example:
@@ -6614,6 +7144,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\napi_keys = client.sub_accounts.api_keys.list(\n    "id",\n)\nprint(api_keys.items)',
       },
+      java: {
+        method: 'subAccounts().apiKeys().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyListParams;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ApiKeyListResponse apiKeys = client.subAccounts().apiKeys().list("id");\n    }\n}',
+      },
       kotlin: {
         method: 'subAccounts().apiKeys().list',
         example:
@@ -6672,6 +7207,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'sub_accounts.api_keys.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\napi_key = client.sub_accounts.api_keys.create(\n    id="id",\n    name="Production Key",\n    environment="live",\n)\nprint(api_key.api_key)',
+      },
+      java: {
+        method: 'subAccounts().apiKeys().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyCreateParams;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ApiKeyCreateParams params = ApiKeyCreateParams.builder()\n            .id("id")\n            .name("Production Key")\n            .build();\n        ApiKeyCreateResponse apiKey = client.subAccounts().apiKeys().create(params);\n    }\n}',
       },
       kotlin: {
         method: 'subAccounts().apiKeys().create',
@@ -6732,6 +7272,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.sub_accounts.api_keys.revoke(\n    key_id="keyId",\n    id="id",\n)',
       },
+      java: {
+        method: 'subAccounts().apiKeys().revoke',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyRevokeParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ApiKeyRevokeParams params = ApiKeyRevokeParams.builder()\n            .id("id")\n            .keyId("keyId")\n            .build();\n        client.subAccounts().apiKeys().revoke(params);\n    }\n}',
+      },
       kotlin: {
         method: 'subAccounts().apiKeys().revoke',
         example:
@@ -6791,6 +7336,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.brands.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.number_10dlc.brands.list()\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'number10dlc().brands().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandListPage;\nimport com.zavudev.api.models.number10dlc.brands.BrandListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandListPage page = client.number10dlc().brands().list();\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().brands().list',
@@ -6870,6 +7420,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.create(\n    city="San Francisco",\n    country="US",\n    display_name="Acme Corp",\n    email="compliance@acme.com",\n    entity_type="PRIVATE_PROFIT",\n    phone="+14155551234",\n    postal_code="94102",\n    state="CA",\n    street="123 Main St",\n    vertical="Technology",\n    company_name="Acme Corporation",\n    ein="12-3456789",\n    website="https://acme.com",\n)\nprint(brand.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandCreateParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandCreateParams params = BrandCreateParams.builder()\n            .city("San Francisco")\n            .country("US")\n            .displayName("Acme Corp")\n            .email("compliance@acme.com")\n            .entityType(BrandCreateParams.EntityType.PRIVATE_PROFIT)\n            .phone("+14155551234")\n            .postalCode("94102")\n            .state("CA")\n            .street("123 Main St")\n            .vertical("Technology")\n            .build();\n        BrandCreateResponse brand = client.number10dlc().brands().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().brands().create',
         example:
@@ -6927,6 +7482,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.brands.list_use_cases',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.list_use_cases()\nprint(response.use_cases)',
+      },
+      java: {
+        method: 'number10dlc().brands().listUseCases',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandListUseCasesParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandListUseCasesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandListUseCasesResponse response = client.number10dlc().brands().listUseCases();\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().brands().listUseCases',
@@ -6986,6 +7546,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.brands.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.retrieve(\n    "brandId",\n)\nprint(brand.brand)',
+      },
+      java: {
+        method: 'number10dlc().brands().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandRetrieveParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandRetrieveResponse brand = client.number10dlc().brands().retrieve("brandId");\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().brands().retrieve',
@@ -7065,6 +7630,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.update(\n    brand_id="brandId",\n)\nprint(brand.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandUpdateParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandUpdateResponse brand = client.number10dlc().brands().update("brandId");\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().brands().update',
         example:
@@ -7121,6 +7691,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.brands.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.brands.delete(\n    "brandId",\n)',
+      },
+      java: {
+        method: 'number10dlc().brands().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.number10dlc().brands().delete("brandId");\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().brands().delete',
@@ -7182,6 +7757,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.submit(\n    "brandId",\n)\nprint(response.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().submit',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandSubmitParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandSubmitResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandSubmitResponse response = client.number10dlc().brands().submit("brandId");\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().brands().submit',
         example:
@@ -7242,6 +7822,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.sync_status(\n    "brandId",\n)\nprint(response.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().syncStatus',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandSyncStatusParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandSyncStatusResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandSyncStatusResponse response = client.number10dlc().brands().syncStatus("brandId");\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().brands().syncStatus',
         example:
@@ -7301,6 +7886,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.campaigns.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.number_10dlc.campaigns.list()\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'number10dlc().campaigns().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignListPage;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignListPage page = client.number10dlc().campaigns().list();\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().campaigns().list',
@@ -7382,6 +7972,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.create(\n    affiliate_marketing=False,\n    age_gated=False,\n    brand_id="brand_abc123",\n    description="Send order status updates and shipping notifications to customers who opted in.",\n    direct_lending=False,\n    embedded_link=True,\n    embedded_phone=False,\n    name="Order Notifications",\n    number_pooling=False,\n    sample_messages=["Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}", "Your order #{{order_id}} has been delivered. Thank you for your purchase!"],\n    subscriber_help=True,\n    subscriber_opt_in=True,\n    subscriber_opt_out=True,\n    use_case="ACCOUNT_NOTIFICATION",\n)\nprint(campaign.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignCreateParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignCreateParams params = CampaignCreateParams.builder()\n            .affiliateMarketing(false)\n            .ageGated(false)\n            .brandId("brand_abc123")\n            .description("Send order status updates and shipping notifications to customers who opted in.")\n            .directLending(false)\n            .embeddedLink(true)\n            .embeddedPhone(false)\n            .name("Order Notifications")\n            .numberPooling(false)\n            .addSampleMessage("Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}")\n            .addSampleMessage("Your order #{{order_id}} has been delivered. Thank you for your purchase!")\n            .subscriberHelp(true)\n            .subscriberOptIn(true)\n            .subscriberOptOut(true)\n            .useCase("ACCOUNT_NOTIFICATION")\n            .build();\n        CampaignCreateResponse campaign = client.number10dlc().campaigns().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().campaigns().create',
         example:
@@ -7441,6 +8036,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.campaigns.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.retrieve(\n    "campaignId",\n)\nprint(campaign.campaign)',
+      },
+      java: {
+        method: 'number10dlc().campaigns().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignRetrieveParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignRetrieveResponse campaign = client.number10dlc().campaigns().retrieve("campaignId");\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().campaigns().retrieve',
@@ -7511,6 +8111,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.update(\n    campaign_id="campaignId",\n)\nprint(campaign.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignUpdateParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignUpdateResponse campaign = client.number10dlc().campaigns().update("campaignId");\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().campaigns().update',
         example:
@@ -7568,6 +8173,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.campaigns.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.campaigns.delete(\n    "campaignId",\n)',
+      },
+      java: {
+        method: 'number10dlc().campaigns().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.number10dlc().campaigns().delete("campaignId");\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().campaigns().delete',
@@ -7630,6 +8240,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.submit(\n    "campaignId",\n)\nprint(response.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().submit',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSubmitParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSubmitResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignSubmitResponse response = client.number10dlc().campaigns().submit("campaignId");\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().campaigns().submit',
         example:
@@ -7691,6 +8306,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.sync_status(\n    "campaignId",\n)\nprint(response.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().syncStatus',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSyncStatusParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSyncStatusResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignSyncStatusResponse response = client.number10dlc().campaigns().syncStatus("campaignId");\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().campaigns().syncStatus',
         example:
@@ -7750,6 +8370,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.campaigns.phone_numbers.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_numbers = client.number_10dlc.campaigns.phone_numbers.list(\n    "campaignId",\n)\nprint(phone_numbers.items)',
+      },
+      java: {
+        method: 'number10dlc().campaigns().phoneNumbers().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberListParams;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberListResponse phoneNumbers = client.number10dlc().campaigns().phoneNumbers().list("campaignId");\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().campaigns().phoneNumbers().list',
@@ -7812,6 +8437,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.phone_numbers.assign(\n    campaign_id="campaignId",\n    phone_number_id="pn_abc123",\n)\nprint(response.assignment)',
       },
+      java: {
+        method: 'number10dlc().campaigns().phoneNumbers().assign',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberAssignParams;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberAssignResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberAssignParams params = PhoneNumberAssignParams.builder()\n            .campaignId("campaignId")\n            .phoneNumberId("pn_abc123")\n            .build();\n        PhoneNumberAssignResponse response = client.number10dlc().campaigns().phoneNumbers().assign(params);\n    }\n}',
+      },
       kotlin: {
         method: 'number10dlc().campaigns().phoneNumbers().assign',
         example:
@@ -7869,6 +8499,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number_10dlc.campaigns.phone_numbers.unassign',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.campaigns.phone_numbers.unassign(\n    assignment_id="assignmentId",\n    campaign_id="campaignId",\n)',
+      },
+      java: {
+        method: 'number10dlc().campaigns().phoneNumbers().unassign',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberUnassignParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberUnassignParams params = PhoneNumberUnassignParams.builder()\n            .campaignId("campaignId")\n            .assignmentId("assignmentId")\n            .build();\n        client.number10dlc().campaigns().phoneNumbers().unassign(params);\n    }\n}',
       },
       kotlin: {
         method: 'number10dlc().campaigns().phoneNumbers().unassign',
@@ -7929,6 +8564,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'me.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nme = client.me.retrieve()\nprint(me.api_key)',
+      },
+      java: {
+        method: 'me().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.me.MeRetrieveParams;\nimport com.zavudev.api.models.me.MeRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MeRetrieveResponse me = client.me().retrieve();\n    }\n}',
       },
       kotlin: {
         method: 'me().retrieve',
@@ -7999,6 +8639,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.create(\n    name="Order Bot",\n    slug="order-bot",\n    dependencies={\n        "openai": "^4.20.0"\n    },\n    description="Replies to order status questions on WhatsApp.",\n    source_code="import { defineFunction } from \'@zavudev/functions\';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log(\'received\', event.type);\\n});\\n",\n)\nprint(function.function)',
       },
+      java: {
+        method: 'functions().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionCreateParams;\nimport com.zavudev.api.models.functions.FunctionCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionCreateParams params = FunctionCreateParams.builder()\n            .name("Order Bot")\n            .slug("order-bot")\n            .build();\n        FunctionCreateResponse function = client.functions().create(params);\n    }\n}',
+      },
       kotlin: {
         method: 'functions().create',
         example:
@@ -8058,6 +8703,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.retrieve(\n    "functionId",\n)\nprint(function.function)',
+      },
+      java: {
+        method: 'functions().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionRetrieveParams;\nimport com.zavudev.api.models.functions.FunctionRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionRetrieveResponse function = client.functions().retrieve("functionId");\n    }\n}',
       },
       kotlin: {
         method: 'functions().retrieve',
@@ -8124,6 +8774,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.update(\n    function_id="functionId",\n)\nprint(function.function)',
       },
+      java: {
+        method: 'functions().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionUpdateParams;\nimport com.zavudev.api.models.functions.FunctionUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionUpdateResponse function = client.functions().update("functionId");\n    }\n}',
+      },
       kotlin: {
         method: 'functions().update',
         example:
@@ -8182,6 +8837,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.delete',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.delete(\n    "functionId",\n)\nprint(function.deleted)',
+      },
+      java: {
+        method: 'functions().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionDeleteParams;\nimport com.zavudev.api.models.functions.FunctionDeleteResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionDeleteResponse function = client.functions().delete("functionId");\n    }\n}',
       },
       kotlin: {
         method: 'functions().delete',
@@ -8243,6 +8903,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.deploy(\n    function_id="functionId",\n)\nprint(response.deployment)',
       },
+      java: {
+        method: 'functions().deploy',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionDeployParams;\nimport com.zavudev.api.models.functions.FunctionDeployResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionDeployResponse response = client.functions().deploy("functionId");\n    }\n}',
+      },
       kotlin: {
         method: 'functions().deploy',
         example:
@@ -8301,6 +8966,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.get_deployment',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.get_deployment(\n    "deploymentId",\n)\nprint(response.deployment)',
+      },
+      java: {
+        method: 'functions().getDeployment',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionGetDeploymentParams;\nimport com.zavudev.api.models.functions.FunctionGetDeploymentResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionGetDeploymentResponse response = client.functions().getDeployment("deploymentId");\n    }\n}',
       },
       kotlin: {
         method: 'functions().getDeployment',
@@ -8369,6 +9039,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.tail_logs(\n    function_id="functionId",\n)\nprint(response.events)',
       },
+      java: {
+        method: 'functions().tailLogs',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionTailLogsParams;\nimport com.zavudev.api.models.functions.FunctionTailLogsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionTailLogsResponse response = client.functions().tailLogs("functionId");\n    }\n}',
+      },
       kotlin: {
         method: 'functions().tailLogs',
         example:
@@ -8429,6 +9104,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsecrets = client.functions.secrets.list(\n    "functionId",\n)\nprint(secrets.secrets)',
       },
+      java: {
+        method: 'functions().secrets().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.secrets.SecretListParams;\nimport com.zavudev.api.models.functions.secrets.SecretListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SecretListResponse secrets = client.functions().secrets().list("functionId");\n    }\n}',
+      },
       kotlin: {
         method: 'functions().secrets().list',
         example:
@@ -8487,6 +9167,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.secrets.set',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.secrets.set(\n    key="key",\n    function_id="functionId",\n    value="value",\n)\nprint(response)',
+      },
+      java: {
+        method: 'functions().secrets().set',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.secrets.SecretSetParams;\nimport com.zavudev.api.models.functions.secrets.SecretSetResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SecretSetParams params = SecretSetParams.builder()\n            .functionId("functionId")\n            .key("key")\n            .value("value")\n            .build();\n        SecretSetResponse response = client.functions().secrets().set(params);\n    }\n}',
       },
       kotlin: {
         method: 'functions().secrets().set',
@@ -8547,6 +9232,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.functions.secrets.unset(\n    key="key",\n    function_id="functionId",\n)',
       },
+      java: {
+        method: 'functions().secrets().unset',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.secrets.SecretUnsetParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SecretUnsetParams params = SecretUnsetParams.builder()\n            .functionId("functionId")\n            .key("key")\n            .build();\n        client.functions().secrets().unset(params);\n    }\n}',
+      },
       kotlin: {
         method: 'functions().secrets().unset',
         example:
@@ -8600,6 +9290,11 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
     language: 'go',
     content:
       '# Zavudev Go API Library\n\n<a href="https://pkg.go.dev/github.com/zavudev/sdk-go"><img src="https://pkg.go.dev/badge/github.com/zavudev/sdk-go.svg" alt="Go Reference"></a>\n\nThe Zavudev Go library provides convenient access to the [Zavudev REST API](https://docs.zavu.dev)\nfrom applications written in Go.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Zavudev MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40zavudev%2Fsdk-mcp&config=eyJuYW1lIjoiQHphdnVkZXYvc2RrLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3phdnVkZXYuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC16YXZ1ZGV2LWFwaS1rZXkiOiJNeSBBUEkgS2V5In19)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fzavudev.stlmcp.com%22%2C%22headers%22%3A%7B%22x-zavudev-api-key%22%3A%22My%20API%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/zavudev/sdk-go" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/zavudev/sdk-go@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"), // defaults to os.LookupEnv("ZAVUDEV_API_KEY")\n\t)\n\tmessageResponse, err := client.Messages.Send(context.TODO(), zavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.Messages.Send(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/zavudev/sdk-go/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n```go\niter := client.Messages.ListAutoPaging(context.TODO(), zavudev.MessageListParams{})\n// Automatically fetches more pages as needed.\nfor iter.Next() {\n\tmessage := iter.Current()\n\tfmt.Printf("%+v\\n", message)\n}\nif err := iter.Err(); err != nil {\n\tpanic(err.Error())\n}\n```\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n```go\npage, err := client.Messages.List(context.TODO(), zavudev.MessageListParams{})\nfor page != nil {\n\tfor _, message := range page.Items {\n\t\tfmt.Printf("%+v\\n", message)\n\t}\n\tpage, err = page.GetNextPage()\n}\nif err != nil {\n\tpanic(err.Error())\n}\n```\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.Messages.Send(context.TODO(), zavudev.MessageSendParams{\n\tTo:   "+14155551234",\n\tText: zavudev.String("Hello from Zavu!"),\n})\nif err != nil {\n\tvar apierr *zavudev.Error\n\tif errors.As(err, &apierr) {\n\t\tprintln(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request\n\t\tprintln(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n\t}\n\tpanic(err.Error()) // GET "/v1/messages": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)\ndefer cancel()\nclient.Messages.Send(\n\tctx,\n\tzavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t},\n\t// This sets the per-retry timeout\n\toption.WithRequestTimeout(20*time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := zavudev.NewClient(\n\toption.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.Messages.Send(\n\tcontext.TODO(),\n\tzavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t},\n\toption.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\nmessageResponse, err := client.Messages.Send(\n\tcontext.TODO(),\n\tzavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t},\n\toption.WithResponseInto(&response),\n)\nif err != nil {\n\t// handle error\n}\nfmt.Printf("%+v\\n", messageResponse)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/zavudev/sdk-go/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
+  },
+  {
+    language: 'java',
+    content:
+      '# Zavudev Java API Library\n\n\n[![Maven Central](https://img.shields.io/maven-central/v/com.zavudev.api/zavudev-java)](https://central.sonatype.com/artifact/com.zavudev.api/zavudev-java/0.0.1)\n[![javadoc](https://javadoc.io/badge2/com.zavudev.api/zavudev-java/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.zavudev.api/zavudev-java/0.0.1)\n\n\nThe Zavudev Java SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev)   from applications written in Java.\n\n\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Zavudev MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40zavudev%2Fsdk-mcp&config=eyJuYW1lIjoiQHphdnVkZXYvc2RrLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3phdnVkZXYuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC16YXZ1ZGV2LWFwaS1rZXkiOiJNeSBBUEkgS2V5In19)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fzavudev.stlmcp.com%22%2C%22headers%22%3A%7B%22x-zavudev-api-key%22%3A%22My%20API%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\nThe REST API documentation can be found on [docs.zavu.dev](https://docs.zavu.dev). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.zavudev.api/zavudev-java/0.0.1).\n\n## Installation\n\n### Gradle\n\n~~~kotlin\nimplementation("com.zavudev.api:zavudev-java:0.0.1")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.zavudev.api</groupId>\n  <artifactId>zavudev-java</artifactId>\n  <version>0.0.1</version>\n</dependency>\n~~~\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nMessageResponse messageResponse = client.messages().send(params);\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClient client = ZavudevOkHttpClient.fromEnv();\n```\n\nOr manually:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .apiKey("My API Key")\n    .build();\n```\n\nOr using a combination of the two approaches:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    // Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n    // Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\n    .fromEnv()\n    .apiKey("My API Key")\n    .build();\n```\n\nSee this table for the available options:\n\n| Setter    | System property   | Environment variable | Required | Default value            |\n| --------- | ----------------- | -------------------- | -------- | ------------------------ |\n| `apiKey`  | `zavudev.apiKey`  | `ZAVUDEV_API_KEY`    | true     | -                        |\n| `baseUrl` | `zavudev.baseUrl` | `ZAVUDEV_BASE_URL`   | true     | `"https://api.zavu.dev"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\n\nZavudevClient clientWithOptions = client.withOptions(optionsBuilder -> {\n    optionsBuilder.baseUrl("https://example.com");\n    optionsBuilder.maxRetries(42);\n});\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Zavudev API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Java class.\n\nFor example, `client.messages().send(...)` should be called with an instance of `MessageSendParams`, and it     will return an instance of `MessageResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nCompletableFuture<MessageResponse> messageResponse = client.async().messages().send(params);\n```\n\nOr create an asynchronous client from the beginning:\n\n```java\nimport com.zavudev.api.client.ZavudevClientAsync;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClientAsync;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClientAsync client = ZavudevOkHttpClientAsync.fromEnv();\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nCompletableFuture<MessageResponse> messageResponse = client.messages().send(params);\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.\n\n\n\n\n\n\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Java classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```java\nimport com.zavudev.api.core.http.Headers;\nimport com.zavudev.api.core.http.HttpResponseFor;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nHttpResponseFor<MessageResponse> messageResponse = client.messages().withRawResponse().send(params);\n\nint statusCode = messageResponse.statusCode();\nHeaders headers = messageResponse.headers();\n```\n\nYou can still deserialize the response into an instance of a Java class if needed:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse parsedMessageResponse = messageResponse.parse();\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`ZavudevServiceException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`ZavudevIoException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevIoException.kt): I/O networking errors.\n\n- [`ZavudevRetryableException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`ZavudevInvalidDataException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`ZavudevException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns an [`Iterable`](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)\n\n```java\nimport com.zavudev.api.models.messages.Message;\nimport com.zavudev.api.models.messages.MessageListPage;\n\nMessageListPage page = client.messages().list();\n\n// Process as an Iterable\nfor (Message message : page.autoPager()) {\n    System.out.println(message);\n}\n\n// Process as a Stream\npage.autoPager()\n    .stream()\n    .limit(50)\n    .forEach(message -> System.out.println(message));\n```\n\nWhen using the asynchronous client, the method returns an [`AsyncStreamResponse`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/http/AsyncStreamResponse.kt):\n\n```java\nimport com.zavudev.api.core.http.AsyncStreamResponse;\nimport com.zavudev.api.models.messages.Message;\nimport com.zavudev.api.models.messages.MessageListPageAsync;\nimport java.util.Optional;\nimport java.util.concurrent.CompletableFuture;\n\nCompletableFuture<MessageListPageAsync> pageFuture = client.async().messages().list();\n\npageFuture.thenRun(page -> page.autoPager().subscribe(message -> {\n    System.out.println(message);\n}));\n\n// If you need to handle errors or completion of the stream\npageFuture.thenRun(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<>() {\n    @Override\n    public void onNext(Message message) {\n        System.out.println(message);\n    }\n\n    @Override\n    public void onComplete(Optional<Throwable> error) {\n        if (error.isPresent()) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error.get());\n        } else {\n            System.out.println("No more!");\n        }\n    }\n}));\n\n// Or use futures\npageFuture.thenRun(page -> page.autoPager()\n    .subscribe(message -> {\n        System.out.println(message);\n    })\n    .onCompleteFuture()\n    .whenComplete((unused, error) -> {\n        if (error != null) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error);\n        } else {\n            System.out.println("No more!");\n        }\n    }));\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```java\nimport com.zavudev.api.models.messages.Message;\nimport com.zavudev.api.models.messages.MessageListPage;\n\nMessageListPage page = client.messages().list();\nwhile (true) {\n    for (Message message : page.items()) {\n        System.out.println(message);\n    }\n\n    if (!page.hasNextPage()) {\n        break;\n    }\n\n    page = page.nextPage();\n}\n```\n\n## Logging\n\nEnable logging by setting the `ZAVUDEV_LOG` environment variable to   `info`:\n\n```sh\nexport ZAVUDEV_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport ZAVUDEV_LOG=debug\n```\n\nOr configure the client manually using the `logLevel` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.LogLevel;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .logLevel(LogLevel.INFO)\n    .build();\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `zavudev-java-core` is published with a     [configuration file](zavudev-java-core/src/main/resources/META-INF/proguard/zavudev-java-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or     [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build();\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse messageResponse = client.messages().send(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport java.time.Duration;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build();\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport java.net.InetSocketAddress;\nimport java.net.Proxy;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .proxy(new Proxy(\n      Proxy.Type.HTTP, new InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build();\n```\n\nIf the proxy responds with `407 Proxy Authentication Required`, supply credentials by also   configuring `proxyAuthenticator`:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.http.ProxyAuthenticator;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .proxy(...)\n    // Or a custom implementation of `ProxyAuthenticator`.\n    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))\n    .build();\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport java.time.Duration;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build();\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build();\n```\n\n\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `zavudev-java-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`ZavudevClient`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClient.kt), [`ZavudevClientAsync`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsync.kt),             [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt), and [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `zavudev-java-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) and [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), which             provide a way to construct [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) and             [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), respectively, using OkHttp\n- `zavudev-java`\n  - Depends on and exposes the APIs of both `zavudev-java-core` and `zavudev-java-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`zavudev-java` dependency](#installation) with `zavudev-java-core`\n2. Copy `zavudev-java-client-okhttp`\'s [`OkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) or [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), similarly to        [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`zavudev-java` dependency](#installation) with `zavudev-java-core`\n2. Write a class that implements the [`HttpClient`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/http/HttpClient.kt) interface\n3. Construct [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) or [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), similarly to        [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build();\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set undocumented parameters on _nested_ headers, query params, or body classes, call the         `putAdditionalProperty` method on the nested class:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.messages.MessageContent;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .content(MessageContent.builder()\n        .putAdditionalProperty("secretProperty", JsonValue.from("42"))\n        .build())\n    .build();\n```\n\nThese properties can be accessed on the nested built object later using the         `_additionalProperties()` method.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/Values.kt) object to its setter:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .to(JsonValue.from(42))\n    .text("Hello from Zavu!")\n    .build();\n```\n\nThe most straightforward way to create a [`JsonValue`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/Values.kt) is using its       `from(...)` method:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport java.util.List;\nimport java.util.Map;\n\n// Create primitive JSON values\nJsonValue nullValue = JsonValue.from(null);\nJsonValue booleanValue = JsonValue.from(true);\nJsonValue numberValue = JsonValue.from(42);\nJsonValue stringValue = JsonValue.from("Hello World!");\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nJsonValue arrayValue = JsonValue.from(List.of(\n  "Hello", "World"\n));\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nJsonValue objectValue = JsonValue.from(Map.of(\n  "a", 1,\n  "b", 2\n));\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nJsonValue complexValue = JsonValue.from(Map.of(\n  "a", List.of(\n    1, 2\n  ),\n  "b", List.of(\n    3, 4\n  )\n));\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/Values.kt):\n\n```java\nimport com.zavudev.api.core.JsonMissing;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .to(JsonMissing.of())\n    .build();\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport java.util.Map;\n\nMap<String, JsonValue> additionalProperties = client.messages().send(params)._additionalProperties();\nJsonValue secretPropertyValue = additionalProperties.get("secretProperty");\n\nString result = secretPropertyValue.accept(new JsonValue.Visitor<>() {\n    @Override\n    public String visitNull() {\n        return "It\'s null!";\n    }\n\n    @Override\n    public String visitBoolean(boolean value) {\n        return "It\'s a boolean!";\n    }\n\n    @Override\n    public String visitNumber(Number value) {\n        return "It\'s a number!";\n    }\n\n    // Other methods include `visitMissing`, `visitString`, `visitArray`, and `visitObject`\n    // The default implementation of each unimplemented method delegates to `visitDefault`, which throws by default, but can also be overridden\n});\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```java\nimport com.zavudev.api.core.JsonField;\nimport java.util.Optional;\n\nJsonField<String> to = client.messages().send(params)._to();\n\nif (to.isMissing()) {\n  // The property is absent from the JSON response\n} else if (to.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  Optional<String> jsonString = to.asString();\n\n  // Try to deserialize into a custom type\n  MyClass myObject = to.asUnknown().orElseThrow().convert(MyClass.class);\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`ZavudevInvalidDataException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevInvalidDataException.kt) only if you directly access the property.\n\nValidating the response is _not_ forwards compatible with new types from the API for existing fields.\n\nIf you would still prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse messageResponse = client.messages().send(params).validate();\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse messageResponse = client.messages().send(\n  params, RequestOptions.builder().responseValidation(true).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build();\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nJava `enum` classes are not trivially   [forwards compatible](https://www.stainless.com/blog/making-java-enums-forwards-compatible). Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/zavudev-java/issues) with questions, bugs, or suggestions.\n',
   },
   {
     language: 'kotlin',
