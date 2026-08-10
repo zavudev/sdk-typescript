@@ -109,6 +109,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->send(\n  to: '+56912345678',\n  attachments: [\n    [\n      'filename' => 'invoice.pdf',\n      'content' => 'content',\n      'contentID' => 'logo',\n      'contentType' => 'application/pdf',\n      'path' => 'https://example.com',\n    ],\n  ],\n  channel: Channel::AUTO,\n  content: [\n    'buttons' => [['id' => 'id', 'title' => 'title']],\n    'contacts' => [['name' => 'name', 'phones' => ['string']]],\n    'ctaDisplayText' => 'See Dates',\n    'ctaHeaderMediaURL' => 'https://example.com',\n    'ctaHeaderText' => 'ctaHeaderText',\n    'ctaHeaderType' => 'text',\n    'ctaURL' => 'https://example.com/schedule',\n    'emoji' => 'emoji',\n    'filename' => 'invoice.pdf',\n    'footerText' => 'Dates subject to change.',\n    'latitude' => 0,\n    'listButton' => 'listButton',\n    'locationAddress' => 'locationAddress',\n    'locationName' => 'locationName',\n    'longitude' => 0,\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'https://example.com/image.jpg',\n    'mimeType' => 'image/jpeg',\n    'reactToMessageID' => 'reactToMessageId',\n    'replyToFrom' => 'replyToFrom',\n    'replyToMessageID' => 'replyToMessageId',\n    'replyToMessageType' => 'replyToMessageType',\n    'replyToProviderMessageID' => 'replyToProviderMessageId',\n    'replyToText' => 'replyToText',\n    'sections' => [\n      [\n        'rows' => [\n          ['id' => 'id', 'title' => 'title', 'description' => 'description']\n        ],\n        'title' => 'title',\n      ],\n    ],\n    'templateButtonVariables' => ['0' => 'abc-report-token'],\n    'templateHeaderVariables' => ['1' => 'Jorge y Laura'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['1' => 'John', '2' => 'ORD-12345'],\n  ],\n  fallbackEnabled: true,\n  htmlBody: 'htmlBody',\n  idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',\n  messageType: MessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  replyTo: 'support@example.com',\n  subject: 'Your order confirmation',\n  text: 'Your verification code is 123456',\n  voiceLanguage: 'es-ES',\n  zavuSender: 'sender_12345',\n);\n\nvar_dump($messageResponse);",
       },
+      csharp: {
+        method: 'Messages.Send',
+        example:
+          'MessageSendParams parameters = new() { To = "+56912345678" };\n\nvar messageResponse = await client.Messages.Send(parameters);\n\nConsole.WriteLine(messageResponse);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/messages \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "to": "+56912345678",\n          "idempotencyKey": "msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE",\n          "replyTo": "support@example.com",\n          "subject": "Your order confirmation",\n          "text": "Your verification code is 123456",\n          "voiceLanguage": "es-ES"\n        }\'',
@@ -164,6 +169,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->messages->list(\n  channel: 'sms', cursor: 'cursor', limit: 100, status: 'queued', to: 'to'\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Messages.List',
+        example:
+          'MessageListParams parameters = new();\n\nvar page = await client.Messages.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example: 'curl https://api.zavu.dev/v1/messages \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
@@ -211,6 +221,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->retrieve('messageId');\n\nvar_dump($messageResponse);",
+      },
+      csharp: {
+        method: 'Messages.Retrieve',
+        example:
+          'MessageRetrieveParams parameters = new() { MessageID = "messageId" };\n\nvar messageResponse = await client.Messages.Retrieve(parameters);\n\nConsole.WriteLine(messageResponse);',
       },
       http: {
         example:
@@ -263,6 +278,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->react(\n  'messageId', emoji: '👍', zavuSender: 'sender_12345'\n);\n\nvar_dump($messageResponse);",
       },
+      csharp: {
+        method: 'Messages.React',
+        example:
+          'MessageReactParams parameters = new()\n{\n    MessageID = "messageId",\n    Emoji = "👍",\n};\n\nvar messageResponse = await client.Messages.React(parameters);\n\nConsole.WriteLine(messageResponse);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID/reactions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "emoji": "👍"\n        }\'',
@@ -312,6 +332,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->messages->showTyping(\n  'messageId', zavuSender: 'sender_12345'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Messages.ShowTyping',
+        example:
+          'MessageShowTypingParams parameters = new() { MessageID = "messageId" };\n\nvar response = await client.Messages.ShowTyping(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/messages/$MESSAGE_ID/typing \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -360,6 +385,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->templates->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Templates.List',
+        example:
+          'TemplateListParams parameters = new();\n\nvar page = await client.Templates.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/templates \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -425,6 +455,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->create(\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  addSecurityRecommendation: true,\n  buttons: [\n    [\n      'type' => 'quick_reply',\n      'example' => 'ORD-12345',\n      'otpType' => 'COPY_CODE',\n      'packageName' => 'packageName',\n      'phoneNumber' => 'phoneNumber',\n      'signatureHash' => 'signatureHash',\n      'text' => 'text',\n      'url' => 'https://example.com',\n    ],\n  ],\n  codeExpirationMinutes: 1,\n  footer: 'footer',\n  headerContent: 'headerContent',\n  headerType: 'text',\n  instagramBody: 'instagramBody',\n  smsBody: 'smsBody',\n  telegramBody: 'telegramBody',\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: WhatsappCategory::UTILITY,\n);\n\nvar_dump($template);",
       },
+      csharp: {
+        method: 'Templates.Create',
+        example:
+          'TemplateCreateParams parameters = new()\n{\n    Body = "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n    Language = "en",\n    Name = "order_confirmation",\n};\n\nvar template = await client.Templates.Create(parameters);\n\nConsole.WriteLine(template);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/templates \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "body": "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n          "language": "en",\n          "name": "order_confirmation",\n          "variables": [\n            "customer_name",\n            "order_id"\n          ],\n          "whatsappCategory": "UTILITY"\n        }\'',
@@ -474,6 +509,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->retrieve('templateId');\n\nvar_dump($template);",
       },
+      csharp: {
+        method: 'Templates.Retrieve',
+        example:
+          'TemplateRetrieveParams parameters = new() { TemplateID = "templateId" };\n\nvar template = await client.Templates.Retrieve(parameters);\n\nConsole.WriteLine(template);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -520,6 +560,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->templates->delete('templateId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Templates.Delete',
+        example:
+          'TemplateDeleteParams parameters = new() { TemplateID = "templateId" };\n\nawait client.Templates.Delete(parameters);',
       },
       http: {
         example:
@@ -576,6 +621,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->submit(\n  'templateId', senderID: 'sender_abc123', category: WhatsappCategory::UTILITY\n);\n\nvar_dump($template);",
       },
+      csharp: {
+        method: 'Templates.Submit',
+        example:
+          'TemplateSubmitParams parameters = new()\n{\n    TemplateID = "templateId",\n    SenderID = "sender_abc123",\n};\n\nvar template = await client.Templates.Submit(parameters);\n\nConsole.WriteLine(template);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123",\n          "category": "UTILITY"\n        }\'',
@@ -624,6 +674,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.List',
+        example:
+          'SenderListParams parameters = new();\n\nvar page = await client.Senders.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/senders \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -686,6 +741,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->create(\n  name: 'name',\n  emailAddress: 'noreply@yourdomain.com',\n  emailDomainID: 'emailDomainId',\n  emailFromName: 'emailFromName',\n  emailReceivingEnabled: true,\n  enableSMSOneway: true,\n  enableVoice: true,\n  phoneNumber: 'phoneNumber',\n  setAsDefault: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookSignatureVersion: 'v2',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
       },
+      csharp: {
+        method: 'Senders.Create',
+        example:
+          'SenderCreateParams parameters = new() { Name = "name" };\n\nvar sender = await client.Senders.Create(parameters);\n\nConsole.WriteLine(sender);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "name",\n          "emailAddress": "noreply@yourdomain.com"\n        }\'',
@@ -734,6 +794,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->retrieve('senderId');\n\nvar_dump($sender);",
+      },
+      csharp: {
+        method: 'Senders.Retrieve',
+        example:
+          'SenderRetrieveParams parameters = new() { SenderID = "senderId" };\n\nvar sender = await client.Senders.Retrieve(parameters);\n\nConsole.WriteLine(sender);',
       },
       http: {
         example:
@@ -799,6 +864,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->update(\n  'senderId',\n  emailAddress: 'noreply@yourdomain.com',\n  emailCatchAllEnabled: true,\n  emailDomainID: 'emailDomainId',\n  emailFromName: 'emailFromName',\n  emailReceivingEnabled: true,\n  enableSMSOneway: true,\n  enableVoice: true,\n  name: 'name',\n  setAsDefault: true,\n  webhookActive: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookSignatureVersion: 'v2',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
       },
+      csharp: {
+        method: 'Senders.Update',
+        example:
+          'SenderUpdateParams parameters = new() { SenderID = "senderId" };\n\nvar sender = await client.Senders.Update(parameters);\n\nConsole.WriteLine(sender);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "emailAddress": "noreply@yourdomain.com"\n        }\'',
@@ -845,6 +915,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->delete('senderId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Delete',
+        example:
+          'SenderDeleteParams parameters = new() { SenderID = "senderId" };\n\nawait client.Senders.Delete(parameters);',
       },
       http: {
         example:
@@ -896,6 +971,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$webhookSecretResponse = $client->senders->regenerateWebhookSecret('senderId');\n\nvar_dump($webhookSecretResponse);",
       },
+      csharp: {
+        method: 'Senders.RegenerateWebhookSecret',
+        example:
+          'SenderRegenerateWebhookSecretParams parameters = new()\n{\n    SenderID = "senderId"\n};\n\nvar webhookSecretResponse = await client.Senders.RegenerateWebhookSecret(parameters);\n\nConsole.WriteLine(webhookSecretResponse);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/webhook/secret \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -945,6 +1025,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->getProfile',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappBusinessProfileResponse = $client->senders->getProfile('senderId');\n\nvar_dump($whatsappBusinessProfileResponse);",
+      },
+      csharp: {
+        method: 'Senders.GetProfile',
+        example:
+          'SenderGetProfileParams parameters = new() { SenderID = "senderId" };\n\nvar whatsappBusinessProfileResponse = await client.Senders.GetProfile(parameters);\n\nConsole.WriteLine(whatsappBusinessProfileResponse);',
       },
       http: {
         example:
@@ -1004,6 +1089,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->updateProfile(\n  'senderId',\n  about: 'Succulent specialists!',\n  address: 'address',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: WhatsappBusinessProfileVertical::RETAIL,\n  websites: ['https://www.example.com'],\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Senders.UpdateProfile',
+        example:
+          'SenderUpdateProfileParams parameters = new() { SenderID = "senderId" };\n\nvar response = await client.Senders.UpdateProfile(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "about": "Succulent specialists!",\n          "description": "We specialize in providing high-quality succulents.",\n          "email": "contact@example.com",\n          "vertical": "RETAIL",\n          "websites": [\n            "https://www.example.com"\n          ]\n        }\'',
@@ -1055,6 +1145,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->uploadProfilePicture(\n  'senderId',\n  imageURL: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Senders.UploadProfilePicture',
+        example:
+          'SenderUploadProfilePictureParams parameters = new()\n{\n    SenderID = "senderId",\n    ImageUrl = "https://example.com/profile.jpg",\n    MimeType = MimeType.ImageJpeg,\n};\n\nvar response = await client.Senders.UploadProfilePicture(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/profile/picture \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "imageUrl": "https://example.com/profile.jpg",\n          "mimeType": "image/jpeg"\n        }\'',
@@ -1103,6 +1198,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->retrieve('senderId');\n\nvar_dump($agentResponse);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Retrieve',
+        example:
+          'AgentRetrieveParams parameters = new() { SenderID = "senderId" };\n\nvar agentResponse = await client.Senders.Agent.Retrieve(parameters);\n\nConsole.WriteLine(agentResponse);',
       },
       http: {
         example:
@@ -1168,6 +1268,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->create(\n  'senderId',\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n  contextWindowMessages: 1,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n  voice: [\n    'enabled' => true,\n    'greeting' => 'Hi, thanks for calling Acme. How can I help you today?',\n    'greetings' => ['es' => 'Hola, soy Atlas. Preguntame lo que quieras.'],\n    'interruptible' => true,\n    'language' => 'en',\n    'maxCallDurationMinutes' => 1,\n    'maxIdleSeconds' => 5,\n    'model' => 'openai/gpt-4o',\n    'recordCalls' => true,\n    'sttModel' => 'sttModel',\n    'sttProvider' => 'sttProvider',\n    'transferPhoneNumber' => '+14155551234',\n    'ttsProvider' => 'ttsProvider',\n    'ttsVoiceID' => 'aria',\n    'voicemailAction' => 'hangup',\n    'voicemailMessage' => 'voicemailMessage',\n    'voiceSpeed' => 0.5,\n  ],\n);\n\nvar_dump($agentResponse);",
       },
+      csharp: {
+        method: 'Senders.Agent.Create',
+        example:
+          'AgentCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Model = "gpt-4o-mini",\n    Name = "Customer Support",\n    Provider = AgentProvider.OpenAI,\n    SystemPrompt = "You are a helpful customer support agent. Be friendly and concise.",\n};\n\nvar agentResponse = await client.Senders.Agent.Create(parameters);\n\nConsole.WriteLine(agentResponse);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "model": "gpt-4o-mini",\n          "name": "Customer Support",\n          "provider": "openai",\n          "systemPrompt": "You are a helpful customer support agent. Be friendly and concise.",\n          "apiKey": "sk-..."\n        }\'',
@@ -1232,6 +1337,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->update(\n  'senderId',\n  apiKey: 'apiKey',\n  contextWindowMessages: 1,\n  enabled: true,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  model: 'model',\n  name: 'name',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'systemPrompt',\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n  voice: [\n    'enabled' => true,\n    'greeting' => 'Hi, thanks for calling Acme. How can I help you today?',\n    'greetings' => ['es' => 'Hola, soy Atlas. Preguntame lo que quieras.'],\n    'interruptible' => true,\n    'language' => 'en',\n    'maxCallDurationMinutes' => 1,\n    'maxIdleSeconds' => 5,\n    'model' => 'openai/gpt-4o',\n    'recordCalls' => true,\n    'sttModel' => 'sttModel',\n    'sttProvider' => 'sttProvider',\n    'transferPhoneNumber' => '+14155551234',\n    'ttsProvider' => 'ttsProvider',\n    'ttsVoiceID' => 'aria',\n    'voicemailAction' => 'hangup',\n    'voicemailMessage' => 'voicemailMessage',\n    'voiceSpeed' => 0.5,\n  ],\n);\n\nvar_dump($agentResponse);",
       },
+      csharp: {
+        method: 'Senders.Agent.Update',
+        example:
+          'AgentUpdateParams parameters = new() { SenderID = "senderId" };\n\nvar agentResponse = await client.Senders.Agent.Update(parameters);\n\nConsole.WriteLine(agentResponse);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -1278,6 +1388,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->delete('senderId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Delete',
+        example:
+          'AgentDeleteParams parameters = new() { SenderID = "senderId" };\n\nawait client.Senders.Agent.Delete(parameters);',
       },
       http: {
         example:
@@ -1328,6 +1443,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->stats',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentStats = $client->senders->agent->stats('senderId');\n\nvar_dump($agentStats);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Stats',
+        example:
+          'AgentStatsParams parameters = new() { SenderID = "senderId" };\n\nvar agentStats = await client.Senders.Agent.Stats(parameters);\n\nConsole.WriteLine(agentStats);',
       },
       http: {
         example:
@@ -1385,6 +1505,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->executions->list(\n  'senderId',\n  cursor: 'cursor',\n  limit: 100,\n  status: AgentExecutionStatus::SUCCESS,\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Senders.Agent.Executions.List',
+        example:
+          'ExecutionListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.Executions.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -1436,6 +1561,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$execution = $client->senders->agent->executions->retrieve(\n  'executionId', senderID: 'senderId'\n);\n\nvar_dump($execution);",
       },
+      csharp: {
+        method: 'Senders.Agent.Executions.Retrieve',
+        example:
+          'ExecutionRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    ExecutionID = "executionId",\n};\n\nvar execution = await client.Senders.Agent.Executions.Retrieve(parameters);\n\nConsole.WriteLine(execution);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/executions/$EXECUTION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -1484,6 +1614,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->flows->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.List',
+        example:
+          'FlowListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.Flows.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -1543,6 +1678,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->create(\n  'senderId',\n  name: 'Lead Capture',\n  steps: [\n    [\n      'id' => 'welcome',\n      'config' => ['text' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'ask_name',\n    ],\n    [\n      'id' => 'ask_name',\n      'config' => ['variable' => 'bar', 'prompt' => 'bar'],\n      'type' => 'collect',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword',\n    'intent' => 'intent',\n    'keywords' => ['info', 'pricing', 'demo'],\n  ],\n  description: 'Capture lead information',\n  enabled: true,\n  priority: 0,\n);\n\nvar_dump($flow);",
       },
+      csharp: {
+        method: 'Senders.Agent.Flows.Create',
+        example:
+          'FlowCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Name = "Lead Capture",\n    Steps =\n    [\n        new()\n        {\n            ID = "welcome",\n            Config = new Dictionary<string, JsonElement>()\n            {\n                { "text", JsonSerializer.SerializeToElement("bar") }\n            },\n            Type = Type.Message,\n            NextStepID = "ask_name",\n        },\n        new()\n        {\n            ID = "ask_name",\n            Config = new Dictionary<string, JsonElement>()\n            {\n                { "variable", JsonSerializer.SerializeToElement("bar") },\n                { "prompt", JsonSerializer.SerializeToElement("bar") },\n            },\n            Type = Type.Collect,\n            NextStepID = "nextStepId",\n        },\n    ],\n    Trigger = new()\n    {\n        Type = Type.Keyword,\n        Intent = "intent",\n        Keywords =\n        [\n            "info", "pricing", "demo"\n        ],\n    },\n};\n\nvar flow = await client.Senders.Agent.Flows.Create(parameters);\n\nConsole.WriteLine(flow);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Lead Capture",\n          "steps": [\n            {\n              "id": "welcome",\n              "config": {\n                "text": "bar"\n              },\n              "type": "message",\n              "nextStepId": "ask_name"\n            },\n            {\n              "id": "ask_name",\n              "config": {\n                "variable": "bar",\n                "prompt": "bar"\n              },\n              "type": "collect"\n            }\n          ],\n          "trigger": {\n            "type": "keyword",\n            "keywords": [\n              "info",\n              "pricing",\n              "demo"\n            ]\n          },\n          "description": "Capture lead information"\n        }\'',
@@ -1592,6 +1732,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->retrieve(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($flow);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.Retrieve',
+        example:
+          'FlowRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n};\n\nvar flow = await client.Senders.Agent.Flows.Retrieve(parameters);\n\nConsole.WriteLine(flow);',
       },
       http: {
         example:
@@ -1652,6 +1797,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->update(\n  'flowId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  priority: 0,\n  steps: [\n    [\n      'id' => 'id',\n      'config' => ['foo' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword', 'intent' => 'intent', 'keywords' => ['string']\n  ],\n);\n\nvar_dump($flow);",
       },
+      csharp: {
+        method: 'Senders.Agent.Flows.Update',
+        example:
+          'FlowUpdateParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n};\n\nvar flow = await client.Senders.Agent.Flows.Update(parameters);\n\nConsole.WriteLine(flow);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -1699,6 +1849,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->flows->delete(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.Delete',
+        example:
+          'FlowDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n};\n\nawait client.Senders.Agent.Flows.Delete(parameters);',
       },
       http: {
         example:
@@ -1750,6 +1905,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->flows->duplicate(\n  'flowId', senderID: 'senderId', newName: 'Lead Capture (Copy)'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Senders.Agent.Flows.Duplicate',
+        example:
+          'FlowDuplicateParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n    NewName = "Lead Capture (Copy)",\n};\n\nvar response = await client.Senders.Agent.Flows.Duplicate(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID/duplicate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "newName": "Lead Capture (Copy)"\n        }\'',
@@ -1798,6 +1958,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->tools->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.List',
+        example:
+          'ToolListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.Tools.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -1857,6 +2022,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->create(\n  'senderId',\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: [\n    'properties' => [\n      'order_id' => [\n        'description' => 'The order ID to look up', 'type' => 'string'\n      ],\n    ],\n    'required' => ['order_id'],\n    'type' => 'object',\n  ],\n  webhookURL: 'https://api.example.com/webhooks/order-status',\n  enabled: true,\n  webhookSecret: 'whsec_...',\n);\n\nvar_dump($tool);",
       },
+      csharp: {
+        method: 'Senders.Agent.Tools.Create',
+        example:
+          'ToolCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Description = "Get the status of a customer order",\n    Name = "get_order_status",\n    Parameters = new()\n    {\n        Properties = new Dictionary<string, PropertiesItem>()\n        {\n            { "order_id", new()\n            {\n                Description = "The order ID to look up",\n                Type = "string",\n            } },\n        },\n        Required =\n        [\n            "order_id"\n        ],\n        Type = Type.Object,\n    },\n    WebhookUrl = "https://api.example.com/webhooks/order-status",\n};\n\nvar tool = await client.Senders.Agent.Tools.Create(parameters);\n\nConsole.WriteLine(tool);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status",\n          "webhookSecret": "whsec_..."\n        }\'',
@@ -1906,6 +2076,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->retrieve(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($tool);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.Retrieve',
+        example:
+          'ToolRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n};\n\nvar tool = await client.Senders.Agent.Tools.Retrieve(parameters);\n\nConsole.WriteLine(tool);',
       },
       http: {
         example:
@@ -1966,6 +2141,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->update(\n  'toolId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  parameters: [\n    'properties' => [\n      'foo' => ['description' => 'description', 'type' => 'type']\n    ],\n    'required' => ['string'],\n    'type' => 'object',\n  ],\n  webhookSecret: 'webhookSecret',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($tool);",
       },
+      csharp: {
+        method: 'Senders.Agent.Tools.Update',
+        example:
+          'ToolUpdateParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n};\n\nvar tool = await client.Senders.Agent.Tools.Update(parameters);\n\nConsole.WriteLine(tool);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -2013,6 +2193,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->tools->delete(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.Delete',
+        example:
+          'ToolDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n};\n\nawait client.Senders.Agent.Tools.Delete(parameters);',
       },
       http: {
         example:
@@ -2065,6 +2250,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->tools->test(\n  'toolId', senderID: 'senderId', testParams: ['order_id' => 'bar']\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Senders.Agent.Tools.Test',
+        example:
+          'ToolTestParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n    TestParams = new Dictionary<string, JsonElement>()\n    {\n        { "order_id", JsonSerializer.SerializeToElement("bar") }\n    },\n};\n\nvar response = await client.Senders.Agent.Tools.Test(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools/$TOOL_ID/test \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "testParams": {\n            "order_id": "bar"\n          }\n        }\'',
@@ -2114,6 +2304,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->list(\n  'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.List',
+        example:
+          'KnowledgeBaseListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.KnowledgeBases.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -2165,6 +2360,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->create(\n  'senderId',\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n);\n\nvar_dump($knowledgeBase);",
       },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Create',
+        example:
+          'KnowledgeBaseCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Name = "Product FAQ",\n};\n\nvar knowledgeBase = await client.Senders.Agent.KnowledgeBases.Create(parameters);\n\nConsole.WriteLine(knowledgeBase);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Product FAQ",\n          "description": "Frequently asked questions about our products"\n        }\'',
@@ -2214,6 +2414,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->retrieve(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($knowledgeBase);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Retrieve',
+        example:
+          'KnowledgeBaseRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nvar knowledgeBase = await client.Senders.Agent.KnowledgeBases.Retrieve(parameters);\n\nConsole.WriteLine(knowledgeBase);',
       },
       http: {
         example:
@@ -2265,6 +2470,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->update(\n  'kbId', senderID: 'senderId', description: 'description', name: 'name'\n);\n\nvar_dump($knowledgeBase);",
       },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Update',
+        example:
+          'KnowledgeBaseUpdateParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nvar knowledgeBase = await client.Senders.Agent.KnowledgeBases.Update(parameters);\n\nConsole.WriteLine(knowledgeBase);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -2312,6 +2522,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->delete(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Delete',
+        example:
+          'KnowledgeBaseDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nawait client.Senders.Agent.KnowledgeBases.Delete(parameters);',
       },
       http: {
         example:
@@ -2363,6 +2578,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->documents->list(\n  'kbId', senderID: 'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Documents.List',
+        example:
+          'DocumentListParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nvar page = await client.Senders.Agent.KnowledgeBases.Documents.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -2413,6 +2633,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$document = $client->senders->agent->knowledgeBases->documents->create(\n  'kbId',\n  senderID: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n);\n\nvar_dump($document);",
       },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Documents.Create',
+        example:
+          'DocumentCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n    Content = "Our return policy allows returns within 30 days of purchase...",\n    Title = "Return Policy",\n};\n\nvar document = await client.Senders.Agent.KnowledgeBases.Documents.Create(parameters);\n\nConsole.WriteLine(document);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/knowledge-bases/$KB_ID/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "content": "Our return policy allows returns within 30 days of purchase...",\n          "title": "Return Policy"\n        }\'',
@@ -2460,6 +2685,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->documents->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->documents->delete(\n  'docId', senderID: 'senderId', kbID: 'kbId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Documents.Delete',
+        example:
+          'DocumentDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n    DocID = "docId",\n};\n\nawait client.Senders.Agent.KnowledgeBases.Documents.Delete(parameters);',
       },
       http: {
         example:
@@ -2512,6 +2742,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappSync = $client->senders->whatsappSync->retrieve('senderId');\n\nvar_dump($whatsappSync);",
       },
+      csharp: {
+        method: 'Senders.WhatsappSync.Retrieve',
+        example:
+          'WhatsappSyncRetrieveParams parameters = new() { SenderID = "senderId" };\n\nvar whatsappSync = await client.Senders.WhatsappSync.Retrieve(parameters);\n\nConsole.WriteLine(whatsappSync);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -2562,6 +2797,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->whatsappSync->startHistorySync',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startHistorySync('senderId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Senders.WhatsappSync.StartHistorySync',
+        example:
+          'WhatsappSyncStartHistorySyncParams parameters = new() { SenderID = "senderId" };\n\nvar response = await client.Senders.WhatsappSync.StartHistorySync(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -2614,6 +2854,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startContactsSync('senderId');\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Senders.WhatsappSync.StartContactsSync',
+        example:
+          'WhatsappSyncStartContactsSyncParams parameters = new()\n{\n    SenderID = "senderId"\n};\n\nvar response = await client.Senders.WhatsappSync.StartContactsSync(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/whatsapp-sync/contacts \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -2663,6 +2908,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->contacts->list(\n  cursor: 'cursor', limit: 100, phoneNumber: 'phoneNumber'\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Contacts.List',
+        example:
+          'ContactListParams parameters = new();\n\nvar page = await client.Contacts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example: 'curl https://api.zavu.dev/v1/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
@@ -2710,6 +2960,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieve('contactId');\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.Retrieve',
+        example:
+          'ContactRetrieveParams parameters = new() { ContactID = "contactId" };\n\nvar contact = await client.Contacts.Retrieve(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2764,6 +3019,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->update(\n  'contactId', defaultChannel: 'sms', metadata: ['foo' => 'string']\n);\n\nvar_dump($contact);",
       },
+      csharp: {
+        method: 'Contacts.Update',
+        example:
+          'ContactUpdateParams parameters = new() { ContactID = "contactId" };\n\nvar contact = await client.Contacts.Update(parameters);\n\nConsole.WriteLine(contact);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -2813,6 +3073,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->retrieveByPhone',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieveByPhone('phoneNumber');\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.RetrieveByPhone',
+        example:
+          'ContactRetrieveByPhoneParams parameters = new() { PhoneNumber = "phoneNumber" };\n\nvar contact = await client.Contacts.RetrieveByPhone(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2868,6 +3133,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->create(\n  channels: [\n    [\n      'channel' => 'sms',\n      'identifier' => '+14155551234',\n      'countryCode' => 'US',\n      'isPrimary' => true,\n      'label' => 'work',\n    ],\n  ],\n  displayName: 'John Doe',\n  metadata: ['foo' => 'string'],\n);\n\nvar_dump($contact);",
       },
+      csharp: {
+        method: 'Contacts.Create',
+        example:
+          'ContactCreateParams parameters = new()\n{\n    Channels =\n    [\n        new()\n        {\n            Channel = Channel.Sms,\n            Identifier = "+14155551234",\n            CountryCode = "US",\n            IsPrimary = true,\n            Label = "work",\n        },\n    ],\n};\n\nvar contact = await client.Contacts.Create(parameters);\n\nConsole.WriteLine(contact);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channels": [\n            {\n              "channel": "sms",\n              "identifier": "+14155551234",\n              "isPrimary": true\n            }\n          ],\n          "displayName": "John Doe"\n        }\'',
@@ -2919,6 +3189,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->merge('contactId', sourceContactID: 'jx7xyz789');\n\nvar_dump($contact);",
       },
+      csharp: {
+        method: 'Contacts.Merge',
+        example:
+          'ContactMergeParams parameters = new()\n{\n    ContactID = "contactId",\n    SourceContactID = "jx7xyz789",\n};\n\nvar contact = await client.Contacts.Merge(parameters);\n\nConsole.WriteLine(contact);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "sourceContactId": "jx7xyz789"\n        }\'',
@@ -2967,6 +3242,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->dismissMergeSuggestion('contactId');\n\nvar_dump($result);",
       },
+      csharp: {
+        method: 'Contacts.DismissMergeSuggestion',
+        example:
+          'ContactDismissMergeSuggestionParams parameters = new()\n{\n    ContactID = "contactId"\n};\n\nawait client.Contacts.DismissMergeSuggestion(parameters);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/merge-suggestion \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3014,6 +3294,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->delete('contactId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Contacts.Delete',
+        example:
+          'ContactDeleteParams parameters = new() { ContactID = "contactId" };\n\nawait client.Contacts.Delete(parameters);',
       },
       http: {
         example:
@@ -3072,6 +3357,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->add(\n  'contactId',\n  channel: 'email',\n  identifier: 'john.work@company.com',\n  countryCode: 'US',\n  isPrimary: true,\n  label: 'work',\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Contacts.Channels.Add',
+        example:
+          'ChannelAddParams parameters = new()\n{\n    ContactID = "contactId",\n    Channel = Channel.Email,\n    Identifier = "john.work@company.com",\n};\n\nvar response = await client.Contacts.Channels.Add(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "email",\n          "identifier": "john.work@company.com",\n          "countryCode": "US",\n          "label": "work"\n        }\'',
@@ -3128,6 +3418,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$channel = $client->contacts->channels->update(\n  'channelId',\n  contactID: 'contactId',\n  label: 'label',\n  metadata: ['foo' => 'string'],\n  verified: true,\n);\n\nvar_dump($channel);",
       },
+      csharp: {
+        method: 'Contacts.Channels.Update',
+        example:
+          'ChannelUpdateParams parameters = new()\n{\n    ContactID = "contactId",\n    ChannelID = "channelId",\n};\n\nvar channel = await client.Contacts.Channels.Update(parameters);\n\nConsole.WriteLine(channel);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/contacts/$CONTACT_ID/channels/$CHANNEL_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -3175,6 +3470,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->channels->remove',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->channels->remove(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Contacts.Channels.Remove',
+        example:
+          'ChannelRemoveParams parameters = new()\n{\n    ContactID = "contactId",\n    ChannelID = "channelId",\n};\n\nawait client.Contacts.Channels.Remove(parameters);',
       },
       http: {
         example:
@@ -3225,6 +3525,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->channels->setPrimary',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->setPrimary(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Contacts.Channels.SetPrimary',
+        example:
+          'ChannelSetPrimaryParams parameters = new()\n{\n    ContactID = "contactId",\n    ChannelID = "channelId",\n};\n\nvar response = await client.Contacts.Channels.SetPrimary(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3288,6 +3593,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->create(\n  channel: BroadcastChannel::SMS,\n  name: 'Black Friday Sale',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateHeaderVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  idempotencyKey: 'idempotencyKey',\n  messageType: BroadcastMessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  senderID: 'senderId',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n);\n\nvar_dump($broadcast);",
       },
+      csharp: {
+        method: 'Broadcasts.Create',
+        example:
+          'BroadcastCreateParams parameters = new()\n{\n    Channel = BroadcastChannel.Sms,\n    Name = "Black Friday Sale",\n};\n\nvar broadcast = await client.Broadcasts.Create(parameters);\n\nConsole.WriteLine(broadcast);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "channel": "sms",\n          "name": "Black Friday Sale",\n          "text": "Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off."\n        }\'',
@@ -3337,6 +3647,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->list(\n  cursor: 'cursor', limit: 100, status: BroadcastStatus::DRAFT\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Broadcasts.List',
+        example:
+          'BroadcastListParams parameters = new();\n\nvar page = await client.Broadcasts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3385,6 +3700,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->retrieve('broadcastId');\n\nvar_dump($broadcast);",
+      },
+      csharp: {
+        method: 'Broadcasts.Retrieve',
+        example:
+          'BroadcastRetrieveParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar broadcast = await client.Broadcasts.Retrieve(parameters);\n\nConsole.WriteLine(broadcast);',
       },
       http: {
         example:
@@ -3443,6 +3763,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->update(\n  'broadcastId',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateHeaderVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  text: 'text',\n);\n\nvar_dump($broadcast);",
       },
+      csharp: {
+        method: 'Broadcasts.Update',
+        example:
+          'BroadcastUpdateParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar broadcast = await client.Broadcasts.Update(parameters);\n\nConsole.WriteLine(broadcast);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -3489,6 +3814,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->delete('broadcastId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Broadcasts.Delete',
+        example:
+          'BroadcastDeleteParams parameters = new() { BroadcastID = "broadcastId" };\n\nawait client.Broadcasts.Delete(parameters);',
       },
       http: {
         example:
@@ -3540,6 +3870,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->send(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z')\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Broadcasts.Send',
+        example:
+          'BroadcastSendParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar response = await client.Broadcasts.Send(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/send \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3589,6 +3924,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->cancel',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->cancel('broadcastId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Cancel',
+        example:
+          'BroadcastCancelParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar response = await client.Broadcasts.Cancel(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3640,6 +3980,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcastProgress = $client->broadcasts->progress('broadcastId');\n\nvar_dump($broadcastProgress);",
       },
+      csharp: {
+        method: 'Broadcasts.Progress',
+        example:
+          'BroadcastProgressParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar broadcastProgress = await client.Broadcasts.Progress(parameters);\n\nConsole.WriteLine(broadcastProgress);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/progress \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3689,6 +4034,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->reschedule',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->reschedule(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2024-01-15T14:00:00Z')\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Reschedule',
+        example:
+          'BroadcastRescheduleParams parameters = new()\n{\n    BroadcastID = "broadcastId",\n    ScheduledAt = DateTimeOffset.Parse("2024-01-15T14:00:00Z"),\n};\n\nvar response = await client.Broadcasts.Reschedule(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3741,6 +4091,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->retryReview('broadcastId');\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Broadcasts.RetryReview',
+        example:
+          'BroadcastRetryReviewParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar response = await client.Broadcasts.RetryReview(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/retry-review \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3791,6 +4146,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->escalateReview',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->escalateReview('broadcastId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.EscalateReview',
+        example:
+          'BroadcastEscalateReviewParams parameters = new()\n{\n    BroadcastID = "broadcastId"\n};\n\nvar response = await client.Broadcasts.EscalateReview(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3844,6 +4204,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->contacts->add',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->contacts->add(\n  'broadcastId',\n  contacts: [\n    [\n      'recipient' => '+14155551234',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateHeaderVariables' => ['1' => 'Jorge y Laura'],\n      'templateVariables' => ['name' => 'John', 'order_id' => 'ORD-001'],\n    ],\n    [\n      'recipient' => '+14155555678',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateHeaderVariables' => ['1' => 'Jorge y Laura'],\n      'templateVariables' => ['name' => 'Jane', 'order_id' => 'ORD-002'],\n    ],\n  ],\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Contacts.Add',
+        example:
+          'ContactAddParams parameters = new()\n{\n    BroadcastID = "broadcastId",\n    Contacts =\n    [\n        new()\n        {\n            Recipient = "+14155551234",\n            TemplateButtonVariables = new Dictionary<string, string>()\n            {\n                { "0", "abc-report-token" }\n            },\n            TemplateHeaderVariables = new Dictionary<string, string>()\n            {\n                { "1", "Jorge y Laura" }\n            },\n            TemplateVariables = new Dictionary<string, string>()\n            {\n                { "name", "John" }, { "order_id", "ORD-001" }\n            },\n        },\n        new()\n        {\n            Recipient = "+14155555678",\n            TemplateButtonVariables = new Dictionary<string, string>()\n            {\n                { "0", "abc-report-token" }\n            },\n            TemplateHeaderVariables = new Dictionary<string, string>()\n            {\n                { "1", "Jorge y Laura" }\n            },\n            TemplateVariables = new Dictionary<string, string>()\n            {\n                { "name", "Jane" }, { "order_id", "ORD-002" }\n            },\n        },\n    ],\n};\n\nvar response = await client.Broadcasts.Contacts.Add(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3900,6 +4265,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->contacts->list(\n  'broadcastId',\n  cursor: 'cursor',\n  limit: 100,\n  status: BroadcastContactStatus::PENDING,\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Broadcasts.Contacts.List',
+        example:
+          'ContactListParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar page = await client.Broadcasts.Contacts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3947,6 +4317,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->contacts->remove',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->contacts->remove(\n  'contactId', broadcastID: 'broadcastId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Broadcasts.Contacts.Remove',
+        example:
+          'ContactRemoveParams parameters = new()\n{\n    BroadcastID = "broadcastId",\n    ContactID = "contactId",\n};\n\nawait client.Broadcasts.Contacts.Remove(parameters);',
       },
       http: {
         example:
@@ -3997,6 +4372,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'introspect->validatePhone',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->introspect->validatePhone(phoneNumber: '+56912345678');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Introspect.ValidatePhone',
+        example:
+          'IntrospectValidatePhoneParams parameters = new()\n{\n    PhoneNumber = "+56912345678"\n};\n\nvar response = await client.Introspect.ValidatePhone(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4054,6 +4434,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->searchAvailable(\n  countryCode: 'xx',\n  capabilities: 'voice,sms',\n  contains: 'contains',\n  limit: 50,\n  type: PhoneNumberType::LOCAL,\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'PhoneNumbers.SearchAvailable',
+        example:
+          'PhoneNumberSearchAvailableParams parameters = new() { CountryCode = "xx" };\n\nvar response = await client.PhoneNumbers.SearchAvailable(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/available \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4103,6 +4488,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->requirements',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->requirements(\n  countryCode: 'xx', type: PhoneNumberType::LOCAL\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.Requirements',
+        example:
+          'PhoneNumberRequirementsParams parameters = new() { CountryCode = "xx" };\n\nvar response = await client.PhoneNumbers.Requirements(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4155,6 +4545,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->purchase(\n  phoneNumber: '+15551234567', name: 'Primary Line'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'PhoneNumbers.Purchase',
+        example:
+          'PhoneNumberPurchaseParams parameters = new() { PhoneNumber = "+15551234567" };\n\nvar response = await client.PhoneNumbers.Purchase(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumber": "+15551234567",\n          "name": "Primary Line"\n        }\'',
@@ -4203,6 +4598,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->phoneNumbers->list(\n  cursor: 'cursor', limit: 100, status: PhoneNumberStatus::ACTIVE\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.List',
+        example:
+          'PhoneNumberListParams parameters = new();\n\nvar page = await client.PhoneNumbers.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -4254,6 +4654,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->retrieve('phoneNumberId');\n\nvar_dump($phoneNumber);",
       },
+      csharp: {
+        method: 'PhoneNumbers.Retrieve',
+        example:
+          'PhoneNumberRetrieveParams parameters = new()\n{\n    PhoneNumberID = "phoneNumberId"\n};\n\nvar phoneNumber = await client.PhoneNumbers.Retrieve(parameters);\n\nConsole.WriteLine(phoneNumber);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4304,6 +4709,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->update(\n  'phoneNumberId', name: 'Support Line', senderID: 'senderId'\n);\n\nvar_dump($phoneNumber);",
       },
+      csharp: {
+        method: 'PhoneNumbers.Update',
+        example:
+          'PhoneNumberUpdateParams parameters = new() { PhoneNumberID = "phoneNumberId" };\n\nvar phoneNumber = await client.PhoneNumbers.Update(parameters);\n\nConsole.WriteLine(phoneNumber);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/$PHONE_NUMBER_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Support Line"\n        }\'',
@@ -4351,6 +4761,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->release',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->phoneNumbers->release('phoneNumberId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.Release',
+        example:
+          'PhoneNumberReleaseParams parameters = new() { PhoneNumberID = "phoneNumberId" };\n\nawait client.PhoneNumbers.Release(parameters);',
       },
       http: {
         example:
@@ -4413,6 +4828,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->create(\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  administrativeArea: 'administrativeArea',\n  businessName: 'businessName',\n  extendedAddress: 'extendedAddress',\n  firstName: 'John',\n  lastName: 'Doe',\n);\n\nvar_dump($address);",
       },
+      csharp: {
+        method: 'Addresses.Create',
+        example:
+          'AddressCreateParams parameters = new()\n{\n    CountryCode = "DE",\n    Locality = "Berlin",\n    PostalCode = "10115",\n    StreetAddress = "123 Main St",\n};\n\nvar address = await client.Addresses.Create(parameters);\n\nConsole.WriteLine(address);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/addresses \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "countryCode": "DE",\n          "locality": "Berlin",\n          "postalCode": "10115",\n          "streetAddress": "123 Main St",\n          "firstName": "John",\n          "lastName": "Doe"\n        }\'',
@@ -4462,6 +4882,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->addresses->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Addresses.List',
+        example:
+          'AddressListParams parameters = new();\n\nvar page = await client.Addresses.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example: 'curl https://api.zavu.dev/v1/addresses \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
@@ -4510,6 +4935,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->retrieve('addressId');\n\nvar_dump($address);",
       },
+      csharp: {
+        method: 'Addresses.Retrieve',
+        example:
+          'AddressRetrieveParams parameters = new() { AddressID = "addressId" };\n\nvar address = await client.Addresses.Retrieve(parameters);\n\nConsole.WriteLine(address);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/addresses/$ADDRESS_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4556,6 +4986,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addresses->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->addresses->delete('addressId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Addresses.Delete',
+        example:
+          'AddressDeleteParams parameters = new() { AddressID = "addressId" };\n\nawait client.Addresses.Delete(parameters);',
       },
       http: {
         example:
@@ -4604,6 +5039,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->uploadURL',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->regulatoryDocuments->uploadURL();\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.UploadUrl',
+        example:
+          'RegulatoryDocumentUploadUrlParams parameters = new();\n\nvar response = await client.RegulatoryDocuments.UploadUrl(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4662,6 +5102,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->create(\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageID: 'kg2abc123...',\n);\n\nvar_dump($regulatoryDocument);",
       },
+      csharp: {
+        method: 'RegulatoryDocuments.Create',
+        example:
+          'RegulatoryDocumentCreateParams parameters = new()\n{\n    DocumentType = DocumentType.Passport,\n    FileSize = 102400,\n    MimeType = "image/jpeg",\n    Name = "Passport Scan",\n    StorageID = "kg2abc123...",\n};\n\nvar regulatoryDocument = await client.RegulatoryDocuments.Create(parameters);\n\nConsole.WriteLine(regulatoryDocument);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/documents \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "documentType": "passport",\n          "fileSize": 102400,\n          "mimeType": "image/jpeg",\n          "name": "Passport Scan",\n          "storageId": "kg2abc123..."\n        }\'',
@@ -4710,6 +5155,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->regulatoryDocuments->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.List',
+        example:
+          'RegulatoryDocumentListParams parameters = new();\n\nvar page = await client.RegulatoryDocuments.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4760,6 +5210,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->retrieve('documentId');\n\nvar_dump($regulatoryDocument);",
       },
+      csharp: {
+        method: 'RegulatoryDocuments.Retrieve',
+        example:
+          'RegulatoryDocumentRetrieveParams parameters = new()\n{\n    DocumentID = "documentId"\n};\n\nvar regulatoryDocument = await client.RegulatoryDocuments.Retrieve(parameters);\n\nConsole.WriteLine(regulatoryDocument);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/documents/$DOCUMENT_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4807,6 +5262,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->regulatoryDocuments->delete('documentId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.Delete',
+        example:
+          'RegulatoryDocumentDeleteParams parameters = new() { DocumentID = "documentId" };\n\nawait client.RegulatoryDocuments.Delete(parameters);',
       },
       http: {
         example:
@@ -4866,6 +5326,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->create(\n  allowedPhoneCountries: ['US', 'MX'],\n  clientEmail: 'contact@acme.com',\n  clientName: 'Acme Corp',\n  clientPhone: '+14155551234',\n  connectionType: 'whatsapp_waba',\n  expiresInDays: 1,\n  phoneNumberID: 'pn_abc123',\n);\n\nvar_dump($invitation);",
       },
+      csharp: {
+        method: 'Invitations.Create',
+        example:
+          'InvitationCreateParams parameters = new();\n\nvar invitation = await client.Invitations.Create(parameters);\n\nConsole.WriteLine(invitation);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/invitations \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4919,6 +5384,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->invitations->list(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Invitations.List',
+        example:
+          'InvitationListParams parameters = new();\n\nvar page = await client.Invitations.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/invitations \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4969,6 +5439,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->retrieve('invitationId');\n\nvar_dump($invitation);",
       },
+      csharp: {
+        method: 'Invitations.Retrieve',
+        example:
+          'InvitationRetrieveParams parameters = new() { InvitationID = "invitationId" };\n\nvar invitation = await client.Invitations.Retrieve(parameters);\n\nConsole.WriteLine(invitation);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/invitations/$INVITATION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -5017,6 +5492,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invitations->cancel',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->invitations->cancel('invitationId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Invitations.Cancel',
+        example:
+          'InvitationCancelParams parameters = new() { InvitationID = "invitationId" };\n\nvar response = await client.Invitations.Cancel(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5068,6 +5548,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls->submitForVerification',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->submitForVerification(\n  url: 'https://example.com/page'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Urls.SubmitForVerification',
+        example:
+          'UrlSubmitForVerificationParams parameters = new()\n{\n    Url = "https://example.com/page"\n};\n\nvar response = await client.Urls.SubmitForVerification(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5122,6 +5607,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->urls->listVerified(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'Urls.ListVerified',
+        example:
+          'UrlListVerifiedParams parameters = new();\n\nvar page = await client.Urls.ListVerified(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example: 'curl https://api.zavu.dev/v1/urls \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
@@ -5169,6 +5659,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls->retrieveDetails',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->retrieveDetails('urlId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Urls.RetrieveDetails',
+        example:
+          'UrlRetrieveDetailsParams parameters = new() { UrlID = "urlId" };\n\nvar response = await client.Urls.RetrieveDetails(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5219,6 +5714,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$balance = $client->balance->retrieve();\n\nvar_dump($balance);",
       },
+      csharp: {
+        method: 'Balance.Retrieve',
+        example:
+          'BalanceRetrieveParams parameters = new();\n\nvar balance = await client.Balance.Retrieve(parameters);\n\nConsole.WriteLine(balance);',
+      },
       http: {
         example: 'curl https://api.zavu.dev/v1/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
       },
@@ -5267,6 +5767,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->create(\n  name: 'Client ABC',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n);\n\nvar_dump($subAccount);",
+      },
+      csharp: {
+        method: 'SubAccounts.Create',
+        example:
+          'SubAccountCreateParams parameters = new() { Name = "Client ABC" };\n\nvar subAccount = await client.SubAccounts.Create(parameters);\n\nConsole.WriteLine(subAccount);',
       },
       http: {
         example:
@@ -5318,6 +5823,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->subAccounts->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
       },
+      csharp: {
+        method: 'SubAccounts.List',
+        example:
+          'SubAccountListParams parameters = new();\n\nvar page = await client.SubAccounts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/sub-accounts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -5366,6 +5876,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->retrieve('id');\n\nvar_dump($subAccount);",
+      },
+      csharp: {
+        method: 'SubAccounts.Retrieve',
+        example:
+          'SubAccountRetrieveParams parameters = new() { ID = "id" };\n\nvar subAccount = await client.SubAccounts.Retrieve(parameters);\n\nConsole.WriteLine(subAccount);',
       },
       http: {
         example:
@@ -5424,6 +5939,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->update(\n  'id',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n  name: 'name',\n  status: 'active',\n);\n\nvar_dump($subAccount);",
       },
+      csharp: {
+        method: 'SubAccounts.Update',
+        example:
+          'SubAccountUpdateParams parameters = new() { ID = "id" };\n\nvar subAccount = await client.SubAccounts.Update(parameters);\n\nConsole.WriteLine(subAccount);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/sub-accounts/$ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -5472,6 +5992,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->deactivate',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->deactivate('id');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'SubAccounts.Deactivate',
+        example:
+          'SubAccountDeactivateParams parameters = new() { ID = "id" };\n\nvar response = await client.SubAccounts.Deactivate(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5523,6 +6048,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->getBalance('id');\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'SubAccounts.GetBalance',
+        example:
+          'SubAccountGetBalanceParams parameters = new() { ID = "id" };\n\nvar response = await client.SubAccounts.GetBalance(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/sub-accounts/$ID/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -5572,6 +6102,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->apiKeys->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKeys = $client->subAccounts->apiKeys->list('id');\n\nvar_dump($apiKeys);",
+      },
+      csharp: {
+        method: 'SubAccounts.ApiKeys.List',
+        example:
+          'ApiKeyListParams parameters = new() { ID = "id" };\n\nvar apiKeys = await client.SubAccounts.ApiKeys.List(parameters);\n\nConsole.WriteLine(apiKeys);',
       },
       http: {
         example:
@@ -5623,6 +6158,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKey = $client->subAccounts->apiKeys->create(\n  'id', name: 'Production Key', environment: 'live', permissions: ['string']\n);\n\nvar_dump($apiKey);",
       },
+      csharp: {
+        method: 'SubAccounts.ApiKeys.Create',
+        example:
+          'ApiKeyCreateParams parameters = new()\n{\n    ID = "id",\n    Name = "Production Key",\n};\n\nvar apiKey = await client.SubAccounts.ApiKeys.Create(parameters);\n\nConsole.WriteLine(apiKey);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "name": "Production Key",\n          "environment": "live"\n        }\'',
@@ -5672,6 +6212,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->subAccounts->apiKeys->revoke('keyId', id: 'id');\n\nvar_dump($result);",
       },
+      csharp: {
+        method: 'SubAccounts.ApiKeys.Revoke',
+        example:
+          'ApiKeyRevokeParams parameters = new()\n{\n    ID = "id",\n    KeyID = "keyId",\n};\n\nawait client.SubAccounts.ApiKeys.Revoke(parameters);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/sub-accounts/$ID/api-keys/$KEY_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -5720,6 +6265,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->brands->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.List',
+        example:
+          'BrandListParams parameters = new();\n\nvar page = await client.Number10dlc.Brands.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -5790,6 +6340,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->create(\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n  companyName: 'Acme Corporation',\n  ein: '12-3456789',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  website: 'https://acme.com',\n);\n\nvar_dump($brand);",
       },
+      csharp: {
+        method: 'Number10dlc.Brands.Create',
+        example:
+          'BrandCreateParams parameters = new()\n{\n    City = "San Francisco",\n    Country = "US",\n    DisplayName = "Acme Corp",\n    Email = "compliance@acme.com",\n    EntityType = EntityType.PrivateProfit,\n    Phone = "+14155551234",\n    PostalCode = "94102",\n    State = "CA",\n    Street = "123 Main St",\n    Vertical = "Technology",\n};\n\nvar brand = await client.Number10dlc.Brands.Create(parameters);\n\nConsole.WriteLine(brand);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/brands \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "city": "San Francisco",\n          "country": "US",\n          "displayName": "Acme Corp",\n          "email": "compliance@acme.com",\n          "entityType": "PRIVATE_PROFIT",\n          "phone": "+14155551234",\n          "postalCode": "94102",\n          "state": "CA",\n          "street": "123 Main St",\n          "vertical": "Technology",\n          "companyName": "Acme Corporation",\n          "ein": "12-3456789",\n          "website": "https://acme.com"\n        }\'',
@@ -5836,6 +6391,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->listUseCases',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->listUseCases();\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.ListUseCases',
+        example:
+          'BrandListUseCasesParams parameters = new();\n\nvar response = await client.Number10dlc.Brands.ListUseCases(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5885,6 +6445,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->retrieve('brandId');\n\nvar_dump($brand);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Retrieve',
+        example:
+          'BrandRetrieveParams parameters = new() { BrandID = "brandId" };\n\nvar brand = await client.Number10dlc.Brands.Retrieve(parameters);\n\nConsole.WriteLine(brand);',
       },
       http: {
         example:
@@ -5954,6 +6519,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->update(\n  'brandId',\n  city: 'city',\n  companyName: 'companyName',\n  country: 'xx',\n  displayName: 'displayName',\n  ein: 'ein',\n  email: 'dev@stainless.com',\n  entityType: 'PRIVATE_PROFIT',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  phone: 'phone',\n  postalCode: 'postalCode',\n  state: 'state',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  street: 'street',\n  vertical: 'vertical',\n  website: 'https://example.com',\n);\n\nvar_dump($brand);",
       },
+      csharp: {
+        method: 'Number10dlc.Brands.Update',
+        example:
+          'BrandUpdateParams parameters = new() { BrandID = "brandId" };\n\nvar brand = await client.Number10dlc.Brands.Update(parameters);\n\nConsole.WriteLine(brand);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -6000,6 +6570,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->brands->delete('brandId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Delete',
+        example:
+          'BrandDeleteParams parameters = new() { BrandID = "brandId" };\n\nawait client.Number10dlc.Brands.Delete(parameters);',
       },
       http: {
         example:
@@ -6050,6 +6625,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->submit',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->submit('brandId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Submit',
+        example:
+          'BrandSubmitParams parameters = new() { BrandID = "brandId" };\n\nvar response = await client.Number10dlc.Brands.Submit(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6102,6 +6682,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->syncStatus('brandId');\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Number10dlc.Brands.SyncStatus',
+        example:
+          'BrandSyncStatusParams parameters = new() { BrandID = "brandId" };\n\nvar response = await client.Number10dlc.Brands.SyncStatus(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/brands/$BRAND_ID/sync \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6150,6 +6735,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->campaigns->list(\n  brandID: 'brandId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.List',
+        example:
+          'CampaignListParams parameters = new();\n\nvar page = await client.Number10dlc.Campaigns.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -6222,6 +6812,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->create(\n  affiliateMarketing: false,\n  ageGated: false,\n  brandID: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: [\n    'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}',\n    'Your order #{{order_id}} has been delivered. Thank you for your purchase!',\n  ],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  subUseCases: ['string'],\n);\n\nvar_dump($campaign);",
       },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Create',
+        example:
+          'CampaignCreateParams parameters = new()\n{\n    AffiliateMarketing = false,\n    AgeGated = false,\n    BrandID = "brand_abc123",\n    Description = "Send order status updates and shipping notifications to customers who opted in.",\n    DirectLending = false,\n    EmbeddedLink = true,\n    EmbeddedPhone = false,\n    Name = "Order Notifications",\n    NumberPooling = false,\n    SampleMessages =\n    [\n        "Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}",\n        "Your order #{{order_id}} has been delivered. Thank you for your purchase!",\n    ],\n    SubscriberHelp = true,\n    SubscriberOptIn = true,\n    SubscriberOptOut = true,\n    UseCase = "ACCOUNT_NOTIFICATION",\n};\n\nvar campaign = await client.Number10dlc.Campaigns.Create(parameters);\n\nConsole.WriteLine(campaign);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/campaigns \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "affiliateMarketing": false,\n          "ageGated": false,\n          "brandId": "brand_abc123",\n          "description": "Send order status updates and shipping notifications to customers who opted in.",\n          "directLending": false,\n          "embeddedLink": true,\n          "embeddedPhone": false,\n          "name": "Order Notifications",\n          "numberPooling": false,\n          "sampleMessages": [\n            "Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}",\n            "Your order #{{order_id}} has been delivered. Thank you for your purchase!"\n          ],\n          "subscriberHelp": true,\n          "subscriberOptIn": true,\n          "subscriberOptOut": true,\n          "useCase": "ACCOUNT_NOTIFICATION"\n        }\'',
@@ -6271,6 +6866,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->retrieve('campaignId');\n\nvar_dump($campaign);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Retrieve',
+        example:
+          'CampaignRetrieveParams parameters = new() { CampaignID = "campaignId" };\n\nvar campaign = await client.Number10dlc.Campaigns.Retrieve(parameters);\n\nConsole.WriteLine(campaign);',
       },
       http: {
         example:
@@ -6331,6 +6931,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->update(\n  'campaignId',\n  description: 'description',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  name: 'name',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  sampleMessages: ['string'],\n);\n\nvar_dump($campaign);",
       },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Update',
+        example:
+          'CampaignUpdateParams parameters = new() { CampaignID = "campaignId" };\n\nvar campaign = await client.Number10dlc.Campaigns.Update(parameters);\n\nConsole.WriteLine(campaign);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -6378,6 +6983,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->delete('campaignId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Delete',
+        example:
+          'CampaignDeleteParams parameters = new() { CampaignID = "campaignId" };\n\nawait client.Number10dlc.Campaigns.Delete(parameters);',
       },
       http: {
         example:
@@ -6430,6 +7040,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->submit('campaignId');\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Submit',
+        example:
+          'CampaignSubmitParams parameters = new() { CampaignID = "campaignId" };\n\nvar response = await client.Number10dlc.Campaigns.Submit(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/submit \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6481,6 +7096,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->syncStatus('campaignId');\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Number10dlc.Campaigns.SyncStatus',
+        example:
+          'CampaignSyncStatusParams parameters = new() { CampaignID = "campaignId" };\n\nvar response = await client.Number10dlc.Campaigns.SyncStatus(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/sync \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6530,6 +7150,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->phoneNumbers->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumbers = $client->number10dlc->campaigns->phoneNumbers->list(\n  'campaignId'\n);\n\nvar_dump($phoneNumbers);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.PhoneNumbers.List',
+        example:
+          'PhoneNumberListParams parameters = new() { CampaignID = "campaignId" };\n\nvar phoneNumbers = await client.Number10dlc.Campaigns.PhoneNumbers.List(parameters);\n\nConsole.WriteLine(phoneNumbers);',
       },
       http: {
         example:
@@ -6582,6 +7207,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->phoneNumbers->assign(\n  'campaignId', phoneNumberID: 'pn_abc123'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Number10dlc.Campaigns.PhoneNumbers.Assign',
+        example:
+          'PhoneNumberAssignParams parameters = new()\n{\n    CampaignID = "campaignId",\n    PhoneNumberID = "pn_abc123",\n};\n\nvar response = await client.Number10dlc.Campaigns.PhoneNumbers.Assign(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/10dlc/campaigns/$CAMPAIGN_ID/phone-numbers \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "phoneNumberId": "pn_abc123"\n        }\'',
@@ -6629,6 +7259,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->phoneNumbers->unassign',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->phoneNumbers->unassign(\n  'assignmentId', campaignID: 'campaignId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.PhoneNumbers.Unassign',
+        example:
+          'PhoneNumberUnassignParams parameters = new()\n{\n    CampaignID = "campaignId",\n    AssignmentID = "assignmentId",\n};\n\nawait client.Number10dlc.Campaigns.PhoneNumbers.Unassign(parameters);',
       },
       http: {
         example:
@@ -6678,6 +7313,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'me->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$me = $client->me->retrieve();\n\nvar_dump($me);",
+      },
+      csharp: {
+        method: 'Me.Retrieve',
+        example:
+          'MeRetrieveParams parameters = new();\n\nvar me = await client.Me.Retrieve(parameters);\n\nConsole.WriteLine(me);',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/me \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6739,6 +7379,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->create(\n  name: 'Order Bot',\n  slug: 'order-bot',\n  dependencies: ['openai' => '^4.20.0'],\n  description: 'Replies to order status questions on WhatsApp.',\n  httpEnabled: true,\n  memoryMB: 128,\n  runtime: 'nodejs24',\n  sourceCode: \"import { defineFunction } from '@zavudev/functions';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log('received', event.type);\\n});\\n\",\n  timeoutSec: 1,\n);\n\nvar_dump($function);",
       },
+      csharp: {
+        method: 'Functions.Create',
+        example:
+          'FunctionCreateParams parameters = new()\n{\n    Name = "Order Bot",\n    Slug = "order-bot",\n};\n\nvar function = await client.Functions.Create(parameters);\n\nConsole.WriteLine(function);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d "{\n          \\"name\\": \\"Order Bot\\",\n          \\"slug\\": \\"order-bot\\",\n          \\"dependencies\\": {\n            \\"openai\\": \\"^4.20.0\\"\n          },\n          \\"description\\": \\"Replies to order status questions on WhatsApp.\\",\n          \\"sourceCode\\": \\"import { defineFunction } from \'@zavudev/functions\';\\\\n\\\\nexport default defineFunction(async (event, ctx) => {\\\\n  ctx.log(\'received\', event.type);\\\\n});\\\\n\\"\n        }"',
@@ -6787,6 +7432,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->retrieve('functionId');\n\nvar_dump($function);",
+      },
+      csharp: {
+        method: 'Functions.Retrieve',
+        example:
+          'FunctionRetrieveParams parameters = new() { FunctionID = "functionId" };\n\nvar function = await client.Functions.Retrieve(parameters);\n\nConsole.WriteLine(function);',
       },
       http: {
         example:
@@ -6843,6 +7493,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->update(\n  'functionId',\n  dependencies: ['foo' => 'string'],\n  httpEnabled: true,\n  sourceCode: 'sourceCode',\n);\n\nvar_dump($function);",
       },
+      csharp: {
+        method: 'Functions.Update',
+        example:
+          'FunctionUpdateParams parameters = new() { FunctionID = "functionId" };\n\nvar function = await client.Functions.Update(parameters);\n\nConsole.WriteLine(function);',
+      },
       http: {
         example:
           "curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
@@ -6891,6 +7546,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->delete('functionId');\n\nvar_dump($function);",
+      },
+      csharp: {
+        method: 'Functions.Delete',
+        example:
+          'FunctionDeleteParams parameters = new() { FunctionID = "functionId" };\n\nvar function = await client.Functions.Delete(parameters);\n\nConsole.WriteLine(function);',
       },
       http: {
         example:
@@ -6942,6 +7602,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->deploy(\n  'functionId', dependencies: ['foo' => 'string'], sourceCode: 'sourceCode'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Functions.Deploy',
+        example:
+          'FunctionDeployParams parameters = new() { FunctionID = "functionId" };\n\nvar response = await client.Functions.Deploy(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/deploy \\\n    -X POST \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6991,6 +7656,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->getDeployment',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->getDeployment('deploymentId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Functions.GetDeployment',
+        example:
+          'FunctionGetDeploymentParams parameters = new()\n{\n    DeploymentID = "deploymentId"\n};\n\nvar response = await client.Functions.GetDeployment(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -7048,6 +7718,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->tailLogs(\n  'functionId',\n  endTime: 0,\n  filterPattern: 'filterPattern',\n  limit: 1,\n  nextToken: 'nextToken',\n  startTime: 0,\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Functions.TailLogs',
+        example:
+          'FunctionTailLogsParams parameters = new() { FunctionID = "functionId" };\n\nvar response = await client.Functions.TailLogs(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/logs \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -7097,6 +7772,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->secrets->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$secrets = $client->functions->secrets->list('functionId');\n\nvar_dump($secrets);",
+      },
+      csharp: {
+        method: 'Functions.Secrets.List',
+        example:
+          'SecretListParams parameters = new() { FunctionID = "functionId" };\n\nvar secrets = await client.Functions.Secrets.List(parameters);\n\nConsole.WriteLine(secrets);',
       },
       http: {
         example:
@@ -7148,6 +7828,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->secrets->set(\n  'key', functionID: 'functionId', value: 'value'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Functions.Secrets.Set',
+        example:
+          'SecretSetParams parameters = new()\n{\n    FunctionID = "functionId",\n    Key = "key",\n    Value = "value",\n};\n\nvar response = await client.Functions.Secrets.Set(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/secrets/$KEY \\\n    -X PUT \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "value": "value"\n        }\'',
@@ -7197,6 +7882,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->functions->secrets->unset('key', functionID: 'functionId');\n\nvar_dump($result);",
       },
+      csharp: {
+        method: 'Functions.Secrets.Unset',
+        example:
+          'SecretUnsetParams parameters = new()\n{\n    FunctionID = "functionId",\n    Key = "key",\n};\n\nawait client.Functions.Secrets.Unset(parameters);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/secrets/$KEY \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -7210,6 +7900,11 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
     language: 'cli',
     content:
       "# Zavudev CLI\n\nThe official CLI for the [Zavudev REST API](https://docs.zavu.dev).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n<!-- x-release-please-start-version -->\n\n## Installation\n\n### Installing with Homebrew\n\n~~~sh\nbrew install zavudev/tools/zavudev\n~~~\n\n### Installing with Go\n\nTo test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.\n\n~~~sh\ngo install 'github.com/zavudev/cli/cmd/zavudev@latest'\n~~~\n\nOnce you have run `go install`, the binary is placed in your Go bin directory:\n\n- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)\n- **Check your path**: Run `go env GOPATH` to see the base directory\n\nIf commands aren't found after installation, add the Go bin directory to your PATH:\n\n~~~sh\n# Add to your shell profile (.zshrc, .bashrc, etc.)\nexport PATH=\"$PATH:$(go env GOPATH)/bin\"\n~~~\n\n<!-- x-release-please-end -->\n\n### Running Locally\n\nAfter cloning the git repository for this project, you can use the\n`scripts/run` script to run the tool locally:\n\n~~~sh\n./scripts/run args...\n~~~\n\n## Usage\n\nThe CLI follows a resource-based command structure:\n\n~~~sh\nzavudev [resource] <command> [flags...]\n~~~\n\n~~~sh\nzavudev messages send \\\n  --api-key 'My API Key' \\\n  --to +14155551234 \\\n  --text 'Hello from Zavu!'\n~~~\n\nFor details about specific commands, use the `--help` flag.\n\n### Environment variables\n\n| Environment variable | Required |\n| -------------------- | -------- |\n| `ZAVUDEV_API_KEY`    | yes      |\n\n### Global flags\n\n- `--api-key` (can also be set with `ZAVUDEV_API_KEY` env var)\n- `--help` - Show command line usage\n- `--debug` - Enable debug logging (includes HTTP request/response details)\n- `--version`, `-v` - Show the CLI version\n- `--base-url` - Use a custom API backend URL\n- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n\n### Passing files as arguments\n\nTo pass files to your API, you can use the `@myfile.ext` syntax:\n\n~~~bash\nzavudev <command> --arg @abe.jpg\n~~~\n\nFiles can also be passed inside JSON or YAML blobs:\n\n~~~bash\nzavudev <command> --arg '{image: \"@abe.jpg\"}'\n# Equivalent:\nzavudev <command> <<YAML\narg:\n  image: \"@abe.jpg\"\nYAML\n~~~\n\nIf you need to pass a string literal that begins with an `@` sign, you can\nescape the `@` sign to avoid accidentally passing a file.\n\n~~~bash\nzavudev <command> --username '\\@abe'\n~~~\n\n#### Explicit encoding\n\nFor JSON endpoints, the CLI tool does filetype sniffing to determine whether the\nfile contents should be sent as a string literal (for plain text files) or as a\nbase64-encoded string literal (for binary files). If you need to explicitly send\nthe file as either plain text or base64-encoded data, you can use\n`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for\nbase64-encoding). Note that absolute paths will begin with `@file://` or\n`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).\n\n~~~bash\nzavudev <command> --arg @data://file.txt\n~~~\n\n## Linking different Go SDK versions\n\nYou can link the CLI against a different version of the Zavudev Go SDK\nfor development purposes using the `./scripts/link` script.\n\nTo link to a specific version from a repository (version can be a branch,\ngit tag, or commit hash):\n\n~~~bash\n./scripts/link github.com/org/repo@version\n~~~\n\nTo link to a local copy of the SDK:\n\n~~~bash\n./scripts/link ../path/to/zavudev-go\n~~~\n\nIf you run the link script without any arguments, it will default to `../zavudev-go`.\n",
+  },
+  {
+    language: 'csharp',
+    content:
+      '# Zavudev C# API Library\n\nThe Zavudev C# SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev) from applications written in   C#.\n\n## Installation\n\n```bash\ngit clone git@github.com:stainless-sdks/zavudev-csharp.git\ndotnet add reference zavudev-csharp/src/Zavudev\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nZavudevClient client = new();\n\nMessageSendParams parameters = new()\n{\n    To = "+14155551234",\n    Text = "Hello from Zavu!",\n};\n\nvar messageResponse = await client.Messages.Send(parameters);\n\nConsole.WriteLine(messageResponse);\n```',
   },
   {
     language: 'go',
