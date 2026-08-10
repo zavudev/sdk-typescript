@@ -9284,7 +9284,7 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
   {
     language: 'csharp',
     content:
-      '# Zavudev C# API Library\n\nThe Zavudev C# SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev) from applications written in   C#.\n\n## Installation\n\n```bash\ngit clone git@github.com:stainless-sdks/zavudev-csharp.git\ndotnet add reference zavudev-csharp/src/Zavudev\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nZavudevClient client = new();\n\nMessageSendParams parameters = new()\n{\n    To = "+14155551234",\n    Text = "Hello from Zavu!",\n};\n\nvar messageResponse = await client.Messages.Send(parameters);\n\nConsole.WriteLine(messageResponse);\n```',
+      '# Zavudev C# API Library\n\nThe Zavudev C# SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev) from applications written in   C#.\n\n## Installation\n\n```bash\ngit clone git@github.com:zavudev/sdk-csharp.git\ndotnet add reference sdk-csharp/src/Zavudev\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nZavudevClient client = new();\n\nMessageSendParams parameters = new()\n{\n    To = "+14155551234",\n    Text = "Hello from Zavu!",\n};\n\nvar messageResponse = await client.Messages.Send(parameters);\n\nConsole.WriteLine(messageResponse);\n```',
   },
   {
     language: 'go',
