@@ -402,6 +402,15 @@ export namespace FunctionDeployResponse {
     version: number;
 
     /**
+     * What the build printed: dependency installation, the bundler's output, and the
+     * compiler's message when it failed. Returned when fetching a single deployment,
+     * omitted from the list. Read this first when a deploy fails — `errorMessage` is
+     * often the outer wrapper's summary, and the line that names the broken import or
+     * the syntax error is here.
+     */
+    buildLogs?: string | null;
+
+    /**
      * Size of the built bundle in bytes. Null until the build finishes.
      */
     bundleBytes?: number | null;
@@ -441,6 +450,15 @@ export namespace FunctionGetDeploymentResponse {
      * Monotonically increasing deployment version, starting at 1.
      */
     version: number;
+
+    /**
+     * What the build printed: dependency installation, the bundler's output, and the
+     * compiler's message when it failed. Returned when fetching a single deployment,
+     * omitted from the list. Read this first when a deploy fails — `errorMessage` is
+     * often the outer wrapper's summary, and the line that names the broken import or
+     * the syntax error is here.
+     */
+    buildLogs?: string | null;
 
     /**
      * Size of the built bundle in bytes. Null until the build finishes.
