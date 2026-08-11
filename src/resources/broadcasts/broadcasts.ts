@@ -182,12 +182,15 @@ export class Broadcasts extends APIResource {
   /**
    * Start sending the broadcast immediately or schedule for later.
    *
-   * **Verification is required to send, and there are two of them.** The team must
-   * have completed both identity verification (KYC) and business verification (KYB);
-   * passing one is not enough. Drafts can be created, edited and kept without
-   * either. Every send path — dashboard, API and CLI alike — enforces both,
-   * returning `403` with code `kyc_required` or `kyb_required` for whichever is
-   * outstanding.
+   * **Verification is required to send, except on WhatsApp.** On every channel other
+   * than `whatsapp`, the team must have completed both identity verification (KYC)
+   * and business verification (KYB); passing one is not enough. A `whatsapp`
+   * broadcast requires neither: it can only be built on a template, and Meta vets
+   * the business and the content when it approves that template, so an unapproved
+   * template is refused instead. `smart` is not exempt — it can route a contact to
+   * SMS or email. Drafts can be created, edited and kept without any check. Every
+   * send path — dashboard, API and CLI alike — enforces the same rule, returning
+   * `403` with code `kyc_required` or `kyb_required` for whichever is outstanding.
    *
    * **Review depends on the channel, and cannot be bypassed.** A draft is submitted
    * to automated content review here; it does not go straight out. A WhatsApp
