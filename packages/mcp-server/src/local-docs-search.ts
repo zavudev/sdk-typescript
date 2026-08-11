@@ -90,6 +90,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.send(\n    to="+56912345678",\n    text="Your verification code is 123456",\n)\nprint(message_response.message)',
       },
+      java: {
+        method: 'messages().send',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageSendParams params = MessageSendParams.builder()\n            .to("+56912345678")\n            .build();\n        MessageResponse messageResponse = client.messages().send(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'messages().send',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageResponse\nimport com.zavudev.api.models.messages.MessageSendParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: MessageSendParams = MessageSendParams.builder()\n        .to("+56912345678")\n        .build()\n    val messageResponse: MessageResponse = client.messages().send(params)\n}',
+      },
       go: {
         method: 'client.Messages.Send',
         example:
@@ -108,6 +118,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages->send',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->send(\n  to: '+56912345678',\n  attachments: [\n    [\n      'filename' => 'invoice.pdf',\n      'content' => 'content',\n      'contentID' => 'logo',\n      'contentType' => 'application/pdf',\n      'path' => 'https://example.com',\n    ],\n  ],\n  channel: Channel::AUTO,\n  content: [\n    'buttons' => [['id' => 'id', 'title' => 'title']],\n    'contacts' => [['name' => 'name', 'phones' => ['string']]],\n    'ctaDisplayText' => 'See Dates',\n    'ctaHeaderMediaURL' => 'https://example.com',\n    'ctaHeaderText' => 'ctaHeaderText',\n    'ctaHeaderType' => 'text',\n    'ctaURL' => 'https://example.com/schedule',\n    'emoji' => 'emoji',\n    'filename' => 'invoice.pdf',\n    'footerText' => 'Dates subject to change.',\n    'latitude' => 0,\n    'listButton' => 'listButton',\n    'locationAddress' => 'locationAddress',\n    'locationName' => 'locationName',\n    'longitude' => 0,\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'https://example.com/image.jpg',\n    'mimeType' => 'image/jpeg',\n    'reactToMessageID' => 'reactToMessageId',\n    'replyToFrom' => 'replyToFrom',\n    'replyToMessageID' => 'replyToMessageId',\n    'replyToMessageType' => 'replyToMessageType',\n    'replyToProviderMessageID' => 'replyToProviderMessageId',\n    'replyToText' => 'replyToText',\n    'sections' => [\n      [\n        'rows' => [\n          ['id' => 'id', 'title' => 'title', 'description' => 'description']\n        ],\n        'title' => 'title',\n      ],\n    ],\n    'templateButtonVariables' => ['0' => 'abc-report-token'],\n    'templateHeaderVariables' => ['1' => 'Jorge y Laura'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['1' => 'John', '2' => 'ORD-12345'],\n  ],\n  fallbackEnabled: true,\n  htmlBody: 'htmlBody',\n  idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',\n  messageType: MessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  replyTo: 'support@example.com',\n  subject: 'Your order confirmation',\n  text: 'Your verification code is 123456',\n  voiceLanguage: 'es-ES',\n  zavuSender: 'sender_12345',\n);\n\nvar_dump($messageResponse);",
+      },
+      csharp: {
+        method: 'Messages.Send',
+        example:
+          'MessageSendParams parameters = new() { To = "+56912345678" };\n\nvar messageResponse = await client.Messages.Send(parameters);\n\nConsole.WriteLine(messageResponse);',
       },
       http: {
         example:
@@ -145,6 +160,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.messages.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'messages().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageListPage;\nimport com.zavudev.api.models.messages.MessageListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageListPage page = client.messages().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'messages().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageListPage\nimport com.zavudev.api.models.messages.MessageListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: MessageListPage = client.messages().list()\n}',
+      },
       go: {
         method: 'client.Messages.List',
         example:
@@ -163,6 +188,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->messages->list(\n  channel: 'sms', cursor: 'cursor', limit: 100, status: 'queued', to: 'to'\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Messages.List',
+        example:
+          'MessageListParams parameters = new();\n\nvar page = await client.Messages.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/messages \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -193,6 +223,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.retrieve(\n    "messageId",\n)\nprint(message_response.message)',
       },
+      java: {
+        method: 'messages().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageResponse messageResponse = client.messages().retrieve("messageId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'messages().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageResponse\nimport com.zavudev.api.models.messages.MessageRetrieveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val messageResponse: MessageResponse = client.messages().retrieve("messageId")\n}',
+      },
       go: {
         method: 'client.Messages.Get',
         example:
@@ -211,6 +251,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->retrieve('messageId');\n\nvar_dump($messageResponse);",
+      },
+      csharp: {
+        method: 'Messages.Retrieve',
+        example:
+          'MessageRetrieveParams parameters = new() { MessageID = "messageId" };\n\nvar messageResponse = await client.Messages.Retrieve(parameters);\n\nConsole.WriteLine(messageResponse);',
       },
       http: {
         example:
@@ -243,6 +288,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nmessage_response = client.messages.react(\n    message_id="messageId",\n    emoji="👍",\n)\nprint(message_response.message)',
       },
+      java: {
+        method: 'messages().react',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageReactParams;\nimport com.zavudev.api.models.messages.MessageResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageReactParams params = MessageReactParams.builder()\n            .messageId("messageId")\n            .emoji("👍")\n            .build();\n        MessageResponse messageResponse = client.messages().react(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'messages().react',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageReactParams\nimport com.zavudev.api.models.messages.MessageResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: MessageReactParams = MessageReactParams.builder()\n        .messageId("messageId")\n        .emoji("👍")\n        .build()\n    val messageResponse: MessageResponse = client.messages().react(params)\n}',
+      },
       go: {
         method: 'client.Messages.React',
         example:
@@ -262,6 +317,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages->react',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$messageResponse = $client->messages->react(\n  'messageId', emoji: '👍', zavuSender: 'sender_12345'\n);\n\nvar_dump($messageResponse);",
+      },
+      csharp: {
+        method: 'Messages.React',
+        example:
+          'MessageReactParams parameters = new()\n{\n    MessageID = "messageId",\n    Emoji = "👍",\n};\n\nvar messageResponse = await client.Messages.React(parameters);\n\nConsole.WriteLine(messageResponse);',
       },
       http: {
         example:
@@ -293,6 +353,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.messages.show_typing(\n    message_id="messageId",\n)\nprint(response.success)',
       },
+      java: {
+        method: 'messages().showTyping',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageShowTypingParams;\nimport com.zavudev.api.models.messages.MessageShowTypingResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MessageShowTypingResponse response = client.messages().showTyping("messageId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'messages().showTyping',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageShowTypingParams\nimport com.zavudev.api.models.messages.MessageShowTypingResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: MessageShowTypingResponse = client.messages().showTyping("messageId")\n}',
+      },
       go: {
         method: 'client.Messages.ShowTyping',
         example:
@@ -311,6 +381,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'messages->showTyping',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->messages->showTyping(\n  'messageId', zavuSender: 'sender_12345'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Messages.ShowTyping',
+        example:
+          'MessageShowTypingParams parameters = new() { MessageID = "messageId" };\n\nvar response = await client.Messages.ShowTyping(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -342,6 +417,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.templates.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'templates().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.TemplateListPage;\nimport com.zavudev.api.models.templates.TemplateListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        TemplateListPage page = client.templates().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'templates().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.templates.TemplateListPage\nimport com.zavudev.api.models.templates.TemplateListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: TemplateListPage = client.templates().list()\n}',
+      },
       go: {
         method: 'client.Templates.List',
         example:
@@ -360,6 +445,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->templates->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Templates.List',
+        example:
+          'TemplateListParams parameters = new();\n\nvar page = await client.Templates.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/templates \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -405,6 +495,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.create(\n    body="Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n    language="en",\n    name="order_confirmation",\n    variables=["customer_name", "order_id"],\n    whatsapp_category="UTILITY",\n)\nprint(template.id)',
       },
+      java: {
+        method: 'templates().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.Template;\nimport com.zavudev.api.models.templates.TemplateCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        TemplateCreateParams params = TemplateCreateParams.builder()\n            .body("Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.")\n            .language("en")\n            .name("order_confirmation")\n            .build();\n        Template template = client.templates().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'templates().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.templates.Template\nimport com.zavudev.api.models.templates.TemplateCreateParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: TemplateCreateParams = TemplateCreateParams.builder()\n        .body("Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.")\n        .language("en")\n        .name("order_confirmation")\n        .build()\n    val template: Template = client.templates().create(params)\n}',
+      },
       go: {
         method: 'client.Templates.New',
         example:
@@ -424,6 +524,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->create(\n  body: 'Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.',\n  language: 'en',\n  name: 'order_confirmation',\n  addSecurityRecommendation: true,\n  buttons: [\n    [\n      'type' => 'quick_reply',\n      'example' => 'ORD-12345',\n      'otpType' => 'COPY_CODE',\n      'packageName' => 'packageName',\n      'phoneNumber' => 'phoneNumber',\n      'signatureHash' => 'signatureHash',\n      'text' => 'text',\n      'url' => 'https://example.com',\n    ],\n  ],\n  codeExpirationMinutes: 1,\n  footer: 'footer',\n  headerContent: 'headerContent',\n  headerType: 'text',\n  instagramBody: 'instagramBody',\n  smsBody: 'smsBody',\n  telegramBody: 'telegramBody',\n  variables: ['customer_name', 'order_id'],\n  whatsappCategory: WhatsappCategory::UTILITY,\n);\n\nvar_dump($template);",
+      },
+      csharp: {
+        method: 'Templates.Create',
+        example:
+          'TemplateCreateParams parameters = new()\n{\n    Body = "Hi {{1}}, your order {{2}} has been confirmed and will ship within 24 hours.",\n    Language = "en",\n    Name = "order_confirmation",\n};\n\nvar template = await client.Templates.Create(parameters);\n\nConsole.WriteLine(template);',
       },
       http: {
         example:
@@ -455,6 +560,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.retrieve(\n    "templateId",\n)\nprint(template.id)',
       },
+      java: {
+        method: 'templates().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.Template;\nimport com.zavudev.api.models.templates.TemplateRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Template template = client.templates().retrieve("templateId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'templates().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.templates.Template\nimport com.zavudev.api.models.templates.TemplateRetrieveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val template: Template = client.templates().retrieve("templateId")\n}',
+      },
       go: {
         method: 'client.Templates.Get',
         example:
@@ -473,6 +588,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->retrieve('templateId');\n\nvar_dump($template);",
+      },
+      csharp: {
+        method: 'Templates.Retrieve',
+        example:
+          'TemplateRetrieveParams parameters = new() { TemplateID = "templateId" };\n\nvar template = await client.Templates.Retrieve(parameters);\n\nConsole.WriteLine(template);',
       },
       http: {
         example:
@@ -502,6 +622,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.templates.delete(\n    "templateId",\n)',
       },
+      java: {
+        method: 'templates().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.TemplateDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.templates().delete("templateId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'templates().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.templates.TemplateDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.templates().delete("templateId")\n}',
+      },
       go: {
         method: 'client.Templates.Delete',
         example:
@@ -520,6 +650,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'templates->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->templates->delete('templateId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Templates.Delete',
+        example:
+          'TemplateDeleteParams parameters = new() { TemplateID = "templateId" };\n\nawait client.Templates.Delete(parameters);',
       },
       http: {
         example:
@@ -556,6 +691,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntemplate = client.templates.submit(\n    template_id="templateId",\n    sender_id="sender_abc123",\n    category="UTILITY",\n)\nprint(template.id)',
       },
+      java: {
+        method: 'templates().submit',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.templates.Template;\nimport com.zavudev.api.models.templates.TemplateSubmitParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        TemplateSubmitParams params = TemplateSubmitParams.builder()\n            .templateId("templateId")\n            .senderId("sender_abc123")\n            .build();\n        Template template = client.templates().submit(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'templates().submit',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.templates.Template\nimport com.zavudev.api.models.templates.TemplateSubmitParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: TemplateSubmitParams = TemplateSubmitParams.builder()\n        .templateId("templateId")\n        .senderId("sender_abc123")\n        .build()\n    val template: Template = client.templates().submit(params)\n}',
+      },
       go: {
         method: 'client.Templates.Submit',
         example:
@@ -576,6 +721,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$template = $client->templates->submit(\n  'templateId', senderID: 'sender_abc123', category: WhatsappCategory::UTILITY\n);\n\nvar_dump($template);",
       },
+      csharp: {
+        method: 'Templates.Submit',
+        example:
+          'TemplateSubmitParams parameters = new()\n{\n    TemplateID = "templateId",\n    SenderID = "sender_abc123",\n};\n\nvar template = await client.Templates.Submit(parameters);\n\nConsole.WriteLine(template);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/templates/$TEMPLATE_ID/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "senderId": "sender_abc123",\n          "category": "UTILITY"\n        }\'',
@@ -592,9 +742,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.senders.list',
     params: ['cursor?: string;', 'limit?: number;'],
     response:
-      '{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }',
+      "{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }",
     markdown:
-      "## list\n\n`client.senders.list(cursor?: string, limit?: number): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**get** `/v1/senders`\n\nList senders\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const sender of client.senders.list()) {\n  console.log(sender);\n}\n```",
+      "## list\n\n`client.senders.list(cursor?: string, limit?: number): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**get** `/v1/senders`\n\nList senders\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const sender of client.senders.list()) {\n  console.log(sender);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.list',
@@ -605,6 +755,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.list()\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'senders().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderListPage;\nimport com.zavudev.api.models.senders.SenderListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderListPage page = client.senders().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.SenderListPage\nimport com.zavudev.api.models.senders.SenderListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: SenderListPage = client.senders().list()\n}',
       },
       go: {
         method: 'client.Senders.List',
@@ -624,6 +784,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.List',
+        example:
+          'SenderListParams parameters = new();\n\nvar page = await client.Senders.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/senders \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -649,12 +814,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'phoneNumber?: string;',
       'setAsDefault?: boolean;',
       'webhookEvents?: string[];',
+      "webhookSignatureVersion?: 'v1' | 'v1+v2' | 'v2';",
       'webhookUrl?: string;',
     ],
     response:
-      '{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }',
+      "{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }",
     markdown:
-      "## create\n\n`client.senders.create(name: string, emailAddress?: string, emailDomainId?: string, emailFromName?: string, emailReceivingEnabled?: boolean, enableSmsOneway?: boolean, enableVoice?: boolean, phoneNumber?: string, setAsDefault?: boolean, webhookEvents?: string[], webhookUrl?: string): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**post** `/v1/senders`\n\nCreate sender\n\n### Parameters\n\n- `name: string`\n\n- `emailAddress?: string`\n  From-address for the email channel (e.g. noreply@yourdomain.com). The address's domain must be a verified email domain in your project. Setting this attaches the email channel to the sender.\n\n- `emailDomainId?: string`\n  ID of the verified email domain to attach. Optional — resolved from `emailAddress`'s domain when omitted.\n\n- `emailFromName?: string`\n  Display name shown in the recipient's inbox for the email channel.\n\n- `emailReceivingEnabled?: boolean`\n  Enable inbound email receiving on this sender. Requires a verified MX record on the domain; ignored otherwise.\n\n- `enableSmsOneway?: boolean`\n  Enable the one-way SMS channel (`sms_oneway`). Needs nothing else — no phone number, no credential — so it is the fastest way to get a sender that can send. Recipients cannot reply. Confirm with `sms_oneway` in the `channels` array on the response.\n\n- `enableVoice?: boolean`\n  Let this sender place and answer phone calls. Requires `phoneNumber`; enabling it without one returns 400. Check the `channels` array on the response to confirm `voice` is on.\n\n- `phoneNumber?: string`\n  Phone number in E.164 format, and it must be a number your project already owns (see `GET /v1/phone-numbers`). The number is routed to the sender as part of this call, which is what turns the SMS channel on. Passing a number the project does not own, or one already attached to another sender, returns 400 rather than creating a sender that cannot send. Omit for an email-only sender.\n\n- `setAsDefault?: boolean`\n\n- `webhookEvents?: string[]`\n  Events to subscribe to.\n\n- `webhookUrl?: string`\n  HTTPS URL for webhook events.\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.create({ name: 'name' });\n\nconsole.log(sender);\n```",
+      "## create\n\n`client.senders.create(name: string, emailAddress?: string, emailDomainId?: string, emailFromName?: string, emailReceivingEnabled?: boolean, enableSmsOneway?: boolean, enableVoice?: boolean, phoneNumber?: string, setAsDefault?: boolean, webhookEvents?: string[], webhookSignatureVersion?: 'v1' | 'v1+v2' | 'v2', webhookUrl?: string): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**post** `/v1/senders`\n\nCreate sender\n\n### Parameters\n\n- `name: string`\n\n- `emailAddress?: string`\n  From-address for the email channel (e.g. noreply@yourdomain.com). The address's domain must be a verified email domain in your project. Setting this attaches the email channel to the sender.\n\n- `emailDomainId?: string`\n  ID of the verified email domain to attach. Optional — resolved from `emailAddress`'s domain when omitted.\n\n- `emailFromName?: string`\n  Display name shown in the recipient's inbox for the email channel.\n\n- `emailReceivingEnabled?: boolean`\n  Enable inbound email receiving on this sender. Requires a verified MX record on the domain; ignored otherwise.\n\n- `enableSmsOneway?: boolean`\n  Enable the one-way SMS channel (`sms_oneway`). Needs nothing else — no phone number, no credential — so it is the fastest way to get a sender that can send. Recipients cannot reply. Confirm with `sms_oneway` in the `channels` array on the response.\n\n- `enableVoice?: boolean`\n  Let this sender place and answer phone calls. Requires `phoneNumber`; enabling it without one returns 400. Check the `channels` array on the response to confirm `voice` is on.\n\n- `phoneNumber?: string`\n  Phone number in E.164 format, and it must be a number your project already owns (see `GET /v1/phone-numbers`). The number is routed to the sender as part of this call, which is what turns the SMS channel on. Passing a number the project does not own, or one already attached to another sender, returns 400 rather than creating a sender that cannot send. Omit for an email-only sender.\n\n- `setAsDefault?: boolean`\n\n- `webhookEvents?: string[]`\n  Events to subscribe to.\n\n- `webhookSignatureVersion?: 'v1' | 'v1+v2' | 'v2'`\n  Which `X-Zavu-Signature` scheme this receiver is sent.\n\n- `v1`: `v1=HMAC_SHA256(secret, body)`. The scheme used before this was configurable. Existing webhooks stay on it until you move them.\n- `v2`: `v2=HMAC_SHA256(secret, \"{t}.{body}\")`. The current scheme, and the default for new senders. It signs the timestamp together with the body.\n- `v1+v2`: both signatures, sharing one `t`. The migration setting: a receiver reading either one works, so you can deploy and confirm your new verifier before switching over.\n\nMoving from `v1` straight to `v2` returns `400`. Set `v1+v2` first. See https://docs.zavu.dev/guides/receiving-messages/signature-migration\n\n- `webhookUrl?: string`\n  HTTPS URL for webhook events.\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.create({ name: 'name' });\n\nconsole.log(sender);\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.create',
@@ -665,6 +831,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.create(\n    name="name",\n)\nprint(sender.id)',
+      },
+      java: {
+        method: 'senders().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.Sender;\nimport com.zavudev.api.models.senders.SenderCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderCreateParams params = SenderCreateParams.builder()\n            .name("name")\n            .build();\n        Sender sender = client.senders().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.Sender\nimport com.zavudev.api.models.senders.SenderCreateParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: SenderCreateParams = SenderCreateParams.builder()\n        .name("name")\n        .build()\n    val sender: Sender = client.senders().create(params)\n}',
       },
       go: {
         method: 'client.Senders.New',
@@ -683,7 +859,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'senders->create',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->create(\n  name: 'name',\n  emailAddress: 'noreply@yourdomain.com',\n  emailDomainID: 'emailDomainId',\n  emailFromName: 'emailFromName',\n  emailReceivingEnabled: true,\n  enableSMSOneway: true,\n  enableVoice: true,\n  phoneNumber: 'phoneNumber',\n  setAsDefault: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->create(\n  name: 'name',\n  emailAddress: 'noreply@yourdomain.com',\n  emailDomainID: 'emailDomainId',\n  emailFromName: 'emailFromName',\n  emailReceivingEnabled: true,\n  enableSMSOneway: true,\n  enableVoice: true,\n  phoneNumber: 'phoneNumber',\n  setAsDefault: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookSignatureVersion: 'v2',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+      },
+      csharp: {
+        method: 'Senders.Create',
+        example:
+          'SenderCreateParams parameters = new() { Name = "name" };\n\nvar sender = await client.Senders.Create(parameters);\n\nConsole.WriteLine(sender);',
       },
       http: {
         example:
@@ -701,9 +882,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.senders.retrieve',
     params: ['senderId: string;'],
     response:
-      '{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }',
+      "{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }",
     markdown:
-      "## retrieve\n\n`client.senders.retrieve(senderId: string): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**get** `/v1/senders/{senderId}`\n\nGet sender\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.retrieve('senderId');\n\nconsole.log(sender);\n```",
+      "## retrieve\n\n`client.senders.retrieve(senderId: string): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**get** `/v1/senders/{senderId}`\n\nGet sender\n\n### Parameters\n\n- `senderId: string`\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.retrieve('senderId');\n\nconsole.log(sender);\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.retrieve',
@@ -714,6 +895,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.retrieve(\n    "senderId",\n)\nprint(sender.id)',
+      },
+      java: {
+        method: 'senders().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.Sender;\nimport com.zavudev.api.models.senders.SenderRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Sender sender = client.senders().retrieve("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.Sender\nimport com.zavudev.api.models.senders.SenderRetrieveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val sender: Sender = client.senders().retrieve("senderId")\n}',
       },
       go: {
         method: 'client.Senders.Get',
@@ -733,6 +924,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->retrieve('senderId');\n\nvar_dump($sender);",
+      },
+      csharp: {
+        method: 'Senders.Retrieve',
+        example:
+          'SenderRetrieveParams parameters = new() { SenderID = "senderId" };\n\nvar sender = await client.Senders.Retrieve(parameters);\n\nConsole.WriteLine(sender);',
       },
       http: {
         example:
@@ -761,12 +957,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'setAsDefault?: boolean;',
       'webhookActive?: boolean;',
       'webhookEvents?: string[];',
+      "webhookSignatureVersion?: 'v1' | 'v1+v2' | 'v2';",
       'webhookUrl?: string;',
     ],
     response:
-      '{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }',
+      "{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }",
     markdown:
-      "## update\n\n`client.senders.update(senderId: string, emailAddress?: string, emailCatchAllEnabled?: boolean, emailDomainId?: string, emailFromName?: string, emailReceivingEnabled?: boolean, enableSmsOneway?: boolean, enableVoice?: boolean, name?: string, setAsDefault?: boolean, webhookActive?: boolean, webhookEvents?: string[], webhookUrl?: string): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**patch** `/v1/senders/{senderId}`\n\nUpdate sender\n\n### Parameters\n\n- `senderId: string`\n\n- `emailAddress?: string`\n  Attach or change the sender's email from-address (e.g. noreply@yourdomain.com). The domain must be a verified email domain in your project.\n\n- `emailCatchAllEnabled?: boolean`\n  Enable or disable domain catch-all. When enabled (with emailReceivingEnabled true), this sender receives email for any address at its domain. Ignored (treated as false) if receiving is not enabled.\n\n- `emailDomainId?: string`\n  ID of the verified email domain to attach. Optional — resolved from `emailAddress`'s domain when omitted.\n\n- `emailFromName?: string`\n  Display name shown in the recipient's inbox for the email channel.\n\n- `emailReceivingEnabled?: boolean`\n  Enable or disable inbound email receiving for this sender.\n\n- `enableSmsOneway?: boolean`\n  Turn the one-way SMS channel on or off. Enabling needs nothing else and takes effect immediately; disabling removes the channel from the sender. Confirm with the `channels` array on the response.\n\n- `enableVoice?: boolean`\n  Turn the voice channel on or off. The sender must already have a phone number provisioned for calls; enabling it otherwise returns 400 instead of storing a flag that changes nothing. Confirm with the `channels` array on the response.\n\n- `name?: string`\n\n- `setAsDefault?: boolean`\n\n- `webhookActive?: boolean`\n  Whether the webhook is active.\n\n- `webhookEvents?: string[]`\n  Events to subscribe to.\n\n- `webhookUrl?: string`\n  HTTPS URL for webhook events. Set to null to remove webhook.\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.update('senderId');\n\nconsole.log(sender);\n```",
+      "## update\n\n`client.senders.update(senderId: string, emailAddress?: string, emailCatchAllEnabled?: boolean, emailDomainId?: string, emailFromName?: string, emailReceivingEnabled?: boolean, enableSmsOneway?: boolean, enableVoice?: boolean, name?: string, setAsDefault?: boolean, webhookActive?: boolean, webhookEvents?: string[], webhookSignatureVersion?: 'v1' | 'v1+v2' | 'v2', webhookUrl?: string): { id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: sender_webhook; whatsapp?: object; }`\n\n**patch** `/v1/senders/{senderId}`\n\nUpdate sender\n\n### Parameters\n\n- `senderId: string`\n\n- `emailAddress?: string`\n  Attach or change the sender's email from-address (e.g. noreply@yourdomain.com). The domain must be a verified email domain in your project.\n\n- `emailCatchAllEnabled?: boolean`\n  Enable or disable domain catch-all. When enabled (with emailReceivingEnabled true), this sender receives email for any address at its domain. Ignored (treated as false) if receiving is not enabled.\n\n- `emailDomainId?: string`\n  ID of the verified email domain to attach. Optional — resolved from `emailAddress`'s domain when omitted.\n\n- `emailFromName?: string`\n  Display name shown in the recipient's inbox for the email channel.\n\n- `emailReceivingEnabled?: boolean`\n  Enable or disable inbound email receiving for this sender.\n\n- `enableSmsOneway?: boolean`\n  Turn the one-way SMS channel on or off. Enabling needs nothing else and takes effect immediately; disabling removes the channel from the sender. Confirm with the `channels` array on the response.\n\n- `enableVoice?: boolean`\n  Turn the voice channel on or off. The sender must already have a phone number provisioned for calls; enabling it otherwise returns 400 instead of storing a flag that changes nothing. Confirm with the `channels` array on the response.\n\n- `name?: string`\n\n- `setAsDefault?: boolean`\n\n- `webhookActive?: boolean`\n  Whether the webhook is active.\n\n- `webhookEvents?: string[]`\n  Events to subscribe to.\n\n- `webhookSignatureVersion?: 'v1' | 'v1+v2' | 'v2'`\n  Which `X-Zavu-Signature` scheme this receiver is sent.\n\n- `v1`: `v1=HMAC_SHA256(secret, body)`. The scheme used before this was configurable. Existing webhooks stay on it until you move them.\n- `v2`: `v2=HMAC_SHA256(secret, \"{t}.{body}\")`. The current scheme, and the default for new senders. It signs the timestamp together with the body.\n- `v1+v2`: both signatures, sharing one `t`. The migration setting: a receiver reading either one works, so you can deploy and confirm your new verifier before switching over.\n\nMoving from `v1` straight to `v2` returns `400`. Set `v1+v2` first. See https://docs.zavu.dev/guides/receiving-messages/signature-migration\n\n- `webhookUrl?: string`\n  HTTPS URL for webhook events. Set to null to remove webhook.\n\n### Returns\n\n- `{ id: string; name: string; phoneNumber: string; channels?: string[]; createdAt?: string; emailAddress?: string; emailCatchAllEnabled?: boolean; emailReceivingEnabled?: boolean; isDefault?: boolean; updatedAt?: string; webhook?: { active: boolean; events: webhook_event[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }; whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }; }`\n\n  - `id: string`\n  - `name: string`\n  - `phoneNumber: string`\n  - `channels?: string[]`\n  - `createdAt?: string`\n  - `emailAddress?: string`\n  - `emailCatchAllEnabled?: boolean`\n  - `emailReceivingEnabled?: boolean`\n  - `isDefault?: boolean`\n  - `updatedAt?: string`\n  - `webhook?: { active: boolean; events: string[]; signatureVersion: 'v1' | 'v1+v2' | 'v2'; url: string; secret?: string; }`\n  - `whatsapp?: { displayPhoneNumber?: string; paymentStatus?: { canSendTemplates?: boolean; methodStatus?: string; setupStatus?: string; }; phoneNumberId?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst sender = await client.senders.update('senderId');\n\nconsole.log(sender);\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.update',
@@ -777,6 +974,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsender = client.senders.update(\n    sender_id="senderId",\n)\nprint(sender.id)',
+      },
+      java: {
+        method: 'senders().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.Sender;\nimport com.zavudev.api.models.senders.SenderUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Sender sender = client.senders().update("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.Sender\nimport com.zavudev.api.models.senders.SenderUpdateParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val sender: Sender = client.senders().update("senderId")\n}',
       },
       go: {
         method: 'client.Senders.Update',
@@ -795,7 +1002,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'senders->update',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->update(\n  'senderId',\n  emailAddress: 'noreply@yourdomain.com',\n  emailCatchAllEnabled: true,\n  emailDomainID: 'emailDomainId',\n  emailFromName: 'emailFromName',\n  emailReceivingEnabled: true,\n  enableSMSOneway: true,\n  enableVoice: true,\n  name: 'name',\n  setAsDefault: true,\n  webhookActive: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$sender = $client->senders->update(\n  'senderId',\n  emailAddress: 'noreply@yourdomain.com',\n  emailCatchAllEnabled: true,\n  emailDomainID: 'emailDomainId',\n  emailFromName: 'emailFromName',\n  emailReceivingEnabled: true,\n  enableSMSOneway: true,\n  enableVoice: true,\n  name: 'name',\n  setAsDefault: true,\n  webhookActive: true,\n  webhookEvents: [WebhookEvent::MESSAGE_QUEUED],\n  webhookSignatureVersion: 'v2',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($sender);",
+      },
+      csharp: {
+        method: 'Senders.Update',
+        example:
+          'SenderUpdateParams parameters = new() { SenderID = "senderId" };\n\nvar sender = await client.Senders.Update(parameters);\n\nConsole.WriteLine(sender);',
       },
       http: {
         example:
@@ -825,6 +1037,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.delete(\n    "senderId",\n)',
       },
+      java: {
+        method: 'senders().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.senders().delete("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.SenderDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.senders().delete("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Delete',
         example:
@@ -843,6 +1065,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->delete('senderId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Delete',
+        example:
+          'SenderDeleteParams parameters = new() { SenderID = "senderId" };\n\nawait client.Senders.Delete(parameters);',
       },
       http: {
         example:
@@ -874,6 +1101,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwebhook_secret_response = client.senders.regenerate_webhook_secret(\n    "senderId",\n)\nprint(webhook_secret_response.secret)',
       },
+      java: {
+        method: 'senders().regenerateWebhookSecret',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderRegenerateWebhookSecretParams;\nimport com.zavudev.api.models.senders.WebhookSecretResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WebhookSecretResponse webhookSecretResponse = client.senders().regenerateWebhookSecret("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().regenerateWebhookSecret',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.SenderRegenerateWebhookSecretParams\nimport com.zavudev.api.models.senders.WebhookSecretResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val webhookSecretResponse: WebhookSecretResponse = client.senders().regenerateWebhookSecret("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.RegenerateWebhookSecret',
         example:
@@ -893,6 +1130,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->regenerateWebhookSecret',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$webhookSecretResponse = $client->senders->regenerateWebhookSecret('senderId');\n\nvar_dump($webhookSecretResponse);",
+      },
+      csharp: {
+        method: 'Senders.RegenerateWebhookSecret',
+        example:
+          'SenderRegenerateWebhookSecretParams parameters = new()\n{\n    SenderID = "senderId"\n};\n\nvar webhookSecretResponse = await client.Senders.RegenerateWebhookSecret(parameters);\n\nConsole.WriteLine(webhookSecretResponse);',
       },
       http: {
         example:
@@ -925,6 +1167,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwhatsapp_business_profile_response = client.senders.get_profile(\n    "senderId",\n)\nprint(whatsapp_business_profile_response.profile)',
       },
+      java: {
+        method: 'senders().getProfile',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderGetProfileParams;\nimport com.zavudev.api.models.senders.WhatsappBusinessProfileResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappBusinessProfileResponse whatsappBusinessProfileResponse = client.senders().getProfile("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().getProfile',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.SenderGetProfileParams\nimport com.zavudev.api.models.senders.WhatsappBusinessProfileResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val whatsappBusinessProfileResponse: WhatsappBusinessProfileResponse = client.senders().getProfile("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.GetProfile',
         example:
@@ -943,6 +1195,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->getProfile',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappBusinessProfileResponse = $client->senders->getProfile('senderId');\n\nvar_dump($whatsappBusinessProfileResponse);",
+      },
+      csharp: {
+        method: 'Senders.GetProfile',
+        example:
+          'SenderGetProfileParams parameters = new() { SenderID = "senderId" };\n\nvar whatsappBusinessProfileResponse = await client.Senders.GetProfile(parameters);\n\nConsole.WriteLine(whatsappBusinessProfileResponse);',
       },
       http: {
         example:
@@ -983,6 +1240,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.update_profile(\n    sender_id="senderId",\n    about="Succulent specialists!",\n    description="We specialize in providing high-quality succulents.",\n    email="contact@example.com",\n    vertical="RETAIL",\n    websites=["https://www.example.com"],\n)\nprint(response.profile)',
       },
+      java: {
+        method: 'senders().updateProfile',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderUpdateProfileParams;\nimport com.zavudev.api.models.senders.SenderUpdateProfileResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderUpdateProfileResponse response = client.senders().updateProfile("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().updateProfile',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.SenderUpdateProfileParams\nimport com.zavudev.api.models.senders.SenderUpdateProfileResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: SenderUpdateProfileResponse = client.senders().updateProfile("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.UpdateProfile',
         example:
@@ -1001,6 +1268,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->updateProfile',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->updateProfile(\n  'senderId',\n  about: 'Succulent specialists!',\n  address: 'address',\n  description: 'We specialize in providing high-quality succulents.',\n  email: 'contact@example.com',\n  vertical: WhatsappBusinessProfileVertical::RETAIL,\n  websites: ['https://www.example.com'],\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Senders.UpdateProfile',
+        example:
+          'SenderUpdateProfileParams parameters = new() { SenderID = "senderId" };\n\nvar response = await client.Senders.UpdateProfile(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -1033,6 +1305,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.upload_profile_picture(\n    sender_id="senderId",\n    image_url="https://example.com/profile.jpg",\n    mime_type="image/jpeg",\n)\nprint(response.profile)',
       },
+      java: {
+        method: 'senders().uploadProfilePicture',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.SenderUploadProfilePictureParams;\nimport com.zavudev.api.models.senders.SenderUploadProfilePictureResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SenderUploadProfilePictureParams params = SenderUploadProfilePictureParams.builder()\n            .senderId("senderId")\n            .imageUrl("https://example.com/profile.jpg")\n            .mimeType(SenderUploadProfilePictureParams.MimeType.IMAGE_JPEG)\n            .build();\n        SenderUploadProfilePictureResponse response = client.senders().uploadProfilePicture(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().uploadProfilePicture',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.SenderUploadProfilePictureParams\nimport com.zavudev.api.models.senders.SenderUploadProfilePictureResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: SenderUploadProfilePictureParams = SenderUploadProfilePictureParams.builder()\n        .senderId("senderId")\n        .imageUrl("https://example.com/profile.jpg")\n        .mimeType(SenderUploadProfilePictureParams.MimeType.IMAGE_JPEG)\n        .build()\n    val response: SenderUploadProfilePictureResponse = client.senders().uploadProfilePicture(params)\n}',
+      },
       go: {
         method: 'client.Senders.UploadProfilePicture',
         example:
@@ -1052,6 +1334,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->uploadProfilePicture',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->uploadProfilePicture(\n  'senderId',\n  imageURL: 'https://example.com/profile.jpg',\n  mimeType: 'image/jpeg',\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Senders.UploadProfilePicture',
+        example:
+          'SenderUploadProfilePictureParams parameters = new()\n{\n    SenderID = "senderId",\n    ImageUrl = "https://example.com/profile.jpg",\n    MimeType = MimeType.ImageJpeg,\n};\n\nvar response = await client.Senders.UploadProfilePicture(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -1083,6 +1370,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.retrieve(\n    "senderId",\n)\nprint(agent_response.agent)',
       },
+      java: {
+        method: 'senders().agent().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentResponse;\nimport com.zavudev.api.models.senders.agent.AgentRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentResponse agentResponse = client.senders().agent().retrieve("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.AgentResponse\nimport com.zavudev.api.models.senders.agent.AgentRetrieveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val agentResponse: AgentResponse = client.senders().agent().retrieve("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Get',
         example:
@@ -1101,6 +1398,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->retrieve('senderId');\n\nvar_dump($agentResponse);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Retrieve',
+        example:
+          'AgentRetrieveParams parameters = new() { SenderID = "senderId" };\n\nvar agentResponse = await client.Senders.Agent.Retrieve(parameters);\n\nConsole.WriteLine(agentResponse);',
       },
       http: {
         example:
@@ -1146,6 +1448,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.create(\n    sender_id="senderId",\n    model="gpt-4o-mini",\n    name="Customer Support",\n    provider="openai",\n    system_prompt="You are a helpful customer support agent. Be friendly and concise.",\n    api_key="sk-...",\n)\nprint(agent_response.agent)',
       },
+      java: {
+        method: 'senders().agent().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentCreateParams;\nimport com.zavudev.api.models.senders.agent.AgentProvider;\nimport com.zavudev.api.models.senders.agent.AgentResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentCreateParams params = AgentCreateParams.builder()\n            .senderId("senderId")\n            .model("gpt-4o-mini")\n            .name("Customer Support")\n            .provider(AgentProvider.OPENAI)\n            .systemPrompt("You are a helpful customer support agent. Be friendly and concise.")\n            .build();\n        AgentResponse agentResponse = client.senders().agent().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.AgentCreateParams\nimport com.zavudev.api.models.senders.agent.AgentProvider\nimport com.zavudev.api.models.senders.agent.AgentResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: AgentCreateParams = AgentCreateParams.builder()\n        .senderId("senderId")\n        .model("gpt-4o-mini")\n        .name("Customer Support")\n        .provider(AgentProvider.OPENAI)\n        .systemPrompt("You are a helpful customer support agent. Be friendly and concise.")\n        .build()\n    val agentResponse: AgentResponse = client.senders().agent().create(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.New',
         example:
@@ -1165,6 +1477,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->create(\n  'senderId',\n  model: 'gpt-4o-mini',\n  name: 'Customer Support',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'You are a helpful customer support agent. Be friendly and concise.',\n  apiKey: 'sk-...',\n  contextWindowMessages: 1,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n  voice: [\n    'enabled' => true,\n    'greeting' => 'Hi, thanks for calling Acme. How can I help you today?',\n    'greetings' => ['es' => 'Hola, soy Atlas. Preguntame lo que quieras.'],\n    'interruptible' => true,\n    'language' => 'en',\n    'maxCallDurationMinutes' => 1,\n    'maxIdleSeconds' => 5,\n    'model' => 'openai/gpt-4o',\n    'recordCalls' => true,\n    'sttModel' => 'sttModel',\n    'sttProvider' => 'sttProvider',\n    'transferPhoneNumber' => '+14155551234',\n    'ttsProvider' => 'ttsProvider',\n    'ttsVoiceID' => 'aria',\n    'voicemailAction' => 'hangup',\n    'voicemailMessage' => 'voicemailMessage',\n    'voiceSpeed' => 0.5,\n  ],\n);\n\nvar_dump($agentResponse);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Create',
+        example:
+          'AgentCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Model = "gpt-4o-mini",\n    Name = "Customer Support",\n    Provider = AgentProvider.OpenAI,\n    SystemPrompt = "You are a helpful customer support agent. Be friendly and concise.",\n};\n\nvar agentResponse = await client.Senders.Agent.Create(parameters);\n\nConsole.WriteLine(agentResponse);',
       },
       http: {
         example:
@@ -1211,6 +1528,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_response = client.senders.agent.update(\n    sender_id="senderId",\n)\nprint(agent_response.agent)',
       },
+      java: {
+        method: 'senders().agent().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentResponse;\nimport com.zavudev.api.models.senders.agent.AgentUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentResponse agentResponse = client.senders().agent().update("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.AgentResponse\nimport com.zavudev.api.models.senders.agent.AgentUpdateParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val agentResponse: AgentResponse = client.senders().agent().update("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Update',
         example:
@@ -1229,6 +1556,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentResponse = $client->senders->agent->update(\n  'senderId',\n  apiKey: 'apiKey',\n  contextWindowMessages: 1,\n  enabled: true,\n  includeContactMetadata: true,\n  maxTokens: 1,\n  model: 'model',\n  name: 'name',\n  provider: AgentProvider::OPENAI,\n  systemPrompt: 'systemPrompt',\n  temperature: 0,\n  triggerOnChannels: ['string'],\n  triggerOnMessageTypes: ['string'],\n  voice: [\n    'enabled' => true,\n    'greeting' => 'Hi, thanks for calling Acme. How can I help you today?',\n    'greetings' => ['es' => 'Hola, soy Atlas. Preguntame lo que quieras.'],\n    'interruptible' => true,\n    'language' => 'en',\n    'maxCallDurationMinutes' => 1,\n    'maxIdleSeconds' => 5,\n    'model' => 'openai/gpt-4o',\n    'recordCalls' => true,\n    'sttModel' => 'sttModel',\n    'sttProvider' => 'sttProvider',\n    'transferPhoneNumber' => '+14155551234',\n    'ttsProvider' => 'ttsProvider',\n    'ttsVoiceID' => 'aria',\n    'voicemailAction' => 'hangup',\n    'voicemailMessage' => 'voicemailMessage',\n    'voiceSpeed' => 0.5,\n  ],\n);\n\nvar_dump($agentResponse);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Update',
+        example:
+          'AgentUpdateParams parameters = new() { SenderID = "senderId" };\n\nvar agentResponse = await client.Senders.Agent.Update(parameters);\n\nConsole.WriteLine(agentResponse);',
       },
       http: {
         example:
@@ -1258,6 +1590,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.delete(\n    "senderId",\n)',
       },
+      java: {
+        method: 'senders().agent().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.senders().agent().delete("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.AgentDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.senders().agent().delete("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Delete',
         example:
@@ -1276,6 +1618,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->delete('senderId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Delete',
+        example:
+          'AgentDeleteParams parameters = new() { SenderID = "senderId" };\n\nawait client.Senders.Agent.Delete(parameters);',
       },
       http: {
         example:
@@ -1308,6 +1655,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nagent_stats = client.senders.agent.stats(\n    "senderId",\n)\nprint(agent_stats.error_count)',
       },
+      java: {
+        method: 'senders().agent().stats',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.AgentStats;\nimport com.zavudev.api.models.senders.agent.AgentStatsParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AgentStats agentStats = client.senders().agent().stats("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().stats',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.AgentStats\nimport com.zavudev.api.models.senders.agent.AgentStatsParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val agentStats: AgentStats = client.senders().agent().stats("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Stats',
         example:
@@ -1326,6 +1683,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->stats',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$agentStats = $client->senders->agent->stats('senderId');\n\nvar_dump($agentStats);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Stats',
+        example:
+          'AgentStatsParams parameters = new() { SenderID = "senderId" };\n\nvar agentStats = await client.Senders.Agent.Stats(parameters);\n\nConsole.WriteLine(agentStats);',
       },
       http: {
         example:
@@ -1363,6 +1725,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.executions.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'senders().agent().executions().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionListPage;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ExecutionListPage page = client.senders().agent().executions().list("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().executions().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.executions.ExecutionListPage\nimport com.zavudev.api.models.senders.agent.executions.ExecutionListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: ExecutionListPage = client.senders().agent().executions().list("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Executions.List',
         example:
@@ -1382,6 +1754,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->executions->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->executions->list(\n  'senderId',\n  cursor: 'cursor',\n  limit: 100,\n  status: AgentExecutionStatus::SUCCESS,\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Executions.List',
+        example:
+          'ExecutionListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.Executions.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -1414,6 +1791,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nexecution = client.senders.agent.executions.retrieve(\n    execution_id="executionId",\n    sender_id="senderId",\n)\nprint(execution.execution)',
       },
+      java: {
+        method: 'senders().agent().executions().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionRetrieveParams;\nimport com.zavudev.api.models.senders.agent.executions.ExecutionRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ExecutionRetrieveParams params = ExecutionRetrieveParams.builder()\n            .senderId("senderId")\n            .executionId("executionId")\n            .build();\n        ExecutionRetrieveResponse execution = client.senders().agent().executions().retrieve(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().executions().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.executions.ExecutionRetrieveParams\nimport com.zavudev.api.models.senders.agent.executions.ExecutionRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ExecutionRetrieveParams = ExecutionRetrieveParams.builder()\n        .senderId("senderId")\n        .executionId("executionId")\n        .build()\n    val execution: ExecutionRetrieveResponse = client.senders().agent().executions().retrieve(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Executions.Get',
         example:
@@ -1433,6 +1820,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->executions->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$execution = $client->senders->agent->executions->retrieve(\n  'executionId', senderID: 'senderId'\n);\n\nvar_dump($execution);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Executions.Retrieve',
+        example:
+          'ExecutionRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    ExecutionID = "executionId",\n};\n\nvar execution = await client.Senders.Agent.Executions.Retrieve(parameters);\n\nConsole.WriteLine(execution);',
       },
       http: {
         example:
@@ -1464,6 +1856,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.flows.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'senders().agent().flows().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowListPage;\nimport com.zavudev.api.models.senders.agent.flows.FlowListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowListPage page = client.senders().agent().flows().list("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().flows().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.flows.FlowListPage\nimport com.zavudev.api.models.senders.agent.flows.FlowListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: FlowListPage = client.senders().agent().flows().list("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Flows.List',
         example:
@@ -1482,6 +1884,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->flows->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.List',
+        example:
+          'FlowListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.Flows.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -1521,6 +1928,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.create(\n    sender_id="senderId",\n    name="Lead Capture",\n    steps=[{\n        "id": "welcome",\n        "type": "message",\n        "config": {\n            "text": "Thanks for your interest! Let me get some info."\n        },\n        "next_step_id": "ask_name",\n    }, {\n        "id": "ask_name",\n        "type": "collect",\n        "config": {\n            "variable": "name",\n            "prompt": "What\'s your name?",\n        },\n    }],\n    trigger={\n        "type": "keyword",\n        "keywords": ["info", "pricing", "demo"],\n    },\n    description="Capture lead information",\n)\nprint(flow.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.senders.agent.flows.FlowCreateParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowCreateResponse;\nimport com.zavudev.api.models.senders.agent.flows.FlowStep;\nimport com.zavudev.api.models.senders.agent.flows.FlowTrigger;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowCreateParams params = FlowCreateParams.builder()\n            .senderId("senderId")\n            .name("Lead Capture")\n            .addStep(FlowStep.builder()\n                .id("welcome")\n                .config(FlowStep.Config.builder()\n                    .putAdditionalProperty("text", JsonValue.from("bar"))\n                    .build())\n                .type(FlowStep.Type.MESSAGE)\n                .build())\n            .addStep(FlowStep.builder()\n                .id("ask_name")\n                .config(FlowStep.Config.builder()\n                    .putAdditionalProperty("variable", JsonValue.from("bar"))\n                    .putAdditionalProperty("prompt", JsonValue.from("bar"))\n                    .build())\n                .type(FlowStep.Type.COLLECT)\n                .build())\n            .trigger(FlowTrigger.builder()\n                .type(FlowTrigger.Type.KEYWORD)\n                .build())\n            .build();\n        FlowCreateResponse flow = client.senders().agent().flows().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().flows().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.core.JsonValue\nimport com.zavudev.api.models.senders.agent.flows.FlowCreateParams\nimport com.zavudev.api.models.senders.agent.flows.FlowCreateResponse\nimport com.zavudev.api.models.senders.agent.flows.FlowStep\nimport com.zavudev.api.models.senders.agent.flows.FlowTrigger\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: FlowCreateParams = FlowCreateParams.builder()\n        .senderId("senderId")\n        .name("Lead Capture")\n        .addStep(FlowStep.builder()\n            .id("welcome")\n            .config(FlowStep.Config.builder()\n                .putAdditionalProperty("text", JsonValue.from("bar"))\n                .build())\n            .type(FlowStep.Type.MESSAGE)\n            .build())\n        .addStep(FlowStep.builder()\n            .id("ask_name")\n            .config(FlowStep.Config.builder()\n                .putAdditionalProperty("variable", JsonValue.from("bar"))\n                .putAdditionalProperty("prompt", JsonValue.from("bar"))\n                .build())\n            .type(FlowStep.Type.COLLECT)\n            .build())\n        .trigger(FlowTrigger.builder()\n            .type(FlowTrigger.Type.KEYWORD)\n            .build())\n        .build()\n    val flow: FlowCreateResponse = client.senders().agent().flows().create(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Flows.New',
         example:
@@ -1540,6 +1957,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->create(\n  'senderId',\n  name: 'Lead Capture',\n  steps: [\n    [\n      'id' => 'welcome',\n      'config' => ['text' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'ask_name',\n    ],\n    [\n      'id' => 'ask_name',\n      'config' => ['variable' => 'bar', 'prompt' => 'bar'],\n      'type' => 'collect',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword',\n    'intent' => 'intent',\n    'keywords' => ['info', 'pricing', 'demo'],\n  ],\n  description: 'Capture lead information',\n  enabled: true,\n  priority: 0,\n);\n\nvar_dump($flow);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.Create',
+        example:
+          'FlowCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Name = "Lead Capture",\n    Steps =\n    [\n        new()\n        {\n            ID = "welcome",\n            Config = new Dictionary<string, JsonElement>()\n            {\n                { "text", JsonSerializer.SerializeToElement("bar") }\n            },\n            Type = Type.Message,\n            NextStepID = "ask_name",\n        },\n        new()\n        {\n            ID = "ask_name",\n            Config = new Dictionary<string, JsonElement>()\n            {\n                { "variable", JsonSerializer.SerializeToElement("bar") },\n                { "prompt", JsonSerializer.SerializeToElement("bar") },\n            },\n            Type = Type.Collect,\n            NextStepID = "nextStepId",\n        },\n    ],\n    Trigger = new()\n    {\n        Type = Type.Keyword,\n        Intent = "intent",\n        Keywords =\n        [\n            "info", "pricing", "demo"\n        ],\n    },\n};\n\nvar flow = await client.Senders.Agent.Flows.Create(parameters);\n\nConsole.WriteLine(flow);',
       },
       http: {
         example:
@@ -1571,6 +1993,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.retrieve(\n    flow_id="flowId",\n    sender_id="senderId",\n)\nprint(flow.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowRetrieveParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowRetrieveParams params = FlowRetrieveParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .build();\n        FlowRetrieveResponse flow = client.senders().agent().flows().retrieve(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().flows().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.flows.FlowRetrieveParams\nimport com.zavudev.api.models.senders.agent.flows.FlowRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: FlowRetrieveParams = FlowRetrieveParams.builder()\n        .senderId("senderId")\n        .flowId("flowId")\n        .build()\n    val flow: FlowRetrieveResponse = client.senders().agent().flows().retrieve(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Flows.Get',
         example:
@@ -1590,6 +2022,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->retrieve(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($flow);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.Retrieve',
+        example:
+          'FlowRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n};\n\nvar flow = await client.Senders.Agent.Flows.Retrieve(parameters);\n\nConsole.WriteLine(flow);',
       },
       http: {
         example:
@@ -1630,6 +2067,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nflow = client.senders.agent.flows.update(\n    flow_id="flowId",\n    sender_id="senderId",\n)\nprint(flow.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowUpdateParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowUpdateParams params = FlowUpdateParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .build();\n        FlowUpdateResponse flow = client.senders().agent().flows().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().flows().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.flows.FlowUpdateParams\nimport com.zavudev.api.models.senders.agent.flows.FlowUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: FlowUpdateParams = FlowUpdateParams.builder()\n        .senderId("senderId")\n        .flowId("flowId")\n        .build()\n    val flow: FlowUpdateResponse = client.senders().agent().flows().update(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Flows.Update',
         example:
@@ -1649,6 +2096,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$flow = $client->senders->agent->flows->update(\n  'flowId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  priority: 0,\n  steps: [\n    [\n      'id' => 'id',\n      'config' => ['foo' => 'bar'],\n      'type' => 'message',\n      'nextStepID' => 'nextStepId',\n    ],\n  ],\n  trigger: [\n    'type' => 'keyword', 'intent' => 'intent', 'keywords' => ['string']\n  ],\n);\n\nvar_dump($flow);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.Update',
+        example:
+          'FlowUpdateParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n};\n\nvar flow = await client.Senders.Agent.Flows.Update(parameters);\n\nConsole.WriteLine(flow);',
       },
       http: {
         example:
@@ -1678,6 +2130,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.flows.delete(\n    flow_id="flowId",\n    sender_id="senderId",\n)',
       },
+      java: {
+        method: 'senders().agent().flows().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowDeleteParams params = FlowDeleteParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .build();\n        client.senders().agent().flows().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().flows().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.flows.FlowDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: FlowDeleteParams = FlowDeleteParams.builder()\n        .senderId("senderId")\n        .flowId("flowId")\n        .build()\n    client.senders().agent().flows().delete(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Flows.Delete',
         example:
@@ -1697,6 +2159,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->flows->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->flows->delete(\n  'flowId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Flows.Delete',
+        example:
+          'FlowDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n};\n\nawait client.Senders.Agent.Flows.Delete(parameters);',
       },
       http: {
         example:
@@ -1728,6 +2195,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.agent.flows.duplicate(\n    flow_id="flowId",\n    sender_id="senderId",\n    new_name="Lead Capture (Copy)",\n)\nprint(response.flow)',
       },
+      java: {
+        method: 'senders().agent().flows().duplicate',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.flows.FlowDuplicateParams;\nimport com.zavudev.api.models.senders.agent.flows.FlowDuplicateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FlowDuplicateParams params = FlowDuplicateParams.builder()\n            .senderId("senderId")\n            .flowId("flowId")\n            .newName("Lead Capture (Copy)")\n            .build();\n        FlowDuplicateResponse response = client.senders().agent().flows().duplicate(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().flows().duplicate',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.flows.FlowDuplicateParams\nimport com.zavudev.api.models.senders.agent.flows.FlowDuplicateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: FlowDuplicateParams = FlowDuplicateParams.builder()\n        .senderId("senderId")\n        .flowId("flowId")\n        .newName("Lead Capture (Copy)")\n        .build()\n    val response: FlowDuplicateResponse = client.senders().agent().flows().duplicate(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Flows.Duplicate',
         example:
@@ -1748,6 +2225,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->flows->duplicate(\n  'flowId', senderID: 'senderId', newName: 'Lead Capture (Copy)'\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'Senders.Agent.Flows.Duplicate',
+        example:
+          'FlowDuplicateParams parameters = new()\n{\n    SenderID = "senderId",\n    FlowID = "flowId",\n    NewName = "Lead Capture (Copy)",\n};\n\nvar response = await client.Senders.Agent.Flows.Duplicate(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/flows/$FLOW_ID/duplicate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "newName": "Lead Capture (Copy)"\n        }\'',
@@ -1764,9 +2246,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.senders.agent.tools.list',
     params: ['senderId: string;', 'cursor?: string;', 'enabled?: boolean;', 'limit?: number;'],
     response:
-      "{ id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }",
+      "{ id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; webhookSecret?: string; }",
     markdown:
-      "## list\n\n`client.senders.agent.tools.list(senderId: string, cursor?: string, enabled?: boolean, limit?: number): { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }`\n\n**get** `/v1/senders/{senderId}/agent/tools`\n\nList tools for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `cursor?: string`\n\n- `enabled?: boolean`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n  - `id: string`\n  - `agentId: string`\n  - `createdAt: string`\n  - `description: string`\n  - `enabled: boolean`\n  - `name: string`\n  - `parameters: { properties: object; required: string[]; type: 'object'; }`\n  - `updatedAt: string`\n  - `webhookUrl: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentTool of client.senders.agent.tools.list('senderId')) {\n  console.log(agentTool);\n}\n```",
+      "## list\n\n`client.senders.agent.tools.list(senderId: string, cursor?: string, enabled?: boolean, limit?: number): { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }`\n\n**get** `/v1/senders/{senderId}/agent/tools`\n\nList tools for an agent.\n\n### Parameters\n\n- `senderId: string`\n\n- `cursor?: string`\n\n- `enabled?: boolean`\n\n- `limit?: number`\n\n### Returns\n\n- `{ id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; webhookSecret?: string; }`\n\n  - `id: string`\n  - `agentId: string`\n  - `createdAt: string`\n  - `description: string`\n  - `enabled: boolean`\n  - `name: string`\n  - `parameters: { properties: object; required: string[]; type: 'object'; }`\n  - `updatedAt: string`\n  - `webhookUrl: string`\n  - `webhookSecret?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\n// Automatically fetches more pages as needed.\nfor await (const agentTool of client.senders.agent.tools.list('senderId')) {\n  console.log(agentTool);\n}\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.agent.tools.list',
@@ -1777,6 +2259,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.list',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.tools.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
+      },
+      java: {
+        method: 'senders().agent().tools().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolListPage;\nimport com.zavudev.api.models.senders.agent.tools.ToolListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolListPage page = client.senders().agent().tools().list("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().tools().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.tools.ToolListPage\nimport com.zavudev.api.models.senders.agent.tools.ToolListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: ToolListPage = client.senders().agent().tools().list("senderId")\n}',
       },
       go: {
         method: 'client.Senders.Agent.Tools.List',
@@ -1796,6 +2288,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->tools->list(\n  'senderId', cursor: 'cursor', enabled: true, limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.List',
+        example:
+          'ToolListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.Tools.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -1821,9 +2318,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'webhookSecret?: string;',
     ],
     response:
-      '{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }',
+      '{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }; }',
     markdown:
-      "## create\n\n`client.senders.agent.tools.create(senderId: string, description: string, name: string, parameters: { properties: object; required: string[]; type: 'object'; }, webhookUrl: string, enabled?: boolean, webhookSecret?: string): { tool: agent_tool; }`\n\n**post** `/v1/senders/{senderId}/agent/tools`\n\nCreate a new tool for an agent. Tools allow the agent to call external webhooks.\n\n### Parameters\n\n- `senderId: string`\n\n- `description: string`\n\n- `name: string`\n\n- `parameters: { properties: object; required: string[]; type: 'object'; }`\n  - `properties: object`\n  - `required: string[]`\n  - `type: 'object'`\n\n- `webhookUrl: string`\n  Must be HTTPS.\n\n- `enabled?: boolean`\n\n- `webhookSecret?: string`\n  Optional secret for webhook signature verification.\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.create('senderId', {\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: {\n  properties: { order_id: {} },\n  required: ['order_id'],\n  type: 'object',\n},\n  webhookUrl: 'https://api.example.com/webhooks/order-status',\n});\n\nconsole.log(tool);\n```",
+      "## create\n\n`client.senders.agent.tools.create(senderId: string, description: string, name: string, parameters: { properties: object; required: string[]; type: 'object'; }, webhookUrl: string, enabled?: boolean, webhookSecret?: string): { tool: agent_tool; }`\n\n**post** `/v1/senders/{senderId}/agent/tools`\n\nCreate a new tool for an agent. Tools allow the agent to call external webhooks.\n\n### Parameters\n\n- `senderId: string`\n\n- `description: string`\n\n- `name: string`\n\n- `parameters: { properties: object; required: string[]; type: 'object'; }`\n  - `properties: object`\n  - `required: string[]`\n  - `type: 'object'`\n\n- `webhookUrl: string`\n  Must be HTTPS.\n\n- `enabled?: boolean`\n\n- `webhookSecret?: string`\n  Signing secret for the webhook. Optional: Zavu generates one when omitted and returns it on this response only. Supply your own if you already have a secret you want reused.\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; webhookSecret?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.create('senderId', {\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: {\n  properties: { order_id: {} },\n  required: ['order_id'],\n  type: 'object',\n},\n  webhookUrl: 'https://api.example.com/webhooks/order-status',\n});\n\nconsole.log(tool);\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.agent.tools.create',
@@ -1834,6 +2331,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.create(\n    sender_id="senderId",\n    description="Get the status of a customer order",\n    name="get_order_status",\n    parameters={\n        "type": "object",\n        "properties": {\n            "order_id": {\n                "type": "string",\n                "description": "The order ID to look up",\n            }\n        },\n        "required": ["order_id"],\n    },\n    webhook_url="https://api.example.com/webhooks/order-status",\n    webhook_secret="whsec_...",\n)\nprint(tool.tool)',
+      },
+      java: {
+        method: 'senders().agent().tools().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.senders.agent.tools.ToolCreateParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolCreateResponse;\nimport com.zavudev.api.models.senders.agent.tools.ToolParameters;\nimport java.util.Map;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolCreateParams params = ToolCreateParams.builder()\n            .senderId("senderId")\n            .description("Get the status of a customer order")\n            .name("get_order_status")\n            .parameters(ToolParameters.builder()\n                .properties(ToolParameters.Properties.builder()\n                    .putAdditionalProperty("order_id", JsonValue.from(<String, Object>Map.of()))\n                    .build())\n                .addRequired("order_id")\n                .type(ToolParameters.Type.OBJECT)\n                .build())\n            .webhookUrl("https://api.example.com/webhooks/order-status")\n            .build();\n        ToolCreateResponse tool = client.senders().agent().tools().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().tools().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.core.JsonValue\nimport com.zavudev.api.models.senders.agent.tools.ToolCreateParams\nimport com.zavudev.api.models.senders.agent.tools.ToolCreateResponse\nimport com.zavudev.api.models.senders.agent.tools.ToolParameters\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ToolCreateParams = ToolCreateParams.builder()\n        .senderId("senderId")\n        .description("Get the status of a customer order")\n        .name("get_order_status")\n        .parameters(ToolParameters.builder()\n            .properties(ToolParameters.Properties.builder()\n                .putAdditionalProperty("order_id", JsonValue.from(mapOf<String, Any>()))\n                .build())\n            .addRequired("order_id")\n            .type(ToolParameters.Type.OBJECT)\n            .build())\n        .webhookUrl("https://api.example.com/webhooks/order-status")\n        .build()\n    val tool: ToolCreateResponse = client.senders().agent().tools().create(params)\n}',
       },
       go: {
         method: 'client.Senders.Agent.Tools.New',
@@ -1855,6 +2362,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->create(\n  'senderId',\n  description: 'Get the status of a customer order',\n  name: 'get_order_status',\n  parameters: [\n    'properties' => [\n      'order_id' => [\n        'description' => 'The order ID to look up', 'type' => 'string'\n      ],\n    ],\n    'required' => ['order_id'],\n    'type' => 'object',\n  ],\n  webhookURL: 'https://api.example.com/webhooks/order-status',\n  enabled: true,\n  webhookSecret: 'whsec_...',\n);\n\nvar_dump($tool);",
       },
+      csharp: {
+        method: 'Senders.Agent.Tools.Create',
+        example:
+          'ToolCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Description = "Get the status of a customer order",\n    Name = "get_order_status",\n    Parameters = new()\n    {\n        Properties = new Dictionary<string, PropertiesItem>()\n        {\n            { "order_id", new()\n            {\n                Description = "The order ID to look up",\n                Type = "string",\n            } },\n        },\n        Required =\n        [\n            "order_id"\n        ],\n        Type = Type.Object,\n    },\n    WebhookUrl = "https://api.example.com/webhooks/order-status",\n};\n\nvar tool = await client.Senders.Agent.Tools.Create(parameters);\n\nConsole.WriteLine(tool);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/senders/$SENDER_ID/agent/tools \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d \'{\n          "description": "Get the status of a customer order",\n          "name": "get_order_status",\n          "parameters": {\n            "properties": {\n              "order_id": {\n                "description": "The order ID to look up",\n                "type": "string"\n              }\n            },\n            "required": [\n              "order_id"\n            ],\n            "type": "object"\n          },\n          "webhookUrl": "https://api.example.com/webhooks/order-status",\n          "webhookSecret": "whsec_..."\n        }\'',
@@ -1871,9 +2383,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.senders.agent.tools.retrieve',
     params: ['senderId: string;', 'toolId: string;'],
     response:
-      '{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }',
+      '{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }; }',
     markdown:
-      "## retrieve\n\n`client.senders.agent.tools.retrieve(senderId: string, toolId: string): { tool: agent_tool; }`\n\n**get** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nGet a specific tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });\n\nconsole.log(tool);\n```",
+      "## retrieve\n\n`client.senders.agent.tools.retrieve(senderId: string, toolId: string): { tool: agent_tool; }`\n\n**get** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nGet a specific tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; webhookSecret?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.retrieve('toolId', { senderId: 'senderId' });\n\nconsole.log(tool);\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.agent.tools.retrieve',
@@ -1884,6 +2396,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.retrieve',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.retrieve(\n    tool_id="toolId",\n    sender_id="senderId",\n)\nprint(tool.tool)',
+      },
+      java: {
+        method: 'senders().agent().tools().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolRetrieveParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolRetrieveParams params = ToolRetrieveParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .build();\n        ToolRetrieveResponse tool = client.senders().agent().tools().retrieve(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().tools().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.tools.ToolRetrieveParams\nimport com.zavudev.api.models.senders.agent.tools.ToolRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ToolRetrieveParams = ToolRetrieveParams.builder()\n        .senderId("senderId")\n        .toolId("toolId")\n        .build()\n    val tool: ToolRetrieveResponse = client.senders().agent().tools().retrieve(params)\n}',
       },
       go: {
         method: 'client.Senders.Agent.Tools.Get',
@@ -1904,6 +2426,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->retrieve(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($tool);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.Retrieve',
+        example:
+          'ToolRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n};\n\nvar tool = await client.Senders.Agent.Tools.Retrieve(parameters);\n\nConsole.WriteLine(tool);',
       },
       http: {
         example:
@@ -1930,9 +2457,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'webhookUrl?: string;',
     ],
     response:
-      '{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }',
+      '{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }; }',
     markdown:
-      "## update\n\n`client.senders.agent.tools.update(senderId: string, toolId: string, description?: string, enabled?: boolean, name?: string, parameters?: { properties: object; required: string[]; type: 'object'; }, webhookSecret?: string, webhookUrl?: string): { tool: agent_tool; }`\n\n**patch** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nUpdate a tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n- `description?: string`\n\n- `enabled?: boolean`\n\n- `name?: string`\n\n- `parameters?: { properties: object; required: string[]; type: 'object'; }`\n  - `properties: object`\n  - `required: string[]`\n  - `type: 'object'`\n\n- `webhookSecret?: string`\n\n- `webhookUrl?: string`\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.update('toolId', { senderId: 'senderId' });\n\nconsole.log(tool);\n```",
+      "## update\n\n`client.senders.agent.tools.update(senderId: string, toolId: string, description?: string, enabled?: boolean, name?: string, parameters?: { properties: object; required: string[]; type: 'object'; }, webhookSecret?: string, webhookUrl?: string): { tool: agent_tool; }`\n\n**patch** `/v1/senders/{senderId}/agent/tools/{toolId}`\n\nUpdate a tool.\n\n### Parameters\n\n- `senderId: string`\n\n- `toolId: string`\n\n- `description?: string`\n\n- `enabled?: boolean`\n\n- `name?: string`\n\n- `parameters?: { properties: object; required: string[]; type: 'object'; }`\n  - `properties: object`\n  - `required: string[]`\n  - `type: 'object'`\n\n- `webhookSecret?: string`\n\n- `webhookUrl?: string`\n\n### Returns\n\n- `{ tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: tool_parameters; updatedAt: string; webhookUrl: string; webhookSecret?: string; }; }`\n\n  - `tool: { id: string; agentId: string; createdAt: string; description: string; enabled: boolean; name: string; parameters: { properties: object; required: string[]; type: 'object'; }; updatedAt: string; webhookUrl: string; webhookSecret?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst tool = await client.senders.agent.tools.update('toolId', { senderId: 'senderId' });\n\nconsole.log(tool);\n```",
     perLanguage: {
       typescript: {
         method: 'client.senders.agent.tools.update',
@@ -1943,6 +2470,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders.agent.tools.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ntool = client.senders.agent.tools.update(\n    tool_id="toolId",\n    sender_id="senderId",\n)\nprint(tool.tool)',
+      },
+      java: {
+        method: 'senders().agent().tools().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolUpdateParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolUpdateParams params = ToolUpdateParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .build();\n        ToolUpdateResponse tool = client.senders().agent().tools().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().tools().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.tools.ToolUpdateParams\nimport com.zavudev.api.models.senders.agent.tools.ToolUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ToolUpdateParams = ToolUpdateParams.builder()\n        .senderId("senderId")\n        .toolId("toolId")\n        .build()\n    val tool: ToolUpdateResponse = client.senders().agent().tools().update(params)\n}',
       },
       go: {
         method: 'client.Senders.Agent.Tools.Update',
@@ -1963,6 +2500,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$tool = $client->senders->agent->tools->update(\n  'toolId',\n  senderID: 'senderId',\n  description: 'description',\n  enabled: true,\n  name: 'name',\n  parameters: [\n    'properties' => [\n      'foo' => ['description' => 'description', 'type' => 'type']\n    ],\n    'required' => ['string'],\n    'type' => 'object',\n  ],\n  webhookSecret: 'webhookSecret',\n  webhookURL: 'https://example.com',\n);\n\nvar_dump($tool);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.Update',
+        example:
+          'ToolUpdateParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n};\n\nvar tool = await client.Senders.Agent.Tools.Update(parameters);\n\nConsole.WriteLine(tool);',
       },
       http: {
         example:
@@ -1992,6 +2534,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.tools.delete(\n    tool_id="toolId",\n    sender_id="senderId",\n)',
       },
+      java: {
+        method: 'senders().agent().tools().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.tools.ToolDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolDeleteParams params = ToolDeleteParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .build();\n        client.senders().agent().tools().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().tools().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.tools.ToolDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ToolDeleteParams = ToolDeleteParams.builder()\n        .senderId("senderId")\n        .toolId("toolId")\n        .build()\n    client.senders().agent().tools().delete(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Tools.Delete',
         example:
@@ -2011,6 +2563,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->tools->delete(\n  'toolId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.Delete',
+        example:
+          'ToolDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n};\n\nawait client.Senders.Agent.Tools.Delete(parameters);',
       },
       http: {
         example:
@@ -2043,6 +2600,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.agent.tools.test(\n    tool_id="toolId",\n    sender_id="senderId",\n    test_params={\n        "order_id": "ORD-12345"\n    },\n)\nprint(response.run)',
       },
+      java: {
+        method: 'senders().agent().tools().test',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.senders.agent.tools.ToolTestParams;\nimport com.zavudev.api.models.senders.agent.tools.ToolTestResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ToolTestParams params = ToolTestParams.builder()\n            .senderId("senderId")\n            .toolId("toolId")\n            .testParams(ToolTestParams.TestParams.builder()\n                .putAdditionalProperty("order_id", JsonValue.from("bar"))\n                .build())\n            .build();\n        ToolTestResponse response = client.senders().agent().tools().test(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().tools().test',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.core.JsonValue\nimport com.zavudev.api.models.senders.agent.tools.ToolTestParams\nimport com.zavudev.api.models.senders.agent.tools.ToolTestResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ToolTestParams = ToolTestParams.builder()\n        .senderId("senderId")\n        .toolId("toolId")\n        .testParams(ToolTestParams.TestParams.builder()\n            .putAdditionalProperty("order_id", JsonValue.from("bar"))\n            .build())\n        .build()\n    val response: ToolTestResponse = client.senders().agent().tools().test(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.Tools.Test',
         example:
@@ -2062,6 +2629,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->tools->test',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->agent->tools->test(\n  'toolId', senderID: 'senderId', testParams: ['order_id' => 'bar']\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Senders.Agent.Tools.Test',
+        example:
+          'ToolTestParams parameters = new()\n{\n    SenderID = "senderId",\n    ToolID = "toolId",\n    TestParams = new Dictionary<string, JsonElement>()\n    {\n        { "order_id", JsonSerializer.SerializeToElement("bar") }\n    },\n};\n\nvar response = await client.Senders.Agent.Tools.Test(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -2093,6 +2665,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.knowledge_bases.list(\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseListPage;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseListPage page = client.senders().agent().knowledgeBases().list("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseListPage\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: KnowledgeBaseListPage = client.senders().agent().knowledgeBases().list("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.List',
         example:
@@ -2112,6 +2694,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->list(\n  'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.List',
+        example:
+          'KnowledgeBaseListParams parameters = new() { SenderID = "senderId" };\n\nvar page = await client.Senders.Agent.KnowledgeBases.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -2143,6 +2730,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.create(\n    sender_id="senderId",\n    name="Product FAQ",\n    description="Frequently asked questions about our products",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseCreateParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseCreateParams params = KnowledgeBaseCreateParams.builder()\n            .senderId("senderId")\n            .name("Product FAQ")\n            .build();\n        KnowledgeBaseCreateResponse knowledgeBase = client.senders().agent().knowledgeBases().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseCreateParams\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: KnowledgeBaseCreateParams = KnowledgeBaseCreateParams.builder()\n        .senderId("senderId")\n        .name("Product FAQ")\n        .build()\n    val knowledgeBase: KnowledgeBaseCreateResponse = client.senders().agent().knowledgeBases().create(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.New',
         example:
@@ -2162,6 +2759,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->create(\n  'senderId',\n  name: 'Product FAQ',\n  description: 'Frequently asked questions about our products',\n);\n\nvar_dump($knowledgeBase);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Create',
+        example:
+          'KnowledgeBaseCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    Name = "Product FAQ",\n};\n\nvar knowledgeBase = await client.Senders.Agent.KnowledgeBases.Create(parameters);\n\nConsole.WriteLine(knowledgeBase);',
       },
       http: {
         example:
@@ -2193,6 +2795,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.retrieve(\n    kb_id="kbId",\n    sender_id="senderId",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseRetrieveParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseRetrieveParams params = KnowledgeBaseRetrieveParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        KnowledgeBaseRetrieveResponse knowledgeBase = client.senders().agent().knowledgeBases().retrieve(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseRetrieveParams\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: KnowledgeBaseRetrieveParams = KnowledgeBaseRetrieveParams.builder()\n        .senderId("senderId")\n        .kbId("kbId")\n        .build()\n    val knowledgeBase: KnowledgeBaseRetrieveResponse = client.senders().agent().knowledgeBases().retrieve(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.Get',
         example:
@@ -2212,6 +2824,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->retrieve(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($knowledgeBase);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Retrieve',
+        example:
+          'KnowledgeBaseRetrieveParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nvar knowledgeBase = await client.Senders.Agent.KnowledgeBases.Retrieve(parameters);\n\nConsole.WriteLine(knowledgeBase);',
       },
       http: {
         example:
@@ -2243,6 +2860,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nknowledge_base = client.senders.agent.knowledge_bases.update(\n    kb_id="kbId",\n    sender_id="senderId",\n)\nprint(knowledge_base.knowledge_base)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseUpdateParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseUpdateParams params = KnowledgeBaseUpdateParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        KnowledgeBaseUpdateResponse knowledgeBase = client.senders().agent().knowledgeBases().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseUpdateParams\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: KnowledgeBaseUpdateParams = KnowledgeBaseUpdateParams.builder()\n        .senderId("senderId")\n        .kbId("kbId")\n        .build()\n    val knowledgeBase: KnowledgeBaseUpdateResponse = client.senders().agent().knowledgeBases().update(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.Update',
         example:
@@ -2262,6 +2889,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$knowledgeBase = $client->senders->agent->knowledgeBases->update(\n  'kbId', senderID: 'senderId', description: 'description', name: 'name'\n);\n\nvar_dump($knowledgeBase);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Update',
+        example:
+          'KnowledgeBaseUpdateParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nvar knowledgeBase = await client.Senders.Agent.KnowledgeBases.Update(parameters);\n\nConsole.WriteLine(knowledgeBase);',
       },
       http: {
         example:
@@ -2291,6 +2923,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.knowledge_bases.delete(\n    kb_id="kbId",\n    sender_id="senderId",\n)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        KnowledgeBaseDeleteParams params = KnowledgeBaseDeleteParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        client.senders().agent().knowledgeBases().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.KnowledgeBaseDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: KnowledgeBaseDeleteParams = KnowledgeBaseDeleteParams.builder()\n        .senderId("senderId")\n        .kbId("kbId")\n        .build()\n    client.senders().agent().knowledgeBases().delete(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.Delete',
         example:
@@ -2310,6 +2952,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->delete(\n  'kbId', senderID: 'senderId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Delete',
+        example:
+          'KnowledgeBaseDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nawait client.Senders.Agent.KnowledgeBases.Delete(parameters);',
       },
       http: {
         example:
@@ -2341,6 +2988,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.senders.agent.knowledge_bases.documents.list(\n    kb_id="kbId",\n    sender_id="senderId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().documents().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentListPage;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        DocumentListParams params = DocumentListParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .build();\n        DocumentListPage page = client.senders().agent().knowledgeBases().documents().list(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().documents().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentListPage\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: DocumentListParams = DocumentListParams.builder()\n        .senderId("senderId")\n        .kbId("kbId")\n        .build()\n    val page: DocumentListPage = client.senders().agent().knowledgeBases().documents().list(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.Documents.List',
         example:
@@ -2360,6 +3017,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->documents->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->senders->agent->knowledgeBases->documents->list(\n  'kbId', senderID: 'senderId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Documents.List',
+        example:
+          'DocumentListParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n};\n\nvar page = await client.Senders.Agent.KnowledgeBases.Documents.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -2391,6 +3053,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ndocument = client.senders.agent.knowledge_bases.documents.create(\n    kb_id="kbId",\n    sender_id="senderId",\n    content="Our return policy allows returns within 30 days of purchase...",\n    title="Return Policy",\n)\nprint(document.document)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().documents().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentCreateParams;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        DocumentCreateParams params = DocumentCreateParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .content("Our return policy allows returns within 30 days of purchase...")\n            .title("Return Policy")\n            .build();\n        DocumentCreateResponse document = client.senders().agent().knowledgeBases().documents().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().documents().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentCreateParams\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: DocumentCreateParams = DocumentCreateParams.builder()\n        .senderId("senderId")\n        .kbId("kbId")\n        .content("Our return policy allows returns within 30 days of purchase...")\n        .title("Return Policy")\n        .build()\n    val document: DocumentCreateResponse = client.senders().agent().knowledgeBases().documents().create(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.Documents.New',
         example:
@@ -2410,6 +3082,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->documents->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$document = $client->senders->agent->knowledgeBases->documents->create(\n  'kbId',\n  senderID: 'senderId',\n  content: 'Our return policy allows returns within 30 days of purchase...',\n  title: 'Return Policy',\n);\n\nvar_dump($document);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Documents.Create',
+        example:
+          'DocumentCreateParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n    Content = "Our return policy allows returns within 30 days of purchase...",\n    Title = "Return Policy",\n};\n\nvar document = await client.Senders.Agent.KnowledgeBases.Documents.Create(parameters);\n\nConsole.WriteLine(document);',
       },
       http: {
         example:
@@ -2439,6 +3116,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.senders.agent.knowledge_bases.documents.delete(\n    doc_id="docId",\n    sender_id="senderId",\n    kb_id="kbId",\n)',
       },
+      java: {
+        method: 'senders().agent().knowledgeBases().documents().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        DocumentDeleteParams params = DocumentDeleteParams.builder()\n            .senderId("senderId")\n            .kbId("kbId")\n            .docId("docId")\n            .build();\n        client.senders().agent().knowledgeBases().documents().delete(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().agent().knowledgeBases().documents().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.agent.knowledgebases.documents.DocumentDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: DocumentDeleteParams = DocumentDeleteParams.builder()\n        .senderId("senderId")\n        .kbId("kbId")\n        .docId("docId")\n        .build()\n    client.senders().agent().knowledgeBases().documents().delete(params)\n}',
+      },
       go: {
         method: 'client.Senders.Agent.KnowledgeBases.Documents.Delete',
         example:
@@ -2458,6 +3145,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->agent->knowledgeBases->documents->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->senders->agent->knowledgeBases->documents->delete(\n  'docId', senderID: 'senderId', kbID: 'kbId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Senders.Agent.KnowledgeBases.Documents.Delete',
+        example:
+          'DocumentDeleteParams parameters = new()\n{\n    SenderID = "senderId",\n    KBID = "kbId",\n    DocID = "docId",\n};\n\nawait client.Senders.Agent.KnowledgeBases.Documents.Delete(parameters);',
       },
       http: {
         example:
@@ -2490,6 +3182,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nwhatsapp_sync = client.senders.whatsapp_sync.retrieve(\n    "senderId",\n)\nprint(whatsapp_sync.sync)',
       },
+      java: {
+        method: 'senders().whatsappSync().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncRetrieveParams;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappSyncRetrieveResponse whatsappSync = client.senders().whatsappSync().retrieve("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().whatsappSync().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncRetrieveParams\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val whatsappSync: WhatsappSyncRetrieveResponse = client.senders().whatsappSync().retrieve("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.WhatsappSync.Get',
         example:
@@ -2509,6 +3211,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->whatsappSync->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$whatsappSync = $client->senders->whatsappSync->retrieve('senderId');\n\nvar_dump($whatsappSync);",
+      },
+      csharp: {
+        method: 'Senders.WhatsappSync.Retrieve',
+        example:
+          'WhatsappSyncRetrieveParams parameters = new() { SenderID = "senderId" };\n\nvar whatsappSync = await client.Senders.WhatsappSync.Retrieve(parameters);\n\nConsole.WriteLine(whatsappSync);',
       },
       http: {
         example:
@@ -2541,6 +3248,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.whatsapp_sync.start_history_sync(\n    "senderId",\n)\nprint(response.message)',
       },
+      java: {
+        method: 'senders().whatsappSync().startHistorySync',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartHistorySyncParams;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartHistorySyncResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappSyncStartHistorySyncResponse response = client.senders().whatsappSync().startHistorySync("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().whatsappSync().startHistorySync',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartHistorySyncParams\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartHistorySyncResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: WhatsappSyncStartHistorySyncResponse = client.senders().whatsappSync().startHistorySync("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.WhatsappSync.StartHistorySync',
         example:
@@ -2560,6 +3277,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->whatsappSync->startHistorySync',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startHistorySync('senderId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Senders.WhatsappSync.StartHistorySync',
+        example:
+          'WhatsappSyncStartHistorySyncParams parameters = new() { SenderID = "senderId" };\n\nvar response = await client.Senders.WhatsappSync.StartHistorySync(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -2592,6 +3314,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.senders.whatsapp_sync.start_contacts_sync(\n    "senderId",\n)\nprint(response.message)',
       },
+      java: {
+        method: 'senders().whatsappSync().startContactsSync',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartContactsSyncParams;\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartContactsSyncResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        WhatsappSyncStartContactsSyncResponse response = client.senders().whatsappSync().startContactsSync("senderId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'senders().whatsappSync().startContactsSync',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartContactsSyncParams\nimport com.zavudev.api.models.senders.whatsappsync.WhatsappSyncStartContactsSyncResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: WhatsappSyncStartContactsSyncResponse = client.senders().whatsappSync().startContactsSync("senderId")\n}',
+      },
       go: {
         method: 'client.Senders.WhatsappSync.StartContactsSync',
         example:
@@ -2611,6 +3343,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'senders->whatsappSync->startContactsSync',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->senders->whatsappSync->startContactsSync('senderId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Senders.WhatsappSync.StartContactsSync',
+        example:
+          'WhatsappSyncStartContactsSyncParams parameters = new()\n{\n    SenderID = "senderId"\n};\n\nvar response = await client.Senders.WhatsappSync.StartContactsSync(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -2642,6 +3379,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.contacts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'contacts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.ContactListPage;\nimport com.zavudev.api.models.contacts.ContactListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactListPage page = client.contacts().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.ContactListPage\nimport com.zavudev.api.models.contacts.ContactListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: ContactListPage = client.contacts().list()\n}',
+      },
       go: {
         method: 'client.Contacts.List',
         example:
@@ -2660,6 +3407,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->contacts->list(\n  cursor: 'cursor', limit: 100, phoneNumber: 'phoneNumber'\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Contacts.List',
+        example:
+          'ContactListParams parameters = new();\n\nvar page = await client.Contacts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/contacts \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -2690,6 +3442,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.retrieve(\n    "contactId",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactRetrieveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Contact contact = client.contacts().retrieve("contactId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.Contact\nimport com.zavudev.api.models.contacts.ContactRetrieveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val contact: Contact = client.contacts().retrieve("contactId")\n}',
+      },
       go: {
         method: 'client.Contacts.Get',
         example:
@@ -2708,6 +3470,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieve('contactId');\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.Retrieve',
+        example:
+          'ContactRetrieveParams parameters = new() { ContactID = "contactId" };\n\nvar contact = await client.Contacts.Retrieve(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2743,6 +3510,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.update(\n    contact_id="contactId",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactUpdateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Contact contact = client.contacts().update("contactId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.Contact\nimport com.zavudev.api.models.contacts.ContactUpdateParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val contact: Contact = client.contacts().update("contactId")\n}',
+      },
       go: {
         method: 'client.Contacts.Update',
         example:
@@ -2761,6 +3538,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->update(\n  'contactId', defaultChannel: 'sms', metadata: ['foo' => 'string']\n);\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.Update',
+        example:
+          'ContactUpdateParams parameters = new() { ContactID = "contactId" };\n\nvar contact = await client.Contacts.Update(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2792,6 +3574,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.retrieve_by_phone(\n    "phoneNumber",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().retrieveByPhone',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactRetrieveByPhoneParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        Contact contact = client.contacts().retrieveByPhone("phoneNumber");\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().retrieveByPhone',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.Contact\nimport com.zavudev.api.models.contacts.ContactRetrieveByPhoneParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val contact: Contact = client.contacts().retrieveByPhone("phoneNumber")\n}',
+      },
       go: {
         method: 'client.Contacts.GetByPhone',
         example:
@@ -2811,6 +3603,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->retrieveByPhone',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->retrieveByPhone('phoneNumber');\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.RetrieveByPhone',
+        example:
+          'ContactRetrieveByPhoneParams parameters = new() { PhoneNumber = "phoneNumber" };\n\nvar contact = await client.Contacts.RetrieveByPhone(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2846,6 +3643,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.create(\n    channels=[{\n        "channel": "sms",\n        "identifier": "+14155551234",\n        "is_primary": True,\n    }],\n    display_name="John Doe",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactCreateParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactCreateParams params = ContactCreateParams.builder()\n            .addChannel(ContactCreateParams.Channel.builder()\n                .channel(ContactCreateParams.Channel.InnerChannel.SMS)\n                .identifier("+14155551234")\n                .build())\n            .build();\n        Contact contact = client.contacts().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.Contact\nimport com.zavudev.api.models.contacts.ContactCreateParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ContactCreateParams = ContactCreateParams.builder()\n        .addChannel(ContactCreateParams.Channel.builder()\n            .channel(ContactCreateParams.Channel.InnerChannel.SMS)\n            .identifier("+14155551234")\n            .build())\n        .build()\n    val contact: Contact = client.contacts().create(params)\n}',
+      },
       go: {
         method: 'client.Contacts.New',
         example:
@@ -2865,6 +3672,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->create(\n  channels: [\n    [\n      'channel' => 'sms',\n      'identifier' => '+14155551234',\n      'countryCode' => 'US',\n      'isPrimary' => true,\n      'label' => 'work',\n    ],\n  ],\n  displayName: 'John Doe',\n  metadata: ['foo' => 'string'],\n);\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.Create',
+        example:
+          'ContactCreateParams parameters = new()\n{\n    Channels =\n    [\n        new()\n        {\n            Channel = Channel.Sms,\n            Identifier = "+14155551234",\n            CountryCode = "US",\n            IsPrimary = true,\n            Label = "work",\n        },\n    ],\n};\n\nvar contact = await client.Contacts.Create(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2897,6 +3709,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncontact = client.contacts.merge(\n    contact_id="contactId",\n    source_contact_id="jx7xyz789",\n)\nprint(contact.id)',
       },
+      java: {
+        method: 'contacts().merge',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.Contact;\nimport com.zavudev.api.models.contacts.ContactMergeParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactMergeParams params = ContactMergeParams.builder()\n            .contactId("contactId")\n            .sourceContactId("jx7xyz789")\n            .build();\n        Contact contact = client.contacts().merge(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().merge',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.Contact\nimport com.zavudev.api.models.contacts.ContactMergeParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ContactMergeParams = ContactMergeParams.builder()\n        .contactId("contactId")\n        .sourceContactId("jx7xyz789")\n        .build()\n    val contact: Contact = client.contacts().merge(params)\n}',
+      },
       go: {
         method: 'client.Contacts.Merge',
         example:
@@ -2916,6 +3738,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->merge',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$contact = $client->contacts->merge('contactId', sourceContactID: 'jx7xyz789');\n\nvar_dump($contact);",
+      },
+      csharp: {
+        method: 'Contacts.Merge',
+        example:
+          'ContactMergeParams parameters = new()\n{\n    ContactID = "contactId",\n    SourceContactID = "jx7xyz789",\n};\n\nvar contact = await client.Contacts.Merge(parameters);\n\nConsole.WriteLine(contact);',
       },
       http: {
         example:
@@ -2945,6 +3772,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.dismiss_merge_suggestion(\n    "contactId",\n)',
       },
+      java: {
+        method: 'contacts().dismissMergeSuggestion',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.ContactDismissMergeSuggestionParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.contacts().dismissMergeSuggestion("contactId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().dismissMergeSuggestion',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.ContactDismissMergeSuggestionParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.contacts().dismissMergeSuggestion("contactId")\n}',
+      },
       go: {
         method: 'client.Contacts.DismissMergeSuggestion',
         example:
@@ -2964,6 +3801,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->dismissMergeSuggestion',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->dismissMergeSuggestion('contactId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Contacts.DismissMergeSuggestion',
+        example:
+          'ContactDismissMergeSuggestionParams parameters = new()\n{\n    ContactID = "contactId"\n};\n\nawait client.Contacts.DismissMergeSuggestion(parameters);',
       },
       http: {
         example:
@@ -2994,6 +3836,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.delete(\n    "contactId",\n)',
       },
+      java: {
+        method: 'contacts().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.ContactDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.contacts().delete("contactId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.ContactDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.contacts().delete("contactId")\n}',
+      },
       go: {
         method: 'client.Contacts.Delete',
         example:
@@ -3012,6 +3864,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->delete('contactId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Contacts.Delete',
+        example:
+          'ContactDeleteParams parameters = new() { ContactID = "contactId" };\n\nawait client.Contacts.Delete(parameters);',
       },
       http: {
         example:
@@ -3050,6 +3907,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.contacts.channels.add(\n    contact_id="contactId",\n    channel="email",\n    identifier="john.work@company.com",\n    label="work",\n)\nprint(response.channel)',
       },
+      java: {
+        method: 'contacts().channels().add',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelAddParams;\nimport com.zavudev.api.models.contacts.channels.ChannelAddResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelAddParams params = ChannelAddParams.builder()\n            .contactId("contactId")\n            .channel(ChannelAddParams.Channel.EMAIL)\n            .identifier("john.work@company.com")\n            .build();\n        ChannelAddResponse response = client.contacts().channels().add(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().channels().add',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.channels.ChannelAddParams\nimport com.zavudev.api.models.contacts.channels.ChannelAddResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ChannelAddParams = ChannelAddParams.builder()\n        .contactId("contactId")\n        .channel(ChannelAddParams.Channel.EMAIL)\n        .identifier("john.work@company.com")\n        .build()\n    val response: ChannelAddResponse = client.contacts().channels().add(params)\n}',
+      },
       go: {
         method: 'client.Contacts.Channels.Add',
         example:
@@ -3069,6 +3936,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->channels->add',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->add(\n  'contactId',\n  channel: 'email',\n  identifier: 'john.work@company.com',\n  countryCode: 'US',\n  isPrimary: true,\n  label: 'work',\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Contacts.Channels.Add',
+        example:
+          'ChannelAddParams parameters = new()\n{\n    ContactID = "contactId",\n    Channel = Channel.Email,\n    Identifier = "john.work@company.com",\n};\n\nvar response = await client.Contacts.Channels.Add(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3106,6 +3978,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nchannel = client.contacts.channels.update(\n    channel_id="channelId",\n    contact_id="contactId",\n)\nprint(channel.channel)',
       },
+      java: {
+        method: 'contacts().channels().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelUpdateParams;\nimport com.zavudev.api.models.contacts.channels.ChannelUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelUpdateParams params = ChannelUpdateParams.builder()\n            .contactId("contactId")\n            .channelId("channelId")\n            .build();\n        ChannelUpdateResponse channel = client.contacts().channels().update(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().channels().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.channels.ChannelUpdateParams\nimport com.zavudev.api.models.contacts.channels.ChannelUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ChannelUpdateParams = ChannelUpdateParams.builder()\n        .contactId("contactId")\n        .channelId("channelId")\n        .build()\n    val channel: ChannelUpdateResponse = client.contacts().channels().update(params)\n}',
+      },
       go: {
         method: 'client.Contacts.Channels.Update',
         example:
@@ -3125,6 +4007,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->channels->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$channel = $client->contacts->channels->update(\n  'channelId',\n  contactID: 'contactId',\n  label: 'label',\n  metadata: ['foo' => 'string'],\n  verified: true,\n);\n\nvar_dump($channel);",
+      },
+      csharp: {
+        method: 'Contacts.Channels.Update',
+        example:
+          'ChannelUpdateParams parameters = new()\n{\n    ContactID = "contactId",\n    ChannelID = "channelId",\n};\n\nvar channel = await client.Contacts.Channels.Update(parameters);\n\nConsole.WriteLine(channel);',
       },
       http: {
         example:
@@ -3154,6 +4041,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.contacts.channels.remove(\n    channel_id="channelId",\n    contact_id="contactId",\n)',
       },
+      java: {
+        method: 'contacts().channels().remove',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelRemoveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelRemoveParams params = ChannelRemoveParams.builder()\n            .contactId("contactId")\n            .channelId("channelId")\n            .build();\n        client.contacts().channels().remove(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().channels().remove',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.channels.ChannelRemoveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ChannelRemoveParams = ChannelRemoveParams.builder()\n        .contactId("contactId")\n        .channelId("channelId")\n        .build()\n    client.contacts().channels().remove(params)\n}',
+      },
       go: {
         method: 'client.Contacts.Channels.Remove',
         example:
@@ -3173,6 +4070,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->channels->remove',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->contacts->channels->remove(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Contacts.Channels.Remove',
+        example:
+          'ChannelRemoveParams parameters = new()\n{\n    ContactID = "contactId",\n    ChannelID = "channelId",\n};\n\nawait client.Contacts.Channels.Remove(parameters);',
       },
       http: {
         example:
@@ -3204,6 +4106,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.contacts.channels.set_primary(\n    channel_id="channelId",\n    contact_id="contactId",\n)\nprint(response.channel)',
       },
+      java: {
+        method: 'contacts().channels().setPrimary',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.contacts.channels.ChannelSetPrimaryParams;\nimport com.zavudev.api.models.contacts.channels.ChannelSetPrimaryResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ChannelSetPrimaryParams params = ChannelSetPrimaryParams.builder()\n            .contactId("contactId")\n            .channelId("channelId")\n            .build();\n        ChannelSetPrimaryResponse response = client.contacts().channels().setPrimary(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'contacts().channels().setPrimary',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.contacts.channels.ChannelSetPrimaryParams\nimport com.zavudev.api.models.contacts.channels.ChannelSetPrimaryResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ChannelSetPrimaryParams = ChannelSetPrimaryParams.builder()\n        .contactId("contactId")\n        .channelId("channelId")\n        .build()\n    val response: ChannelSetPrimaryResponse = client.contacts().channels().setPrimary(params)\n}',
+      },
       go: {
         method: 'client.Contacts.Channels.SetPrimary',
         example:
@@ -3223,6 +4135,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'contacts->channels->setPrimary',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->contacts->channels->setPrimary(\n  'channelId', contactID: 'contactId'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Contacts.Channels.SetPrimary',
+        example:
+          'ChannelSetPrimaryParams parameters = new()\n{\n    ContactID = "contactId",\n    ChannelID = "channelId",\n};\n\nvar response = await client.Contacts.Channels.SetPrimary(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3266,6 +4183,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.create(\n    channel="sms",\n    name="Black Friday Sale",\n    text="Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.",\n)\nprint(broadcast.broadcast)',
       },
+      java: {
+        method: 'broadcasts().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastChannel;\nimport com.zavudev.api.models.broadcasts.BroadcastCreateParams;\nimport com.zavudev.api.models.broadcasts.BroadcastCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastCreateParams params = BroadcastCreateParams.builder()\n            .channel(BroadcastChannel.SMS)\n            .name("Black Friday Sale")\n            .build();\n        BroadcastCreateResponse broadcast = client.broadcasts().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastChannel\nimport com.zavudev.api.models.broadcasts.BroadcastCreateParams\nimport com.zavudev.api.models.broadcasts.BroadcastCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: BroadcastCreateParams = BroadcastCreateParams.builder()\n        .channel(BroadcastChannel.SMS)\n        .name("Black Friday Sale")\n        .build()\n    val broadcast: BroadcastCreateResponse = client.broadcasts().create(params)\n}',
+      },
       go: {
         method: 'client.Broadcasts.New',
         example:
@@ -3285,6 +4212,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->create(\n  channel: BroadcastChannel::SMS,\n  name: 'Black Friday Sale',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateHeaderVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  idempotencyKey: 'idempotencyKey',\n  messageType: BroadcastMessageType::TEXT,\n  metadata: ['foo' => 'string'],\n  scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  senderID: 'senderId',\n  text: 'Hi {{name}}, check out our Black Friday deals! Use code FRIDAY20 for 20% off.',\n);\n\nvar_dump($broadcast);",
+      },
+      csharp: {
+        method: 'Broadcasts.Create',
+        example:
+          'BroadcastCreateParams parameters = new()\n{\n    Channel = BroadcastChannel.Sms,\n    Name = "Black Friday Sale",\n};\n\nvar broadcast = await client.Broadcasts.Create(parameters);\n\nConsole.WriteLine(broadcast);',
       },
       http: {
         example:
@@ -3316,6 +4248,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.broadcasts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'broadcasts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastListPage;\nimport com.zavudev.api.models.broadcasts.BroadcastListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastListPage page = client.broadcasts().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastListPage\nimport com.zavudev.api.models.broadcasts.BroadcastListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: BroadcastListPage = client.broadcasts().list()\n}',
+      },
       go: {
         method: 'client.Broadcasts.List',
         example:
@@ -3334,6 +4276,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->list(\n  cursor: 'cursor', limit: 100, status: BroadcastStatus::DRAFT\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Broadcasts.List',
+        example:
+          'BroadcastListParams parameters = new();\n\nvar page = await client.Broadcasts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -3365,6 +4312,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.retrieve(\n    "broadcastId",\n)\nprint(broadcast.broadcast)',
       },
+      java: {
+        method: 'broadcasts().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastRetrieveParams;\nimport com.zavudev.api.models.broadcasts.BroadcastRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastRetrieveResponse broadcast = client.broadcasts().retrieve("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastRetrieveParams\nimport com.zavudev.api.models.broadcasts.BroadcastRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val broadcast: BroadcastRetrieveResponse = client.broadcasts().retrieve("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.Get',
         example:
@@ -3383,6 +4340,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->retrieve('broadcastId');\n\nvar_dump($broadcast);",
+      },
+      csharp: {
+        method: 'Broadcasts.Retrieve',
+        example:
+          'BroadcastRetrieveParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar broadcast = await client.Broadcasts.Retrieve(parameters);\n\nConsole.WriteLine(broadcast);',
       },
       http: {
         example:
@@ -3422,6 +4384,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast = client.broadcasts.update(\n    broadcast_id="broadcastId",\n)\nprint(broadcast.broadcast)',
       },
+      java: {
+        method: 'broadcasts().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastUpdateParams;\nimport com.zavudev.api.models.broadcasts.BroadcastUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastUpdateResponse broadcast = client.broadcasts().update("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastUpdateParams\nimport com.zavudev.api.models.broadcasts.BroadcastUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val broadcast: BroadcastUpdateResponse = client.broadcasts().update("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.Update',
         example:
@@ -3440,6 +4412,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcast = $client->broadcasts->update(\n  'broadcastId',\n  content: [\n    'filename' => 'filename',\n    'mediaID' => 'mediaId',\n    'mediaURL' => 'mediaUrl',\n    'mimeType' => 'mimeType',\n    'templateButtonVariables' => ['foo' => 'string'],\n    'templateHeaderVariables' => ['foo' => 'string'],\n    'templateID' => 'templateId',\n    'templateVariables' => ['foo' => 'string'],\n  ],\n  emailHTMLBody: 'emailHtmlBody',\n  emailSubject: 'emailSubject',\n  metadata: ['foo' => 'string'],\n  name: 'name',\n  text: 'text',\n);\n\nvar_dump($broadcast);",
+      },
+      csharp: {
+        method: 'Broadcasts.Update',
+        example:
+          'BroadcastUpdateParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar broadcast = await client.Broadcasts.Update(parameters);\n\nConsole.WriteLine(broadcast);',
       },
       http: {
         example:
@@ -3469,6 +4446,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.broadcasts.delete(\n    "broadcastId",\n)',
       },
+      java: {
+        method: 'broadcasts().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.broadcasts().delete("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.broadcasts().delete("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.Delete',
         example:
@@ -3488,6 +4475,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->delete('broadcastId');\n\nvar_dump($result);",
       },
+      csharp: {
+        method: 'Broadcasts.Delete',
+        example:
+          'BroadcastDeleteParams parameters = new() { BroadcastID = "broadcastId" };\n\nawait client.Broadcasts.Delete(parameters);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/broadcasts/$BROADCAST_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -3500,14 +4492,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'post',
     summary: 'Send broadcast',
     description:
-      'Start sending the broadcast immediately or schedule for later. Broadcasts go through automated AI content review before sending. If the review passes, the broadcast proceeds. If rejected, use PATCH to edit content, then call POST /retry-review. Reserves the estimated cost from your balance.',
+      'Start sending the broadcast immediately or schedule for later.\n\n**Verification is required to send, and there are two of them.** The team must have completed both identity verification (KYC) and business verification (KYB); passing one is not enough. Drafts can be created, edited and kept without either. Every send path — dashboard, API and CLI alike — enforces both, returning `403` with code `kyc_required` or `kyb_required` for whichever is outstanding.\n\n**Review depends on the channel, and cannot be bypassed.** A draft is submitted to automated content review here; it does not go straight out. A WhatsApp broadcast built on a Meta-approved template skips review (Meta already vetted the content) and begins sending. An email broadcast sends as soon as the automated review passes. Every other channel moves to `pending_admin_review` and waits for a person. If the review rejects it, use PATCH to edit the content then call POST /retry-review.\n\nCalling this on a broadcast that is already `approved` or `scheduled` sends or reschedules it directly, since it has already been reviewed. Reserves the estimated cost from your balance.',
     stainlessPath: '(resource) broadcasts > (method) send',
     qualified: 'client.broadcasts.send',
     params: ['broadcastId: string;', 'scheduledAt?: string;'],
     response:
       '{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }',
     markdown:
-      "## send\n\n`client.broadcasts.send(broadcastId: string, scheduledAt?: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts/{broadcastId}/send`\n\nStart sending the broadcast immediately or schedule for later. Broadcasts go through automated AI content review before sending. If the review passes, the broadcast proceeds. If rejected, use PATCH to edit content, then call POST /retry-review. Reserves the estimated cost from your balance.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `scheduledAt?: string`\n  Schedule for future delivery. Omit to send immediately.\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateHeaderVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.send('broadcastId');\n\nconsole.log(response);\n```",
+      "## send\n\n`client.broadcasts.send(broadcastId: string, scheduledAt?: string): { broadcast: broadcast; }`\n\n**post** `/v1/broadcasts/{broadcastId}/send`\n\nStart sending the broadcast immediately or schedule for later.\n\n**Verification is required to send, and there are two of them.** The team must have completed both identity verification (KYC) and business verification (KYB); passing one is not enough. Drafts can be created, edited and kept without either. Every send path — dashboard, API and CLI alike — enforces both, returning `403` with code `kyc_required` or `kyb_required` for whichever is outstanding.\n\n**Review depends on the channel, and cannot be bypassed.** A draft is submitted to automated content review here; it does not go straight out. A WhatsApp broadcast built on a Meta-approved template skips review (Meta already vetted the content) and begins sending. An email broadcast sends as soon as the automated review passes. Every other channel moves to `pending_admin_review` and waits for a person. If the review rejects it, use PATCH to edit the content then call POST /retry-review.\n\nCalling this on a broadcast that is already `approved` or `scheduled` sends or reschedules it directly, since it has already been reviewed. Reserves the estimated cost from your balance.\n\n### Parameters\n\n- `broadcastId: string`\n\n- `scheduledAt?: string`\n  Schedule for future delivery. Omit to send immediately.\n\n### Returns\n\n- `{ broadcast: { id: string; channel: broadcast_channel; createdAt: string; messageType: broadcast_message_type; name: string; status: broadcast_status; totalContacts: number; actualCost?: number; completedAt?: string; content?: broadcast_content; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: object; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }; }`\n\n  - `broadcast: { id: string; channel: 'smart' | 'sms' | 'sms_oneway' | 'whatsapp' | 'telegram' | 'email'; createdAt: string; messageType: 'text' | 'image' | 'video' | 'audio' | 'document' | 'template'; name: string; status: string; totalContacts: number; actualCost?: number; completedAt?: string; content?: { filename?: string; mediaId?: string; mediaUrl?: string; mimeType?: string; templateButtonVariables?: object; templateHeaderVariables?: object; templateId?: string; templateVariables?: object; }; deliveredCount?: number; emailSubject?: string; estimatedCost?: number; failedCount?: number; metadata?: object; pendingCount?: number; reservedAmount?: number; reviewAttempts?: number; reviewResult?: { categories?: string[]; flaggedContent?: string[]; reasoning?: string; reviewedAt?: string; score?: number; }; scheduledAt?: string; senderId?: string; sendingCount?: number; startedAt?: string; text?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.broadcasts.send('broadcastId');\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.broadcasts.send',
@@ -3518,6 +4510,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts.send',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.send(\n    broadcast_id="broadcastId",\n)\nprint(response.broadcast)',
+      },
+      java: {
+        method: 'broadcasts().send',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastSendParams;\nimport com.zavudev.api.models.broadcasts.BroadcastSendResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastSendResponse response = client.broadcasts().send("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().send',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastSendParams\nimport com.zavudev.api.models.broadcasts.BroadcastSendResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BroadcastSendResponse = client.broadcasts().send("broadcastId")\n}',
       },
       go: {
         method: 'client.Broadcasts.Send',
@@ -3537,6 +4539,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->send',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->send(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z')\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Send',
+        example:
+          'BroadcastSendParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar response = await client.Broadcasts.Send(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3569,6 +4576,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.cancel(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      java: {
+        method: 'broadcasts().cancel',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastCancelParams;\nimport com.zavudev.api.models.broadcasts.BroadcastCancelResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastCancelResponse response = client.broadcasts().cancel("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().cancel',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastCancelParams\nimport com.zavudev.api.models.broadcasts.BroadcastCancelResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BroadcastCancelResponse = client.broadcasts().cancel("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.Cancel',
         example:
@@ -3587,6 +4604,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->cancel',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->cancel('broadcastId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Cancel',
+        example:
+          'BroadcastCancelParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar response = await client.Broadcasts.Cancel(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3619,6 +4641,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbroadcast_progress = client.broadcasts.progress(\n    "broadcastId",\n)\nprint(broadcast_progress.broadcast_id)',
       },
+      java: {
+        method: 'broadcasts().progress',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastProgress;\nimport com.zavudev.api.models.broadcasts.BroadcastProgressParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastProgress broadcastProgress = client.broadcasts().progress("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().progress',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastProgress\nimport com.zavudev.api.models.broadcasts.BroadcastProgressParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val broadcastProgress: BroadcastProgress = client.broadcasts().progress("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.Progress',
         example:
@@ -3637,6 +4669,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->progress',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$broadcastProgress = $client->broadcasts->progress('broadcastId');\n\nvar_dump($broadcastProgress);",
+      },
+      csharp: {
+        method: 'Broadcasts.Progress',
+        example:
+          'BroadcastProgressParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar broadcastProgress = await client.Broadcasts.Progress(parameters);\n\nConsole.WriteLine(broadcastProgress);',
       },
       http: {
         example:
@@ -3668,6 +4705,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom datetime import datetime\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.reschedule(\n    broadcast_id="broadcastId",\n    scheduled_at=datetime.fromisoformat("2024-01-15T14:00:00"),\n)\nprint(response.broadcast)',
       },
+      java: {
+        method: 'broadcasts().reschedule',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastRescheduleParams;\nimport com.zavudev.api.models.broadcasts.BroadcastRescheduleResponse;\nimport java.time.OffsetDateTime;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastRescheduleParams params = BroadcastRescheduleParams.builder()\n            .broadcastId("broadcastId")\n            .scheduledAt(OffsetDateTime.parse("2024-01-15T14:00:00Z"))\n            .build();\n        BroadcastRescheduleResponse response = client.broadcasts().reschedule(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().reschedule',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastRescheduleParams\nimport com.zavudev.api.models.broadcasts.BroadcastRescheduleResponse\nimport java.time.OffsetDateTime\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: BroadcastRescheduleParams = BroadcastRescheduleParams.builder()\n        .broadcastId("broadcastId")\n        .scheduledAt(OffsetDateTime.parse("2024-01-15T14:00:00Z"))\n        .build()\n    val response: BroadcastRescheduleResponse = client.broadcasts().reschedule(params)\n}',
+      },
       go: {
         method: 'client.Broadcasts.Reschedule',
         example:
@@ -3687,6 +4734,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->reschedule',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->reschedule(\n  'broadcastId', scheduledAt: new \\DateTimeImmutable('2024-01-15T14:00:00Z')\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Reschedule',
+        example:
+          'BroadcastRescheduleParams parameters = new()\n{\n    BroadcastID = "broadcastId",\n    ScheduledAt = DateTimeOffset.Parse("2024-01-15T14:00:00Z"),\n};\n\nvar response = await client.Broadcasts.Reschedule(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3719,6 +4771,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.retry_review(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      java: {
+        method: 'broadcasts().retryReview',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastRetryReviewParams;\nimport com.zavudev.api.models.broadcasts.BroadcastRetryReviewResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastRetryReviewResponse response = client.broadcasts().retryReview("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().retryReview',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastRetryReviewParams\nimport com.zavudev.api.models.broadcasts.BroadcastRetryReviewResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BroadcastRetryReviewResponse = client.broadcasts().retryReview("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.RetryReview',
         example:
@@ -3738,6 +4800,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->retryReview',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->retryReview('broadcastId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.RetryReview',
+        example:
+          'BroadcastRetryReviewParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar response = await client.Broadcasts.RetryReview(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3770,6 +4837,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.escalate_review(\n    "broadcastId",\n)\nprint(response.broadcast)',
       },
+      java: {
+        method: 'broadcasts().escalateReview',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.BroadcastEscalateReviewParams;\nimport com.zavudev.api.models.broadcasts.BroadcastEscalateReviewResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BroadcastEscalateReviewResponse response = client.broadcasts().escalateReview("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().escalateReview',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.BroadcastEscalateReviewParams\nimport com.zavudev.api.models.broadcasts.BroadcastEscalateReviewResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BroadcastEscalateReviewResponse = client.broadcasts().escalateReview("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.EscalateReview',
         example:
@@ -3789,6 +4866,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->escalateReview',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->escalateReview('broadcastId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.EscalateReview',
+        example:
+          'BroadcastEscalateReviewParams parameters = new()\n{\n    BroadcastID = "broadcastId"\n};\n\nvar response = await client.Broadcasts.EscalateReview(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3823,6 +4905,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.broadcasts.contacts.add(\n    broadcast_id="broadcastId",\n    contacts=[{\n        "recipient": "+14155551234",\n        "template_variables": {\n            "name": "John",\n            "order_id": "ORD-001",\n        },\n    }, {\n        "recipient": "+14155555678",\n        "template_variables": {\n            "name": "Jane",\n            "order_id": "ORD-002",\n        },\n    }],\n)\nprint(response.invalid)',
       },
+      java: {
+        method: 'broadcasts().contacts().add',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.contacts.ContactAddParams;\nimport com.zavudev.api.models.broadcasts.contacts.ContactAddResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactAddParams params = ContactAddParams.builder()\n            .broadcastId("broadcastId")\n            .addContact(ContactAddParams.Contact.builder()\n                .recipient("+14155551234")\n                .build())\n            .addContact(ContactAddParams.Contact.builder()\n                .recipient("+14155555678")\n                .build())\n            .build();\n        ContactAddResponse response = client.broadcasts().contacts().add(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().contacts().add',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.contacts.ContactAddParams\nimport com.zavudev.api.models.broadcasts.contacts.ContactAddResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ContactAddParams = ContactAddParams.builder()\n        .broadcastId("broadcastId")\n        .addContact(ContactAddParams.Contact.builder()\n            .recipient("+14155551234")\n            .build())\n        .addContact(ContactAddParams.Contact.builder()\n            .recipient("+14155555678")\n            .build())\n        .build()\n    val response: ContactAddResponse = client.broadcasts().contacts().add(params)\n}',
+      },
       go: {
         method: 'client.Broadcasts.Contacts.Add',
         example:
@@ -3842,6 +4934,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->contacts->add',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->broadcasts->contacts->add(\n  'broadcastId',\n  contacts: [\n    [\n      'recipient' => '+14155551234',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateHeaderVariables' => ['1' => 'Jorge y Laura'],\n      'templateVariables' => ['name' => 'John', 'order_id' => 'ORD-001'],\n    ],\n    [\n      'recipient' => '+14155555678',\n      'templateButtonVariables' => ['0' => 'abc-report-token'],\n      'templateHeaderVariables' => ['1' => 'Jorge y Laura'],\n      'templateVariables' => ['name' => 'Jane', 'order_id' => 'ORD-002'],\n    ],\n  ],\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Broadcasts.Contacts.Add',
+        example:
+          'ContactAddParams parameters = new()\n{\n    BroadcastID = "broadcastId",\n    Contacts =\n    [\n        new()\n        {\n            Recipient = "+14155551234",\n            TemplateButtonVariables = new Dictionary<string, string>()\n            {\n                { "0", "abc-report-token" }\n            },\n            TemplateHeaderVariables = new Dictionary<string, string>()\n            {\n                { "1", "Jorge y Laura" }\n            },\n            TemplateVariables = new Dictionary<string, string>()\n            {\n                { "name", "John" }, { "order_id", "ORD-001" }\n            },\n        },\n        new()\n        {\n            Recipient = "+14155555678",\n            TemplateButtonVariables = new Dictionary<string, string>()\n            {\n                { "0", "abc-report-token" }\n            },\n            TemplateHeaderVariables = new Dictionary<string, string>()\n            {\n                { "1", "Jorge y Laura" }\n            },\n            TemplateVariables = new Dictionary<string, string>()\n            {\n                { "name", "Jane" }, { "order_id", "ORD-002" }\n            },\n        },\n    ],\n};\n\nvar response = await client.Broadcasts.Contacts.Add(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -3878,6 +4975,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.broadcasts.contacts.list(\n    broadcast_id="broadcastId",\n)\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'broadcasts().contacts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.contacts.ContactListPage;\nimport com.zavudev.api.models.broadcasts.contacts.ContactListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactListPage page = client.broadcasts().contacts().list("broadcastId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().contacts().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.contacts.ContactListPage\nimport com.zavudev.api.models.broadcasts.contacts.ContactListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: ContactListPage = client.broadcasts().contacts().list("broadcastId")\n}',
+      },
       go: {
         method: 'client.Broadcasts.Contacts.List',
         example:
@@ -3897,6 +5004,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->contacts->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->broadcasts->contacts->list(\n  'broadcastId',\n  cursor: 'cursor',\n  limit: 100,\n  status: BroadcastContactStatus::PENDING,\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Broadcasts.Contacts.List',
+        example:
+          'ContactListParams parameters = new() { BroadcastID = "broadcastId" };\n\nvar page = await client.Broadcasts.Contacts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -3926,6 +5038,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.broadcasts.contacts.remove(\n    contact_id="contactId",\n    broadcast_id="broadcastId",\n)',
       },
+      java: {
+        method: 'broadcasts().contacts().remove',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.broadcasts.contacts.ContactRemoveParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ContactRemoveParams params = ContactRemoveParams.builder()\n            .broadcastId("broadcastId")\n            .contactId("contactId")\n            .build();\n        client.broadcasts().contacts().remove(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'broadcasts().contacts().remove',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.broadcasts.contacts.ContactRemoveParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ContactRemoveParams = ContactRemoveParams.builder()\n        .broadcastId("broadcastId")\n        .contactId("contactId")\n        .build()\n    client.broadcasts().contacts().remove(params)\n}',
+      },
       go: {
         method: 'client.Broadcasts.Contacts.Remove',
         example:
@@ -3945,6 +5067,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'broadcasts->contacts->remove',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->broadcasts->contacts->remove(\n  'contactId', broadcastID: 'broadcastId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Broadcasts.Contacts.Remove',
+        example:
+          'ContactRemoveParams parameters = new()\n{\n    BroadcastID = "broadcastId",\n    ContactID = "contactId",\n};\n\nawait client.Broadcasts.Contacts.Remove(parameters);',
       },
       http: {
         example:
@@ -3976,6 +5103,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.introspect.validate_phone(\n    phone_number="+56912345678",\n)\nprint(response.valid_number)',
       },
+      java: {
+        method: 'introspect().validatePhone',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.introspect.IntrospectValidatePhoneParams;\nimport com.zavudev.api.models.introspect.IntrospectValidatePhoneResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        IntrospectValidatePhoneParams params = IntrospectValidatePhoneParams.builder()\n            .phoneNumber("+56912345678")\n            .build();\n        IntrospectValidatePhoneResponse response = client.introspect().validatePhone(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'introspect().validatePhone',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.introspect.IntrospectValidatePhoneParams\nimport com.zavudev.api.models.introspect.IntrospectValidatePhoneResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: IntrospectValidatePhoneParams = IntrospectValidatePhoneParams.builder()\n        .phoneNumber("+56912345678")\n        .build()\n    val response: IntrospectValidatePhoneResponse = client.introspect().validatePhone(params)\n}',
+      },
       go: {
         method: 'client.Introspect.ValidatePhone',
         example:
@@ -3995,6 +5132,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'introspect->validatePhone',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->introspect->validatePhone(phoneNumber: '+56912345678');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Introspect.ValidatePhone',
+        example:
+          'IntrospectValidatePhoneParams parameters = new()\n{\n    PhoneNumber = "+56912345678"\n};\n\nvar response = await client.Introspect.ValidatePhone(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4032,6 +5174,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.search_available(\n    country_code="xx",\n)\nprint(response.items)',
       },
+      java: {
+        method: 'phoneNumbers().searchAvailable',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberSearchAvailableParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberSearchAvailableResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberSearchAvailableParams params = PhoneNumberSearchAvailableParams.builder()\n            .countryCode("xx")\n            .build();\n        PhoneNumberSearchAvailableResponse response = client.phoneNumbers().searchAvailable(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().searchAvailable',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberSearchAvailableParams\nimport com.zavudev.api.models.phonenumbers.PhoneNumberSearchAvailableResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: PhoneNumberSearchAvailableParams = PhoneNumberSearchAvailableParams.builder()\n        .countryCode("xx")\n        .build()\n    val response: PhoneNumberSearchAvailableResponse = client.phoneNumbers().searchAvailable(params)\n}',
+      },
       go: {
         method: 'client.PhoneNumbers.SearchAvailable',
         example:
@@ -4051,6 +5203,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->searchAvailable',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->searchAvailable(\n  countryCode: 'xx',\n  capabilities: 'voice,sms',\n  contains: 'contains',\n  limit: 50,\n  type: PhoneNumberType::LOCAL,\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.SearchAvailable',
+        example:
+          'PhoneNumberSearchAvailableParams parameters = new() { CountryCode = "xx" };\n\nvar response = await client.PhoneNumbers.SearchAvailable(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4083,6 +5240,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.requirements(\n    country_code="xx",\n)\nprint(response.items)',
       },
+      java: {
+        method: 'phoneNumbers().requirements',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRequirementsParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRequirementsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberRequirementsParams params = PhoneNumberRequirementsParams.builder()\n            .countryCode("xx")\n            .build();\n        PhoneNumberRequirementsResponse response = client.phoneNumbers().requirements(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().requirements',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRequirementsParams\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRequirementsResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: PhoneNumberRequirementsParams = PhoneNumberRequirementsParams.builder()\n        .countryCode("xx")\n        .build()\n    val response: PhoneNumberRequirementsResponse = client.phoneNumbers().requirements(params)\n}',
+      },
       go: {
         method: 'client.PhoneNumbers.Requirements',
         example:
@@ -4102,6 +5269,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->requirements(\n  countryCode: 'xx', type: PhoneNumberType::LOCAL\n);\n\nvar_dump($response);",
       },
+      csharp: {
+        method: 'PhoneNumbers.Requirements',
+        example:
+          'PhoneNumberRequirementsParams parameters = new() { CountryCode = "xx" };\n\nvar response = await client.PhoneNumbers.Requirements(parameters);\n\nConsole.WriteLine(response);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/phone-numbers/requirements \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4114,14 +5286,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'post',
     summary: 'Purchase a phone number',
     description:
-      'Purchase an available phone number. Requires a paid plan: the Free plan cannot purchase phone numbers and receives `402` with code `paid_plan_required`. Paid plans include the first US number at no charge.',
+      'Purchase an available phone number. Requires a paid plan: the Free plan cannot purchase phone numbers and receives `402` with code `paid_plan_required`. Paid plans include one US number at no charge. The included number is one per account and is granted once: claiming it spends the benefit for good, so releasing that number does not make another one free, and numbers the account already bought do not consume it.',
     stainlessPath: '(resource) phone_numbers > (method) purchase',
     qualified: 'client.phoneNumbers.purchase',
     params: ['phoneNumber: string;', 'name?: string;'],
     response:
       '{ phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }; }',
     markdown:
-      "## purchase\n\n`client.phoneNumbers.purchase(phoneNumber: string, name?: string): { phoneNumber: owned_phone_number; }`\n\n**post** `/v1/phone-numbers`\n\nPurchase an available phone number. Requires a paid plan: the Free plan cannot purchase phone numbers and receives `402` with code `paid_plan_required`. Paid plans include the first US number at no charge.\n\n### Parameters\n\n- `phoneNumber: string`\n  Phone number in E.164 format.\n\n- `name?: string`\n  Optional custom name for the phone number.\n\n### Returns\n\n- `{ phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }; }`\n\n  - `phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }; status: 'active' | 'suspended' | 'pending'; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.phoneNumbers.purchase({ phoneNumber: '+15551234567' });\n\nconsole.log(response);\n```",
+      "## purchase\n\n`client.phoneNumbers.purchase(phoneNumber: string, name?: string): { phoneNumber: owned_phone_number; }`\n\n**post** `/v1/phone-numbers`\n\nPurchase an available phone number. Requires a paid plan: the Free plan cannot purchase phone numbers and receives `402` with code `paid_plan_required`. Paid plans include one US number at no charge. The included number is one per account and is granted once: claiming it spends the benefit for good, so releasing that number does not make another one free, and numbers the account already bought do not consume it.\n\n### Parameters\n\n- `phoneNumber: string`\n  Phone number in E.164 format.\n\n- `name?: string`\n  Optional custom name for the phone number.\n\n### Returns\n\n- `{ phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: owned_phone_number_pricing; status: phone_number_status; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }; }`\n\n  - `phoneNumber: { id: string; capabilities: string[]; createdAt: string; phoneNumber: string; pricing: { isFreeNumber?: boolean; monthlyCost?: number; monthlyPrice?: number; upfrontCost?: number; }; status: 'active' | 'suspended' | 'pending'; name?: string; nextRenewalDate?: string; senderId?: string; updatedAt?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.phoneNumbers.purchase({ phoneNumber: '+15551234567' });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.phoneNumbers.purchase',
@@ -4132,6 +5304,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phone_numbers.purchase',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.phone_numbers.purchase(\n    phone_number="+15551234567",\n    name="Primary Line",\n)\nprint(response.phone_number)',
+      },
+      java: {
+        method: 'phoneNumbers().purchase',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberPurchaseParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberPurchaseResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberPurchaseParams params = PhoneNumberPurchaseParams.builder()\n            .phoneNumber("+15551234567")\n            .build();\n        PhoneNumberPurchaseResponse response = client.phoneNumbers().purchase(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().purchase',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberPurchaseParams\nimport com.zavudev.api.models.phonenumbers.PhoneNumberPurchaseResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: PhoneNumberPurchaseParams = PhoneNumberPurchaseParams.builder()\n        .phoneNumber("+15551234567")\n        .build()\n    val response: PhoneNumberPurchaseResponse = client.phoneNumbers().purchase(params)\n}',
       },
       go: {
         method: 'client.PhoneNumbers.Purchase',
@@ -4152,6 +5334,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->purchase',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->phoneNumbers->purchase(\n  phoneNumber: '+15551234567', name: 'Primary Line'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.Purchase',
+        example:
+          'PhoneNumberPurchaseParams parameters = new() { PhoneNumber = "+15551234567" };\n\nvar response = await client.PhoneNumbers.Purchase(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4183,6 +5370,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.phone_numbers.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'phoneNumbers().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberListPage;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberListPage page = client.phoneNumbers().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberListPage\nimport com.zavudev.api.models.phonenumbers.PhoneNumberListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: PhoneNumberListPage = client.phoneNumbers().list()\n}',
+      },
       go: {
         method: 'client.PhoneNumbers.List',
         example:
@@ -4201,6 +5398,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->phoneNumbers->list(\n  cursor: 'cursor', limit: 100, status: PhoneNumberStatus::ACTIVE\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.List',
+        example:
+          'PhoneNumberListParams parameters = new();\n\nvar page = await client.PhoneNumbers.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -4232,6 +5434,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_number = client.phone_numbers.retrieve(\n    "phoneNumberId",\n)\nprint(phone_number.phone_number)',
       },
+      java: {
+        method: 'phoneNumbers().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRetrieveParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberRetrieveResponse phoneNumber = client.phoneNumbers().retrieve("phoneNumberId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRetrieveParams\nimport com.zavudev.api.models.phonenumbers.PhoneNumberRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val phoneNumber: PhoneNumberRetrieveResponse = client.phoneNumbers().retrieve("phoneNumberId")\n}',
+      },
       go: {
         method: 'client.PhoneNumbers.Get',
         example:
@@ -4251,6 +5463,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->retrieve('phoneNumberId');\n\nvar_dump($phoneNumber);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.Retrieve',
+        example:
+          'PhoneNumberRetrieveParams parameters = new()\n{\n    PhoneNumberID = "phoneNumberId"\n};\n\nvar phoneNumber = await client.PhoneNumbers.Retrieve(parameters);\n\nConsole.WriteLine(phoneNumber);',
       },
       http: {
         example:
@@ -4282,6 +5499,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_number = client.phone_numbers.update(\n    phone_number_id="phoneNumberId",\n    name="Support Line",\n)\nprint(phone_number.phone_number)',
       },
+      java: {
+        method: 'phoneNumbers().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberUpdateParams;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberUpdateResponse phoneNumber = client.phoneNumbers().update("phoneNumberId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberUpdateParams\nimport com.zavudev.api.models.phonenumbers.PhoneNumberUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val phoneNumber: PhoneNumberUpdateResponse = client.phoneNumbers().update("phoneNumberId")\n}',
+      },
       go: {
         method: 'client.PhoneNumbers.Update',
         example:
@@ -4301,6 +5528,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumber = $client->phoneNumbers->update(\n  'phoneNumberId', name: 'Support Line', senderID: 'senderId'\n);\n\nvar_dump($phoneNumber);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.Update',
+        example:
+          'PhoneNumberUpdateParams parameters = new() { PhoneNumberID = "phoneNumberId" };\n\nvar phoneNumber = await client.PhoneNumbers.Update(parameters);\n\nConsole.WriteLine(phoneNumber);',
       },
       http: {
         example:
@@ -4330,6 +5562,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.phone_numbers.release(\n    "phoneNumberId",\n)',
       },
+      java: {
+        method: 'phoneNumbers().release',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.phonenumbers.PhoneNumberReleaseParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.phoneNumbers().release("phoneNumberId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'phoneNumbers().release',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.phonenumbers.PhoneNumberReleaseParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.phoneNumbers().release("phoneNumberId")\n}',
+      },
       go: {
         method: 'client.PhoneNumbers.Release',
         example:
@@ -4349,6 +5591,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'phoneNumbers->release',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->phoneNumbers->release('phoneNumberId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'PhoneNumbers.Release',
+        example:
+          'PhoneNumberReleaseParams parameters = new() { PhoneNumberID = "phoneNumberId" };\n\nawait client.PhoneNumbers.Release(parameters);',
       },
       http: {
         example:
@@ -4391,6 +5638,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\naddress = client.addresses.create(\n    country_code="DE",\n    locality="Berlin",\n    postal_code="10115",\n    street_address="123 Main St",\n    first_name="John",\n    last_name="Doe",\n)\nprint(address.address)',
       },
+      java: {
+        method: 'addresses().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressCreateParams;\nimport com.zavudev.api.models.addresses.AddressCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AddressCreateParams params = AddressCreateParams.builder()\n            .countryCode("DE")\n            .locality("Berlin")\n            .postalCode("10115")\n            .streetAddress("123 Main St")\n            .build();\n        AddressCreateResponse address = client.addresses().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'addresses().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.addresses.AddressCreateParams\nimport com.zavudev.api.models.addresses.AddressCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: AddressCreateParams = AddressCreateParams.builder()\n        .countryCode("DE")\n        .locality("Berlin")\n        .postalCode("10115")\n        .streetAddress("123 Main St")\n        .build()\n    val address: AddressCreateResponse = client.addresses().create(params)\n}',
+      },
       go: {
         method: 'client.Addresses.New',
         example:
@@ -4410,6 +5667,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addresses->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->create(\n  countryCode: 'DE',\n  locality: 'Berlin',\n  postalCode: '10115',\n  streetAddress: '123 Main St',\n  administrativeArea: 'administrativeArea',\n  businessName: 'businessName',\n  extendedAddress: 'extendedAddress',\n  firstName: 'John',\n  lastName: 'Doe',\n);\n\nvar_dump($address);",
+      },
+      csharp: {
+        method: 'Addresses.Create',
+        example:
+          'AddressCreateParams parameters = new()\n{\n    CountryCode = "DE",\n    Locality = "Berlin",\n    PostalCode = "10115",\n    StreetAddress = "123 Main St",\n};\n\nvar address = await client.Addresses.Create(parameters);\n\nConsole.WriteLine(address);',
       },
       http: {
         example:
@@ -4441,6 +5703,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.addresses.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'addresses().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressListPage;\nimport com.zavudev.api.models.addresses.AddressListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AddressListPage page = client.addresses().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'addresses().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.addresses.AddressListPage\nimport com.zavudev.api.models.addresses.AddressListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: AddressListPage = client.addresses().list()\n}',
+      },
       go: {
         method: 'client.Addresses.List',
         example:
@@ -4459,6 +5731,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addresses->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->addresses->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Addresses.List',
+        example:
+          'AddressListParams parameters = new();\n\nvar page = await client.Addresses.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/addresses \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4489,6 +5766,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\naddress = client.addresses.retrieve(\n    "addressId",\n)\nprint(address.address)',
       },
+      java: {
+        method: 'addresses().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressRetrieveParams;\nimport com.zavudev.api.models.addresses.AddressRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        AddressRetrieveResponse address = client.addresses().retrieve("addressId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'addresses().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.addresses.AddressRetrieveParams\nimport com.zavudev.api.models.addresses.AddressRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val address: AddressRetrieveResponse = client.addresses().retrieve("addressId")\n}',
+      },
       go: {
         method: 'client.Addresses.Get',
         example:
@@ -4507,6 +5794,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addresses->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$address = $client->addresses->retrieve('addressId');\n\nvar_dump($address);",
+      },
+      csharp: {
+        method: 'Addresses.Retrieve',
+        example:
+          'AddressRetrieveParams parameters = new() { AddressID = "addressId" };\n\nvar address = await client.Addresses.Retrieve(parameters);\n\nConsole.WriteLine(address);',
       },
       http: {
         example:
@@ -4536,6 +5828,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.addresses.delete(\n    "addressId",\n)',
       },
+      java: {
+        method: 'addresses().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.addresses.AddressDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.addresses().delete("addressId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'addresses().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.addresses.AddressDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.addresses().delete("addressId")\n}',
+      },
       go: {
         method: 'client.Addresses.Delete',
         example:
@@ -4554,6 +5856,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'addresses->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->addresses->delete('addressId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Addresses.Delete',
+        example:
+          'AddressDeleteParams parameters = new() { AddressID = "addressId" };\n\nawait client.Addresses.Delete(parameters);',
       },
       http: {
         example:
@@ -4584,6 +5891,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.regulatory_documents.upload_url()\nprint(response.upload_url)',
       },
+      java: {
+        method: 'regulatoryDocuments().uploadUrl',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentUploadUrlParams;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentUploadUrlResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentUploadUrlResponse response = client.regulatoryDocuments().uploadUrl();\n    }\n}',
+      },
+      kotlin: {
+        method: 'regulatoryDocuments().uploadUrl',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentUploadUrlParams\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentUploadUrlResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: RegulatoryDocumentUploadUrlResponse = client.regulatoryDocuments().uploadUrl()\n}',
+      },
       go: {
         method: 'client.RegulatoryDocuments.UploadURL',
         example:
@@ -4602,6 +5919,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->uploadURL',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->regulatoryDocuments->uploadURL();\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.UploadUrl',
+        example:
+          'RegulatoryDocumentUploadUrlParams parameters = new();\n\nvar response = await client.RegulatoryDocuments.UploadUrl(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -4640,6 +5962,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nregulatory_document = client.regulatory_documents.create(\n    document_type="passport",\n    file_size=102400,\n    mime_type="image/jpeg",\n    name="Passport Scan",\n    storage_id="kg2abc123...",\n)\nprint(regulatory_document.document)',
       },
+      java: {
+        method: 'regulatoryDocuments().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentCreateParams;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentCreateParams params = RegulatoryDocumentCreateParams.builder()\n            .documentType(RegulatoryDocumentCreateParams.DocumentType.PASSPORT)\n            .fileSize(102400L)\n            .mimeType("image/jpeg")\n            .name("Passport Scan")\n            .storageId("kg2abc123...")\n            .build();\n        RegulatoryDocumentCreateResponse regulatoryDocument = client.regulatoryDocuments().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'regulatoryDocuments().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentCreateParams\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: RegulatoryDocumentCreateParams = RegulatoryDocumentCreateParams.builder()\n        .documentType(RegulatoryDocumentCreateParams.DocumentType.PASSPORT)\n        .fileSize(102400L)\n        .mimeType("image/jpeg")\n        .name("Passport Scan")\n        .storageId("kg2abc123...")\n        .build()\n    val regulatoryDocument: RegulatoryDocumentCreateResponse = client.regulatoryDocuments().create(params)\n}',
+      },
       go: {
         method: 'client.RegulatoryDocuments.New',
         example:
@@ -4659,6 +5991,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->create(\n  documentType: 'passport',\n  fileSize: 102400,\n  mimeType: 'image/jpeg',\n  name: 'Passport Scan',\n  storageID: 'kg2abc123...',\n);\n\nvar_dump($regulatoryDocument);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.Create',
+        example:
+          'RegulatoryDocumentCreateParams parameters = new()\n{\n    DocumentType = DocumentType.Passport,\n    FileSize = 102400,\n    MimeType = "image/jpeg",\n    Name = "Passport Scan",\n    StorageID = "kg2abc123...",\n};\n\nvar regulatoryDocument = await client.RegulatoryDocuments.Create(parameters);\n\nConsole.WriteLine(regulatoryDocument);',
       },
       http: {
         example:
@@ -4690,6 +6027,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.regulatory_documents.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'regulatoryDocuments().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentListPage;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentListPage page = client.regulatoryDocuments().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'regulatoryDocuments().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentListPage\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: RegulatoryDocumentListPage = client.regulatoryDocuments().list()\n}',
+      },
       go: {
         method: 'client.RegulatoryDocuments.List',
         example:
@@ -4708,6 +6055,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->regulatoryDocuments->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.List',
+        example:
+          'RegulatoryDocumentListParams parameters = new();\n\nvar page = await client.RegulatoryDocuments.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/documents \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -4738,6 +6090,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nregulatory_document = client.regulatory_documents.retrieve(\n    "documentId",\n)\nprint(regulatory_document.document)',
       },
+      java: {
+        method: 'regulatoryDocuments().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentRetrieveParams;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        RegulatoryDocumentRetrieveResponse regulatoryDocument = client.regulatoryDocuments().retrieve("documentId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'regulatoryDocuments().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentRetrieveParams\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val regulatoryDocument: RegulatoryDocumentRetrieveResponse = client.regulatoryDocuments().retrieve("documentId")\n}',
+      },
       go: {
         method: 'client.RegulatoryDocuments.Get',
         example:
@@ -4757,6 +6119,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$regulatoryDocument = $client->regulatoryDocuments->retrieve('documentId');\n\nvar_dump($regulatoryDocument);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.Retrieve',
+        example:
+          'RegulatoryDocumentRetrieveParams parameters = new()\n{\n    DocumentID = "documentId"\n};\n\nvar regulatoryDocument = await client.RegulatoryDocuments.Retrieve(parameters);\n\nConsole.WriteLine(regulatoryDocument);',
       },
       http: {
         example:
@@ -4786,6 +6153,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.regulatory_documents.delete(\n    "documentId",\n)',
       },
+      java: {
+        method: 'regulatoryDocuments().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.regulatoryDocuments().delete("documentId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'regulatoryDocuments().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.regulatorydocuments.RegulatoryDocumentDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.regulatoryDocuments().delete("documentId")\n}',
+      },
       go: {
         method: 'client.RegulatoryDocuments.Delete',
         example:
@@ -4805,6 +6182,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'regulatoryDocuments->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->regulatoryDocuments->delete('documentId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'RegulatoryDocuments.Delete',
+        example:
+          'RegulatoryDocumentDeleteParams parameters = new() { DocumentID = "documentId" };\n\nawait client.RegulatoryDocuments.Delete(parameters);',
       },
       http: {
         example:
@@ -4845,6 +6227,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ninvitation = client.invitations.create(\n    client_name="Acme Corp",\n)\nprint(invitation.invitation)',
       },
+      java: {
+        method: 'invitations().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationCreateParams;\nimport com.zavudev.api.models.invitations.InvitationCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationCreateResponse invitation = client.invitations().create();\n    }\n}',
+      },
+      kotlin: {
+        method: 'invitations().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.invitations.InvitationCreateParams\nimport com.zavudev.api.models.invitations.InvitationCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val invitation: InvitationCreateResponse = client.invitations().create()\n}',
+      },
       go: {
         method: 'client.Invitations.New',
         example:
@@ -4863,6 +6255,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invitations->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->create(\n  allowedPhoneCountries: ['US', 'MX'],\n  clientEmail: 'contact@acme.com',\n  clientName: 'Acme Corp',\n  clientPhone: '+14155551234',\n  connectionType: 'whatsapp_waba',\n  expiresInDays: 1,\n  phoneNumberID: 'pn_abc123',\n);\n\nvar_dump($invitation);",
+      },
+      csharp: {
+        method: 'Invitations.Create',
+        example:
+          'InvitationCreateParams parameters = new();\n\nvar invitation = await client.Invitations.Create(parameters);\n\nConsole.WriteLine(invitation);',
       },
       http: {
         example:
@@ -4898,6 +6295,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.invitations.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'invitations().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationListPage;\nimport com.zavudev.api.models.invitations.InvitationListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationListPage page = client.invitations().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'invitations().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.invitations.InvitationListPage\nimport com.zavudev.api.models.invitations.InvitationListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: InvitationListPage = client.invitations().list()\n}',
+      },
       go: {
         method: 'client.Invitations.List',
         example:
@@ -4916,6 +6323,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invitations->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->invitations->list(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Invitations.List',
+        example:
+          'InvitationListParams parameters = new();\n\nvar page = await client.Invitations.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -4947,6 +6359,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ninvitation = client.invitations.retrieve(\n    "invitationId",\n)\nprint(invitation.invitation)',
       },
+      java: {
+        method: 'invitations().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationRetrieveParams;\nimport com.zavudev.api.models.invitations.InvitationRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationRetrieveResponse invitation = client.invitations().retrieve("invitationId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'invitations().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.invitations.InvitationRetrieveParams\nimport com.zavudev.api.models.invitations.InvitationRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val invitation: InvitationRetrieveResponse = client.invitations().retrieve("invitationId")\n}',
+      },
       go: {
         method: 'client.Invitations.Get',
         example:
@@ -4966,6 +6388,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invitations->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$invitation = $client->invitations->retrieve('invitationId');\n\nvar_dump($invitation);",
+      },
+      csharp: {
+        method: 'Invitations.Retrieve',
+        example:
+          'InvitationRetrieveParams parameters = new() { InvitationID = "invitationId" };\n\nvar invitation = await client.Invitations.Retrieve(parameters);\n\nConsole.WriteLine(invitation);',
       },
       http: {
         example:
@@ -4997,6 +6424,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.invitations.cancel(\n    "invitationId",\n)\nprint(response.invitation)',
       },
+      java: {
+        method: 'invitations().cancel',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.invitations.InvitationCancelParams;\nimport com.zavudev.api.models.invitations.InvitationCancelResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        InvitationCancelResponse response = client.invitations().cancel("invitationId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'invitations().cancel',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.invitations.InvitationCancelParams\nimport com.zavudev.api.models.invitations.InvitationCancelResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: InvitationCancelResponse = client.invitations().cancel("invitationId")\n}',
+      },
       go: {
         method: 'client.Invitations.Cancel',
         example:
@@ -5015,6 +6452,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'invitations->cancel',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->invitations->cancel('invitationId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Invitations.Cancel',
+        example:
+          'InvitationCancelParams parameters = new() { InvitationID = "invitationId" };\n\nvar response = await client.Invitations.Cancel(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5047,6 +6489,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.urls.submit_for_verification(\n    url="https://example.com/page",\n)\nprint(response.url)',
       },
+      java: {
+        method: 'urls().submitForVerification',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.urls.UrlSubmitForVerificationParams;\nimport com.zavudev.api.models.urls.UrlSubmitForVerificationResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        UrlSubmitForVerificationParams params = UrlSubmitForVerificationParams.builder()\n            .url("https://example.com/page")\n            .build();\n        UrlSubmitForVerificationResponse response = client.urls().submitForVerification(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'urls().submitForVerification',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.urls.UrlSubmitForVerificationParams\nimport com.zavudev.api.models.urls.UrlSubmitForVerificationResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: UrlSubmitForVerificationParams = UrlSubmitForVerificationParams.builder()\n        .url("https://example.com/page")\n        .build()\n    val response: UrlSubmitForVerificationResponse = client.urls().submitForVerification(params)\n}',
+      },
       go: {
         method: 'client.URLs.SubmitForVerification',
         example:
@@ -5066,6 +6518,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls->submitForVerification',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->submitForVerification(\n  url: 'https://example.com/page'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Urls.SubmitForVerification',
+        example:
+          'UrlSubmitForVerificationParams parameters = new()\n{\n    Url = "https://example.com/page"\n};\n\nvar response = await client.Urls.SubmitForVerification(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5101,6 +6558,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.urls.list_verified()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'urls().listVerified',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.urls.UrlListVerifiedPage;\nimport com.zavudev.api.models.urls.UrlListVerifiedParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        UrlListVerifiedPage page = client.urls().listVerified();\n    }\n}',
+      },
+      kotlin: {
+        method: 'urls().listVerified',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.urls.UrlListVerifiedPage\nimport com.zavudev.api.models.urls.UrlListVerifiedParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: UrlListVerifiedPage = client.urls().listVerified()\n}',
+      },
       go: {
         method: 'client.URLs.ListVerified',
         example:
@@ -5119,6 +6586,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls->listVerified',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->urls->listVerified(\n  cursor: 'cursor', limit: 100, status: 'pending'\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Urls.ListVerified',
+        example:
+          'UrlListVerifiedParams parameters = new();\n\nvar page = await client.Urls.ListVerified(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/urls \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -5149,6 +6621,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.urls.retrieve_details(\n    "urlId",\n)\nprint(response.url)',
       },
+      java: {
+        method: 'urls().retrieveDetails',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.urls.UrlRetrieveDetailsParams;\nimport com.zavudev.api.models.urls.UrlRetrieveDetailsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        UrlRetrieveDetailsResponse response = client.urls().retrieveDetails("urlId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'urls().retrieveDetails',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.urls.UrlRetrieveDetailsParams\nimport com.zavudev.api.models.urls.UrlRetrieveDetailsResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: UrlRetrieveDetailsResponse = client.urls().retrieveDetails("urlId")\n}',
+      },
       go: {
         method: 'client.URLs.GetDetails',
         example:
@@ -5167,6 +6649,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'urls->retrieveDetails',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->urls->retrieveDetails('urlId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Urls.RetrieveDetails',
+        example:
+          'UrlRetrieveDetailsParams parameters = new() { UrlID = "urlId" };\n\nvar response = await client.Urls.RetrieveDetails(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5198,6 +6685,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbalance = client.balance.retrieve()\nprint(balance.balance)',
       },
+      java: {
+        method: 'balance().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.balance.BalanceRetrieveParams;\nimport com.zavudev.api.models.balance.BalanceRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BalanceRetrieveResponse balance = client.balance().retrieve();\n    }\n}',
+      },
+      kotlin: {
+        method: 'balance().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.balance.BalanceRetrieveParams\nimport com.zavudev.api.models.balance.BalanceRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val balance: BalanceRetrieveResponse = client.balance().retrieve()\n}',
+      },
       go: {
         method: 'client.Balance.Get',
         example:
@@ -5216,6 +6713,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'balance->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$balance = $client->balance->retrieve();\n\nvar_dump($balance);",
+      },
+      csharp: {
+        method: 'Balance.Retrieve',
+        example:
+          'BalanceRetrieveParams parameters = new();\n\nvar balance = await client.Balance.Retrieve(parameters);\n\nConsole.WriteLine(balance);',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/balance \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -5247,6 +6749,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.create(\n    name="Client ABC",\n)\nprint(sub_account.sub_account)',
       },
+      java: {
+        method: 'subAccounts().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountCreateParams;\nimport com.zavudev.api.models.subaccounts.SubAccountCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountCreateParams params = SubAccountCreateParams.builder()\n            .name("Client ABC")\n            .build();\n        SubAccountCreateResponse subAccount = client.subAccounts().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.SubAccountCreateParams\nimport com.zavudev.api.models.subaccounts.SubAccountCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: SubAccountCreateParams = SubAccountCreateParams.builder()\n        .name("Client ABC")\n        .build()\n    val subAccount: SubAccountCreateResponse = client.subAccounts().create(params)\n}',
+      },
       go: {
         method: 'client.SubAccounts.New',
         example:
@@ -5265,6 +6777,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->create(\n  name: 'Client ABC',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n);\n\nvar_dump($subAccount);",
+      },
+      csharp: {
+        method: 'SubAccounts.Create',
+        example:
+          'SubAccountCreateParams parameters = new() { Name = "Client ABC" };\n\nvar subAccount = await client.SubAccounts.Create(parameters);\n\nConsole.WriteLine(subAccount);',
       },
       http: {
         example:
@@ -5297,6 +6814,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.sub_accounts.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'subAccounts().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountListPage;\nimport com.zavudev.api.models.subaccounts.SubAccountListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountListPage page = client.subAccounts().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.SubAccountListPage\nimport com.zavudev.api.models.subaccounts.SubAccountListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: SubAccountListPage = client.subAccounts().list()\n}',
+      },
       go: {
         method: 'client.SubAccounts.List',
         example:
@@ -5315,6 +6842,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->subAccounts->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'SubAccounts.List',
+        example:
+          'SubAccountListParams parameters = new();\n\nvar page = await client.SubAccounts.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -5346,6 +6878,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.retrieve(\n    "id",\n)\nprint(sub_account.sub_account)',
       },
+      java: {
+        method: 'subAccounts().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountRetrieveParams;\nimport com.zavudev.api.models.subaccounts.SubAccountRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountRetrieveResponse subAccount = client.subAccounts().retrieve("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.SubAccountRetrieveParams\nimport com.zavudev.api.models.subaccounts.SubAccountRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val subAccount: SubAccountRetrieveResponse = client.subAccounts().retrieve("id")\n}',
+      },
       go: {
         method: 'client.SubAccounts.Get',
         example:
@@ -5364,6 +6906,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->retrieve('id');\n\nvar_dump($subAccount);",
+      },
+      csharp: {
+        method: 'SubAccounts.Retrieve',
+        example:
+          'SubAccountRetrieveParams parameters = new() { ID = "id" };\n\nvar subAccount = await client.SubAccounts.Retrieve(parameters);\n\nConsole.WriteLine(subAccount);',
       },
       http: {
         example:
@@ -5403,6 +6950,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsub_account = client.sub_accounts.update(\n    id="id",\n)\nprint(sub_account.sub_account)',
       },
+      java: {
+        method: 'subAccounts().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountUpdateParams;\nimport com.zavudev.api.models.subaccounts.SubAccountUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountUpdateResponse subAccount = client.subAccounts().update("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.SubAccountUpdateParams\nimport com.zavudev.api.models.subaccounts.SubAccountUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val subAccount: SubAccountUpdateResponse = client.subAccounts().update("id")\n}',
+      },
       go: {
         method: 'client.SubAccounts.Update',
         example:
@@ -5421,6 +6978,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$subAccount = $client->subAccounts->update(\n  'id',\n  creditLimit: 0,\n  externalID: 'externalId',\n  metadata: ['foo' => 'bar'],\n  name: 'name',\n  status: 'active',\n);\n\nvar_dump($subAccount);",
+      },
+      csharp: {
+        method: 'SubAccounts.Update',
+        example:
+          'SubAccountUpdateParams parameters = new() { ID = "id" };\n\nvar subAccount = await client.SubAccounts.Update(parameters);\n\nConsole.WriteLine(subAccount);',
       },
       http: {
         example:
@@ -5452,6 +7014,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.sub_accounts.deactivate(\n    "id",\n)\nprint(response.keys_revoked)',
       },
+      java: {
+        method: 'subAccounts().deactivate',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountDeactivateParams;\nimport com.zavudev.api.models.subaccounts.SubAccountDeactivateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountDeactivateResponse response = client.subAccounts().deactivate("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().deactivate',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.SubAccountDeactivateParams\nimport com.zavudev.api.models.subaccounts.SubAccountDeactivateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: SubAccountDeactivateResponse = client.subAccounts().deactivate("id")\n}',
+      },
       go: {
         method: 'client.SubAccounts.Deactivate',
         example:
@@ -5470,6 +7042,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->deactivate',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->deactivate('id');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'SubAccounts.Deactivate',
+        example:
+          'SubAccountDeactivateParams parameters = new() { ID = "id" };\n\nvar response = await client.SubAccounts.Deactivate(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5502,6 +7079,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.sub_accounts.get_balance(\n    "id",\n)\nprint(response.balance)',
       },
+      java: {
+        method: 'subAccounts().getBalance',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.SubAccountGetBalanceParams;\nimport com.zavudev.api.models.subaccounts.SubAccountGetBalanceResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SubAccountGetBalanceResponse response = client.subAccounts().getBalance("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().getBalance',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.SubAccountGetBalanceParams\nimport com.zavudev.api.models.subaccounts.SubAccountGetBalanceResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: SubAccountGetBalanceResponse = client.subAccounts().getBalance("id")\n}',
+      },
       go: {
         method: 'client.SubAccounts.GetBalance',
         example:
@@ -5520,6 +7107,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->getBalance',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->subAccounts->getBalance('id');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'SubAccounts.GetBalance',
+        example:
+          'SubAccountGetBalanceParams parameters = new() { ID = "id" };\n\nvar response = await client.SubAccounts.GetBalance(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5552,6 +7144,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\napi_keys = client.sub_accounts.api_keys.list(\n    "id",\n)\nprint(api_keys.items)',
       },
+      java: {
+        method: 'subAccounts().apiKeys().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyListParams;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ApiKeyListResponse apiKeys = client.subAccounts().apiKeys().list("id");\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().apiKeys().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyListParams\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyListResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val apiKeys: ApiKeyListResponse = client.subAccounts().apiKeys().list("id")\n}',
+      },
       go: {
         method: 'client.SubAccounts.APIKeys.List',
         example:
@@ -5570,6 +7172,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->apiKeys->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKeys = $client->subAccounts->apiKeys->list('id');\n\nvar_dump($apiKeys);",
+      },
+      csharp: {
+        method: 'SubAccounts.ApiKeys.List',
+        example:
+          'ApiKeyListParams parameters = new() { ID = "id" };\n\nvar apiKeys = await client.SubAccounts.ApiKeys.List(parameters);\n\nConsole.WriteLine(apiKeys);',
       },
       http: {
         example:
@@ -5601,6 +7208,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\napi_key = client.sub_accounts.api_keys.create(\n    id="id",\n    name="Production Key",\n    environment="live",\n)\nprint(api_key.api_key)',
       },
+      java: {
+        method: 'subAccounts().apiKeys().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyCreateParams;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ApiKeyCreateParams params = ApiKeyCreateParams.builder()\n            .id("id")\n            .name("Production Key")\n            .build();\n        ApiKeyCreateResponse apiKey = client.subAccounts().apiKeys().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().apiKeys().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyCreateParams\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ApiKeyCreateParams = ApiKeyCreateParams.builder()\n        .id("id")\n        .name("Production Key")\n        .build()\n    val apiKey: ApiKeyCreateResponse = client.subAccounts().apiKeys().create(params)\n}',
+      },
       go: {
         method: 'client.SubAccounts.APIKeys.New',
         example:
@@ -5620,6 +7237,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->apiKeys->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$apiKey = $client->subAccounts->apiKeys->create(\n  'id', name: 'Production Key', environment: 'live', permissions: ['string']\n);\n\nvar_dump($apiKey);",
+      },
+      csharp: {
+        method: 'SubAccounts.ApiKeys.Create',
+        example:
+          'ApiKeyCreateParams parameters = new()\n{\n    ID = "id",\n    Name = "Production Key",\n};\n\nvar apiKey = await client.SubAccounts.ApiKeys.Create(parameters);\n\nConsole.WriteLine(apiKey);',
       },
       http: {
         example:
@@ -5650,6 +7272,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.sub_accounts.api_keys.revoke(\n    key_id="keyId",\n    id="id",\n)',
       },
+      java: {
+        method: 'subAccounts().apiKeys().revoke',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyRevokeParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        ApiKeyRevokeParams params = ApiKeyRevokeParams.builder()\n            .id("id")\n            .keyId("keyId")\n            .build();\n        client.subAccounts().apiKeys().revoke(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'subAccounts().apiKeys().revoke',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.subaccounts.apikeys.ApiKeyRevokeParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: ApiKeyRevokeParams = ApiKeyRevokeParams.builder()\n        .id("id")\n        .keyId("keyId")\n        .build()\n    client.subAccounts().apiKeys().revoke(params)\n}',
+      },
       go: {
         method: 'client.SubAccounts.APIKeys.Revoke',
         example:
@@ -5669,6 +7301,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'subAccounts->apiKeys->revoke',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->subAccounts->apiKeys->revoke('keyId', id: 'id');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'SubAccounts.ApiKeys.Revoke',
+        example:
+          'ApiKeyRevokeParams parameters = new()\n{\n    ID = "id",\n    KeyID = "keyId",\n};\n\nawait client.SubAccounts.ApiKeys.Revoke(parameters);',
       },
       http: {
         example:
@@ -5700,6 +7337,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.number_10dlc.brands.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'number10dlc().brands().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandListPage;\nimport com.zavudev.api.models.number10dlc.brands.BrandListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandListPage page = client.number10dlc().brands().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandListPage\nimport com.zavudev.api.models.number10dlc.brands.BrandListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: BrandListPage = client.number10dlc().brands().list()\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.List',
         example:
@@ -5718,6 +7365,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->brands->list(cursor: 'cursor', limit: 100);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.List',
+        example:
+          'BrandListParams parameters = new();\n\nvar page = await client.Number10dlc.Brands.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -5768,6 +7420,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.create(\n    city="San Francisco",\n    country="US",\n    display_name="Acme Corp",\n    email="compliance@acme.com",\n    entity_type="PRIVATE_PROFIT",\n    phone="+14155551234",\n    postal_code="94102",\n    state="CA",\n    street="123 Main St",\n    vertical="Technology",\n    company_name="Acme Corporation",\n    ein="12-3456789",\n    website="https://acme.com",\n)\nprint(brand.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandCreateParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandCreateParams params = BrandCreateParams.builder()\n            .city("San Francisco")\n            .country("US")\n            .displayName("Acme Corp")\n            .email("compliance@acme.com")\n            .entityType(BrandCreateParams.EntityType.PRIVATE_PROFIT)\n            .phone("+14155551234")\n            .postalCode("94102")\n            .state("CA")\n            .street("123 Main St")\n            .vertical("Technology")\n            .build();\n        BrandCreateResponse brand = client.number10dlc().brands().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandCreateParams\nimport com.zavudev.api.models.number10dlc.brands.BrandCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: BrandCreateParams = BrandCreateParams.builder()\n        .city("San Francisco")\n        .country("US")\n        .displayName("Acme Corp")\n        .email("compliance@acme.com")\n        .entityType(BrandCreateParams.EntityType.PRIVATE_PROFIT)\n        .phone("+14155551234")\n        .postalCode("94102")\n        .state("CA")\n        .street("123 Main St")\n        .vertical("Technology")\n        .build()\n    val brand: BrandCreateResponse = client.number10dlc().brands().create(params)\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.New',
         example:
@@ -5787,6 +7449,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->create(\n  city: 'San Francisco',\n  country: 'US',\n  displayName: 'Acme Corp',\n  email: 'compliance@acme.com',\n  entityType: 'PRIVATE_PROFIT',\n  phone: '+14155551234',\n  postalCode: '94102',\n  state: 'CA',\n  street: '123 Main St',\n  vertical: 'Technology',\n  companyName: 'Acme Corporation',\n  ein: '12-3456789',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  website: 'https://acme.com',\n);\n\nvar_dump($brand);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Create',
+        example:
+          'BrandCreateParams parameters = new()\n{\n    City = "San Francisco",\n    Country = "US",\n    DisplayName = "Acme Corp",\n    Email = "compliance@acme.com",\n    EntityType = EntityType.PrivateProfit,\n    Phone = "+14155551234",\n    PostalCode = "94102",\n    State = "CA",\n    Street = "123 Main St",\n    Vertical = "Technology",\n};\n\nvar brand = await client.Number10dlc.Brands.Create(parameters);\n\nConsole.WriteLine(brand);',
       },
       http: {
         example:
@@ -5816,6 +7483,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.list_use_cases()\nprint(response.use_cases)',
       },
+      java: {
+        method: 'number10dlc().brands().listUseCases',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandListUseCasesParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandListUseCasesResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandListUseCasesResponse response = client.number10dlc().brands().listUseCases();\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().listUseCases',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandListUseCasesParams\nimport com.zavudev.api.models.number10dlc.brands.BrandListUseCasesResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BrandListUseCasesResponse = client.number10dlc().brands().listUseCases()\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.ListUseCases',
         example:
@@ -5834,6 +7511,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->listUseCases',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->listUseCases();\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.ListUseCases',
+        example:
+          'BrandListUseCasesParams parameters = new();\n\nvar response = await client.Number10dlc.Brands.ListUseCases(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -5865,6 +7547,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.retrieve(\n    "brandId",\n)\nprint(brand.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandRetrieveParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandRetrieveResponse brand = client.number10dlc().brands().retrieve("brandId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandRetrieveParams\nimport com.zavudev.api.models.number10dlc.brands.BrandRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val brand: BrandRetrieveResponse = client.number10dlc().brands().retrieve("brandId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.Get',
         example:
@@ -5883,6 +7575,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->retrieve('brandId');\n\nvar_dump($brand);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Retrieve',
+        example:
+          'BrandRetrieveParams parameters = new() { BrandID = "brandId" };\n\nvar brand = await client.Number10dlc.Brands.Retrieve(parameters);\n\nConsole.WriteLine(brand);',
       },
       http: {
         example:
@@ -5933,6 +7630,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nbrand = client.number_10dlc.brands.update(\n    brand_id="brandId",\n)\nprint(brand.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandUpdateParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandUpdateResponse brand = client.number10dlc().brands().update("brandId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandUpdateParams\nimport com.zavudev.api.models.number10dlc.brands.BrandUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val brand: BrandUpdateResponse = client.number10dlc().brands().update("brandId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.Update',
         example:
@@ -5951,6 +7658,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->number10dlc->brands->update(\n  'brandId',\n  city: 'city',\n  companyName: 'companyName',\n  country: 'xx',\n  displayName: 'displayName',\n  ein: 'ein',\n  email: 'dev@stainless.com',\n  entityType: 'PRIVATE_PROFIT',\n  firstName: 'firstName',\n  lastName: 'lastName',\n  phone: 'phone',\n  postalCode: 'postalCode',\n  state: 'state',\n  stockExchange: 'stockExchange',\n  stockSymbol: 'stockSymbol',\n  street: 'street',\n  vertical: 'vertical',\n  website: 'https://example.com',\n);\n\nvar_dump($brand);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Update',
+        example:
+          'BrandUpdateParams parameters = new() { BrandID = "brandId" };\n\nvar brand = await client.Number10dlc.Brands.Update(parameters);\n\nConsole.WriteLine(brand);',
       },
       http: {
         example:
@@ -5980,6 +7692,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.brands.delete(\n    "brandId",\n)',
       },
+      java: {
+        method: 'number10dlc().brands().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.number10dlc().brands().delete("brandId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.number10dlc().brands().delete("brandId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.Delete',
         example:
@@ -5998,6 +7720,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->brands->delete('brandId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Delete',
+        example:
+          'BrandDeleteParams parameters = new() { BrandID = "brandId" };\n\nawait client.Number10dlc.Brands.Delete(parameters);',
       },
       http: {
         example:
@@ -6030,6 +7757,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.submit(\n    "brandId",\n)\nprint(response.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().submit',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandSubmitParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandSubmitResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandSubmitResponse response = client.number10dlc().brands().submit("brandId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().submit',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandSubmitParams\nimport com.zavudev.api.models.number10dlc.brands.BrandSubmitResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BrandSubmitResponse = client.number10dlc().brands().submit("brandId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.Submit',
         example:
@@ -6048,6 +7785,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->submit',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->submit('brandId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.Submit',
+        example:
+          'BrandSubmitParams parameters = new() { BrandID = "brandId" };\n\nvar response = await client.Number10dlc.Brands.Submit(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6080,6 +7822,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.brands.sync_status(\n    "brandId",\n)\nprint(response.brand)',
       },
+      java: {
+        method: 'number10dlc().brands().syncStatus',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.brands.BrandSyncStatusParams;\nimport com.zavudev.api.models.number10dlc.brands.BrandSyncStatusResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        BrandSyncStatusResponse response = client.number10dlc().brands().syncStatus("brandId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().brands().syncStatus',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.brands.BrandSyncStatusParams\nimport com.zavudev.api.models.number10dlc.brands.BrandSyncStatusResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: BrandSyncStatusResponse = client.number10dlc().brands().syncStatus("brandId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Brands.SyncStatus',
         example:
@@ -6099,6 +7851,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->brands->syncStatus',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->brands->syncStatus('brandId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Brands.SyncStatus',
+        example:
+          'BrandSyncStatusParams parameters = new() { BrandID = "brandId" };\n\nvar response = await client.Number10dlc.Brands.SyncStatus(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6130,6 +7887,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\npage = client.number_10dlc.campaigns.list()\npage = page.items[0]\nprint(page.id)',
       },
+      java: {
+        method: 'number10dlc().campaigns().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignListPage;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignListParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignListPage page = client.number10dlc().campaigns().list();\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignListPage\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignListParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val page: CampaignListPage = client.number10dlc().campaigns().list()\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.List',
         example:
@@ -6148,6 +7915,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$page = $client->number10dlc->campaigns->list(\n  brandID: 'brandId', cursor: 'cursor', limit: 100\n);\n\nvar_dump($page);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.List',
+        example:
+          'CampaignListParams parameters = new();\n\nvar page = await client.Number10dlc.Campaigns.List(parameters);\nawait foreach (var item in page.Paginate())\n{\n    Console.WriteLine(item);\n}',
       },
       http: {
         example:
@@ -6200,6 +7972,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.create(\n    affiliate_marketing=False,\n    age_gated=False,\n    brand_id="brand_abc123",\n    description="Send order status updates and shipping notifications to customers who opted in.",\n    direct_lending=False,\n    embedded_link=True,\n    embedded_phone=False,\n    name="Order Notifications",\n    number_pooling=False,\n    sample_messages=["Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}", "Your order #{{order_id}} has been delivered. Thank you for your purchase!"],\n    subscriber_help=True,\n    subscriber_opt_in=True,\n    subscriber_opt_out=True,\n    use_case="ACCOUNT_NOTIFICATION",\n)\nprint(campaign.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignCreateParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignCreateParams params = CampaignCreateParams.builder()\n            .affiliateMarketing(false)\n            .ageGated(false)\n            .brandId("brand_abc123")\n            .description("Send order status updates and shipping notifications to customers who opted in.")\n            .directLending(false)\n            .embeddedLink(true)\n            .embeddedPhone(false)\n            .name("Order Notifications")\n            .numberPooling(false)\n            .addSampleMessage("Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}")\n            .addSampleMessage("Your order #{{order_id}} has been delivered. Thank you for your purchase!")\n            .subscriberHelp(true)\n            .subscriberOptIn(true)\n            .subscriberOptOut(true)\n            .useCase("ACCOUNT_NOTIFICATION")\n            .build();\n        CampaignCreateResponse campaign = client.number10dlc().campaigns().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignCreateParams\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: CampaignCreateParams = CampaignCreateParams.builder()\n        .affiliateMarketing(false)\n        .ageGated(false)\n        .brandId("brand_abc123")\n        .description("Send order status updates and shipping notifications to customers who opted in.")\n        .directLending(false)\n        .embeddedLink(true)\n        .embeddedPhone(false)\n        .name("Order Notifications")\n        .numberPooling(false)\n        .addSampleMessage("Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}")\n        .addSampleMessage("Your order #{{order_id}} has been delivered. Thank you for your purchase!")\n        .subscriberHelp(true)\n        .subscriberOptIn(true)\n        .subscriberOptOut(true)\n        .useCase("ACCOUNT_NOTIFICATION")\n        .build()\n    val campaign: CampaignCreateResponse = client.number10dlc().campaigns().create(params)\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.New',
         example:
@@ -6219,6 +8001,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->create',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->create(\n  affiliateMarketing: false,\n  ageGated: false,\n  brandID: 'brand_abc123',\n  description: 'Send order status updates and shipping notifications to customers who opted in.',\n  directLending: false,\n  embeddedLink: true,\n  embeddedPhone: false,\n  name: 'Order Notifications',\n  numberPooling: false,\n  sampleMessages: [\n    'Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}',\n    'Your order #{{order_id}} has been delivered. Thank you for your purchase!',\n  ],\n  subscriberHelp: true,\n  subscriberOptIn: true,\n  subscriberOptOut: true,\n  useCase: 'ACCOUNT_NOTIFICATION',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  subUseCases: ['string'],\n);\n\nvar_dump($campaign);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Create',
+        example:
+          'CampaignCreateParams parameters = new()\n{\n    AffiliateMarketing = false,\n    AgeGated = false,\n    BrandID = "brand_abc123",\n    Description = "Send order status updates and shipping notifications to customers who opted in.",\n    DirectLending = false,\n    EmbeddedLink = true,\n    EmbeddedPhone = false,\n    Name = "Order Notifications",\n    NumberPooling = false,\n    SampleMessages =\n    [\n        "Hi {{name}}, your order #{{order_id}} has shipped! Track it at {{url}}",\n        "Your order #{{order_id}} has been delivered. Thank you for your purchase!",\n    ],\n    SubscriberHelp = true,\n    SubscriberOptIn = true,\n    SubscriberOptOut = true,\n    UseCase = "ACCOUNT_NOTIFICATION",\n};\n\nvar campaign = await client.Number10dlc.Campaigns.Create(parameters);\n\nConsole.WriteLine(campaign);',
       },
       http: {
         example:
@@ -6250,6 +8037,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.retrieve(\n    "campaignId",\n)\nprint(campaign.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignRetrieveParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignRetrieveResponse campaign = client.number10dlc().campaigns().retrieve("campaignId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignRetrieveParams\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val campaign: CampaignRetrieveResponse = client.number10dlc().campaigns().retrieve("campaignId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.Get',
         example:
@@ -6269,6 +8066,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->retrieve('campaignId');\n\nvar_dump($campaign);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Retrieve',
+        example:
+          'CampaignRetrieveParams parameters = new() { CampaignID = "campaignId" };\n\nvar campaign = await client.Number10dlc.Campaigns.Retrieve(parameters);\n\nConsole.WriteLine(campaign);',
       },
       http: {
         example:
@@ -6309,6 +8111,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\ncampaign = client.number_10dlc.campaigns.update(\n    campaign_id="campaignId",\n)\nprint(campaign.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignUpdateParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignUpdateResponse campaign = client.number10dlc().campaigns().update("campaignId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignUpdateParams\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val campaign: CampaignUpdateResponse = client.number10dlc().campaigns().update("campaignId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.Update',
         example:
@@ -6328,6 +8140,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->update',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$campaign = $client->number10dlc->campaigns->update(\n  'campaignId',\n  description: 'description',\n  helpMessage: 'helpMessage',\n  messageFlow: 'messageFlow',\n  name: 'name',\n  optInKeywords: ['string'],\n  optOutKeywords: ['string'],\n  sampleMessages: ['string'],\n);\n\nvar_dump($campaign);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Update',
+        example:
+          'CampaignUpdateParams parameters = new() { CampaignID = "campaignId" };\n\nvar campaign = await client.Number10dlc.Campaigns.Update(parameters);\n\nConsole.WriteLine(campaign);',
       },
       http: {
         example:
@@ -6357,6 +8174,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.campaigns.delete(\n    "campaignId",\n)',
       },
+      java: {
+        method: 'number10dlc().campaigns().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignDeleteParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        client.number10dlc().campaigns().delete("campaignId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignDeleteParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    client.number10dlc().campaigns().delete("campaignId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.Delete',
         example:
@@ -6376,6 +8203,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->delete',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->delete('campaignId');\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Delete',
+        example:
+          'CampaignDeleteParams parameters = new() { CampaignID = "campaignId" };\n\nawait client.Number10dlc.Campaigns.Delete(parameters);',
       },
       http: {
         example:
@@ -6408,6 +8240,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.submit(\n    "campaignId",\n)\nprint(response.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().submit',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSubmitParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSubmitResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignSubmitResponse response = client.number10dlc().campaigns().submit("campaignId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().submit',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSubmitParams\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSubmitResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: CampaignSubmitResponse = client.number10dlc().campaigns().submit("campaignId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.Submit',
         example:
@@ -6427,6 +8269,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->submit',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->submit('campaignId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.Submit',
+        example:
+          'CampaignSubmitParams parameters = new() { CampaignID = "campaignId" };\n\nvar response = await client.Number10dlc.Campaigns.Submit(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6459,6 +8306,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.sync_status(\n    "campaignId",\n)\nprint(response.campaign)',
       },
+      java: {
+        method: 'number10dlc().campaigns().syncStatus',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSyncStatusParams;\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSyncStatusResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        CampaignSyncStatusResponse response = client.number10dlc().campaigns().syncStatus("campaignId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().syncStatus',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSyncStatusParams\nimport com.zavudev.api.models.number10dlc.campaigns.CampaignSyncStatusResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: CampaignSyncStatusResponse = client.number10dlc().campaigns().syncStatus("campaignId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.SyncStatus',
         example:
@@ -6478,6 +8335,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->syncStatus',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->syncStatus('campaignId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.SyncStatus',
+        example:
+          'CampaignSyncStatusParams parameters = new() { CampaignID = "campaignId" };\n\nvar response = await client.Number10dlc.Campaigns.SyncStatus(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6509,6 +8371,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nphone_numbers = client.number_10dlc.campaigns.phone_numbers.list(\n    "campaignId",\n)\nprint(phone_numbers.items)',
       },
+      java: {
+        method: 'number10dlc().campaigns().phoneNumbers().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberListParams;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberListResponse phoneNumbers = client.number10dlc().campaigns().phoneNumbers().list("campaignId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().phoneNumbers().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberListParams\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberListResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val phoneNumbers: PhoneNumberListResponse = client.number10dlc().campaigns().phoneNumbers().list("campaignId")\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.PhoneNumbers.List',
         example:
@@ -6528,6 +8400,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->phoneNumbers->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$phoneNumbers = $client->number10dlc->campaigns->phoneNumbers->list(\n  'campaignId'\n);\n\nvar_dump($phoneNumbers);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.PhoneNumbers.List',
+        example:
+          'PhoneNumberListParams parameters = new() { CampaignID = "campaignId" };\n\nvar phoneNumbers = await client.Number10dlc.Campaigns.PhoneNumbers.List(parameters);\n\nConsole.WriteLine(phoneNumbers);',
       },
       http: {
         example:
@@ -6560,6 +8437,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.number_10dlc.campaigns.phone_numbers.assign(\n    campaign_id="campaignId",\n    phone_number_id="pn_abc123",\n)\nprint(response.assignment)',
       },
+      java: {
+        method: 'number10dlc().campaigns().phoneNumbers().assign',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberAssignParams;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberAssignResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberAssignParams params = PhoneNumberAssignParams.builder()\n            .campaignId("campaignId")\n            .phoneNumberId("pn_abc123")\n            .build();\n        PhoneNumberAssignResponse response = client.number10dlc().campaigns().phoneNumbers().assign(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().phoneNumbers().assign',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberAssignParams\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberAssignResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: PhoneNumberAssignParams = PhoneNumberAssignParams.builder()\n        .campaignId("campaignId")\n        .phoneNumberId("pn_abc123")\n        .build()\n    val response: PhoneNumberAssignResponse = client.number10dlc().campaigns().phoneNumbers().assign(params)\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.PhoneNumbers.Assign',
         example:
@@ -6579,6 +8466,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->phoneNumbers->assign',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->number10dlc->campaigns->phoneNumbers->assign(\n  'campaignId', phoneNumberID: 'pn_abc123'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.PhoneNumbers.Assign',
+        example:
+          'PhoneNumberAssignParams parameters = new()\n{\n    CampaignID = "campaignId",\n    PhoneNumberID = "pn_abc123",\n};\n\nvar response = await client.Number10dlc.Campaigns.PhoneNumbers.Assign(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6608,6 +8500,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.number_10dlc.campaigns.phone_numbers.unassign(\n    assignment_id="assignmentId",\n    campaign_id="campaignId",\n)',
       },
+      java: {
+        method: 'number10dlc().campaigns().phoneNumbers().unassign',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberUnassignParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        PhoneNumberUnassignParams params = PhoneNumberUnassignParams.builder()\n            .campaignId("campaignId")\n            .assignmentId("assignmentId")\n            .build();\n        client.number10dlc().campaigns().phoneNumbers().unassign(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'number10dlc().campaigns().phoneNumbers().unassign',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.number10dlc.campaigns.phonenumbers.PhoneNumberUnassignParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: PhoneNumberUnassignParams = PhoneNumberUnassignParams.builder()\n        .campaignId("campaignId")\n        .assignmentId("assignmentId")\n        .build()\n    client.number10dlc().campaigns().phoneNumbers().unassign(params)\n}',
+      },
       go: {
         method: 'client.Number10dlc.Campaigns.PhoneNumbers.Unassign',
         example:
@@ -6627,6 +8529,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'number10dlc->campaigns->phoneNumbers->unassign',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->number10dlc->campaigns->phoneNumbers->unassign(\n  'assignmentId', campaignID: 'campaignId'\n);\n\nvar_dump($result);",
+      },
+      csharp: {
+        method: 'Number10dlc.Campaigns.PhoneNumbers.Unassign',
+        example:
+          'PhoneNumberUnassignParams parameters = new()\n{\n    CampaignID = "campaignId",\n    AssignmentID = "assignmentId",\n};\n\nawait client.Number10dlc.Campaigns.PhoneNumbers.Unassign(parameters);',
       },
       http: {
         example:
@@ -6658,6 +8565,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nme = client.me.retrieve()\nprint(me.api_key)',
       },
+      java: {
+        method: 'me().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.me.MeRetrieveParams;\nimport com.zavudev.api.models.me.MeRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        MeRetrieveResponse me = client.me().retrieve();\n    }\n}',
+      },
+      kotlin: {
+        method: 'me().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.me.MeRetrieveParams\nimport com.zavudev.api.models.me.MeRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val me: MeRetrieveResponse = client.me().retrieve()\n}',
+      },
       go: {
         method: 'client.Me.Get',
         example:
@@ -6676,6 +8593,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'me->retrieve',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$me = $client->me->retrieve();\n\nvar_dump($me);",
+      },
+      csharp: {
+        method: 'Me.Retrieve',
+        example:
+          'MeRetrieveParams parameters = new();\n\nvar me = await client.Me.Retrieve(parameters);\n\nConsole.WriteLine(me);',
       },
       http: {
         example: 'curl https://api.zavu.dev/v1/me \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6696,6 +8618,8 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'slug: string;',
       'dependencies?: object;',
       'description?: string;',
+      'entrypoint?: string;',
+      'files?: object;',
       'httpEnabled?: boolean;',
       'memoryMb?: 128 | 256 | 512 | 1024;',
       "runtime?: 'nodejs24';",
@@ -6705,7 +8629,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }",
     markdown:
-      "## create\n\n`client.functions.create(name: string, slug: string, dependencies?: object, description?: string, httpEnabled?: boolean, memoryMb?: 128 | 256 | 512 | 1024, runtime?: 'nodejs24', sourceCode?: string, timeoutSec?: number): { function: object; }`\n\n**post** `/v1/functions`\n\nCreate a new Zavu Function. The function starts in `draft` status. A dedicated API key is auto-provisioned and injected as the `ZAVU_API_KEY` secret so the function can call back into the Zavu API without manual setup.\n\nProvide `sourceCode` to seed the draft. Call `POST /v1/functions/{functionId}/deploy` afterwards to publish.\n\n### Parameters\n\n- `name: string`\n\n- `slug: string`\n  URL-safe identifier (lowercase, digits, hyphens). Must be unique per project.\n\n- `dependencies?: object`\n  npm dependencies. Keys are package names, values are semver ranges.\n\n- `description?: string`\n\n- `httpEnabled?: boolean`\n  Whether to expose a public HTTPS URL for this function.\n\n- `memoryMb?: 128 | 256 | 512 | 1024`\n\n- `runtime?: 'nodejs24'`\n  Runtime the function is deployed on.\n\n- `sourceCode?: string`\n  TypeScript source code for the function entry point (max ~900KB).\n\n- `timeoutSec?: number`\n  Per-invocation timeout in seconds. Event and cron invocations are asynchronous, so a long timeout only bounds cost; a tool called during a live conversation holds up the reply, and a function exposed over HTTP is additionally bounded by the platform's HTTP response limit.\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.create({ name: 'Order Bot', slug: 'order-bot' });\n\nconsole.log(_function);\n```",
+      "## create\n\n`client.functions.create(name: string, slug: string, dependencies?: object, description?: string, entrypoint?: string, files?: object, httpEnabled?: boolean, memoryMb?: 128 | 256 | 512 | 1024, runtime?: 'nodejs24', sourceCode?: string, timeoutSec?: number): { function: object; }`\n\n**post** `/v1/functions`\n\nCreate a new Zavu Function. The function starts in `draft` status. A dedicated API key is auto-provisioned and injected as the `ZAVU_API_KEY` secret so the function can call back into the Zavu API without manual setup.\n\nProvide `sourceCode` to seed the draft. Call `POST /v1/functions/{functionId}/deploy` afterwards to publish.\n\n### Parameters\n\n- `name: string`\n\n- `slug: string`\n  URL-safe identifier (lowercase, digits, hyphens). Must be unique per project.\n\n- `dependencies?: object`\n  npm dependencies. Keys are package names, values are semver ranges.\n\n- `description?: string`\n\n- `entrypoint?: string`\n  Which file in `files` is the entry point. Defaults to `index.ts`.\n\n- `files?: object`\n  The project's source files, keyed by path relative to the project root (e.g. `index.ts`, `lib/orders.ts`). Imports between them are resolved when the function is built, so a function can be split across as many files as it needs.\n\nPaths must be relative and use forward slashes; `..`, `node_modules/` and `package.json` are rejected. npm packages are not uploaded here — declare them under `dependencies` and Zavu installs them. Limits: 200 files and 900,000 bytes for the whole tree.\n\n- `httpEnabled?: boolean`\n  Whether to expose a public HTTPS URL for this function.\n\n- `memoryMb?: 128 | 256 | 512 | 1024`\n\n- `runtime?: 'nodejs24'`\n  Runtime the function is deployed on.\n\n- `sourceCode?: string`\n  Shortcut for a single-file function: exactly equivalent to sending `files` with one entry named after `entrypoint` (`index.ts` by default). Fully supported — use whichever fits. If both are sent, `files` wins.\n\n- `timeoutSec?: number`\n  Per-invocation timeout in seconds. Event and cron invocations are asynchronous, so a long timeout only bounds cost; a tool called during a live conversation holds up the reply, and a function exposed over HTTP is additionally bounded by the platform's HTTP response limit.\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.create({ name: 'Order Bot', slug: 'order-bot' });\n\nconsole.log(_function);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.create',
@@ -6716,6 +8640,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.create',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.create(\n    name="Order Bot",\n    slug="order-bot",\n    dependencies={\n        "openai": "^4.20.0"\n    },\n    description="Replies to order status questions on WhatsApp.",\n    source_code="import { defineFunction } from \'@zavudev/functions\';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log(\'received\', event.type);\\n});\\n",\n)\nprint(function.function)',
+      },
+      java: {
+        method: 'functions().create',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionCreateParams;\nimport com.zavudev.api.models.functions.FunctionCreateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionCreateParams params = FunctionCreateParams.builder()\n            .name("Order Bot")\n            .slug("order-bot")\n            .build();\n        FunctionCreateResponse function = client.functions().create(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().create',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionCreateParams\nimport com.zavudev.api.models.functions.FunctionCreateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: FunctionCreateParams = FunctionCreateParams.builder()\n        .name("Order Bot")\n        .slug("order-bot")\n        .build()\n    val function: FunctionCreateResponse = client.functions().create(params)\n}',
       },
       go: {
         method: 'client.Functions.New',
@@ -6735,11 +8669,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'functions->create',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->create(\n  name: 'Order Bot',\n  slug: 'order-bot',\n  dependencies: ['openai' => '^4.20.0'],\n  description: 'Replies to order status questions on WhatsApp.',\n  httpEnabled: true,\n  memoryMB: 128,\n  runtime: 'nodejs24',\n  sourceCode: \"import { defineFunction } from '@zavudev/functions';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log('received', event.type);\\n});\\n\",\n  timeoutSec: 1,\n);\n\nvar_dump($function);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->create(\n  name: 'Order Bot',\n  slug: 'order-bot',\n  dependencies: ['openai' => '^4.20.0'],\n  description: 'Replies to order status questions on WhatsApp.',\n  entrypoint: 'index.ts',\n  files: [\n    'index.ts' => \"import { formatOrder } from './lib/orders';\\n\\nexport default async function handler(event) {\\n  return { statusCode: 200, body: formatOrder(event) };\\n}\\n\",\n    'lib/orders.ts' => \"export function formatOrder(event) {\\n  return JSON.stringify(event);\\n}\\n\",\n  ],\n  httpEnabled: true,\n  memoryMB: 128,\n  runtime: 'nodejs24',\n  sourceCode: \"import { defineFunction } from '@zavudev/functions';\\n\\nexport default defineFunction(async (event, ctx) => {\\n  ctx.log('received', event.type);\\n});\\n\",\n  timeoutSec: 1,\n);\n\nvar_dump($function);",
+      },
+      csharp: {
+        method: 'Functions.Create',
+        example:
+          'FunctionCreateParams parameters = new()\n{\n    Name = "Order Bot",\n    Slug = "order-bot",\n};\n\nvar function = await client.Functions.Create(parameters);\n\nConsole.WriteLine(function);',
       },
       http: {
         example:
-          'curl https://api.zavu.dev/v1/functions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d "{\n          \\"name\\": \\"Order Bot\\",\n          \\"slug\\": \\"order-bot\\",\n          \\"dependencies\\": {\n            \\"openai\\": \\"^4.20.0\\"\n          },\n          \\"description\\": \\"Replies to order status questions on WhatsApp.\\",\n          \\"sourceCode\\": \\"import { defineFunction } from \'@zavudev/functions\';\\\\n\\\\nexport default defineFunction(async (event, ctx) => {\\\\n  ctx.log(\'received\', event.type);\\\\n});\\\\n\\"\n        }"',
+          'curl https://api.zavu.dev/v1/functions \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d "{\n          \\"name\\": \\"Order Bot\\",\n          \\"slug\\": \\"order-bot\\",\n          \\"dependencies\\": {\n            \\"openai\\": \\"^4.20.0\\"\n          },\n          \\"description\\": \\"Replies to order status questions on WhatsApp.\\",\n          \\"entrypoint\\": \\"index.ts\\",\n          \\"files\\": {\n            \\"index.ts\\": \\"import { formatOrder } from \'./lib/orders\';\\\\n\\\\nexport default async function handler(event) {\\\\n  return { statusCode: 200, body: formatOrder(event) };\\\\n}\\\\n\\",\n            \\"lib/orders.ts\\": \\"export function formatOrder(event) {\\\\n  return JSON.stringify(event);\\\\n}\\\\n\\"\n          },\n          \\"sourceCode\\": \\"import { defineFunction } from \'@zavudev/functions\';\\\\n\\\\nexport default defineFunction(async (event, ctx) => {\\\\n  ctx.log(\'received\', event.type);\\\\n});\\\\n\\"\n        }"',
       },
     },
   },
@@ -6767,6 +8706,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.retrieve(\n    "functionId",\n)\nprint(function.function)',
       },
+      java: {
+        method: 'functions().retrieve',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionRetrieveParams;\nimport com.zavudev.api.models.functions.FunctionRetrieveResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionRetrieveResponse function = client.functions().retrieve("functionId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().retrieve',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionRetrieveParams\nimport com.zavudev.api.models.functions.FunctionRetrieveResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val function: FunctionRetrieveResponse = client.functions().retrieve("functionId")\n}',
+      },
       go: {
         method: 'client.Functions.Get',
         example:
@@ -6786,6 +8735,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->retrieve('functionId');\n\nvar_dump($function);",
       },
+      csharp: {
+        method: 'Functions.Retrieve',
+        example:
+          'FunctionRetrieveParams parameters = new() { FunctionID = "functionId" };\n\nvar function = await client.Functions.Retrieve(parameters);\n\nConsole.WriteLine(function);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6804,13 +8758,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     params: [
       'functionId: string;',
       'dependencies?: object;',
+      'entrypoint?: string;',
+      'files?: object;',
       'httpEnabled?: boolean;',
       'sourceCode?: string;',
     ],
     response:
       "{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }",
     markdown:
-      "## update\n\n`client.functions.update(functionId: string, dependencies?: object, httpEnabled?: boolean, sourceCode?: string): { function: object; }`\n\n**patch** `/v1/functions/{functionId}`\n\nUpdate an existing function. `sourceCode` / `dependencies` edit the draft without triggering a build — they go live on the next `POST /v1/functions/{functionId}/deploy`. `httpEnabled` is applied to the deployed function immediately, so turning the public endpoint on or off does not require a redeploy.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `httpEnabled?: boolean`\n  Expose the function on its public HTTPS URL, or take it down. Applies to the already-deployed function without redeploying; the URL is returned as `publicUrl`.\n\n- `sourceCode?: string`\n  New source code for the draft (replaces it).\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.update('functionId');\n\nconsole.log(_function);\n```",
+      "## update\n\n`client.functions.update(functionId: string, dependencies?: object, entrypoint?: string, files?: object, httpEnabled?: boolean, sourceCode?: string): { function: object; }`\n\n**patch** `/v1/functions/{functionId}`\n\nUpdate an existing function. `sourceCode` / `dependencies` edit the draft without triggering a build — they go live on the next `POST /v1/functions/{functionId}/deploy`. `httpEnabled` is applied to the deployed function immediately, so turning the public endpoint on or off does not require a redeploy.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `entrypoint?: string`\n  Which file in `files` is the entry point. Defaults to `index.ts`.\n\n- `files?: object`\n  The project's source files, keyed by path relative to the project root (e.g. `index.ts`, `lib/orders.ts`). Imports between them are resolved when the function is built, so a function can be split across as many files as it needs.\n\nPaths must be relative and use forward slashes; `..`, `node_modules/` and `package.json` are rejected. npm packages are not uploaded here — declare them under `dependencies` and Zavu installs them. Limits: 200 files and 900,000 bytes for the whole tree.\n\n- `httpEnabled?: boolean`\n  Expose the function on its public HTTPS URL, or take it down. Applies to the already-deployed function without redeploying; the URL is returned as `publicUrl`.\n\n- `sourceCode?: string`\n  Shortcut for a single-file function: exactly equivalent to sending `files` with one entry named after `entrypoint` (`index.ts` by default). Fully supported — use whichever fits. If both are sent, `files` wins.\n\n### Returns\n\n- `{ function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }; }`\n\n  - `function: { id: string; createdAt: string; dependencies: object; httpEnabled: boolean; memoryMb: number; name: string; runtime: 'nodejs24'; slug: string; status: 'draft' | 'bundling' | 'deploying' | 'active' | 'failed' | 'disabled'; timeoutSec: number; updatedAt: string; activeDeploymentId?: string; description?: string; publicUrl?: string; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.update('functionId');\n\nconsole.log(_function);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.update',
@@ -6821,6 +8777,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.update',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.update(\n    function_id="functionId",\n)\nprint(function.function)',
+      },
+      java: {
+        method: 'functions().update',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionUpdateParams;\nimport com.zavudev.api.models.functions.FunctionUpdateResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionUpdateResponse function = client.functions().update("functionId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().update',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionUpdateParams\nimport com.zavudev.api.models.functions.FunctionUpdateResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val function: FunctionUpdateResponse = client.functions().update("functionId")\n}',
       },
       go: {
         method: 'client.Functions.Update',
@@ -6839,11 +8805,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'functions->update',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->update(\n  'functionId',\n  dependencies: ['foo' => 'string'],\n  httpEnabled: true,\n  sourceCode: 'sourceCode',\n);\n\nvar_dump($function);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->update(\n  'functionId',\n  dependencies: ['foo' => 'string'],\n  entrypoint: 'index.ts',\n  files: [\n    'index.ts' => \"import { formatOrder } from './lib/orders';\\n\\nexport default async function handler(event) {\\n  return { statusCode: 200, body: formatOrder(event) };\\n}\\n\",\n    'lib/orders.ts' => \"export function formatOrder(event) {\\n  return JSON.stringify(event);\\n}\\n\",\n  ],\n  httpEnabled: true,\n  sourceCode: 'sourceCode',\n);\n\nvar_dump($function);",
+      },
+      csharp: {
+        method: 'Functions.Update',
+        example:
+          'FunctionUpdateParams parameters = new() { FunctionID = "functionId" };\n\nvar function = await client.Functions.Update(parameters);\n\nConsole.WriteLine(function);',
       },
       http: {
         example:
-          "curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -X PATCH \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $ZAVUDEV_API_KEY\" \\\n    -d '{}'",
+          'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY" \\\n    -d "{\n          \\"entrypoint\\": \\"index.ts\\",\n          \\"files\\": {\n            \\"index.ts\\": \\"import { formatOrder } from \'./lib/orders\';\\\\n\\\\nexport default async function handler(event) {\\\\n  return { statusCode: 200, body: formatOrder(event) };\\\\n}\\\\n\\",\n            \\"lib/orders.ts\\": \\"export function formatOrder(event) {\\\\n  return JSON.stringify(event);\\\\n}\\\\n\\"\n          }\n        }"',
       },
     },
   },
@@ -6871,6 +8842,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nfunction = client.functions.delete(\n    "functionId",\n)\nprint(function.deleted)',
       },
+      java: {
+        method: 'functions().delete',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionDeleteParams;\nimport com.zavudev.api.models.functions.FunctionDeleteResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionDeleteResponse function = client.functions().delete("functionId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().delete',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionDeleteParams\nimport com.zavudev.api.models.functions.FunctionDeleteResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val function: FunctionDeleteResponse = client.functions().delete("functionId")\n}',
+      },
       go: {
         method: 'client.Functions.Delete',
         example:
@@ -6890,6 +8871,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$function = $client->functions->delete('functionId');\n\nvar_dump($function);",
       },
+      csharp: {
+        method: 'Functions.Delete',
+        example:
+          'FunctionDeleteParams parameters = new() { FunctionID = "functionId" };\n\nvar function = await client.Functions.Delete(parameters);\n\nConsole.WriteLine(function);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -6905,11 +8891,17 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'Publish the function. If `sourceCode` or `dependencies` are provided in the body, they replace the current draft before deployment. Returns immediately with a deployment ID — poll `GET /v1/functions/deployments/{deploymentId}` until status is `active` or `failed`.',
     stainlessPath: '(resource) functions > (method) deploy',
     qualified: 'client.functions.deploy',
-    params: ['functionId: string;', 'dependencies?: object;', 'sourceCode?: string;'],
+    params: [
+      'functionId: string;',
+      'dependencies?: object;',
+      'entrypoint?: string;',
+      'files?: object;',
+      'sourceCode?: string;',
+    ],
     response:
-      "{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }",
+      "{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; buildLogs?: string; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }",
     markdown:
-      "## deploy\n\n`client.functions.deploy(functionId: string, dependencies?: object, sourceCode?: string): { deployment: object; }`\n\n**post** `/v1/functions/{functionId}/deploy`\n\nPublish the function. If `sourceCode` or `dependencies` are provided in the body, they replace the current draft before deployment. Returns immediately with a deployment ID — poll `GET /v1/functions/deployments/{deploymentId}` until status is `active` or `failed`.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `sourceCode?: string`\n  New source code to publish (replaces the draft).\n\n### Returns\n\n- `{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }`\n\n  - `deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.deploy('functionId');\n\nconsole.log(response);\n```",
+      "## deploy\n\n`client.functions.deploy(functionId: string, dependencies?: object, entrypoint?: string, files?: object, sourceCode?: string): { deployment: object; }`\n\n**post** `/v1/functions/{functionId}/deploy`\n\nPublish the function. If `sourceCode` or `dependencies` are provided in the body, they replace the current draft before deployment. Returns immediately with a deployment ID — poll `GET /v1/functions/deployments/{deploymentId}` until status is `active` or `failed`.\n\n### Parameters\n\n- `functionId: string`\n\n- `dependencies?: object`\n  New dependency map (replaces existing dependencies).\n\n- `entrypoint?: string`\n  Which file in `files` is the entry point. Defaults to `index.ts`.\n\n- `files?: object`\n  The project's source files, keyed by path relative to the project root (e.g. `index.ts`, `lib/orders.ts`). Imports between them are resolved when the function is built, so a function can be split across as many files as it needs.\n\nPaths must be relative and use forward slashes; `..`, `node_modules/` and `package.json` are rejected. npm packages are not uploaded here — declare them under `dependencies` and Zavu installs them. Limits: 200 files and 900,000 bytes for the whole tree.\n\n- `sourceCode?: string`\n  Shortcut for a single-file function: exactly equivalent to sending `files` with one entry named after `entrypoint` (`index.ts` by default). Fully supported — use whichever fits. If both are sent, `files` wins.\n\n### Returns\n\n- `{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; buildLogs?: string; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }`\n\n  - `deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; buildLogs?: string; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.deploy('functionId');\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.deploy',
@@ -6920,6 +8912,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.deploy',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.deploy(\n    function_id="functionId",\n)\nprint(response.deployment)',
+      },
+      java: {
+        method: 'functions().deploy',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionDeployParams;\nimport com.zavudev.api.models.functions.FunctionDeployResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionDeployResponse response = client.functions().deploy("functionId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().deploy',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionDeployParams\nimport com.zavudev.api.models.functions.FunctionDeployResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: FunctionDeployResponse = client.functions().deploy("functionId")\n}',
       },
       go: {
         method: 'client.Functions.Deploy',
@@ -6938,7 +8940,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'functions->deploy',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->deploy(\n  'functionId', dependencies: ['foo' => 'string'], sourceCode: 'sourceCode'\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->deploy(\n  'functionId',\n  dependencies: ['foo' => 'string'],\n  entrypoint: 'index.ts',\n  files: [\n    'index.ts' => \"import { formatOrder } from './lib/orders';\\n\\nexport default async function handler(event) {\\n  return { statusCode: 200, body: formatOrder(event) };\\n}\\n\",\n    'lib/orders.ts' => \"export function formatOrder(event) {\\n  return JSON.stringify(event);\\n}\\n\",\n  ],\n  sourceCode: 'sourceCode',\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Functions.Deploy',
+        example:
+          'FunctionDeployParams parameters = new() { FunctionID = "functionId" };\n\nvar response = await client.Functions.Deploy(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -6956,9 +8963,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.functions.getDeployment',
     params: ['deploymentId: string;'],
     response:
-      "{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }",
+      "{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; buildLogs?: string; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }",
     markdown:
-      "## get_deployment\n\n`client.functions.getDeployment(deploymentId: string): { deployment: object; }`\n\n**get** `/v1/functions/deployments/{deploymentId}`\n\nFetch a deployment to poll its status during a deploy.\n\n### Parameters\n\n- `deploymentId: string`\n\n### Returns\n\n- `{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }`\n\n  - `deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.getDeployment('deploymentId');\n\nconsole.log(response);\n```",
+      "## get_deployment\n\n`client.functions.getDeployment(deploymentId: string): { deployment: object; }`\n\n**get** `/v1/functions/deployments/{deploymentId}`\n\nFetch a deployment to poll its status during a deploy.\n\n### Parameters\n\n- `deploymentId: string`\n\n### Returns\n\n- `{ deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; buildLogs?: string; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }; }`\n\n  - `deployment: { id: string; createdAt: string; functionId: string; status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded'; version: number; buildLogs?: string; bundleBytes?: number; deployedAt?: string; errorMessage?: string; sourceCodeBytes?: number; }`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.getDeployment('deploymentId');\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.getDeployment',
@@ -6969,6 +8976,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions.get_deployment',
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.get_deployment(\n    "deploymentId",\n)\nprint(response.deployment)',
+      },
+      java: {
+        method: 'functions().getDeployment',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionGetDeploymentParams;\nimport com.zavudev.api.models.functions.FunctionGetDeploymentResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionGetDeploymentResponse response = client.functions().getDeployment("deploymentId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().getDeployment',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionGetDeploymentParams\nimport com.zavudev.api.models.functions.FunctionGetDeploymentResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: FunctionGetDeploymentResponse = client.functions().getDeployment("deploymentId")\n}',
       },
       go: {
         method: 'client.Functions.GetDeployment',
@@ -6989,6 +9006,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->getDeployment',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->getDeployment('deploymentId');\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Functions.GetDeployment',
+        example:
+          'FunctionGetDeploymentParams parameters = new()\n{\n    DeploymentID = "deploymentId"\n};\n\nvar response = await client.Functions.GetDeployment(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -7027,6 +9049,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.tail_logs(\n    function_id="functionId",\n)\nprint(response.events)',
       },
+      java: {
+        method: 'functions().tailLogs',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.FunctionTailLogsParams;\nimport com.zavudev.api.models.functions.FunctionTailLogsResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        FunctionTailLogsResponse response = client.functions().tailLogs("functionId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().tailLogs',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.FunctionTailLogsParams\nimport com.zavudev.api.models.functions.FunctionTailLogsResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val response: FunctionTailLogsResponse = client.functions().tailLogs("functionId")\n}',
+      },
       go: {
         method: 'client.Functions.TailLogs',
         example:
@@ -7045,6 +9077,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->tailLogs',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->tailLogs(\n  'functionId',\n  endTime: 0,\n  filterPattern: 'filterPattern',\n  limit: 1,\n  nextToken: 'nextToken',\n  startTime: 0,\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Functions.TailLogs',
+        example:
+          'FunctionTailLogsParams parameters = new() { FunctionID = "functionId" };\n\nvar response = await client.Functions.TailLogs(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -7077,6 +9114,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nsecrets = client.functions.secrets.list(\n    "functionId",\n)\nprint(secrets.secrets)',
       },
+      java: {
+        method: 'functions().secrets().list',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.secrets.SecretListParams;\nimport com.zavudev.api.models.functions.secrets.SecretListResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SecretListResponse secrets = client.functions().secrets().list("functionId");\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().secrets().list',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.secrets.SecretListParams\nimport com.zavudev.api.models.functions.secrets.SecretListResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val secrets: SecretListResponse = client.functions().secrets().list("functionId")\n}',
+      },
       go: {
         method: 'client.Functions.Secrets.List',
         example:
@@ -7095,6 +9142,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->secrets->list',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$secrets = $client->functions->secrets->list('functionId');\n\nvar_dump($secrets);",
+      },
+      csharp: {
+        method: 'Functions.Secrets.List',
+        example:
+          'SecretListParams parameters = new() { FunctionID = "functionId" };\n\nvar secrets = await client.Functions.Secrets.List(parameters);\n\nConsole.WriteLine(secrets);',
       },
       http: {
         example:
@@ -7126,6 +9178,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.functions.secrets.set(\n    key="key",\n    function_id="functionId",\n    value="value",\n)\nprint(response)',
       },
+      java: {
+        method: 'functions().secrets().set',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.secrets.SecretSetParams;\nimport com.zavudev.api.models.functions.secrets.SecretSetResponse;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SecretSetParams params = SecretSetParams.builder()\n            .functionId("functionId")\n            .key("key")\n            .value("value")\n            .build();\n        SecretSetResponse response = client.functions().secrets().set(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().secrets().set',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.secrets.SecretSetParams\nimport com.zavudev.api.models.functions.secrets.SecretSetResponse\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: SecretSetParams = SecretSetParams.builder()\n        .functionId("functionId")\n        .key("key")\n        .value("value")\n        .build()\n    val response: SecretSetResponse = client.functions().secrets().set(params)\n}',
+      },
       go: {
         method: 'client.Functions.Secrets.Set',
         example:
@@ -7145,6 +9207,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'functions->secrets->set',
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->functions->secrets->set(\n  'key', functionID: 'functionId', value: 'value'\n);\n\nvar_dump($response);",
+      },
+      csharp: {
+        method: 'Functions.Secrets.Set',
+        example:
+          'SecretSetParams parameters = new()\n{\n    FunctionID = "functionId",\n    Key = "key",\n    Value = "value",\n};\n\nvar response = await client.Functions.Secrets.Set(parameters);\n\nConsole.WriteLine(response);',
       },
       http: {
         example:
@@ -7175,6 +9242,16 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'import os\nfrom zavudev import Zavudev\n\nclient = Zavudev(\n    api_key=os.environ.get("ZAVUDEV_API_KEY"),  # This is the default and can be omitted\n)\nclient.functions.secrets.unset(\n    key="key",\n    function_id="functionId",\n)',
       },
+      java: {
+        method: 'functions().secrets().unset',
+        example:
+          'package com.zavudev.api.example;\n\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.functions.secrets.SecretUnsetParams;\n\npublic final class Main {\n    private Main() {}\n\n    public static void main(String[] args) {\n        ZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\n        SecretUnsetParams params = SecretUnsetParams.builder()\n            .functionId("functionId")\n            .key("key")\n            .build();\n        client.functions().secrets().unset(params);\n    }\n}',
+      },
+      kotlin: {
+        method: 'functions().secrets().unset',
+        example:
+          'package com.zavudev.api.example\n\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.functions.secrets.SecretUnsetParams\n\nfun main() {\n    val client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\n    val params: SecretUnsetParams = SecretUnsetParams.builder()\n        .functionId("functionId")\n        .key("key")\n        .build()\n    client.functions().secrets().unset(params)\n}',
+      },
       go: {
         method: 'client.Functions.Secrets.Unset',
         example:
@@ -7195,6 +9272,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$result = $client->functions->secrets->unset('key', functionID: 'functionId');\n\nvar_dump($result);",
       },
+      csharp: {
+        method: 'Functions.Secrets.Unset',
+        example:
+          'SecretUnsetParams parameters = new()\n{\n    FunctionID = "functionId",\n    Key = "key",\n};\n\nawait client.Functions.Secrets.Unset(parameters);',
+      },
       http: {
         example:
           'curl https://api.zavu.dev/v1/functions/$FUNCTION_ID/secrets/$KEY \\\n    -X DELETE \\\n    -H "Authorization: Bearer $ZAVUDEV_API_KEY"',
@@ -7210,9 +9292,24 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
       "# Zavudev CLI\n\nThe official CLI for the [Zavudev REST API](https://docs.zavu.dev).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n<!-- x-release-please-start-version -->\n\n## Installation\n\n### Installing with Homebrew\n\n~~~sh\nbrew install zavudev/tools/zavudev\n~~~\n\n### Installing with Go\n\nTo test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.\n\n~~~sh\ngo install 'github.com/zavudev/cli/cmd/zavudev@latest'\n~~~\n\nOnce you have run `go install`, the binary is placed in your Go bin directory:\n\n- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)\n- **Check your path**: Run `go env GOPATH` to see the base directory\n\nIf commands aren't found after installation, add the Go bin directory to your PATH:\n\n~~~sh\n# Add to your shell profile (.zshrc, .bashrc, etc.)\nexport PATH=\"$PATH:$(go env GOPATH)/bin\"\n~~~\n\n<!-- x-release-please-end -->\n\n### Running Locally\n\nAfter cloning the git repository for this project, you can use the\n`scripts/run` script to run the tool locally:\n\n~~~sh\n./scripts/run args...\n~~~\n\n## Usage\n\nThe CLI follows a resource-based command structure:\n\n~~~sh\nzavudev [resource] <command> [flags...]\n~~~\n\n~~~sh\nzavudev messages send \\\n  --api-key 'My API Key' \\\n  --to +14155551234 \\\n  --text 'Hello from Zavu!'\n~~~\n\nFor details about specific commands, use the `--help` flag.\n\n### Environment variables\n\n| Environment variable | Required |\n| -------------------- | -------- |\n| `ZAVUDEV_API_KEY`    | yes      |\n\n### Global flags\n\n- `--api-key` (can also be set with `ZAVUDEV_API_KEY` env var)\n- `--help` - Show command line usage\n- `--debug` - Enable debug logging (includes HTTP request/response details)\n- `--version`, `-v` - Show the CLI version\n- `--base-url` - Use a custom API backend URL\n- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n\n### Passing files as arguments\n\nTo pass files to your API, you can use the `@myfile.ext` syntax:\n\n~~~bash\nzavudev <command> --arg @abe.jpg\n~~~\n\nFiles can also be passed inside JSON or YAML blobs:\n\n~~~bash\nzavudev <command> --arg '{image: \"@abe.jpg\"}'\n# Equivalent:\nzavudev <command> <<YAML\narg:\n  image: \"@abe.jpg\"\nYAML\n~~~\n\nIf you need to pass a string literal that begins with an `@` sign, you can\nescape the `@` sign to avoid accidentally passing a file.\n\n~~~bash\nzavudev <command> --username '\\@abe'\n~~~\n\n#### Explicit encoding\n\nFor JSON endpoints, the CLI tool does filetype sniffing to determine whether the\nfile contents should be sent as a string literal (for plain text files) or as a\nbase64-encoded string literal (for binary files). If you need to explicitly send\nthe file as either plain text or base64-encoded data, you can use\n`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for\nbase64-encoding). Note that absolute paths will begin with `@file://` or\n`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).\n\n~~~bash\nzavudev <command> --arg @data://file.txt\n~~~\n\n## Linking different Go SDK versions\n\nYou can link the CLI against a different version of the Zavudev Go SDK\nfor development purposes using the `./scripts/link` script.\n\nTo link to a specific version from a repository (version can be a branch,\ngit tag, or commit hash):\n\n~~~bash\n./scripts/link github.com/org/repo@version\n~~~\n\nTo link to a local copy of the SDK:\n\n~~~bash\n./scripts/link ../path/to/zavudev-go\n~~~\n\nIf you run the link script without any arguments, it will default to `../zavudev-go`.\n",
   },
   {
+    language: 'csharp',
+    content:
+      '# Zavudev C# API Library\n\nThe Zavudev C# SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev) from applications written in   C#.\n\n## Installation\n\n```bash\ngit clone git@github.com:zavudev/sdk-csharp.git\ndotnet add reference sdk-csharp/src/Zavudev\n```\n\n## Requirements\n\nThis library requires .NET Standard 2.0 or later.\n\n## Usage\n\nSee the [`examples`](examples) directory for complete and runnable examples.\n\n```csharp\nZavudevClient client = new();\n\nMessageSendParams parameters = new()\n{\n    To = "+14155551234",\n    Text = "Hello from Zavu!",\n};\n\nvar messageResponse = await client.Messages.Send(parameters);\n\nConsole.WriteLine(messageResponse);\n```',
+  },
+  {
     language: 'go',
     content:
       '# Zavudev Go API Library\n\n<a href="https://pkg.go.dev/github.com/zavudev/sdk-go"><img src="https://pkg.go.dev/badge/github.com/zavudev/sdk-go.svg" alt="Go Reference"></a>\n\nThe Zavudev Go library provides convenient access to the [Zavudev REST API](https://docs.zavu.dev)\nfrom applications written in Go.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Zavudev MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40zavudev%2Fsdk-mcp&config=eyJuYW1lIjoiQHphdnVkZXYvc2RrLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3phdnVkZXYuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC16YXZ1ZGV2LWFwaS1rZXkiOiJNeSBBUEkgS2V5In19)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fzavudev.stlmcp.com%22%2C%22headers%22%3A%7B%22x-zavudev-api-key%22%3A%22My%20API%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/zavudev/sdk-go" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/zavudev/sdk-go@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/zavudev/sdk-go"\n\t"github.com/zavudev/sdk-go/option"\n)\n\nfunc main() {\n\tclient := zavudev.NewClient(\n\t\toption.WithAPIKey("My API Key"), // defaults to os.LookupEnv("ZAVUDEV_API_KEY")\n\t)\n\tmessageResponse, err := client.Messages.Send(context.TODO(), zavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", messageResponse.Message)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.Messages.Send(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/zavudev/sdk-go/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n```go\niter := client.Messages.ListAutoPaging(context.TODO(), zavudev.MessageListParams{})\n// Automatically fetches more pages as needed.\nfor iter.Next() {\n\tmessage := iter.Current()\n\tfmt.Printf("%+v\\n", message)\n}\nif err := iter.Err(); err != nil {\n\tpanic(err.Error())\n}\n```\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n```go\npage, err := client.Messages.List(context.TODO(), zavudev.MessageListParams{})\nfor page != nil {\n\tfor _, message := range page.Items {\n\t\tfmt.Printf("%+v\\n", message)\n\t}\n\tpage, err = page.GetNextPage()\n}\nif err != nil {\n\tpanic(err.Error())\n}\n```\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.Messages.Send(context.TODO(), zavudev.MessageSendParams{\n\tTo:   "+14155551234",\n\tText: zavudev.String("Hello from Zavu!"),\n})\nif err != nil {\n\tvar apierr *zavudev.Error\n\tif errors.As(err, &apierr) {\n\t\tprintln(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request\n\t\tprintln(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n\t}\n\tpanic(err.Error()) // GET "/v1/messages": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)\ndefer cancel()\nclient.Messages.Send(\n\tctx,\n\tzavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t},\n\t// This sets the per-retry timeout\n\toption.WithRequestTimeout(20*time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := zavudev.NewClient(\n\toption.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.Messages.Send(\n\tcontext.TODO(),\n\tzavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t},\n\toption.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\nmessageResponse, err := client.Messages.Send(\n\tcontext.TODO(),\n\tzavudev.MessageSendParams{\n\t\tTo:   "+14155551234",\n\t\tText: zavudev.String("Hello from Zavu!"),\n\t},\n\toption.WithResponseInto(&response),\n)\nif err != nil {\n\t// handle error\n}\nfmt.Printf("%+v\\n", messageResponse)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/zavudev/sdk-go/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
+  },
+  {
+    language: 'java',
+    content:
+      '# Zavudev Java API Library\n\n<!-- x-release-please-start-version -->\n[![Maven Central](https://img.shields.io/maven-central/v/com.zavudev.api/zavudev-java)](https://central.sonatype.com/artifact/com.zavudev.api/zavudev-java/0.0.1)\n[![javadoc](https://javadoc.io/badge2/com.zavudev.api/zavudev-java/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.zavudev.api/zavudev-java/0.0.1)\n<!-- x-release-please-end -->\n\nThe Zavudev Java SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev)   from applications written in Java.\n\n\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Zavudev MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40zavudev%2Fsdk-mcp&config=eyJuYW1lIjoiQHphdnVkZXYvc2RrLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3phdnVkZXYuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC16YXZ1ZGV2LWFwaS1rZXkiOiJNeSBBUEkgS2V5In19)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fzavudev.stlmcp.com%22%2C%22headers%22%3A%7B%22x-zavudev-api-key%22%3A%22My%20API%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n<!-- x-release-please-start-version -->\n\nThe REST API documentation can be found on [docs.zavu.dev](https://docs.zavu.dev). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.zavudev.api/zavudev-java/0.0.1).\n\n<!-- x-release-please-end -->\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n### Gradle\n\n~~~kotlin\nimplementation("com.zavudev.api:zavudev-java:0.0.1")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.zavudev.api</groupId>\n  <artifactId>zavudev-java</artifactId>\n  <version>0.0.1</version>\n</dependency>\n~~~\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nMessageResponse messageResponse = client.messages().send(params);\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClient client = ZavudevOkHttpClient.fromEnv();\n```\n\nOr manually:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .apiKey("My API Key")\n    .build();\n```\n\nOr using a combination of the two approaches:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    // Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n    // Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\n    .fromEnv()\n    .apiKey("My API Key")\n    .build();\n```\n\nSee this table for the available options:\n\n| Setter    | System property   | Environment variable | Required | Default value            |\n| --------- | ----------------- | -------------------- | -------- | ------------------------ |\n| `apiKey`  | `zavudev.apiKey`  | `ZAVUDEV_API_KEY`    | true     | -                        |\n| `baseUrl` | `zavudev.baseUrl` | `ZAVUDEV_BASE_URL`   | true     | `"https://api.zavu.dev"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\n\nZavudevClient clientWithOptions = client.withOptions(optionsBuilder -> {\n    optionsBuilder.baseUrl("https://example.com");\n    optionsBuilder.maxRetries(42);\n});\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Zavudev API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Java class.\n\nFor example, `client.messages().send(...)` should be called with an instance of `MessageSendParams`, and it     will return an instance of `MessageResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClient client = ZavudevOkHttpClient.fromEnv();\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nCompletableFuture<MessageResponse> messageResponse = client.async().messages().send(params);\n```\n\nOr create an asynchronous client from the beginning:\n\n```java\nimport com.zavudev.api.client.ZavudevClientAsync;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClientAsync;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\nimport java.util.concurrent.CompletableFuture;\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nZavudevClientAsync client = ZavudevOkHttpClientAsync.fromEnv();\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nCompletableFuture<MessageResponse> messageResponse = client.messages().send(params);\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.\n\n\n\n\n\n\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Java classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```java\nimport com.zavudev.api.core.http.Headers;\nimport com.zavudev.api.core.http.HttpResponseFor;\nimport com.zavudev.api.models.messages.MessageResponse;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build();\nHttpResponseFor<MessageResponse> messageResponse = client.messages().withRawResponse().send(params);\n\nint statusCode = messageResponse.statusCode();\nHeaders headers = messageResponse.headers();\n```\n\nYou can still deserialize the response into an instance of a Java class if needed:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse parsedMessageResponse = messageResponse.parse();\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`ZavudevServiceException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`ZavudevIoException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevIoException.kt): I/O networking errors.\n\n- [`ZavudevRetryableException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`ZavudevInvalidDataException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`ZavudevException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns an [`Iterable`](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)\n\n```java\nimport com.zavudev.api.models.messages.Message;\nimport com.zavudev.api.models.messages.MessageListPage;\n\nMessageListPage page = client.messages().list();\n\n// Process as an Iterable\nfor (Message message : page.autoPager()) {\n    System.out.println(message);\n}\n\n// Process as a Stream\npage.autoPager()\n    .stream()\n    .limit(50)\n    .forEach(message -> System.out.println(message));\n```\n\nWhen using the asynchronous client, the method returns an [`AsyncStreamResponse`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/http/AsyncStreamResponse.kt):\n\n```java\nimport com.zavudev.api.core.http.AsyncStreamResponse;\nimport com.zavudev.api.models.messages.Message;\nimport com.zavudev.api.models.messages.MessageListPageAsync;\nimport java.util.Optional;\nimport java.util.concurrent.CompletableFuture;\n\nCompletableFuture<MessageListPageAsync> pageFuture = client.async().messages().list();\n\npageFuture.thenRun(page -> page.autoPager().subscribe(message -> {\n    System.out.println(message);\n}));\n\n// If you need to handle errors or completion of the stream\npageFuture.thenRun(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<>() {\n    @Override\n    public void onNext(Message message) {\n        System.out.println(message);\n    }\n\n    @Override\n    public void onComplete(Optional<Throwable> error) {\n        if (error.isPresent()) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error.get());\n        } else {\n            System.out.println("No more!");\n        }\n    }\n}));\n\n// Or use futures\npageFuture.thenRun(page -> page.autoPager()\n    .subscribe(message -> {\n        System.out.println(message);\n    })\n    .onCompleteFuture()\n    .whenComplete((unused, error) -> {\n        if (error != null) {\n            System.out.println("Something went wrong!");\n            throw new RuntimeException(error);\n        } else {\n            System.out.println("No more!");\n        }\n    }));\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```java\nimport com.zavudev.api.models.messages.Message;\nimport com.zavudev.api.models.messages.MessageListPage;\n\nMessageListPage page = client.messages().list();\nwhile (true) {\n    for (Message message : page.items()) {\n        System.out.println(message);\n    }\n\n    if (!page.hasNextPage()) {\n        break;\n    }\n\n    page = page.nextPage();\n}\n```\n\n## Logging\n\nEnable logging by setting the `ZAVUDEV_LOG` environment variable to   `info`:\n\n```sh\nexport ZAVUDEV_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport ZAVUDEV_LOG=debug\n```\n\nOr configure the client manually using the `logLevel` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.LogLevel;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .logLevel(LogLevel.INFO)\n    .build();\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `zavudev-java-core` is published with a     [configuration file](zavudev-java-core/src/main/resources/META-INF/proguard/zavudev-java-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or     [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build();\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse messageResponse = client.messages().send(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport java.time.Duration;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build();\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport java.net.InetSocketAddress;\nimport java.net.Proxy;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .proxy(new Proxy(\n      Proxy.Type.HTTP, new InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build();\n```\n\nIf the proxy responds with `407 Proxy Authentication Required`, supply credentials by also   configuring `proxyAuthenticator`:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport com.zavudev.api.core.http.ProxyAuthenticator;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .proxy(...)\n    // Or a custom implementation of `ProxyAuthenticator`.\n    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))\n    .build();\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\nimport java.time.Duration;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build();\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build();\n```\n\n\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `zavudev-java-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`ZavudevClient`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClient.kt), [`ZavudevClientAsync`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsync.kt),             [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt), and [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `zavudev-java-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) and [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), which             provide a way to construct [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) and             [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), respectively, using OkHttp\n- `zavudev-java`\n  - Depends on and exposes the APIs of both `zavudev-java-core` and `zavudev-java-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`zavudev-java` dependency](#installation) with `zavudev-java-core`\n2. Copy `zavudev-java-client-okhttp`\'s [`OkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) or [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), similarly to        [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`zavudev-java` dependency](#installation) with `zavudev-java-core`\n2. Write a class that implements the [`HttpClient`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/http/HttpClient.kt) interface\n3. Construct [`ZavudevClientImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) or [`ZavudevClientAsyncImpl`](zavudev-java-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), similarly to        [`ZavudevOkHttpClient`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or [`ZavudevOkHttpClientAsync`](zavudev-java-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build();\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set undocumented parameters on _nested_ headers, query params, or body classes, call the         `putAdditionalProperty` method on the nested class:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.messages.MessageContent;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .content(MessageContent.builder()\n        .putAdditionalProperty("secretProperty", JsonValue.from("42"))\n        .build())\n    .build();\n```\n\nThese properties can be accessed on the nested built object later using the         `_additionalProperties()` method.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/Values.kt) object to its setter:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .to(JsonValue.from(42))\n    .text("Hello from Zavu!")\n    .build();\n```\n\nThe most straightforward way to create a [`JsonValue`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/Values.kt) is using its       `from(...)` method:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport java.util.List;\nimport java.util.Map;\n\n// Create primitive JSON values\nJsonValue nullValue = JsonValue.from(null);\nJsonValue booleanValue = JsonValue.from(true);\nJsonValue numberValue = JsonValue.from(42);\nJsonValue stringValue = JsonValue.from("Hello World!");\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nJsonValue arrayValue = JsonValue.from(List.of(\n  "Hello", "World"\n));\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nJsonValue objectValue = JsonValue.from(Map.of(\n  "a", 1,\n  "b", 2\n));\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nJsonValue complexValue = JsonValue.from(Map.of(\n  "a", List.of(\n    1, 2\n  ),\n  "b", List.of(\n    3, 4\n  )\n));\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](zavudev-java-core/src/main/kotlin/com/zavudev/api/core/Values.kt):\n\n```java\nimport com.zavudev.api.core.JsonMissing;\nimport com.zavudev.api.models.messages.MessageSendParams;\n\nMessageSendParams params = MessageSendParams.builder()\n    .to(JsonMissing.of())\n    .build();\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```java\nimport com.zavudev.api.core.JsonValue;\nimport java.util.Map;\n\nMap<String, JsonValue> additionalProperties = client.messages().send(params)._additionalProperties();\nJsonValue secretPropertyValue = additionalProperties.get("secretProperty");\n\nString result = secretPropertyValue.accept(new JsonValue.Visitor<>() {\n    @Override\n    public String visitNull() {\n        return "It\'s null!";\n    }\n\n    @Override\n    public String visitBoolean(boolean value) {\n        return "It\'s a boolean!";\n    }\n\n    @Override\n    public String visitNumber(Number value) {\n        return "It\'s a number!";\n    }\n\n    // Other methods include `visitMissing`, `visitString`, `visitArray`, and `visitObject`\n    // The default implementation of each unimplemented method delegates to `visitDefault`, which throws by default, but can also be overridden\n});\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```java\nimport com.zavudev.api.core.JsonField;\nimport java.util.Optional;\n\nJsonField<String> to = client.messages().send(params)._to();\n\nif (to.isMissing()) {\n  // The property is absent from the JSON response\n} else if (to.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  Optional<String> jsonString = to.asString();\n\n  // Try to deserialize into a custom type\n  MyClass myObject = to.asUnknown().orElseThrow().convert(MyClass.class);\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`ZavudevInvalidDataException`](zavudev-java-core/src/main/kotlin/com/zavudev/api/errors/ZavudevInvalidDataException.kt) only if you directly access the property.\n\nValidating the response is _not_ forwards compatible with new types from the API for existing fields.\n\nIf you would still prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse messageResponse = client.messages().send(params).validate();\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```java\nimport com.zavudev.api.models.messages.MessageResponse;\n\nMessageResponse messageResponse = client.messages().send(\n  params, RequestOptions.builder().responseValidation(true).build()\n);\n```\n\nOr configure the default for all method calls at the client level:\n\n```java\nimport com.zavudev.api.client.ZavudevClient;\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient;\n\nZavudevClient client = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build();\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nJava `enum` classes are not trivially   [forwards compatible](https://www.stainless.com/blog/making-java-enums-forwards-compatible). Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/zavudev/sdk-java/issues) with questions, bugs, or suggestions.\n',
+  },
+  {
+    language: 'kotlin',
+    content:
+      '# Zavudev Kotlin API Library\n\n<!-- x-release-please-start-version -->\n[![Maven Central](https://img.shields.io/maven-central/v/com.zavudev.api/zavudev-kotlin)](https://central.sonatype.com/artifact/com.zavudev.api/zavudev-kotlin/0.0.1)\n[![javadoc](https://javadoc.io/badge2/com.zavudev.api/zavudev-kotlin/0.0.1/javadoc.svg)](https://javadoc.io/doc/com.zavudev.api/zavudev-kotlin/0.0.1)\n<!-- x-release-please-end -->\n\nThe Zavudev Kotlin SDK provides convenient access to the [Zavudev REST API](https://docs.zavu.dev)   from applications written in Kotlin.\n\n\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Zavudev MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40zavudev%2Fsdk-mcp&config=eyJuYW1lIjoiQHphdnVkZXYvc2RrLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3phdnVkZXYuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC16YXZ1ZGV2LWFwaS1rZXkiOiJNeSBBUEkgS2V5In19)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40zavudev%2Fsdk-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fzavudev.stlmcp.com%22%2C%22headers%22%3A%7B%22x-zavudev-api-key%22%3A%22My%20API%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n<!-- x-release-please-start-version -->\n\nThe REST API documentation can be found on [docs.zavu.dev](https://docs.zavu.dev). KDocs are available on [javadoc.io](https://javadoc.io/doc/com.zavudev.api/zavudev-kotlin/0.0.1).\n\n<!-- x-release-please-end -->\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n### Gradle\n\n~~~kotlin\nimplementation("com.zavudev.api:zavudev-kotlin:0.0.1")\n~~~\n\n### Maven\n\n~~~xml\n<dependency>\n  <groupId>com.zavudev.api</groupId>\n  <artifactId>zavudev-kotlin</artifactId>\n  <version>0.0.1</version>\n</dependency>\n~~~\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Java 8 or later.\n\n## Usage\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageResponse\nimport com.zavudev.api.models.messages.MessageSendParams\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nval client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build()\nval messageResponse: MessageResponse = client.messages().send(params)\n```\n\n## Client configuration\n\nConfigure the client using system properties or environment variables:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nval client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n```\n\nOr manually:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .apiKey("My API Key")\n    .build()\n```\n\nOr using a combination of the two approaches:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    // Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n    // Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\n    .fromEnv()\n    .apiKey("My API Key")\n    .build()\n```\n\nSee this table for the available options:\n\n| Setter    | System property   | Environment variable | Required | Default value            |\n| --------- | ----------------- | -------------------- | -------- | ------------------------ |\n| `apiKey`  | `zavudev.apiKey`  | `ZAVUDEV_API_KEY`    | true     | -                        |\n| `baseUrl` | `zavudev.baseUrl` | `ZAVUDEV_BASE_URL`   | true     | `"https://api.zavu.dev"` |\n\nSystem properties take precedence over environment variables.\n\n> [!TIP]\n> Don\'t create more than one client in the same application. Each client has a connection pool and\n> thread pools, which are more efficient to share between requests.\n\n### Modifying configuration\n\nTo temporarily use a modified client configuration, while reusing the same connection and thread       pools, call `withOptions()` on any client or service:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\n\nval clientWithOptions: ZavudevClient = client.withOptions {\n    it.baseUrl("https://example.com")\n    it.maxRetries(42)\n}\n```\n\nThe `withOptions()` method does not affect the original client or service.\n\n## Requests and responses\n\nTo send a request to the Zavudev API, build an instance of some `Params` class and pass it to the     corresponding client method. When the response is received, it will be deserialized into an instance of     a Kotlin class.\n\nFor example, `client.messages().send(...)` should be called with an instance of `MessageSendParams`, and it     will return an instance of `MessageResponse`.\n\n## Immutability\n\nEach class in the SDK has an associated   [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java)   or factory method for constructing it.\n\nEach class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html)   once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can   be used to convert it back to a builder for making a modified copy.\n\nBecause each class is immutable, builder modification will _never_ affect already built class instances.\n\n## Asynchronous execution\n\nThe default client is synchronous. To switch to asynchronous execution, call the `async()` method:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.models.messages.MessageResponse\nimport com.zavudev.api.models.messages.MessageSendParams\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nval client: ZavudevClient = ZavudevOkHttpClient.fromEnv()\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build()\nval messageResponse: MessageResponse = client.async().messages().send(params)\n```\n\nOr create an asynchronous client from the beginning:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClientAsync\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClientAsync\nimport com.zavudev.api.models.messages.MessageResponse\nimport com.zavudev.api.models.messages.MessageSendParams\n\n// Configures using the `zavudev.apiKey` and `zavudev.baseUrl` system properties\n// Or configures using the `ZAVUDEV_API_KEY` and `ZAVUDEV_BASE_URL` environment variables\nval client: ZavudevClientAsync = ZavudevOkHttpClientAsync.fromEnv()\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build()\nval messageResponse: MessageResponse = client.messages().send(params)\n```\n\nThe asynchronous client supports the same options as the synchronous one, except most methods are [suspending](https://kotlinlang.org/docs/coroutines-guide.html).\n\n\n\n\n\n\n\n## Raw responses\n\nThe SDK defines methods that deserialize responses into instances of Kotlin classes.       However, these methods don\'t provide access to the response headers, status code, or the raw response       body.\n\nTo access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:\n\n```kotlin\nimport com.zavudev.api.core.http.Headers\nimport com.zavudev.api.core.http.HttpResponseFor\nimport com.zavudev.api.models.messages.MessageResponse\nimport com.zavudev.api.models.messages.MessageSendParams\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .to("+14155551234")\n    .text("Hello from Zavu!")\n    .build()\nval messageResponse: HttpResponseFor<MessageResponse> = client.messages().withRawResponse().send(params)\n\nval statusCode: Int = messageResponse.statusCode()\nval headers: Headers = messageResponse.headers()\n```\n\nYou can still deserialize the response into an instance of a Kotlin class if needed:\n\n```kotlin\nimport com.zavudev.api.models.messages.MessageResponse\n\nval parsedMessageResponse: MessageResponse = messageResponse.parse()\n```\n\n## Error handling\n\nThe SDK throws custom unchecked exception types:\n\n- [`ZavudevServiceException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/ZavudevServiceException.kt): Base class for HTTP errors. See this table for which exception       subclass is thrown for each HTTP status code:\n\n  | Status | Exception                                          |\n  | ------ | -------------------------------------------------- |\n  | 400    | [`BadRequestException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/BadRequestException.kt)           |\n  | 401    | [`UnauthorizedException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/UnauthorizedException.kt)         |\n  | 403    | [`PermissionDeniedException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/PermissionDeniedException.kt)     |\n  | 404    | [`NotFoundException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/NotFoundException.kt)             |\n  | 422    | [`UnprocessableEntityException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/UnprocessableEntityException.kt)  |\n  | 429    | [`RateLimitException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/RateLimitException.kt)            |\n  | 5xx    | [`InternalServerException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/InternalServerException.kt)       |\n  | others | [`UnexpectedStatusCodeException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/UnexpectedStatusCodeException.kt) |\n\n- [`ZavudevIoException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/ZavudevIoException.kt): I/O networking errors.\n\n- [`ZavudevRetryableException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/ZavudevRetryableException.kt): Generic error indicating a failure that could be retried by the client.\n\n- [`ZavudevInvalidDataException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/ZavudevInvalidDataException.kt): Failure to interpret successfully parsed data. For example,       when accessing a property that\'s supposed to be required, but the API unexpectedly omitted it from the       response.\n\n- [`ZavudevException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/ZavudevException.kt): Base class for all exceptions. Most errors will result in one of the       previously mentioned ones, but completely generic errors may be thrown using the base class.\n\n## Pagination\n\nThe SDK defines methods that return a paginated lists of results. It provides convenient ways to access     the results either one page at a time or item-by-item across all pages.\n\n### Auto-pagination\n\nTo iterate through all results across all pages, use the `autoPager()` method, which automatically     fetches more pages as needed.\n\nWhen using the synchronous client, the method returns a [`Sequence`](https://kotlinlang.org/docs/sequences.html)\n\n```kotlin\nimport com.zavudev.api.models.messages.MessageListPage\n\nval page: MessageListPage = client.messages().list()\npage.autoPager()\n    .take(50)\n    .forEach { message -> println(message) }\n```\n\nWhen using the asynchronous client, the method returns a [`Flow`](https://kotlinlang.org/docs/flow.html):\n\n```kotlin\nimport com.zavudev.api.models.messages.MessageListPageAsync\n\nval page: MessageListPageAsync = client.async().messages().list()\npage.autoPager()\n    .take(50)\n    .forEach { message -> println(message) }\n```\n\n### Manual pagination\n\nTo access individual page items and manually request the next page, use the `items()`,\n`hasNextPage()`, and `nextPage()` methods:\n\n```kotlin\nimport com.zavudev.api.models.messages.Message\nimport com.zavudev.api.models.messages.MessageListPage\n\nval page: MessageListPage = client.messages().list()\nwhile (true) {\n    for (message in page.items()) {\n        println(message)\n    }\n\n    if (!page.hasNextPage()) {\n        break\n    }\n\n    page = page.nextPage()\n}\n```\n\n## Logging\n\nEnable logging by setting the `ZAVUDEV_LOG` environment variable to   `info`:\n\n```sh\nexport ZAVUDEV_LOG=info\n```\n\nOr to `debug` for more verbose logging:\n\n```sh\nexport ZAVUDEV_LOG=debug\n```\n\nOr configure the client manually using the `logLevel` method:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.core.LogLevel\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .logLevel(LogLevel.INFO)\n    .build()\n```\n\n## ProGuard and R8\n\nAlthough the SDK uses reflection, it is still usable with     [ProGuard](https://github.com/Guardsquare/proguard) and     [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because     `zavudev-kotlin-core` is published with a     [configuration file](zavudev-kotlin-core/src/main/resources/META-INF/proguard/zavudev-kotlin-core.pro) containing     [keep rules](https://www.guardsquare.com/manual/configuration/usage).\n\nProGuard and R8 should automatically detect and use the published rules, but you can also manually copy     the keep rules if necessary.\n\n\n\n\n\n## Jackson\n\nThe SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON     serialization/deserialization. It is compatible with version 2.13.4 or higher,     but depends on version 2.18.2 by default.\n\nThe SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the     default version was overridden in your Maven or Gradle config).\n\nIf the SDK threw an exception, but you\'re _certain_ the version is compatible, then disable the version     check using the `checkJacksonVersionCompatibility` on [`ZavudevOkHttpClient`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or     [`ZavudevOkHttpClientAsync`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt).\n\n> [!CAUTION]\n> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.\n\nAlso note that there are bugs in older Jackson versions that can affect the SDK. We don\'t work around all     Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to     upgrade Jackson for those instead.\n\n## Network options\n\n### Retries\n\nThe SDK automatically retries 2 times by default, with a short exponential backoff between requests.\n\nOnly the following error types are retried:\n- Connection errors (for example, due to a network connectivity problem)\n- 408 Request Timeout\n- 409 Conflict\n- 429 Rate Limit\n- 5xx Internal\n\nThe API may also explicitly instruct the SDK to retry or not retry a request.\n\nTo set a custom number of retries, configure the client using the `maxRetries` method:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .maxRetries(4)\n    .build()\n```\n\n### Timeouts\n\nRequests time out after 1 minute by default.\n\nTo set a custom timeout, configure the method call using the `timeout` method:\n\n```kotlin\nimport com.zavudev.api.models.messages.MessageResponse\n\nval messageResponse: MessageResponse = client.messages().send(\n  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()\n)\n```\n\nOr configure the default for all method calls at the client level:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport java.time.Duration\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .timeout(Duration.ofSeconds(30))\n    .build()\n```\n\n### Proxies\n\nTo route requests through a proxy, configure the client using the `proxy` method:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport java.net.InetSocketAddress\nimport java.net.Proxy\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .proxy(Proxy(\n      Proxy.Type.HTTP, InetSocketAddress(\n        "https://example.com", 8080\n      )\n    ))\n    .build()\n```\n\nIf the proxy responds with `407 Proxy Authentication Required`, supply credentials by also   configuring `proxyAuthenticator`:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport com.zavudev.api.core.http.ProxyAuthenticator\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .proxy(...)\n    // Or a custom implementation of `ProxyAuthenticator`.\n    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))\n    .build()\n```\n\n### Connection pooling\n\nTo customize the underlying OkHttp connection pool, configure the client using the   `maxIdleConnections` and `keepAliveDuration` methods:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\nimport java.time.Duration\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.\n    .maxIdleConnections(10)\n    .keepAliveDuration(Duration.ofMinutes(2))\n    .build()\n```\n\nIf both options are unset, OkHttp\'s default connection pool settings are used.\n\n### HTTPS\n\n> [!NOTE]\n> Most applications should not call these methods, and instead use the system defaults. The defaults include\n> special optimizations that can be lost if the implementations are modified.\n\nTo configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`,   `trustManager`, and `hostnameVerifier` methods:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.\n    .sslSocketFactory(yourSSLSocketFactory)\n    .trustManager(yourTrustManager)\n    .hostnameVerifier(yourHostnameVerifier)\n    .build()\n```\n\n\n\n### Custom HTTP client\n\nThe SDK consists of three artifacts:\n- `zavudev-kotlin-core`\n  - Contains core SDK logic\n  - Does not depend on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`ZavudevClient`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClient.kt), [`ZavudevClientAsync`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsync.kt),             [`ZavudevClientImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt), and [`ZavudevClientAsyncImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), all of which can             work with any HTTP client\n- `zavudev-kotlin-client-okhttp`\n  - Depends on [OkHttp](https://square.github.io/okhttp)\n  - Exposes [`ZavudevOkHttpClient`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) and [`ZavudevOkHttpClientAsync`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), which             provide a way to construct [`ZavudevClientImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) and             [`ZavudevClientAsyncImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), respectively, using OkHttp\n- `zavudev-kotlin`\n  - Depends on and exposes the APIs of both `zavudev-kotlin-core` and `zavudev-kotlin-client-okhttp`\n  - Does not have its own logic\n\nThis structure allows replacing the SDK\'s default HTTP client without pulling in unnecessary dependencies.\n\n#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)\n\n> [!TIP]\n> Try the available [network options](#network-options) before replacing the default client.\n\nTo use a customized `OkHttpClient`:\n\n1. Replace your [`zavudev-kotlin` dependency](#installation) with `zavudev-kotlin-core`\n2. Copy `zavudev-kotlin-client-okhttp`\'s [`OkHttpClient`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/OkHttpClient.kt) class into your code and        customize it\n3. Construct [`ZavudevClientImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) or [`ZavudevClientAsyncImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), similarly to        [`ZavudevOkHttpClient`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or [`ZavudevOkHttpClientAsync`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), using your        customized client\n\n### Completely custom HTTP client\n\nTo use a completely custom HTTP client:\n\n1. Replace your [`zavudev-kotlin` dependency](#installation) with `zavudev-kotlin-core`\n2. Write a class that implements the [`HttpClient`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/core/http/HttpClient.kt) interface\n3. Construct [`ZavudevClientImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientImpl.kt) or [`ZavudevClientAsyncImpl`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/client/ZavudevClientAsyncImpl.kt), similarly to        [`ZavudevOkHttpClient`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClient.kt) or [`ZavudevOkHttpClientAsync`](zavudev-kotlin-client-okhttp/src/main/kotlin/com/zavudev/api/client/okhttp/ZavudevOkHttpClientAsync.kt), using your new        client class\n\n## Undocumented API functionality\n\nThe SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.\n\n### Parameters\n\nTo set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or       `putAdditionalBodyProperty` methods on any `Params` class:\n\n```kotlin\nimport com.zavudev.api.core.JsonValue\nimport com.zavudev.api.models.messages.MessageSendParams\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .putAdditionalHeader("Secret-Header", "42")\n    .putAdditionalQueryParam("secret_query_param", "42")\n    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))\n    .build()\n```\n\nThese can be accessed on the built object later using the `_additionalHeaders()`,       `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.\n\nTo set undocumented parameters on _nested_ headers, query params, or body classes, call the         `putAdditionalProperty` method on the nested class:\n\n```kotlin\nimport com.zavudev.api.core.JsonValue\nimport com.zavudev.api.models.messages.MessageContent\nimport com.zavudev.api.models.messages.MessageSendParams\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .content(MessageContent.builder()\n        .putAdditionalProperty("secretProperty", JsonValue.from("42"))\n        .build())\n    .build()\n```\n\nThese properties can be accessed on the nested built object later using the         `_additionalProperties()` method.\n\nTo set a documented parameter or property to an undocumented or not yet supported _value_, pass a       [`JsonValue`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/core/Values.kt) object to its setter:\n\n```kotlin\nimport com.zavudev.api.core.JsonValue\nimport com.zavudev.api.models.messages.MessageSendParams\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .to(JsonValue.from(42))\n    .text("Hello from Zavu!")\n    .build()\n```\n\nThe most straightforward way to create a [`JsonValue`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/core/Values.kt) is using its       `from(...)` method:\n\n```kotlin\nimport com.zavudev.api.core.JsonValue\n\n// Create primitive JSON values\nval nullValue: JsonValue = JsonValue.from(null)\nval booleanValue: JsonValue = JsonValue.from(true)\nval numberValue: JsonValue = JsonValue.from(42)\nval stringValue: JsonValue = JsonValue.from("Hello World!")\n\n// Create a JSON array value equivalent to `["Hello", "World"]`\nval arrayValue: JsonValue = JsonValue.from(listOf(\n  "Hello", "World"\n))\n\n// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`\nval objectValue: JsonValue = JsonValue.from(mapOf(\n  "a" to 1, "b" to 2\n))\n\n// Create an arbitrarily nested JSON equivalent to:\n// {\n//   "a": [1, 2],\n//   "b": [3, 4]\n// }\nval complexValue: JsonValue = JsonValue.from(mapOf(\n  "a" to listOf(\n    1, 2\n  ), "b" to listOf(\n    3, 4\n  )\n))\n```\n\nNormally a `Builder` class\'s `build` method will throw         [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html)         if any required parameter or property is unset.\n\nTo forcibly omit a required parameter or property, pass [`JsonMissing`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/core/Values.kt):\n\n```kotlin\nimport com.zavudev.api.core.JsonMissing\nimport com.zavudev.api.models.messages.MessageSendParams\n\nval params: MessageSendParams = MessageSendParams.builder()\n    .to(JsonMissing.of())\n    .build()\n```\n\n### Response properties\n\nTo access undocumented response properties, call the `_additionalProperties()` method:\n\n```kotlin\nimport com.zavudev.api.core.JsonBoolean\nimport com.zavudev.api.core.JsonNull\nimport com.zavudev.api.core.JsonNumber\nimport com.zavudev.api.core.JsonValue\n\nval additionalProperties: Map<String, JsonValue> = client.messages().send(params)._additionalProperties()\nval secretPropertyValue: JsonValue = additionalProperties.get("secretProperty")\n\nval result = when (secretPropertyValue) {\n    is JsonNull -> "It\'s null!"\n    is JsonBoolean -> "It\'s a boolean!"\n    is JsonNumber -> "It\'s a number!"\n    // Other types include `JsonMissing`, `JsonString`, `JsonArray`, and `JsonObject`\n    else -> "It\'s something else!"\n}\n```\n\nTo access a property\'s raw JSON value, which may be undocumented, call its `_` prefixed method:\n\n```kotlin\nimport com.zavudev.api.core.JsonField\n\nval to: JsonField<String> = client.messages().send(params)._to()\n\nif (to.isMissing()) {\n  // The property is absent from the JSON response\n} else if (to.isNull()) {\n  // The property was set to literal null\n} else {\n  // Check if value was provided as a string\n  // Other methods include `asNumber()`, `asBoolean()`, etc.\n  val jsonString: String? = to.asString();\n\n  // Try to deserialize into a custom type\n  val myObject: MyClass = to.asUnknown()!!.convert(MyClass::class.java)\n}\n```\n\n### Response validation\n\nIn rare cases, the API may return a response that doesn\'t match the expected type. For example, the SDK     may expect a property to contain a `String`, but the API could return something else.\n\nBy default, the SDK will not throw an exception in this case. It will throw     [`ZavudevInvalidDataException`](zavudev-kotlin-core/src/main/kotlin/com/zavudev/api/errors/ZavudevInvalidDataException.kt) only if you directly access the property.\n\nValidating the response is _not_ forwards compatible with new types from the API for existing fields.\n\nIf you would still prefer to check that the response is completely well-typed upfront, then either call     `validate()`:\n\n```kotlin\nimport com.zavudev.api.models.messages.MessageResponse\n\nval messageResponse: MessageResponse = client.messages().send(params).validate()\n```\n\nOr configure the method call to validate the response using the `responseValidation` method:\n\n```kotlin\nimport com.zavudev.api.models.messages.MessageResponse\n\nval messageResponse: MessageResponse = client.messages().send(\n  params, RequestOptions.builder().responseValidation(true).build()\n)\n```\n\nOr configure the default for all method calls at the client level:\n\n```kotlin\nimport com.zavudev.api.client.ZavudevClient\nimport com.zavudev.api.client.okhttp.ZavudevOkHttpClient\n\nval client: ZavudevClient = ZavudevOkHttpClient.builder()\n    .fromEnv()\n    .responseValidation(true)\n    .build()\n```\n\n## FAQ\n\n### Why don\'t you use plain `enum` classes?\n\nKotlin `enum` classes are not trivially   [forwards compatible](https://www.stainless.com/blog/making-java-enums-forwards-compatible). Using them in   the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.\n\n### Why do you represent fields using `JsonField<T>` instead of just plain `T`?\n\nUsing `JsonField<T>` enables a few features:\n\n- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)\n- Lazily [validating the API response against the expected shape](#response-validation)\n- Representing absent vs explicitly null values\n\n### Why don\'t you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?\n\nIt is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api)   and we don\'t want to introduce a breaking change every time we add a field to a class.\n\n### Why don\'t you use checked exceptions?\n\nChecked exceptions are widely considered a mistake in the Java programming language. In fact, they were   omitted from Kotlin for this reason.\n\nChecked exceptions:\n\n- Are verbose to handle\n- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error\n- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)\n- Don\'t play well with lambdas (also due to the function coloring problem)\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/zavudev/sdk-kotlin/issues) with questions, bugs, or suggestions.\n',
   },
   {
     language: 'php',

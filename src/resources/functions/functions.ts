@@ -401,6 +401,18 @@ export namespace FunctionDeployResponse {
      */
     version: number;
 
+    /**
+     * What the build printed: dependency installation, the bundler's output, and the
+     * compiler's message when it failed. Returned when fetching a single deployment,
+     * omitted from the list. Read this first when a deploy fails — `errorMessage` is
+     * often the outer wrapper's summary, and the line that names the broken import or
+     * the syntax error is here.
+     */
+    buildLogs?: string | null;
+
+    /**
+     * Size of the built bundle in bytes. Null until the build finishes.
+     */
     bundleBytes?: number | null;
 
     deployedAt?: string | null;
@@ -410,6 +422,9 @@ export namespace FunctionDeployResponse {
      */
     errorMessage?: string | null;
 
+    /**
+     * Total size of the deployed source tree in bytes.
+     */
     sourceCodeBytes?: number | null;
   }
 }
@@ -436,6 +451,18 @@ export namespace FunctionGetDeploymentResponse {
      */
     version: number;
 
+    /**
+     * What the build printed: dependency installation, the bundler's output, and the
+     * compiler's message when it failed. Returned when fetching a single deployment,
+     * omitted from the list. Read this first when a deploy fails — `errorMessage` is
+     * often the outer wrapper's summary, and the line that names the broken import or
+     * the syntax error is here.
+     */
+    buildLogs?: string | null;
+
+    /**
+     * Size of the built bundle in bytes. Null until the build finishes.
+     */
     bundleBytes?: number | null;
 
     deployedAt?: string | null;
@@ -445,6 +472,9 @@ export namespace FunctionGetDeploymentResponse {
      */
     errorMessage?: string | null;
 
+    /**
+     * Total size of the deployed source tree in bytes.
+     */
     sourceCodeBytes?: number | null;
   }
 }
@@ -482,6 +512,23 @@ export interface FunctionCreateParams {
   description?: string;
 
   /**
+   * Which file in `files` is the entry point. Defaults to `index.ts`.
+   */
+  entrypoint?: string;
+
+  /**
+   * The project's source files, keyed by path relative to the project root (e.g.
+   * `index.ts`, `lib/orders.ts`). Imports between them are resolved when the
+   * function is built, so a function can be split across as many files as it needs.
+   *
+   * Paths must be relative and use forward slashes; `..`, `node_modules/` and
+   * `package.json` are rejected. npm packages are not uploaded here — declare them
+   * under `dependencies` and Zavu installs them. Limits: 200 files and 900,000 bytes
+   * for the whole tree.
+   */
+  files?: { [key: string]: string };
+
+  /**
    * Whether to expose a public HTTPS URL for this function.
    */
   httpEnabled?: boolean;
@@ -494,7 +541,9 @@ export interface FunctionCreateParams {
   runtime?: 'nodejs24';
 
   /**
-   * TypeScript source code for the function entry point (max ~900KB).
+   * Shortcut for a single-file function: exactly equivalent to sending `files` with
+   * one entry named after `entrypoint` (`index.ts` by default). Fully supported —
+   * use whichever fits. If both are sent, `files` wins.
    */
   sourceCode?: string;
 
@@ -514,6 +563,23 @@ export interface FunctionUpdateParams {
   dependencies?: { [key: string]: string };
 
   /**
+   * Which file in `files` is the entry point. Defaults to `index.ts`.
+   */
+  entrypoint?: string;
+
+  /**
+   * The project's source files, keyed by path relative to the project root (e.g.
+   * `index.ts`, `lib/orders.ts`). Imports between them are resolved when the
+   * function is built, so a function can be split across as many files as it needs.
+   *
+   * Paths must be relative and use forward slashes; `..`, `node_modules/` and
+   * `package.json` are rejected. npm packages are not uploaded here — declare them
+   * under `dependencies` and Zavu installs them. Limits: 200 files and 900,000 bytes
+   * for the whole tree.
+   */
+  files?: { [key: string]: string };
+
+  /**
    * Expose the function on its public HTTPS URL, or take it down. Applies to the
    * already-deployed function without redeploying; the URL is returned as
    * `publicUrl`.
@@ -521,7 +587,9 @@ export interface FunctionUpdateParams {
   httpEnabled?: boolean;
 
   /**
-   * New source code for the draft (replaces it).
+   * Shortcut for a single-file function: exactly equivalent to sending `files` with
+   * one entry named after `entrypoint` (`index.ts` by default). Fully supported —
+   * use whichever fits. If both are sent, `files` wins.
    */
   sourceCode?: string;
 }
@@ -533,7 +601,26 @@ export interface FunctionDeployParams {
   dependencies?: { [key: string]: string };
 
   /**
-   * New source code to publish (replaces the draft).
+   * Which file in `files` is the entry point. Defaults to `index.ts`.
+   */
+  entrypoint?: string;
+
+  /**
+   * The project's source files, keyed by path relative to the project root (e.g.
+   * `index.ts`, `lib/orders.ts`). Imports between them are resolved when the
+   * function is built, so a function can be split across as many files as it needs.
+   *
+   * Paths must be relative and use forward slashes; `..`, `node_modules/` and
+   * `package.json` are rejected. npm packages are not uploaded here — declare them
+   * under `dependencies` and Zavu installs them. Limits: 200 files and 900,000 bytes
+   * for the whole tree.
+   */
+  files?: { [key: string]: string };
+
+  /**
+   * Shortcut for a single-file function: exactly equivalent to sending `files` with
+   * one entry named after `entrypoint` (`index.ts` by default). Fully supported —
+   * use whichever fits. If both are sent, `files` wins.
    */
   sourceCode?: string;
 }

@@ -62,7 +62,10 @@ export class PhoneNumbers extends APIResource {
   /**
    * Purchase an available phone number. Requires a paid plan: the Free plan cannot
    * purchase phone numbers and receives `402` with code `paid_plan_required`. Paid
-   * plans include the first US number at no charge.
+   * plans include one US number at no charge. The included number is one per account
+   * and is granted once: claiming it spends the benefit for good, so releasing that
+   * number does not make another one free, and numbers the account already bought do
+   * not consume it.
    *
    * @example
    * ```ts
@@ -207,8 +210,9 @@ export interface PhoneNumberCapabilities {
 
 export interface PhoneNumberPricing {
   /**
-   * Whether this number qualifies as the plan-included first US number on paid
-   * plans.
+   * Whether this number qualifies as the plan-included US number on paid plans. The
+   * benefit is one per account: it is never offered again once claimed, not even
+   * after the number is released.
    */
   isFreeEligible?: boolean;
 

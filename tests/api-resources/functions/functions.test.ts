@@ -27,6 +27,12 @@ describe('resource functions', () => {
       slug: 'order-bot',
       dependencies: { openai: '^4.20.0' },
       description: 'Replies to order status questions on WhatsApp.',
+      entrypoint: 'index.ts',
+      files: {
+        'index.ts':
+          "import { formatOrder } from './lib/orders';\n\nexport default async function handler(event) {\n  return { statusCode: 200, body: formatOrder(event) };\n}\n",
+        'lib/orders.ts': 'export function formatOrder(event) {\n  return JSON.stringify(event);\n}\n',
+      },
       httpEnabled: true,
       memoryMb: 128,
       runtime: 'nodejs24',
@@ -92,6 +98,12 @@ describe('resource functions', () => {
         'functionId',
         {
           dependencies: { foo: 'string' },
+          entrypoint: 'index.ts',
+          files: {
+            'index.ts':
+              "import { formatOrder } from './lib/orders';\n\nexport default async function handler(event) {\n  return { statusCode: 200, body: formatOrder(event) };\n}\n",
+            'lib/orders.ts': 'export function formatOrder(event) {\n  return JSON.stringify(event);\n}\n',
+          },
           sourceCode: 'sourceCode',
         },
         { path: '/_stainless_unknown_path' },
