@@ -358,7 +358,12 @@ export interface SenderWebhook {
  *   receive time in Unix milliseconds (the moment the channel received the message
  *   from the contact — WhatsApp, Telegram, Instagram, Messenger; `null` for SMS
  *   and email). Compare it against the top-level `timestamp` (when Zavu dispatched
- *   the webhook) to detect and ignore delayed deliveries.
+ *   the webhook) to detect and ignore delayed deliveries. When the conversation
+ *   was opened from a Click-to-WhatsApp ad or post, `data.referral` carries the ad
+ *   attribution — including `ctwaClid`, the identifier Meta's Conversions API
+ *   needs to credit a conversion back to that ad. WhatsApp only, and only on the
+ *   first message of the thread: it is absent from every later message, so persist
+ *   it when it arrives.
  * - `message.unsupported`: Received a message type that is not supported
  *
  * **Broadcast events:**
