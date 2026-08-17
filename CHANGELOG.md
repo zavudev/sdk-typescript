@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.55.0 (2026-08-17)
+
+Full Changelog: [v0.54.0...v0.55.0](https://github.com/zavudev/sdk-typescript/compare/v0.54.0...v0.55.0)
+
+### Features
+
+* **api:** api update ([243ae2c](https://github.com/zavudev/sdk-typescript/commit/243ae2c8761d687210422fc1c043d4c89f0ee4cb))
+* **api:** api update ([a304a38](https://github.com/zavudev/sdk-typescript/commit/a304a38cd3276508e5fbba24a1fa06e6cac3933a))
+
+
+### Chores
+
+* **internal:** codegen related update ([1b5d158](https://github.com/zavudev/sdk-typescript/commit/1b5d158dcea7f321df2de839bbd50a47e8a973a8))
+
 ## 0.54.0 (2026-08-11)
 
 Full Changelog: [v0.53.0...v0.54.0](https://github.com/zavudev/sdk-typescript/compare/v0.53.0...v0.54.0)
