@@ -362,6 +362,20 @@ export interface MessageContent {
   reactToMessageId?: string;
 
   /**
+   * Click-to-WhatsApp (CTWA) ad attribution: where an inbound conversation came
+   * from.
+   *
+   * WhatsApp only. Present on the **first inbound message** of a conversation opened
+   * from a Meta ad or post, and on no message after it — so store it when it arrives
+   * rather than expecting it again. Organic conversations never carry it.
+   *
+   * Field names are camelCased to match the rest of this API; Meta sends them as
+   * snake_case (`ctwa_clid`, `source_id`, ...). Fields that do not apply are
+   * omitted: a `post` source has no click id, and an image ad has no `videoUrl`.
+   */
+  referral?: MessageContent.Referral;
+
+  /**
    * Sender of the quoted message (phone number in E.164 format).
    */
   replyToFrom?: string;
@@ -448,6 +462,72 @@ export namespace MessageContent {
     name?: string;
 
     phones?: Array<string>;
+  }
+
+  /**
+   * Click-to-WhatsApp (CTWA) ad attribution: where an inbound conversation came
+   * from.
+   *
+   * WhatsApp only. Present on the **first inbound message** of a conversation opened
+   * from a Meta ad or post, and on no message after it — so store it when it arrives
+   * rather than expecting it again. Organic conversations never carry it.
+   *
+   * Field names are camelCased to match the rest of this API; Meta sends them as
+   * snake_case (`ctwa_clid`, `source_id`, ...). Fields that do not apply are
+   * omitted: a `post` source has no click id, and an image ad has no `videoUrl`.
+   */
+  export interface Referral {
+    /**
+     * Body copy of the ad or post.
+     */
+    body?: string;
+
+    /**
+     * Click-to-WhatsApp click identifier. This is the value Meta's Conversions API
+     * needs to credit a conversion back to the ad that produced the conversation.
+     * Present on `ad` sources; a `post` source has none.
+     */
+    ctwaClid?: string;
+
+    /**
+     * Headline of the ad or post.
+     */
+    headline?: string;
+
+    /**
+     * Image of the ad. Present when `mediaType` is `image`.
+     */
+    imageUrl?: string;
+
+    /**
+     * Type of media on the ad, when it had any.
+     */
+    mediaType?: 'image' | 'video';
+
+    /**
+     * Identifier of the ad or post that produced the click.
+     */
+    sourceId?: string;
+
+    /**
+     * Where the click came from.
+     */
+    sourceType?: 'ad' | 'post';
+
+    /**
+     * Meta permalink to the ad or post.
+     */
+    sourceUrl?: string;
+
+    /**
+     * Thumbnail of the ad media.
+     */
+    thumbnailUrl?: string;
+
+    /**
+     * Video of the ad. Present when `mediaType` is `video`.
+     */
+    videoUrl?: string;
   }
 
   export interface Section {
