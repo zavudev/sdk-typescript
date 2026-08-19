@@ -10,6 +10,24 @@ export {
   type AddressListParams,
   type AddressesCursor,
 } from './addresses';
+export {
+  AgentTemplates,
+  type AgentTemplateRetrieveResponse,
+  type AgentTemplateListResponse,
+} from './agent-templates';
+export {
+  Agents,
+  type AgentCreateResponse,
+  type AgentRetrieveResponse,
+  type AgentUpdateResponse,
+  type AgentListVoicesResponse,
+  type AgentTestResponse,
+  type AgentCreateParams,
+  type AgentUpdateParams,
+  type AgentListParams,
+  type AgentListVoicesParams,
+  type AgentTestParams,
+} from './agents/agents';
 export { Balance, type BalanceRetrieveResponse } from './balance';
 export {
   Broadcasts,
@@ -38,6 +56,16 @@ export {
   type BroadcastsCursor,
 } from './broadcasts/broadcasts';
 export {
+  Calls,
+  type CallCreateResponse,
+  type CallRetrieveResponse,
+  type CallListResponse,
+  type CallHangupResponse,
+  type CallCreateParams,
+  type CallListParams,
+  type CallListResponsesCursor,
+} from './calls';
+export {
   Contacts,
   type Contact,
   type ContactChannel,
@@ -48,6 +76,23 @@ export {
   type ContactsCursor,
 } from './contacts/contacts';
 export {
+  Conversations,
+  type ConversationRetrieveResponse,
+  type ConversationListResponse,
+  type ConversationMarkAsReadResponse,
+  type ConversationListParams,
+  type ConversationListMessagesParams,
+  type ConversationListResponsesCursor,
+} from './conversations';
+export {
+  EmailDomains,
+  type EmailDomainCreateResponse,
+  type EmailDomainRetrieveResponse,
+  type EmailDomainListResponse,
+  type EmailDomainVerifyResponse,
+  type EmailDomainCreateParams,
+} from './email-domains';
+export {
   Functions,
   type FunctionCreateResponse,
   type FunctionRetrieveResponse,
@@ -55,16 +100,23 @@ export {
   type FunctionDeleteResponse,
   type FunctionDeployResponse,
   type FunctionGetDeploymentResponse,
+  type FunctionListDeploymentsResponse,
+  type FunctionListEventTypesResponse,
+  type FunctionRollbackDeploymentResponse,
   type FunctionTailLogsResponse,
   type FunctionCreateParams,
   type FunctionUpdateParams,
   type FunctionDeployParams,
+  type FunctionListDeploymentsParams,
+  type FunctionRollbackDeploymentParams,
   type FunctionTailLogsParams,
 } from './functions/functions';
 export {
   Introspect,
   type LineType,
+  type IntrospectValidateEmailResponse,
   type IntrospectValidatePhoneResponse,
+  type IntrospectValidateEmailParams,
   type IntrospectValidatePhoneParams,
 } from './introspect';
 export {
@@ -86,6 +138,7 @@ export {
   type MessageResponse,
   type MessageStatus,
   type MessageType,
+  type MessageListAttachmentsResponse,
   type MessageShowTypingResponse,
   type MessageListParams,
   type MessageReactParams,
@@ -164,16 +217,20 @@ export {
   Templates,
   type Template,
   type WhatsappCategory,
+  type TemplateSyncResponse,
   type TemplateCreateParams,
   type TemplateListParams,
   type TemplateSubmitParams,
+  type TemplateSyncParams,
   type TemplatesCursor,
 } from './templates';
 export {
   URLs,
   type VerifiedURL,
+  type URLEscalateResponse,
   type URLRetrieveDetailsResponse,
   type URLSubmitForVerificationResponse,
+  type URLEscalateParams,
   type URLListVerifiedParams,
   type URLSubmitForVerificationParams,
   type VerifiedURLsCursor,

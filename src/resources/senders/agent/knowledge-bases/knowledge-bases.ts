@@ -7,6 +7,10 @@ import {
   DocumentCreateResponse,
   DocumentDeleteParams,
   DocumentListParams,
+  DocumentRetrieveDocumentParams,
+  DocumentRetrieveDocumentResponse,
+  DocumentUpdateDocumentParams,
+  DocumentUpdateDocumentResponse,
   Documents,
 } from './documents';
 import { APIPromise } from '../../../../core/api-promise';
@@ -244,8 +248,12 @@ export declare namespace KnowledgeBases {
   export {
     Documents as Documents,
     type DocumentCreateResponse as DocumentCreateResponse,
+    type DocumentRetrieveDocumentResponse as DocumentRetrieveDocumentResponse,
+    type DocumentUpdateDocumentResponse as DocumentUpdateDocumentResponse,
     type DocumentCreateParams as DocumentCreateParams,
     type DocumentListParams as DocumentListParams,
     type DocumentDeleteParams as DocumentDeleteParams,
+    type DocumentRetrieveDocumentParams as DocumentRetrieveDocumentParams,
+    type DocumentUpdateDocumentParams as DocumentUpdateDocumentParams,
   };
 }

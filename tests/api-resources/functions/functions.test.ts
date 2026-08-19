@@ -124,6 +124,55 @@ describe('resource functions', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('listDeployments', async () => {
+    const responsePromise = client.functions.listDeployments('functionId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('listDeployments: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.functions.listDeployments('functionId', { limit: 100 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('listEventTypes', async () => {
+    const responsePromise = client.functions.listEventTypes();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('rollbackDeployment: only required params', async () => {
+    const responsePromise = client.functions.rollbackDeployment('functionId', { deploymentId: 'fnd_abc123' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('rollbackDeployment: required and optional params', async () => {
+    const response = await client.functions.rollbackDeployment('functionId', { deploymentId: 'fnd_abc123' });
+  });
+
+  // Mock server tests are disabled
   test.skip('tailLogs', async () => {
     const responsePromise = client.functions.tailLogs('functionId');
     const rawResponse = await responsePromise.asResponse();

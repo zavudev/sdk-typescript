@@ -41,6 +41,25 @@ export class Messages extends APIResource {
   }
 
   /**
+   * List the stored file attachments for an email message and get a short-lived
+   * signed `downloadUrl` for each. Works for both inbound emails (received via
+   * `message.inbound`) and outbound emails you sent with attachments. Messages
+   * without stored attachments (including SMS, WhatsApp, and other channels) return
+   * an empty list. Each `downloadUrl` is generated fresh per request and expires —
+   * fetch the file promptly and do not cache the URL.
+   *
+   * @example
+   * ```ts
+   * const response = await client.messages.listAttachments(
+   *   'messageId',
+   * );
+   * ```
+   */
+  listAttachments(messageID: string, options?: RequestOptions): APIPromise<MessageListAttachmentsResponse> {
+    return this._client.get(path`/v1/messages/${messageID}/attachments`, options);
+  }
+
+  /**
    * Send an emoji reaction to an existing WhatsApp message. Reactions are only
    * supported for WhatsApp messages.
    *
@@ -596,6 +615,52 @@ export type MessageType =
   | 'reaction'
   | 'template';
 
+export interface MessageListAttachmentsResponse {
+  items: Array<MessageListAttachmentsResponse.Item>;
+}
+
+export namespace MessageListAttachmentsResponse {
+  /**
+   * A stored file attachment for an email message (inbound or outbound).
+   */
+  export interface Item {
+    id: string;
+
+    /**
+     * Content-ID for inline attachments (referenced in the HTML body as
+     * `cid:<contentId>`). Null for regular attachments.
+     */
+    contentId: string | null;
+
+    createdAt: string;
+
+    /**
+     * Short-lived signed URL to download the attachment bytes. Freshly generated on
+     * each request and expires; do not cache it. Null if the stored file is no longer
+     * available.
+     */
+    downloadUrl: string | null;
+
+    filename: string;
+
+    /**
+     * Whether the attachment is inline (embedded in the HTML body) rather than a
+     * regular attachment.
+     */
+    isInline: boolean;
+
+    /**
+     * MIME type of the attachment.
+     */
+    mimeType: string;
+
+    /**
+     * Size of the attachment in bytes.
+     */
+    size: number;
+  }
+}
+
 export interface MessageShowTypingResponse {
   success: boolean;
 }
@@ -760,6 +825,7 @@ export declare namespace Messages {
     type MessageResponse as MessageResponse,
     type MessageStatus as MessageStatus,
     type MessageType as MessageType,
+    type MessageListAttachmentsResponse as MessageListAttachmentsResponse,
     type MessageShowTypingResponse as MessageShowTypingResponse,
     type MessagesCursor as MessagesCursor,
     type MessageListParams as MessageListParams,

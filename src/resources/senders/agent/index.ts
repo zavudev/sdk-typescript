@@ -11,6 +11,7 @@ export {
   type AgentCreateParams,
   type AgentUpdateParams,
   type AgentExecutionsCursor,
+  type AgentsCursor,
 } from './agent';
 export {
   Executions,
@@ -57,12 +58,14 @@ export {
   type ToolCreateResponse,
   type ToolRetrieveResponse,
   type ToolUpdateResponse,
+  type ToolListTestRunsResponse,
   type ToolTestResponse,
   type ToolCreateParams,
   type ToolRetrieveParams,
   type ToolUpdateParams,
   type ToolListParams,
   type ToolDeleteParams,
+  type ToolListTestRunsParams,
   type ToolTestParams,
   type AgentToolsCursor,
-} from './tools';
+} from './tools/index';

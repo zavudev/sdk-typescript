@@ -1,6 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as TelegramAPI from './telegram';
+import { Telegram, TelegramConnectParams, TelegramConnectResponse } from './telegram';
 import * as WhatsappSyncAPI from './whatsapp-sync';
 import {
   WhatsAppSyncContacts,
@@ -32,6 +34,7 @@ import { path } from '../../internal/utils/path';
 export class Senders extends APIResource {
   agent: AgentAPI.AgentResource = new AgentAPI.AgentResource(this._client);
   whatsappSync: WhatsappSyncAPI.WhatsappSync = new WhatsappSyncAPI.WhatsappSync(this._client);
+  telegram: TelegramAPI.Telegram = new TelegramAPI.Telegram(this._client);
 
   /**
    * Create sender
@@ -741,6 +744,7 @@ export interface SenderUploadProfilePictureParams {
 
 Senders.AgentResource = AgentResource;
 Senders.WhatsappSync = WhatsappSync;
+Senders.Telegram = Telegram;
 
 export declare namespace Senders {
   export {
@@ -781,5 +785,11 @@ export declare namespace Senders {
     type WhatsappSyncRetrieveResponse as WhatsappSyncRetrieveResponse,
     type WhatsappSyncStartContactsSyncResponse as WhatsappSyncStartContactsSyncResponse,
     type WhatsappSyncStartHistorySyncResponse as WhatsappSyncStartHistorySyncResponse,
+  };
+
+  export {
+    Telegram as Telegram,
+    type TelegramConnectResponse as TelegramConnectResponse,
+    type TelegramConnectParams as TelegramConnectParams,
   };
 }

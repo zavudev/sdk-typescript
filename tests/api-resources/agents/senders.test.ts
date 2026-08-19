@@ -7,10 +7,10 @@ const client = new Zavudev({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource introspect', () => {
+describe('resource senders', () => {
   // Mock server tests are disabled
-  test.skip('validateEmail', async () => {
-    const responsePromise = client.introspect.validateEmail({});
+  test.skip('connect: only required params', async () => {
+    const responsePromise = client.agents.senders.connect('agentId', { senderId: 'senderId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,8 +21,13 @@ describe('resource introspect', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('validatePhone: only required params', async () => {
-    const responsePromise = client.introspect.validatePhone({ phoneNumber: '+56912345678' });
+  test.skip('connect: required and optional params', async () => {
+    const response = await client.agents.senders.connect('agentId', { senderId: 'senderId' });
+  });
+
+  // Mock server tests are disabled
+  test.skip('disconnect: only required params', async () => {
+    const responsePromise = client.agents.senders.disconnect('senderId', { agentId: 'agentId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -33,7 +38,7 @@ describe('resource introspect', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('validatePhone: required and optional params', async () => {
-    const response = await client.introspect.validatePhone({ phoneNumber: '+56912345678' });
+  test.skip('disconnect: required and optional params', async () => {
+    const response = await client.agents.senders.disconnect('senderId', { agentId: 'agentId' });
   });
 });

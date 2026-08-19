@@ -29,9 +29,43 @@ import {
   Addresses,
   AddressesCursor,
 } from './resources/addresses';
+import {
+  AgentTemplateListResponse,
+  AgentTemplateRetrieveResponse,
+  AgentTemplates,
+} from './resources/agent-templates';
 import { Balance, BalanceRetrieveResponse } from './resources/balance';
 import {
+  CallCreateParams,
+  CallCreateResponse,
+  CallHangupResponse,
+  CallListParams,
+  CallListResponse,
+  CallListResponsesCursor,
+  CallRetrieveResponse,
+  Calls,
+} from './resources/calls';
+import {
+  ConversationListMessagesParams,
+  ConversationListParams,
+  ConversationListResponse,
+  ConversationListResponsesCursor,
+  ConversationMarkAsReadResponse,
+  ConversationRetrieveResponse,
+  Conversations,
+} from './resources/conversations';
+import {
+  EmailDomainCreateParams,
+  EmailDomainCreateResponse,
+  EmailDomainListResponse,
+  EmailDomainRetrieveResponse,
+  EmailDomainVerifyResponse,
+  EmailDomains,
+} from './resources/email-domains';
+import {
   Introspect,
+  IntrospectValidateEmailParams,
+  IntrospectValidateEmailResponse,
   IntrospectValidatePhoneParams,
   IntrospectValidatePhoneResponse,
   LineType,
@@ -51,6 +85,7 @@ import {
   Channel,
   Message,
   MessageContent,
+  MessageListAttachmentsResponse,
   MessageListParams,
   MessageReactParams,
   MessageResponse,
@@ -102,11 +137,15 @@ import {
   TemplateCreateParams,
   TemplateListParams,
   TemplateSubmitParams,
+  TemplateSyncParams,
+  TemplateSyncResponse,
   Templates,
   TemplatesCursor,
   WhatsappCategory,
 } from './resources/templates';
 import {
+  URLEscalateParams,
+  URLEscalateResponse,
   URLListVerifiedParams,
   URLRetrieveDetailsResponse,
   URLSubmitForVerificationParams,
@@ -115,6 +154,19 @@ import {
   VerifiedURL,
   VerifiedURLsCursor,
 } from './resources/urls';
+import {
+  AgentCreateParams,
+  AgentCreateResponse,
+  AgentListParams,
+  AgentListVoicesParams,
+  AgentListVoicesResponse,
+  AgentRetrieveResponse,
+  AgentTestParams,
+  AgentTestResponse,
+  AgentUpdateParams,
+  AgentUpdateResponse,
+  Agents,
+} from './resources/agents/agents';
 import {
   Broadcast,
   BroadcastCancelResponse,
@@ -157,7 +209,12 @@ import {
   FunctionDeployParams,
   FunctionDeployResponse,
   FunctionGetDeploymentResponse,
+  FunctionListDeploymentsParams,
+  FunctionListDeploymentsResponse,
+  FunctionListEventTypesResponse,
   FunctionRetrieveResponse,
+  FunctionRollbackDeploymentParams,
+  FunctionRollbackDeploymentResponse,
   FunctionTailLogsParams,
   FunctionTailLogsResponse,
   FunctionUpdateParams,
@@ -956,6 +1013,11 @@ export class Zavudev {
   number10dlc: API.Number10dlc = new API.Number10dlc(this);
   me: API.Me = new API.Me(this);
   functions: API.Functions = new API.Functions(this);
+  conversations: API.Conversations = new API.Conversations(this);
+  calls: API.Calls = new API.Calls(this);
+  agentTemplates: API.AgentTemplates = new API.AgentTemplates(this);
+  emailDomains: API.EmailDomains = new API.EmailDomains(this);
+  agents: API.Agents = new API.Agents(this);
 }
 
 Zavudev.Messages = Messages;
@@ -974,6 +1036,11 @@ Zavudev.SubAccounts = SubAccounts;
 Zavudev.Number10dlc = Number10dlc;
 Zavudev.Me = Me;
 Zavudev.Functions = Functions;
+Zavudev.Conversations = Conversations;
+Zavudev.Calls = Calls;
+Zavudev.AgentTemplates = AgentTemplates;
+Zavudev.EmailDomains = EmailDomains;
+Zavudev.Agents = Agents;
 
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
@@ -989,6 +1056,7 @@ export declare namespace Zavudev {
     type MessageResponse as MessageResponse,
     type MessageStatus as MessageStatus,
     type MessageType as MessageType,
+    type MessageListAttachmentsResponse as MessageListAttachmentsResponse,
     type MessageShowTypingResponse as MessageShowTypingResponse,
     type MessagesCursor as MessagesCursor,
     type MessageListParams as MessageListParams,
@@ -1001,10 +1069,12 @@ export declare namespace Zavudev {
     Templates as Templates,
     type Template as Template,
     type WhatsappCategory as WhatsappCategory,
+    type TemplateSyncResponse as TemplateSyncResponse,
     type TemplatesCursor as TemplatesCursor,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
     type TemplateSubmitParams as TemplateSubmitParams,
+    type TemplateSyncParams as TemplateSyncParams,
   };
 
   export {
@@ -1066,7 +1136,9 @@ export declare namespace Zavudev {
   export {
     Introspect as Introspect,
     type LineType as LineType,
+    type IntrospectValidateEmailResponse as IntrospectValidateEmailResponse,
     type IntrospectValidatePhoneResponse as IntrospectValidatePhoneResponse,
+    type IntrospectValidateEmailParams as IntrospectValidateEmailParams,
     type IntrospectValidatePhoneParams as IntrospectValidatePhoneParams,
   };
 
@@ -1132,9 +1204,11 @@ export declare namespace Zavudev {
   export {
     URLs as URLs,
     type VerifiedURL as VerifiedURL,
+    type URLEscalateResponse as URLEscalateResponse,
     type URLRetrieveDetailsResponse as URLRetrieveDetailsResponse,
     type URLSubmitForVerificationResponse as URLSubmitForVerificationResponse,
     type VerifiedURLsCursor as VerifiedURLsCursor,
+    type URLEscalateParams as URLEscalateParams,
     type URLListVerifiedParams as URLListVerifiedParams,
     type URLSubmitForVerificationParams as URLSubmitForVerificationParams,
   };
@@ -1167,10 +1241,65 @@ export declare namespace Zavudev {
     type FunctionDeleteResponse as FunctionDeleteResponse,
     type FunctionDeployResponse as FunctionDeployResponse,
     type FunctionGetDeploymentResponse as FunctionGetDeploymentResponse,
+    type FunctionListDeploymentsResponse as FunctionListDeploymentsResponse,
+    type FunctionListEventTypesResponse as FunctionListEventTypesResponse,
+    type FunctionRollbackDeploymentResponse as FunctionRollbackDeploymentResponse,
     type FunctionTailLogsResponse as FunctionTailLogsResponse,
     type FunctionCreateParams as FunctionCreateParams,
     type FunctionUpdateParams as FunctionUpdateParams,
     type FunctionDeployParams as FunctionDeployParams,
+    type FunctionListDeploymentsParams as FunctionListDeploymentsParams,
+    type FunctionRollbackDeploymentParams as FunctionRollbackDeploymentParams,
     type FunctionTailLogsParams as FunctionTailLogsParams,
+  };
+
+  export {
+    Conversations as Conversations,
+    type ConversationRetrieveResponse as ConversationRetrieveResponse,
+    type ConversationListResponse as ConversationListResponse,
+    type ConversationMarkAsReadResponse as ConversationMarkAsReadResponse,
+    type ConversationListResponsesCursor as ConversationListResponsesCursor,
+    type ConversationListParams as ConversationListParams,
+    type ConversationListMessagesParams as ConversationListMessagesParams,
+  };
+
+  export {
+    Calls as Calls,
+    type CallCreateResponse as CallCreateResponse,
+    type CallRetrieveResponse as CallRetrieveResponse,
+    type CallListResponse as CallListResponse,
+    type CallHangupResponse as CallHangupResponse,
+    type CallListResponsesCursor as CallListResponsesCursor,
+    type CallCreateParams as CallCreateParams,
+    type CallListParams as CallListParams,
+  };
+
+  export {
+    AgentTemplates as AgentTemplates,
+    type AgentTemplateRetrieveResponse as AgentTemplateRetrieveResponse,
+    type AgentTemplateListResponse as AgentTemplateListResponse,
+  };
+
+  export {
+    EmailDomains as EmailDomains,
+    type EmailDomainCreateResponse as EmailDomainCreateResponse,
+    type EmailDomainRetrieveResponse as EmailDomainRetrieveResponse,
+    type EmailDomainListResponse as EmailDomainListResponse,
+    type EmailDomainVerifyResponse as EmailDomainVerifyResponse,
+    type EmailDomainCreateParams as EmailDomainCreateParams,
+  };
+
+  export {
+    Agents as Agents,
+    type AgentCreateResponse as AgentCreateResponse,
+    type AgentRetrieveResponse as AgentRetrieveResponse,
+    type AgentUpdateResponse as AgentUpdateResponse,
+    type AgentListVoicesResponse as AgentListVoicesResponse,
+    type AgentTestResponse as AgentTestResponse,
+    type AgentCreateParams as AgentCreateParams,
+    type AgentUpdateParams as AgentUpdateParams,
+    type AgentListParams as AgentListParams,
+    type AgentListVoicesParams as AgentListVoicesParams,
+    type AgentTestParams as AgentTestParams,
   };
 }
