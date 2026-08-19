@@ -1,6 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as GitLinkAPI from './git-link';
+import {
+  GitLink,
+  GitLinkDeployNowResponse,
+  GitLinkLinkParams,
+  GitLinkLinkResponse,
+  GitLinkRetrieveResponse,
+  GitLinkUpdateParams,
+  GitLinkUpdateResponse,
+} from './git-link';
 import * as SecretsAPI from './secrets';
 import {
   SecretListResponse,
@@ -9,12 +19,23 @@ import {
   SecretUnsetParams,
   Secrets,
 } from './secrets';
+import * as TriggersAPI from './triggers';
+import {
+  TriggerCreateParams,
+  TriggerCreateResponse,
+  TriggerListResponse,
+  TriggerUpdateParams,
+  TriggerUpdateResponse,
+  Triggers,
+} from './triggers';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Functions extends APIResource {
   secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
+  triggers: TriggersAPI.Triggers = new TriggersAPI.Triggers(this._client);
+  gitLink: GitLinkAPI.GitLink = new GitLinkAPI.GitLink(this._client);
 
   /**
    * Create a new Zavu Function. The function starts in `draft` status. A dedicated
@@ -126,6 +147,62 @@ export class Functions extends APIResource {
    */
   getDeployment(deploymentID: string, options?: RequestOptions): APIPromise<FunctionGetDeploymentResponse> {
     return this._client.get(path`/v1/functions/deployments/${deploymentID}`, options);
+  }
+
+  /**
+   * List a function's deployment history, newest first. Source code is omitted;
+   * fetch a single deployment via GET /v1/functions/deployments/{deploymentId} for
+   * full details.
+   *
+   * @example
+   * ```ts
+   * const response = await client.functions.listDeployments(
+   *   'functionId',
+   * );
+   * ```
+   */
+  listDeployments(
+    functionID: string,
+    query: FunctionListDeploymentsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<FunctionListDeploymentsResponse> {
+    return this._client.get(path`/v1/functions/${functionID}/deployments`, { query, ...options });
+  }
+
+  /**
+   * List the event types a function trigger can subscribe to. Includes the special
+   * type `cron`, which fires on a schedule (see POST
+   * /v1/functions/{functionId}/triggers) rather than on a messaging event.
+   *
+   * @example
+   * ```ts
+   * const response = await client.functions.listEventTypes();
+   * ```
+   */
+  listEventTypes(options?: RequestOptions): APIPromise<FunctionListEventTypesResponse> {
+    return this._client.get('/v1/functions/event-types', options);
+  }
+
+  /**
+   * Re-deploy a previous version by copying its source, dependencies, and runtime
+   * pin onto the function's draft, then deploying. Returns immediately with a
+   * deployment ID — poll GET /v1/functions/deployments/{deploymentId} until status
+   * is active or failed. Secrets are not rolled back.
+   *
+   * @example
+   * ```ts
+   * const response = await client.functions.rollbackDeployment(
+   *   'functionId',
+   *   { deploymentId: 'fnd_abc123' },
+   * );
+   * ```
+   */
+  rollbackDeployment(
+    functionID: string,
+    body: FunctionRollbackDeploymentParams,
+    options?: RequestOptions,
+  ): APIPromise<FunctionRollbackDeploymentResponse> {
+    return this._client.post(path`/v1/functions/${functionID}/rollback`, { body, ...options });
   }
 
   /**
@@ -479,6 +556,94 @@ export namespace FunctionGetDeploymentResponse {
   }
 }
 
+export interface FunctionListDeploymentsResponse {
+  deployments: Array<FunctionListDeploymentsResponse.Deployment>;
+}
+
+export namespace FunctionListDeploymentsResponse {
+  export interface Deployment {
+    id?: string;
+
+    bundleSizeBytes?: number | null;
+
+    createdAt?: string;
+
+    deployedAt?: string | null;
+
+    errorMessage?: string | null;
+
+    isActive?: boolean;
+
+    /**
+     * Stage of a function deployment.
+     */
+    status?: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded';
+
+    version?: number;
+  }
+}
+
+export interface FunctionListEventTypesResponse {
+  events: Array<string>;
+}
+
+export interface FunctionRollbackDeploymentResponse {
+  deployment: FunctionRollbackDeploymentResponse.Deployment;
+
+  /**
+   * The draft that was replaced, so a UI can offer to restore it.
+   */
+  previousDraft?: unknown | null;
+
+  rolledBackToVersion?: number;
+}
+
+export namespace FunctionRollbackDeploymentResponse {
+  export interface Deployment {
+    id: string;
+
+    createdAt: string;
+
+    functionId: string;
+
+    /**
+     * Stage of a function deployment.
+     */
+    status: 'pending' | 'bundling' | 'uploading' | 'publishing' | 'active' | 'failed' | 'superseded';
+
+    /**
+     * Monotonically increasing deployment version, starting at 1.
+     */
+    version: number;
+
+    /**
+     * What the build printed: dependency installation, the bundler's output, and the
+     * compiler's message when it failed. Returned when fetching a single deployment,
+     * omitted from the list. Read this first when a deploy fails — `errorMessage` is
+     * often the outer wrapper's summary, and the line that names the broken import or
+     * the syntax error is here.
+     */
+    buildLogs?: string | null;
+
+    /**
+     * Size of the built bundle in bytes. Null until the build finishes.
+     */
+    bundleBytes?: number | null;
+
+    deployedAt?: string | null;
+
+    /**
+     * Failure reason when status is 'failed'.
+     */
+    errorMessage?: string | null;
+
+    /**
+     * Total size of the deployed source tree in bytes.
+     */
+    sourceCodeBytes?: number | null;
+  }
+}
+
 export interface FunctionTailLogsResponse {
   events: Array<FunctionTailLogsResponse.Event>;
 
@@ -625,6 +790,17 @@ export interface FunctionDeployParams {
   sourceCode?: string;
 }
 
+export interface FunctionListDeploymentsParams {
+  limit?: number;
+}
+
+export interface FunctionRollbackDeploymentParams {
+  /**
+   * ID of the deployment to roll back to.
+   */
+  deploymentId: string;
+}
+
 export interface FunctionTailLogsParams {
   /**
    * End of the log window in Unix epoch milliseconds.
@@ -644,6 +820,8 @@ export interface FunctionTailLogsParams {
 }
 
 Functions.Secrets = Secrets;
+Functions.Triggers = Triggers;
+Functions.GitLink = GitLink;
 
 export declare namespace Functions {
   export {
@@ -653,10 +831,15 @@ export declare namespace Functions {
     type FunctionDeleteResponse as FunctionDeleteResponse,
     type FunctionDeployResponse as FunctionDeployResponse,
     type FunctionGetDeploymentResponse as FunctionGetDeploymentResponse,
+    type FunctionListDeploymentsResponse as FunctionListDeploymentsResponse,
+    type FunctionListEventTypesResponse as FunctionListEventTypesResponse,
+    type FunctionRollbackDeploymentResponse as FunctionRollbackDeploymentResponse,
     type FunctionTailLogsResponse as FunctionTailLogsResponse,
     type FunctionCreateParams as FunctionCreateParams,
     type FunctionUpdateParams as FunctionUpdateParams,
     type FunctionDeployParams as FunctionDeployParams,
+    type FunctionListDeploymentsParams as FunctionListDeploymentsParams,
+    type FunctionRollbackDeploymentParams as FunctionRollbackDeploymentParams,
     type FunctionTailLogsParams as FunctionTailLogsParams,
   };
 
@@ -666,5 +849,24 @@ export declare namespace Functions {
     type SecretSetResponse as SecretSetResponse,
     type SecretSetParams as SecretSetParams,
     type SecretUnsetParams as SecretUnsetParams,
+  };
+
+  export {
+    Triggers as Triggers,
+    type TriggerCreateResponse as TriggerCreateResponse,
+    type TriggerUpdateResponse as TriggerUpdateResponse,
+    type TriggerListResponse as TriggerListResponse,
+    type TriggerCreateParams as TriggerCreateParams,
+    type TriggerUpdateParams as TriggerUpdateParams,
+  };
+
+  export {
+    GitLink as GitLink,
+    type GitLinkRetrieveResponse as GitLinkRetrieveResponse,
+    type GitLinkUpdateResponse as GitLinkUpdateResponse,
+    type GitLinkDeployNowResponse as GitLinkDeployNowResponse,
+    type GitLinkLinkResponse as GitLinkLinkResponse,
+    type GitLinkUpdateParams as GitLinkUpdateParams,
+    type GitLinkLinkParams as GitLinkLinkParams,
   };
 }

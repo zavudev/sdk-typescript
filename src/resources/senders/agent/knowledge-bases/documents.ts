@@ -85,9 +85,66 @@ export class Documents extends APIResource {
       { ...options, headers: buildHeaders([{ Accept: '*/*' }, options?.headers]) },
     );
   }
+
+  /**
+   * Get a single document from a knowledge base.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.senders.agent.knowledgeBases.documents.retrieveDocument(
+   *     'docId',
+   *     { senderId: 'senderId', kbId: 'kbId' },
+   *   );
+   * ```
+   */
+  retrieveDocument(
+    docID: string,
+    params: DocumentRetrieveDocumentParams,
+    options?: RequestOptions,
+  ): APIPromise<DocumentRetrieveDocumentResponse> {
+    const { senderId, kbId } = params;
+    return this._client.get(
+      path`/v1/senders/${senderId}/agent/knowledge-bases/${kbId}/documents/${docID}`,
+      options,
+    );
+  }
+
+  /**
+   * Update a document's title or content. Updating content reprocesses the document
+   * for RAG.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.senders.agent.knowledgeBases.documents.updateDocument(
+   *     'docId',
+   *     { senderId: 'senderId', kbId: 'kbId' },
+   *   );
+   * ```
+   */
+  updateDocument(
+    docID: string,
+    params: DocumentUpdateDocumentParams,
+    options?: RequestOptions,
+  ): APIPromise<DocumentUpdateDocumentResponse> {
+    const { senderId, kbId, ...body } = params;
+    return this._client.patch(
+      path`/v1/senders/${senderId}/agent/knowledge-bases/${kbId}/documents/${docID}`,
+      { body, ...options },
+    );
+  }
 }
 
 export interface DocumentCreateResponse {
+  document: KnowledgeBasesAPI.AgentDocument;
+}
+
+export interface DocumentRetrieveDocumentResponse {
+  document: KnowledgeBasesAPI.AgentDocument;
+}
+
+export interface DocumentUpdateDocumentResponse {
   document: KnowledgeBasesAPI.AgentDocument;
 }
 
@@ -121,12 +178,44 @@ export interface DocumentDeleteParams {
   kbId: string;
 }
 
+export interface DocumentRetrieveDocumentParams {
+  senderId: string;
+
+  kbId: string;
+}
+
+export interface DocumentUpdateDocumentParams {
+  /**
+   * Path param
+   */
+  senderId: string;
+
+  /**
+   * Path param
+   */
+  kbId: string;
+
+  /**
+   * Body param
+   */
+  content?: string;
+
+  /**
+   * Body param
+   */
+  title?: string;
+}
+
 export declare namespace Documents {
   export {
     type DocumentCreateResponse as DocumentCreateResponse,
+    type DocumentRetrieveDocumentResponse as DocumentRetrieveDocumentResponse,
+    type DocumentUpdateDocumentResponse as DocumentUpdateDocumentResponse,
     type DocumentCreateParams as DocumentCreateParams,
     type DocumentListParams as DocumentListParams,
     type DocumentDeleteParams as DocumentDeleteParams,
+    type DocumentRetrieveDocumentParams as DocumentRetrieveDocumentParams,
+    type DocumentUpdateDocumentParams as DocumentUpdateDocumentParams,
   };
 }
 

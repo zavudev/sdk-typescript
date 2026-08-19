@@ -8,12 +8,14 @@ Types:
 - <code><a href="./src/resources/messages.ts">MessageResponse</a></code>
 - <code><a href="./src/resources/messages.ts">MessageStatus</a></code>
 - <code><a href="./src/resources/messages.ts">MessageType</a></code>
+- <code><a href="./src/resources/messages.ts">MessageListAttachmentsResponse</a></code>
 - <code><a href="./src/resources/messages.ts">MessageShowTypingResponse</a></code>
 
 Methods:
 
 - <code title="get /v1/messages/{messageId}">client.messages.<a href="./src/resources/messages.ts">retrieve</a>(messageID) -> MessageResponse</code>
 - <code title="get /v1/messages">client.messages.<a href="./src/resources/messages.ts">list</a>({ ...params }) -> MessagesCursor</code>
+- <code title="get /v1/messages/{messageId}/attachments">client.messages.<a href="./src/resources/messages.ts">listAttachments</a>(messageID) -> MessageListAttachmentsResponse</code>
 - <code title="post /v1/messages/{messageId}/reactions">client.messages.<a href="./src/resources/messages.ts">react</a>(messageID, { ...params }) -> MessageResponse</code>
 - <code title="post /v1/messages">client.messages.<a href="./src/resources/messages.ts">send</a>({ ...params }) -> MessageResponse</code>
 - <code title="post /v1/messages/{messageId}/typing">client.messages.<a href="./src/resources/messages.ts">showTyping</a>(messageID, { ...params }) -> MessageShowTypingResponse</code>
@@ -24,6 +26,7 @@ Types:
 
 - <code><a href="./src/resources/templates.ts">Template</a></code>
 - <code><a href="./src/resources/templates.ts">WhatsappCategory</a></code>
+- <code><a href="./src/resources/templates.ts">TemplateSyncResponse</a></code>
 
 Methods:
 
@@ -32,6 +35,7 @@ Methods:
 - <code title="get /v1/templates">client.templates.<a href="./src/resources/templates.ts">list</a>({ ...params }) -> TemplatesCursor</code>
 - <code title="delete /v1/templates/{templateId}">client.templates.<a href="./src/resources/templates.ts">delete</a>(templateID) -> void</code>
 - <code title="post /v1/templates/{templateId}/submit">client.templates.<a href="./src/resources/templates.ts">submit</a>(templateID, { ...params }) -> Template</code>
+- <code title="post /v1/templates/sync">client.templates.<a href="./src/resources/templates.ts">sync</a>({ ...params }) -> TemplateSyncResponse</code>
 
 # Senders
 
@@ -114,21 +118,29 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/senders/agent/tools.ts">AgentTool</a></code>
-- <code><a href="./src/resources/senders/agent/tools.ts">ToolParameters</a></code>
-- <code><a href="./src/resources/senders/agent/tools.ts">ToolCreateResponse</a></code>
-- <code><a href="./src/resources/senders/agent/tools.ts">ToolRetrieveResponse</a></code>
-- <code><a href="./src/resources/senders/agent/tools.ts">ToolUpdateResponse</a></code>
-- <code><a href="./src/resources/senders/agent/tools.ts">ToolTestResponse</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">AgentTool</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">ToolParameters</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">ToolCreateResponse</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">ToolRetrieveResponse</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">ToolUpdateResponse</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">ToolListTestRunsResponse</a></code>
+- <code><a href="./src/resources/senders/agent/tools/tools.ts">ToolTestResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/senders/{senderId}/agent/tools">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools.ts">create</a>(senderID, { ...params }) -> ToolCreateResponse</code>
-- <code title="get /v1/senders/{senderId}/agent/tools/{toolId}">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools.ts">retrieve</a>(toolID, { ...params }) -> ToolRetrieveResponse</code>
-- <code title="patch /v1/senders/{senderId}/agent/tools/{toolId}">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools.ts">update</a>(toolID, { ...params }) -> ToolUpdateResponse</code>
-- <code title="get /v1/senders/{senderId}/agent/tools">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools.ts">list</a>(senderID, { ...params }) -> AgentToolsCursor</code>
-- <code title="delete /v1/senders/{senderId}/agent/tools/{toolId}">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools.ts">delete</a>(toolID, { ...params }) -> void</code>
-- <code title="post /v1/senders/{senderId}/agent/tools/{toolId}/test">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools.ts">test</a>(toolID, { ...params }) -> ToolTestResponse</code>
+- <code title="post /v1/senders/{senderId}/agent/tools">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">create</a>(senderID, { ...params }) -> ToolCreateResponse</code>
+- <code title="get /v1/senders/{senderId}/agent/tools/{toolId}">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">retrieve</a>(toolID, { ...params }) -> ToolRetrieveResponse</code>
+- <code title="patch /v1/senders/{senderId}/agent/tools/{toolId}">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">update</a>(toolID, { ...params }) -> ToolUpdateResponse</code>
+- <code title="get /v1/senders/{senderId}/agent/tools">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">list</a>(senderID, { ...params }) -> AgentToolsCursor</code>
+- <code title="delete /v1/senders/{senderId}/agent/tools/{toolId}">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">delete</a>(toolID, { ...params }) -> void</code>
+- <code title="get /v1/senders/{senderId}/agent/tools/{toolId}/test-runs">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">listTestRuns</a>(toolID, { ...params }) -> ToolListTestRunsResponse</code>
+- <code title="post /v1/senders/{senderId}/agent/tools/{toolId}/test">client.senders.agent.tools.<a href="./src/resources/senders/agent/tools/tools.ts">test</a>(toolID, { ...params }) -> ToolTestResponse</code>
+
+#### Webhook
+
+Methods:
+
+- <code title="post /v1/senders/{senderId}/agent/tools/{toolId}/webhook/secret">client.senders.agent.tools.webhook.<a href="./src/resources/senders/agent/tools/webhook.ts">rotateSecret</a>(toolID, { ...params }) -> WebhookSecretResponse</code>
 
 ### KnowledgeBases
 
@@ -153,12 +165,16 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/senders/agent/knowledge-bases/documents.ts">DocumentCreateResponse</a></code>
+- <code><a href="./src/resources/senders/agent/knowledge-bases/documents.ts">DocumentRetrieveDocumentResponse</a></code>
+- <code><a href="./src/resources/senders/agent/knowledge-bases/documents.ts">DocumentUpdateDocumentResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">create</a>(kbID, { ...params }) -> DocumentCreateResponse</code>
 - <code title="get /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">list</a>(kbID, { ...params }) -> AgentDocumentsCursor</code>
 - <code title="delete /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents/{docId}">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">delete</a>(docID, { ...params }) -> void</code>
+- <code title="get /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents/{docId}">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">retrieveDocument</a>(docID, { ...params }) -> DocumentRetrieveDocumentResponse</code>
+- <code title="patch /v1/senders/{senderId}/agent/knowledge-bases/{kbId}/documents/{docId}">client.senders.agent.knowledgeBases.documents.<a href="./src/resources/senders/agent/knowledge-bases/documents.ts">updateDocument</a>(docID, { ...params }) -> DocumentUpdateDocumentResponse</code>
 
 ## WhatsappSync
 
@@ -176,6 +192,17 @@ Methods:
 - <code title="get /v1/senders/{senderId}/whatsapp-sync">client.senders.whatsappSync.<a href="./src/resources/senders/whatsapp-sync.ts">retrieve</a>(senderID) -> WhatsappSyncRetrieveResponse</code>
 - <code title="post /v1/senders/{senderId}/whatsapp-sync/contacts">client.senders.whatsappSync.<a href="./src/resources/senders/whatsapp-sync.ts">startContactsSync</a>(senderID) -> WhatsappSyncStartContactsSyncResponse</code>
 - <code title="post /v1/senders/{senderId}/whatsapp-sync/history">client.senders.whatsappSync.<a href="./src/resources/senders/whatsapp-sync.ts">startHistorySync</a>(senderID) -> WhatsappSyncStartHistorySyncResponse</code>
+
+## Telegram
+
+Types:
+
+- <code><a href="./src/resources/senders/telegram.ts">TelegramConnectResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/senders/{senderId}/telegram">client.senders.telegram.<a href="./src/resources/senders/telegram.ts">connect</a>(senderID, { ...params }) -> TelegramConnectResponse</code>
+- <code title="delete /v1/senders/{senderId}/telegram">client.senders.telegram.<a href="./src/resources/senders/telegram.ts">disconnect</a>(senderID) -> void</code>
 
 # Contacts
 
@@ -262,10 +289,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/introspect.ts">LineType</a></code>
+- <code><a href="./src/resources/introspect.ts">IntrospectValidateEmailResponse</a></code>
 - <code><a href="./src/resources/introspect.ts">IntrospectValidatePhoneResponse</a></code>
 
 Methods:
 
+- <code title="post /v1/introspect/email">client.introspect.<a href="./src/resources/introspect.ts">validateEmail</a>({ ...params }) -> IntrospectValidateEmailResponse</code>
 - <code title="post /v1/introspect/phone">client.introspect.<a href="./src/resources/introspect.ts">validatePhone</a>({ ...params }) -> IntrospectValidatePhoneResponse</code>
 
 # PhoneNumbers
@@ -353,11 +382,13 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/urls.ts">VerifiedURL</a></code>
+- <code><a href="./src/resources/urls.ts">URLEscalateResponse</a></code>
 - <code><a href="./src/resources/urls.ts">URLRetrieveDetailsResponse</a></code>
 - <code><a href="./src/resources/urls.ts">URLSubmitForVerificationResponse</a></code>
 
 Methods:
 
+- <code title="post /v1/urls/{urlId}/escalate">client.urls.<a href="./src/resources/urls.ts">escalate</a>(urlID, { ...params }) -> URLEscalateResponse</code>
 - <code title="get /v1/urls">client.urls.<a href="./src/resources/urls.ts">listVerified</a>({ ...params }) -> VerifiedURLsCursor</code>
 - <code title="get /v1/urls/{urlId}">client.urls.<a href="./src/resources/urls.ts">retrieveDetails</a>(urlID) -> URLRetrieveDetailsResponse</code>
 - <code title="post /v1/urls">client.urls.<a href="./src/resources/urls.ts">submitForVerification</a>({ ...params }) -> URLSubmitForVerificationResponse</code>
@@ -485,6 +516,9 @@ Types:
 - <code><a href="./src/resources/functions/functions.ts">FunctionDeleteResponse</a></code>
 - <code><a href="./src/resources/functions/functions.ts">FunctionDeployResponse</a></code>
 - <code><a href="./src/resources/functions/functions.ts">FunctionGetDeploymentResponse</a></code>
+- <code><a href="./src/resources/functions/functions.ts">FunctionListDeploymentsResponse</a></code>
+- <code><a href="./src/resources/functions/functions.ts">FunctionListEventTypesResponse</a></code>
+- <code><a href="./src/resources/functions/functions.ts">FunctionRollbackDeploymentResponse</a></code>
 - <code><a href="./src/resources/functions/functions.ts">FunctionTailLogsResponse</a></code>
 
 Methods:
@@ -495,6 +529,9 @@ Methods:
 - <code title="delete /v1/functions/{functionId}">client.functions.<a href="./src/resources/functions/functions.ts">delete</a>(functionID) -> FunctionDeleteResponse</code>
 - <code title="post /v1/functions/{functionId}/deploy">client.functions.<a href="./src/resources/functions/functions.ts">deploy</a>(functionID, { ...params }) -> FunctionDeployResponse</code>
 - <code title="get /v1/functions/deployments/{deploymentId}">client.functions.<a href="./src/resources/functions/functions.ts">getDeployment</a>(deploymentID) -> FunctionGetDeploymentResponse</code>
+- <code title="get /v1/functions/{functionId}/deployments">client.functions.<a href="./src/resources/functions/functions.ts">listDeployments</a>(functionID, { ...params }) -> FunctionListDeploymentsResponse</code>
+- <code title="get /v1/functions/event-types">client.functions.<a href="./src/resources/functions/functions.ts">listEventTypes</a>() -> FunctionListEventTypesResponse</code>
+- <code title="post /v1/functions/{functionId}/rollback">client.functions.<a href="./src/resources/functions/functions.ts">rollbackDeployment</a>(functionID, { ...params }) -> FunctionRollbackDeploymentResponse</code>
 - <code title="get /v1/functions/{functionId}/logs">client.functions.<a href="./src/resources/functions/functions.ts">tailLogs</a>(functionID, { ...params }) -> FunctionTailLogsResponse</code>
 
 ## Secrets
@@ -509,3 +546,126 @@ Methods:
 - <code title="get /v1/functions/{functionId}/secrets">client.functions.secrets.<a href="./src/resources/functions/secrets.ts">list</a>(functionID) -> SecretListResponse</code>
 - <code title="put /v1/functions/{functionId}/secrets/{key}">client.functions.secrets.<a href="./src/resources/functions/secrets.ts">set</a>(key, { ...params }) -> unknown</code>
 - <code title="delete /v1/functions/{functionId}/secrets/{key}">client.functions.secrets.<a href="./src/resources/functions/secrets.ts">unset</a>(key, { ...params }) -> void</code>
+
+## Triggers
+
+Types:
+
+- <code><a href="./src/resources/functions/triggers.ts">TriggerCreateResponse</a></code>
+- <code><a href="./src/resources/functions/triggers.ts">TriggerUpdateResponse</a></code>
+- <code><a href="./src/resources/functions/triggers.ts">TriggerListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/functions/{functionId}/triggers">client.functions.triggers.<a href="./src/resources/functions/triggers.ts">create</a>(functionID, { ...params }) -> TriggerCreateResponse</code>
+- <code title="patch /v1/functions/triggers/{triggerId}">client.functions.triggers.<a href="./src/resources/functions/triggers.ts">update</a>(triggerID, { ...params }) -> TriggerUpdateResponse</code>
+- <code title="get /v1/functions/{functionId}/triggers">client.functions.triggers.<a href="./src/resources/functions/triggers.ts">list</a>(functionID) -> TriggerListResponse</code>
+- <code title="delete /v1/functions/triggers/{triggerId}">client.functions.triggers.<a href="./src/resources/functions/triggers.ts">delete</a>(triggerID) -> void</code>
+
+## GitLink
+
+Types:
+
+- <code><a href="./src/resources/functions/git-link.ts">GitLinkRetrieveResponse</a></code>
+- <code><a href="./src/resources/functions/git-link.ts">GitLinkUpdateResponse</a></code>
+- <code><a href="./src/resources/functions/git-link.ts">GitLinkDeployNowResponse</a></code>
+- <code><a href="./src/resources/functions/git-link.ts">GitLinkLinkResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/functions/{functionId}/git-link">client.functions.gitLink.<a href="./src/resources/functions/git-link.ts">retrieve</a>(functionID) -> GitLinkRetrieveResponse</code>
+- <code title="patch /v1/functions/{functionId}/git-link">client.functions.gitLink.<a href="./src/resources/functions/git-link.ts">update</a>(functionID, { ...params }) -> GitLinkUpdateResponse</code>
+- <code title="post /v1/functions/{functionId}/git-link/deploy">client.functions.gitLink.<a href="./src/resources/functions/git-link.ts">deployNow</a>(functionID) -> GitLinkDeployNowResponse</code>
+- <code title="post /v1/functions/{functionId}/git-link">client.functions.gitLink.<a href="./src/resources/functions/git-link.ts">link</a>(functionID, { ...params }) -> GitLinkLinkResponse</code>
+- <code title="delete /v1/functions/{functionId}/git-link">client.functions.gitLink.<a href="./src/resources/functions/git-link.ts">unlink</a>(functionID) -> void</code>
+
+# Conversations
+
+Types:
+
+- <code><a href="./src/resources/conversations.ts">ConversationRetrieveResponse</a></code>
+- <code><a href="./src/resources/conversations.ts">ConversationListResponse</a></code>
+- <code><a href="./src/resources/conversations.ts">ConversationMarkAsReadResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/conversations/{conversationId}">client.conversations.<a href="./src/resources/conversations.ts">retrieve</a>(conversationID) -> ConversationRetrieveResponse</code>
+- <code title="get /v1/conversations">client.conversations.<a href="./src/resources/conversations.ts">list</a>({ ...params }) -> ConversationListResponsesCursor</code>
+- <code title="get /v1/conversations/{conversationId}/messages">client.conversations.<a href="./src/resources/conversations.ts">listMessages</a>(conversationID, { ...params }) -> MessagesCursor</code>
+- <code title="post /v1/conversations/{conversationId}/read">client.conversations.<a href="./src/resources/conversations.ts">markAsRead</a>(conversationID) -> ConversationMarkAsReadResponse</code>
+
+# Calls
+
+Types:
+
+- <code><a href="./src/resources/calls.ts">CallCreateResponse</a></code>
+- <code><a href="./src/resources/calls.ts">CallRetrieveResponse</a></code>
+- <code><a href="./src/resources/calls.ts">CallListResponse</a></code>
+- <code><a href="./src/resources/calls.ts">CallHangupResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/calls">client.calls.<a href="./src/resources/calls.ts">create</a>({ ...params }) -> CallCreateResponse</code>
+- <code title="get /v1/calls/{callId}">client.calls.<a href="./src/resources/calls.ts">retrieve</a>(callID) -> CallRetrieveResponse</code>
+- <code title="get /v1/calls">client.calls.<a href="./src/resources/calls.ts">list</a>({ ...params }) -> CallListResponsesCursor</code>
+- <code title="post /v1/calls/{callId}/hangup">client.calls.<a href="./src/resources/calls.ts">hangup</a>(callID) -> CallHangupResponse</code>
+
+# AgentTemplates
+
+Types:
+
+- <code><a href="./src/resources/agent-templates.ts">AgentTemplateRetrieveResponse</a></code>
+- <code><a href="./src/resources/agent-templates.ts">AgentTemplateListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/agent-templates/{templateId}">client.agentTemplates.<a href="./src/resources/agent-templates.ts">retrieve</a>(templateID) -> AgentTemplateRetrieveResponse</code>
+- <code title="get /v1/agent-templates">client.agentTemplates.<a href="./src/resources/agent-templates.ts">list</a>() -> AgentTemplateListResponse</code>
+
+# EmailDomains
+
+Types:
+
+- <code><a href="./src/resources/email-domains.ts">EmailDomainCreateResponse</a></code>
+- <code><a href="./src/resources/email-domains.ts">EmailDomainRetrieveResponse</a></code>
+- <code><a href="./src/resources/email-domains.ts">EmailDomainListResponse</a></code>
+- <code><a href="./src/resources/email-domains.ts">EmailDomainVerifyResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/email-domains">client.emailDomains.<a href="./src/resources/email-domains.ts">create</a>({ ...params }) -> EmailDomainCreateResponse</code>
+- <code title="get /v1/email-domains/{domainId}">client.emailDomains.<a href="./src/resources/email-domains.ts">retrieve</a>(domainID) -> EmailDomainRetrieveResponse</code>
+- <code title="get /v1/email-domains">client.emailDomains.<a href="./src/resources/email-domains.ts">list</a>() -> EmailDomainListResponse</code>
+- <code title="delete /v1/email-domains/{domainId}">client.emailDomains.<a href="./src/resources/email-domains.ts">delete</a>(domainID) -> void</code>
+- <code title="post /v1/email-domains/{domainId}/verify">client.emailDomains.<a href="./src/resources/email-domains.ts">verify</a>(domainID) -> EmailDomainVerifyResponse</code>
+
+# Agents
+
+Types:
+
+- <code><a href="./src/resources/agents/agents.ts">AgentCreateResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentRetrieveResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentUpdateResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentListVoicesResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentTestResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
+- <code title="get /v1/agents/{agentId}">client.agents.<a href="./src/resources/agents/agents.ts">retrieve</a>(agentID) -> AgentRetrieveResponse</code>
+- <code title="patch /v1/agents/{agentId}">client.agents.<a href="./src/resources/agents/agents.ts">update</a>(agentID, { ...params }) -> AgentUpdateResponse</code>
+- <code title="get /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">list</a>({ ...params }) -> AgentsCursor</code>
+- <code title="delete /v1/agents/{agentId}">client.agents.<a href="./src/resources/agents/agents.ts">delete</a>(agentID) -> void</code>
+- <code title="get /v1/agents/voices">client.agents.<a href="./src/resources/agents/agents.ts">listVoices</a>({ ...params }) -> AgentListVoicesResponse</code>
+- <code title="post /v1/agents/{agentId}/test">client.agents.<a href="./src/resources/agents/agents.ts">test</a>(agentID, { ...params }) -> AgentTestResponse</code>
+
+## Senders
+
+Types:
+
+- <code><a href="./src/resources/agents/senders.ts">SenderConnectResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/agents/{agentId}/senders">client.agents.senders.<a href="./src/resources/agents/senders.ts">connect</a>(agentID, { ...params }) -> SenderConnectResponse</code>
+- <code title="delete /v1/agents/{agentId}/senders/{senderId}">client.agents.senders.<a href="./src/resources/agents/senders.ts">disconnect</a>(senderID, { ...params }) -> void</code>

@@ -90,6 +90,41 @@ export class Templates extends APIResource {
   submit(templateID: string, body: TemplateSubmitParams, options?: RequestOptions): APIPromise<Template> {
     return this._client.post(path`/v1/templates/${templateID}/submit`, { body, ...options });
   }
+
+  /**
+   * Reconcile this project's templates against WhatsApp. Two things happen per
+   * connected WhatsApp Business Account: templates that exist on Meta but not in
+   * Zavu are imported (or linked to an existing template with the same name), and
+   * the approval status of the templates Zavu already knows about is refreshed from
+   * Meta.
+   *
+   * This is what to call when a template was created outside Zavu — in Meta Business
+   * Manager, or by another tool — or when a `template.status_changed` webhook was
+   * missed and a template is stuck in `pending`. Status changes normally arrive by
+   * webhook; this endpoint is the recovery path and the only path for a template
+   * Zavu never created.
+   *
+   * Templates that Meta reports as rejected or disabled are not imported; they are
+   * counted in `skipped`. Existing local templates are matched first by Meta
+   * template ID, then by name.
+   *
+   * By default every sender in the project with a WhatsApp Business Account is
+   * synced. Pass `senderId` to sync only that sender's account. The call is
+   * synchronous — it waits for Meta and returns what changed — so it can take a few
+   * seconds per account. A failure on one account does not fail the request: it is
+   * reported in `errors` and the remaining accounts are still synced.
+   *
+   * @example
+   * ```ts
+   * const response = await client.templates.sync();
+   * ```
+   */
+  sync(
+    body: TemplateSyncParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TemplateSyncResponse> {
+    return this._client.post('/v1/templates/sync', { body, ...options });
+  }
 }
 
 export type TemplatesCursor = Cursor<Template>;
@@ -241,6 +276,41 @@ export namespace Template {
  */
 export type WhatsappCategory = 'UTILITY' | 'MARKETING' | 'AUTHENTICATION';
 
+export interface TemplateSyncResponse {
+  /**
+   * WhatsApp Business Accounts reconciled in this call.
+   */
+  accountsSynced: number;
+
+  /**
+   * Problems hit while syncing. Non-empty with a 200 means part of the sync did not
+   * complete — the rest still did.
+   */
+  errors: Array<string>;
+
+  /**
+   * Templates that existed on Meta and were created in Zavu by this call.
+   */
+  imported: number;
+
+  /**
+   * Existing Zavu templates that were matched to a Meta template by name and bound
+   * to its Meta ID.
+   */
+  linked: number;
+
+  /**
+   * Meta templates left alone: already linked to a Zavu template, or
+   * rejected/disabled on Meta.
+   */
+  skipped: number;
+
+  /**
+   * Templates whose approval status changed to match Meta.
+   */
+  updated: number;
+}
+
 export interface TemplateCreateParams {
   /**
    * Default template body. Used when no channel-specific body is set.
@@ -367,13 +437,23 @@ export interface TemplateSubmitParams {
   category?: WhatsappCategory;
 }
 
+export interface TemplateSyncParams {
+  /**
+   * Sync only the WhatsApp Business Account attached to this sender. If omitted,
+   * every WhatsApp sender in the project is synced.
+   */
+  senderId?: string;
+}
+
 export declare namespace Templates {
   export {
     type Template as Template,
     type WhatsappCategory as WhatsappCategory,
+    type TemplateSyncResponse as TemplateSyncResponse,
     type TemplatesCursor as TemplatesCursor,
     type TemplateCreateParams as TemplateCreateParams,
     type TemplateListParams as TemplateListParams,
     type TemplateSubmitParams as TemplateSubmitParams,
+    type TemplateSyncParams as TemplateSyncParams,
   };
 }

@@ -78,4 +78,52 @@ describe('resource documents', () => {
       kbId: 'kbId',
     });
   });
+
+  // Mock server tests are disabled
+  test.skip('retrieveDocument: only required params', async () => {
+    const responsePromise = client.senders.agent.knowledgeBases.documents.retrieveDocument('docId', {
+      senderId: 'senderId',
+      kbId: 'kbId',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('retrieveDocument: required and optional params', async () => {
+    const response = await client.senders.agent.knowledgeBases.documents.retrieveDocument('docId', {
+      senderId: 'senderId',
+      kbId: 'kbId',
+    });
+  });
+
+  // Mock server tests are disabled
+  test.skip('updateDocument: only required params', async () => {
+    const responsePromise = client.senders.agent.knowledgeBases.documents.updateDocument('docId', {
+      senderId: 'senderId',
+      kbId: 'kbId',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('updateDocument: required and optional params', async () => {
+    const response = await client.senders.agent.knowledgeBases.documents.updateDocument('docId', {
+      senderId: 'senderId',
+      kbId: 'kbId',
+      content: 'content',
+      title: 'title',
+    });
+  });
 });
