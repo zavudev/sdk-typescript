@@ -11,6 +11,7 @@ export {
   type AgentCreateParams,
   type AgentUpdateParams,
   type AgentExecutionsCursor,
+  type AgentsCursor,
 } from './agent/index';
 export {
   Senders,
@@ -30,6 +31,7 @@ export {
   type SenderUploadProfilePictureParams,
   type SendersCursor,
 } from './senders';
+export { Telegram, type TelegramConnectResponse, type TelegramConnectParams } from './telegram';
 export {
   WhatsappSync,
   type WhatsAppSyncContacts,

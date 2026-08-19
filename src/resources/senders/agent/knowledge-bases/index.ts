@@ -3,9 +3,13 @@
 export {
   Documents,
   type DocumentCreateResponse,
+  type DocumentRetrieveDocumentResponse,
+  type DocumentUpdateDocumentResponse,
   type DocumentCreateParams,
   type DocumentListParams,
   type DocumentDeleteParams,
+  type DocumentRetrieveDocumentParams,
+  type DocumentUpdateDocumentParams,
 } from './documents';
 export {
   KnowledgeBases,

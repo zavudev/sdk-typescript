@@ -26,23 +26,6 @@ import {
   FlowUpdateResponse,
   Flows,
 } from './flows';
-import * as ToolsAPI from './tools';
-import {
-  AgentTool,
-  AgentToolsCursor,
-  ToolCreateParams,
-  ToolCreateResponse,
-  ToolDeleteParams,
-  ToolListParams,
-  ToolParameters,
-  ToolRetrieveParams,
-  ToolRetrieveResponse,
-  ToolTestParams,
-  ToolTestResponse,
-  ToolUpdateParams,
-  ToolUpdateResponse,
-  Tools,
-} from './tools';
 import * as KnowledgeBasesAPI from './knowledge-bases/knowledge-bases';
 import {
   AgentDocument,
@@ -58,6 +41,25 @@ import {
   KnowledgeBaseUpdateResponse,
   KnowledgeBases,
 } from './knowledge-bases/knowledge-bases';
+import * as ToolsAPI from './tools/tools';
+import {
+  AgentTool,
+  AgentToolsCursor,
+  ToolCreateParams,
+  ToolCreateResponse,
+  ToolDeleteParams,
+  ToolListParams,
+  ToolListTestRunsParams,
+  ToolListTestRunsResponse,
+  ToolParameters,
+  ToolRetrieveParams,
+  ToolRetrieveResponse,
+  ToolTestParams,
+  ToolTestResponse,
+  ToolUpdateParams,
+  ToolUpdateResponse,
+  Tools,
+} from './tools/tools';
 import { APIPromise } from '../../../core/api-promise';
 import { Cursor } from '../../../core/pagination';
 import { buildHeaders } from '../../../internal/headers';
@@ -157,6 +159,8 @@ export class AgentResource extends APIResource {
 }
 
 export type AgentExecutionsCursor = Cursor<AgentExecution>;
+
+export type AgentsCursor = Cursor<Agent>;
 
 /**
  * AI Agent configuration for a sender.
@@ -771,6 +775,7 @@ export declare namespace AgentResource {
     type ToolCreateResponse as ToolCreateResponse,
     type ToolRetrieveResponse as ToolRetrieveResponse,
     type ToolUpdateResponse as ToolUpdateResponse,
+    type ToolListTestRunsResponse as ToolListTestRunsResponse,
     type ToolTestResponse as ToolTestResponse,
     type AgentToolsCursor as AgentToolsCursor,
     type ToolCreateParams as ToolCreateParams,
@@ -778,6 +783,7 @@ export declare namespace AgentResource {
     type ToolUpdateParams as ToolUpdateParams,
     type ToolListParams as ToolListParams,
     type ToolDeleteParams as ToolDeleteParams,
+    type ToolListTestRunsParams as ToolListTestRunsParams,
     type ToolTestParams as ToolTestParams,
   };
 

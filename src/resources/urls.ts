@@ -8,6 +8,26 @@ import { path } from '../internal/utils/path';
 
 export class URLs extends APIResource {
   /**
+   * Request manual review of a rejected URL. Only URLs in 'rejected' status can be
+   * escalated; the status then moves to 'escalated'.
+   *
+   * @example
+   * ```ts
+   * const response = await client.urls.escalate('urlId', {
+   *   reason:
+   *     'This is our official landing page and was rejected in error.',
+   * });
+   * ```
+   */
+  escalate(
+    urlID: string,
+    body: URLEscalateParams,
+    options?: RequestOptions,
+  ): APIPromise<URLEscalateResponse> {
+    return this._client.post(path`/v1/urls/${urlID}/escalate`, { body, ...options });
+  }
+
+  /**
    * List URLs that have been verified for this project.
    *
    * @example
@@ -91,12 +111,25 @@ export interface VerifiedURL {
   updatedAt?: string;
 }
 
+export interface URLEscalateResponse {
+  message: string;
+
+  url: VerifiedURL;
+}
+
 export interface URLRetrieveDetailsResponse {
   url: VerifiedURL;
 }
 
 export interface URLSubmitForVerificationResponse {
   url: VerifiedURL;
+}
+
+export interface URLEscalateParams {
+  /**
+   * Why the URL should be reviewed manually.
+   */
+  reason: string;
 }
 
 export interface URLListVerifiedParams extends CursorParams {
@@ -116,9 +149,11 @@ export interface URLSubmitForVerificationParams {
 export declare namespace URLs {
   export {
     type VerifiedURL as VerifiedURL,
+    type URLEscalateResponse as URLEscalateResponse,
     type URLRetrieveDetailsResponse as URLRetrieveDetailsResponse,
     type URLSubmitForVerificationResponse as URLSubmitForVerificationResponse,
     type VerifiedURLsCursor as VerifiedURLsCursor,
+    type URLEscalateParams as URLEscalateParams,
     type URLListVerifiedParams as URLListVerifiedParams,
     type URLSubmitForVerificationParams as URLSubmitForVerificationParams,
   };
