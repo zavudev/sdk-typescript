@@ -203,6 +203,12 @@ export interface Message {
   createdAt: string;
 
   /**
+   * Who sent the message. Needed to render a thread: `status` cannot tell the two
+   * apart, because an inbound message is also stored as `delivered`.
+   */
+  direction: 'inbound' | 'outbound';
+
+  /**
    * Type of message. Non-text types are supported by WhatsApp and Telegram (varies
    * by type).
    *
