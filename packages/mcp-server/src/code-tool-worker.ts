@@ -167,7 +167,6 @@ const fuse = new Fuse(
     'client.senders.telegram.disconnect',
     'client.contacts.create',
     'client.contacts.delete',
-    'client.contacts.dismissMergeSuggestion',
     'client.contacts.list',
     'client.contacts.merge',
     'client.contacts.retrieve',
