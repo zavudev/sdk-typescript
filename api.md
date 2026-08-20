@@ -218,7 +218,6 @@ Methods:
 - <code title="patch /v1/contacts/{contactId}">client.contacts.<a href="./src/resources/contacts/contacts.ts">update</a>(contactID, { ...params }) -> Contact</code>
 - <code title="get /v1/contacts">client.contacts.<a href="./src/resources/contacts/contacts.ts">list</a>({ ...params }) -> ContactsCursor</code>
 - <code title="delete /v1/contacts/{contactId}">client.contacts.<a href="./src/resources/contacts/contacts.ts">delete</a>(contactID) -> void</code>
-- <code title="delete /v1/contacts/{contactId}/merge-suggestion">client.contacts.<a href="./src/resources/contacts/contacts.ts">dismissMergeSuggestion</a>(contactID) -> void</code>
 - <code title="post /v1/contacts/{contactId}/merge">client.contacts.<a href="./src/resources/contacts/contacts.ts">merge</a>(contactID, { ...params }) -> Contact</code>
 - <code title="get /v1/contacts/phone/{phoneNumber}">client.contacts.<a href="./src/resources/contacts/contacts.ts">retrieveByPhone</a>(phoneNumber) -> Contact</code>
 
