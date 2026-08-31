@@ -141,7 +141,7 @@ export class Messages extends APIResource {
    * - Email needs no account verification here: a sender with a verified domain
    *   sends from day one, within the plan quota (100/day and 3,000/month on Free).
    *   Over the daily quota it returns `429` with code `daily_limit_exceeded`. Email
-   *   broadcasts are the exception: they need the account past the sandbox level,
+   *   broadcasts are the exception: they need the account past the unverified level,
    *   see `POST /v1/broadcasts/{broadcastId}/send`
    * - Full reference: https://docs.zavu.dev/concepts/sending-limits
    *
