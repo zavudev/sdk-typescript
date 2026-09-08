@@ -105,21 +105,6 @@ export class Contacts extends APIResource {
   }
 
   /**
-   * Dismiss the merge suggestion for a contact.
-   *
-   * @example
-   * ```ts
-   * await client.contacts.dismissMergeSuggestion('contactId');
-   * ```
-   */
-  dismissMergeSuggestion(contactID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/v1/contacts/${contactID}/merge-suggestion`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  /**
    * Merge a source contact into this contact. All channels from the source contact
    * will be moved to the target contact, and the source contact will be marked as
    * merged.
@@ -205,11 +190,6 @@ export interface Contact {
    * Contact's WhatsApp profile name. Only available for WhatsApp contacts.
    */
   profileName?: string | null;
-
-  /**
-   * ID of a contact suggested for merging.
-   */
-  suggestedMergeWith?: string;
 
   updatedAt?: string;
 }
@@ -339,11 +319,46 @@ export interface ContactUpdateParams {
    */
   defaultChannel?: 'sms' | 'whatsapp' | 'telegram' | 'email' | 'instagram' | 'messenger' | 'voice' | null;
 
+  /**
+   * Human-readable name for this contact. Set to null to clear it and fall back to
+   * the contact's identifier. Contacts created automatically from an inbound message
+   * have no display name until you set one.
+   */
+  displayName?: string | null;
+
   metadata?: { [key: string]: string };
 }
 
 export interface ContactListParams extends CursorParams {
+  /**
+   * Exact match on the contact's primary phone number, in E.164.
+   */
   phoneNumber?: string;
+
+  /**
+   * Free-text match over the contact's name (`displayName` and the WhatsApp profile
+   * name), phone numbers and email addresses. Case- and accent-insensitive. A phone
+   * number matches on a trailing fragment too, so `5551234` finds `+14155551234`.
+   *
+   * Contacts created automatically from an inbound message have no `displayName` —
+   * they are matched by their identifier until you set one with
+   * `PATCH /v1/contacts/{contactId}`.
+   *
+   * Results come back in relevance order rather than newest-first. `cursor` is
+   * opaque in both modes; pass back exactly what the previous response returned, and
+   * start a new pagination run when the search term changes.
+   */
+  search?: string;
+
+  /**
+   * Tag name. Repeatable: `?tag=vip&tag=chile` returns contacts carrying **every**
+   * tag given, not any of them — the same rule the dashboard filter applies.
+   *
+   * Tags are matched by name, case-insensitively. An unknown tag returns 400 rather
+   * than being ignored, because a typo that silently matched every contact would be
+   * a worse answer than an error.
+   */
+  tag?: Array<string>;
 }
 
 export interface ContactMergeParams {

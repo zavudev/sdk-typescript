@@ -182,15 +182,22 @@ export class Broadcasts extends APIResource {
   /**
    * Start sending the broadcast immediately or schedule for later.
    *
-   * **Verification is required to send, except on WhatsApp.** On every channel other
-   * than `whatsapp`, the team must have completed both identity verification (KYC)
-   * and business verification (KYB); passing one is not enough. A `whatsapp`
-   * broadcast requires neither: it can only be built on a template, and Meta vets
-   * the business and the content when it approves that template, so an unapproved
-   * template is refused instead. `smart` is not exempt — it can route a contact to
-   * SMS or email. Drafts can be created, edited and kept without any check. Every
-   * send path — dashboard, API and CLI alike — enforces the same rule, returning
-   * `403` with code `kyc_required` or `kyb_required` for whichever is outstanding.
+   * **The account must be past the unverified level to send, except on WhatsApp.**
+   * An account that has verified nothing is refused with `403` and code
+   * `kyc_required` on every channel other than `whatsapp`. Any one of these lifts
+   * it: identity verification (KYC), a saved payment method, a settled deposit, or a
+   * paid plan. Business verification (KYB) is not required to broadcast; it gates
+   * 10DLC registration only. A `whatsapp` broadcast is exempt: it can only be built
+   * on a template, and Meta vets the business and the content when it approves that
+   * template, so an unapproved template is refused instead. `smart` is not exempt,
+   * since it can route a contact to SMS or email. Drafts can be created, edited and
+   * kept without any check. Every send path (dashboard, API and CLI) enforces the
+   * same rule.
+   *
+   * **Daily ceilings apply per recipient.** Each message a broadcast sends counts
+   * against the channel's daily ceiling (see `POST /v1/messages`). Once the ceiling
+   * is reached, the remaining recipients are marked `failed` with `errorCode`
+   * `DAILY_LIMIT_EXCEEDED`; they are not retried the next day.
    *
    * **Review depends on the channel, and cannot be bypassed.** A draft is submitted
    * to automated content review here; it does not go straight out. A WhatsApp

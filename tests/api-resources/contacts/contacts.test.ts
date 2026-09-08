@@ -84,6 +84,8 @@ describe('resource contacts', () => {
           cursor: 'cursor',
           limit: 100,
           phoneNumber: 'phoneNumber',
+          search: 'search',
+          tag: ['string'],
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -93,18 +95,6 @@ describe('resource contacts', () => {
   // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.contacts.delete('contactId');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('dismissMergeSuggestion', async () => {
-    const responsePromise = client.contacts.dismissMergeSuggestion('contactId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

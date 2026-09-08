@@ -383,12 +383,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/v1/contacts/{contactId}',
   },
   {
-    clientCallName: 'client.contacts.dismissMergeSuggestion',
-    fullyQualifiedName: 'contacts.dismissMergeSuggestion',
-    httpMethod: 'delete',
-    httpPath: '/v1/contacts/{contactId}/merge-suggestion',
-  },
-  {
     clientCallName: 'client.contacts.merge',
     fullyQualifiedName: 'contacts.merge',
     httpMethod: 'post',
