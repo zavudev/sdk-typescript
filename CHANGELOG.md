@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.57.0 (2026-09-08)
+
+Full Changelog: [v0.56.0...v0.57.0](https://github.com/zavudev/sdk-typescript/compare/v0.56.0...v0.57.0)
+
+### Features
+
+* **api:** api update ([6ec36d7](https://github.com/zavudev/sdk-typescript/commit/6ec36d71c1fbeeb8011534619ae35a85d49f3dbd))
+* **api:** api update ([db68298](https://github.com/zavudev/sdk-typescript/commit/db68298602d42d2803b289046c3963dc5739f02a))
+* **api:** api update ([56e2a5e](https://github.com/zavudev/sdk-typescript/commit/56e2a5e9e932cd6054752d2f832d8064a531aa32))
+* **api:** api update ([4893d2f](https://github.com/zavudev/sdk-typescript/commit/4893d2ff679e148ee3d24b382dd9f00523e2054a))
+* **api:** api update ([75d5bff](https://github.com/zavudev/sdk-typescript/commit/75d5bff775b1a8d4b7d6442fd06d29db388def7d))
+* **api:** api update ([1b6174b](https://github.com/zavudev/sdk-typescript/commit/1b6174b4de78479eb683031a4d5409db9af2511a))
+
+
+### Documentation
+
+* **mcp:** document code execution modes and the local code runner ([9bfd1da](https://github.com/zavudev/sdk-typescript/commit/9bfd1daff31848c67b0b1621887321c468f4e2d8))
+
 ## 0.56.0 (2026-08-19)
 
 Full Changelog: [v0.55.0...v0.56.0](https://github.com/zavudev/sdk-typescript/compare/v0.55.0...v0.56.0)
