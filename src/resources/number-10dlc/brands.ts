@@ -190,8 +190,19 @@ export interface TenDlcBrand {
 
   /**
    * Status of a 10DLC brand registration.
+   *
+   * - `draft`: created, not yet submitted to the carrier.
+   * - `pending`: submitted, awaiting the carrier's answer.
+   * - `verified`: the carrier registered the brand AND verified the business behind
+   *   it.
+   * - `unverified`: the carrier registered the brand but did not verify the business
+   *   — the registration exists, the identity check did not pass or has not been
+   *   resolved. Campaigns are allowed, with lower daily limits. Read
+   *   `identityStatus` for the carrier's own wording.
+   * - `rejected`: refused by the carrier.
+   * - `failed`: the registration never reached the carrier; the fee is refunded.
    */
-  status: 'draft' | 'pending' | 'verified' | 'rejected';
+  status: 'draft' | 'pending' | 'verified' | 'unverified' | 'rejected' | 'failed';
 
   street: string;
 
@@ -225,6 +236,14 @@ export interface TenDlcBrand {
   failureReason?: string | null;
 
   firstName?: string | null;
+
+  /**
+   * The carrier's raw identity verdict on the business, as the carrier spells it
+   * (`VERIFIED`, `VETTED_VERIFIED`, `SELF_DECLARED`, `UNVERIFIED`). Null while the
+   * identity has not been resolved — which is not the same as verified, and is why
+   * such a brand reports `status: unverified`.
+   */
+  identityStatus?: string | null;
 
   lastName?: string | null;
 
