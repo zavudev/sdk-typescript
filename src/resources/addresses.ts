@@ -9,18 +9,19 @@ import { path } from '../internal/utils/path';
 
 export class Addresses extends APIResource {
   /**
-   * Create a regulatory address for phone number purchases. Some countries require a
-   * verified address before phone numbers can be activated.
+   * Create a regulatory address, to use as the value of an `address` requirement
+   * when buying a phone number. It is registered for review when it is created, with
+   * status `pending`.
    *
    * @example
    * ```ts
    * const address = await client.addresses.create({
    *   countryCode: 'DE',
+   *   firstName: 'John',
+   *   lastName: 'Doe',
    *   locality: 'Berlin',
    *   postalCode: '10115',
    *   streetAddress: '123 Main St',
-   *   firstName: 'John',
-   *   lastName: 'Doe',
    * });
    * ```
    */
@@ -61,7 +62,9 @@ export class Addresses extends APIResource {
   }
 
   /**
-   * Delete a regulatory address. Cannot delete addresses that are in use.
+   * Delete a regulatory address from this project. Any address can be deleted,
+   * whatever its status. Phone numbers already purchased with it are not affected,
+   * and neither is information already submitted for later purchases in its country.
    *
    * @example
    * ```ts
@@ -128,6 +131,16 @@ export interface AddressRetrieveResponse {
 export interface AddressCreateParams {
   countryCode: string;
 
+  /**
+   * First name of the person the address is registered to.
+   */
+  firstName: string;
+
+  /**
+   * Last name of the person the address is registered to.
+   */
+  lastName: string;
+
   locality: string;
 
   postalCode: string;
@@ -136,13 +149,13 @@ export interface AddressCreateParams {
 
   administrativeArea?: string;
 
+  /**
+   * Business name, when the address belongs to a business. Defaults to the person's
+   * full name.
+   */
   businessName?: string;
 
   extendedAddress?: string;
-
-  firstName?: string;
-
-  lastName?: string;
 }
 
 export interface AddressListParams extends CursorParams {}
