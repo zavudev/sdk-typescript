@@ -582,8 +582,10 @@ export interface SenderCreateParams {
    * Phone number in E.164 format, and it must be a number your project already owns
    * (see `GET /v1/phone-numbers`). The number is routed to the sender as part of
    * this call, which is what turns the SMS channel on. Passing a number the project
-   * does not own, or one already attached to another sender, returns 400 rather than
-   * creating a sender that cannot send. Omit for an email-only sender.
+   * does not own, one already attached to another sender, or one rejected in
+   * regulatory review returns 400 rather than creating a sender that cannot send. A
+   * number still under review is attached and starts carrying messages when it is
+   * approved. Omit for an email-only sender.
    */
   phoneNumber?: string;
 
