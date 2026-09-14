@@ -385,13 +385,19 @@ export interface SenderWebhook {
  *
  * **Partner events:**
  *
- * - `invitation.status_changed`: A partner invitation status changed (pending,
- *   in_progress, completed, cancelled, failed). `data` carries `invitationId`,
- *   `clientName`, `clientEmail`, `connectionType` (`whatsapp_waba` or
- *   `messenger`), `previousStatus`, and `currentStatus`. On `completed` it also
- *   carries `senderId` and `connectedAccount` (`channel`, `id`, `name`) — the
- *   WhatsApp number or Facebook Page that was linked. On `failed` it carries
- *   `failureReason`; the invitation link stays usable, so a client can retry it.
+ * - `invitation.status_changed`: A partner invitation's stored status changed: to
+ *   `in_progress`, `completed`, `failed`, `cancelled`, or back to `pending` when
+ *   it is resent from the dashboard. A change to the same status sends nothing,
+ *   and expiry is not a stored change, so no event is sent when an invitation
+ *   expires. Delivered to the project webhook (`POST /v1/invitations/webhook`) of
+ *   the project that created the invitation; a parent project does not receive its
+ *   sub-accounts' events. `data` carries `invitationId`, `clientName`,
+ *   `clientEmail`, `connectionType` (`whatsapp_waba` or `messenger`),
+ *   `previousStatus`, and `currentStatus`. On `completed` it also carries
+ *   `senderId`, `connectedAccount` (`channel`, `id`, `name`) — the WhatsApp number
+ *   or Facebook Page that was linked — and, for WhatsApp, `wabaAccountId`. On
+ *   `failed` it carries `failureReason`; the invitation link stays usable, so a
+ *   client can retry it.
  *
  * **Voice Agent events:** For every voice event, `data` carries `callId`,
  * `direction`, `from`, `to`, `status`, `durationSeconds`, `endReason`, and
