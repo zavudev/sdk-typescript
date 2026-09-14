@@ -229,7 +229,12 @@ export interface PhoneNumberPricing {
 
 export type PhoneNumberStatus = 'active' | 'suspended' | 'pending';
 
-export type PhoneNumberType = 'local' | 'national' | 'tollFree';
+/**
+ * Type of phone number. `mobile` is stocked in countries where no geographic
+ * (`local`) or non-geographic (`national`) inventory exists, and in several
+ * markets it is the only type that can receive SMS.
+ */
+export type PhoneNumberType = 'local' | 'national' | 'tollFree' | 'mobile';
 
 /**
  * A group of requirements for a specific country/phone type combination.
