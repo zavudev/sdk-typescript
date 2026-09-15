@@ -566,8 +566,10 @@ export interface SenderCreateParams {
   emailFromName?: string;
 
   /**
-   * Enable inbound email receiving on this sender. Requires a verified MX record on
-   * the domain; ignored otherwise.
+   * Enable inbound email receiving on this sender. Requires a verified inbound MX
+   * record on the domain; the request is ignored otherwise. Read
+   * `emailReceivingEnabled` back off the response to see whether it was applied — it
+   * comes back `false` when the MX has not verified.
    */
   emailReceivingEnabled?: boolean;
 
@@ -652,7 +654,10 @@ export interface SenderUpdateParams {
   emailFromName?: string;
 
   /**
-   * Enable or disable inbound email receiving for this sender.
+   * Enable or disable inbound email receiving for this sender. Enabling requires a
+   * verified inbound MX record on the domain; the request is ignored otherwise, and
+   * `emailReceivingEnabled` comes back `false` on the response. Disabling always
+   * applies.
    */
   emailReceivingEnabled?: boolean;
 
