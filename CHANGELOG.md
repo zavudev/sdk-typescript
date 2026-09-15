@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.58.0 (2026-09-15)
+
+Full Changelog: [v0.57.0...v0.58.0](https://github.com/zavudev/sdk-typescript/compare/v0.57.0...v0.58.0)
+
+### Features
+
+* **api:** api update ([7bf153b](https://github.com/zavudev/sdk-typescript/commit/7bf153bff5aabe0c1a1f2fba89308fd47f595c16))
+* **api:** api update ([43a393a](https://github.com/zavudev/sdk-typescript/commit/43a393a3bca122922c4ef7b7d63d8a3210180bfe))
+* **api:** api update ([064f6ca](https://github.com/zavudev/sdk-typescript/commit/064f6caa2a6ef6fc7a91a63d4c53b55c24e5facb))
+* **api:** api update ([399eac5](https://github.com/zavudev/sdk-typescript/commit/399eac507ca2dda61d57c7989e9bc698f989ac7e))
+* **api:** api update ([fb5ee26](https://github.com/zavudev/sdk-typescript/commit/fb5ee26ba2778d7cc5551fa521d5770c454dfcbd))
+
+
+### Chores
+
+* update SDK settings ([934ca0a](https://github.com/zavudev/sdk-typescript/commit/934ca0af6192b6942ed68913d1f09d03c3071cc7))
+* update SDK settings ([19d0d2b](https://github.com/zavudev/sdk-typescript/commit/19d0d2b76f72d5426cf755865a840cef58d901bc))
+* update SDK settings ([0d96236](https://github.com/zavudev/sdk-typescript/commit/0d96236b762f037676bfb1b578f5c0a03336c48b))
+
 ## 0.57.0 (2026-09-08)
 
 Full Changelog: [v0.56.0...v0.57.0](https://github.com/zavudev/sdk-typescript/compare/v0.56.0...v0.57.0)
