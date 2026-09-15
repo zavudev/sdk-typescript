@@ -61,11 +61,42 @@ export class PhoneNumbers extends APIResource {
 
   /**
    * Purchase an available phone number. Requires a paid plan: the Free plan cannot
-   * purchase phone numbers and receives `402` with code `paid_plan_required`. Paid
-   * plans include one US number at no charge. The included number is one per account
-   * and is granted once: claiming it spends the benefit for good, so releasing that
-   * number does not make another one free, and numbers the account already bought do
-   * not consume it.
+   * purchase phone numbers and receives `402` with code `paid_plan_required`.
+   *
+   * **The included number.** A paid plan includes one number at no charge, once per
+   * account: it must be a US or Canadian number (a +1 number) costing $20 a month or
+   * less. `isFreeEligible` in `GET /v1/phone-numbers/available` marks the numbers
+   * that qualify. Claiming it spends the benefit for good, across every team the
+   * account owner owns, so releasing that number does not make another one free.
+   *
+   * **Numbers with regulatory requirements.** Which numbers need regulatory
+   * information is decided per number, not by a fixed country list. The purchase
+   * looks the requirements up for the exact number before charging anything:
+   *
+   * 1. `GET /v1/phone-numbers/requirements?phoneNumber=...`. If `items` is empty,
+   *    buy normally.
+   * 2. Create what it asks for: addresses with `POST /v1/addresses`, documents with
+   *    `POST /v1/documents`.
+   * 3. Purchase with `type` and `regulatoryRequirements`. The number is bought and
+   *    billed at once with `regulatoryStatus: pending_review`.
+   * 4. Poll `GET /v1/phone-numbers/{phoneNumberId}` until `regulatoryStatus` is
+   *    `approved`. Assign it to a sender before or after approval; it starts
+   *    carrying messages once approved.
+   *
+   * **Reuse.** Information you submitted is kept for your project, per country and
+   * `type`, and a later purchase there may omit `regulatoryRequirements`. Reuse only
+   * happens when what is kept still covers every requirement of the new number and
+   * every address and document in it belongs to the project. Otherwise, or when
+   * nothing is kept, the purchase returns `400 regulatory_compliance_required` with
+   * the missing requirements in `details`.
+   *
+   * Invalid values (a missing, unknown or repeated requirement id, an address or
+   * document from another project, or one rejected in review) return
+   * `400 invalid_request`. If an address or document cannot be registered for
+   * review, the purchase returns `400 invalid_request` naming the requirement. If
+   * the requirements cannot be looked up, the purchase returns
+   * `502 requirements_unavailable`, except for US and Canadian numbers, which are
+   * sold as numbers without requirements. None of these errors charge anything.
    *
    * @example
    * ```ts
@@ -98,19 +129,28 @@ export class PhoneNumbers extends APIResource {
   }
 
   /**
-   * Get regulatory requirements for purchasing phone numbers in a specific country.
-   * Some countries require additional documentation (addresses, identity documents)
-   * before phone numbers can be activated.
+   * Get the regulatory information needed to buy a phone number, for one specific
+   * number or for a country and number type. Prefer `phoneNumber`: the response is
+   * then exactly the list the purchase of that number validates against. Pass each
+   * `requirementTypes[].id` back as `requirementType` in `regulatoryRequirements` on
+   * `POST /v1/phone-numbers`.
+   *
+   * For `phoneNumber`, the requirements of that exact number are returned. When they
+   * cannot be resolved for the number itself, the list for its country and `type` is
+   * returned instead, and the purchase uses the same list. An empty `items` array
+   * means the number needs no regulatory information. If the requirements cannot be
+   * retrieved at all, the response is `502 requirements_unavailable`, never an empty
+   * list.
+   *
+   * URL-encode the `+` of `phoneNumber` as `%2B`. An unencoded `+` is also accepted.
    *
    * @example
    * ```ts
-   * const response = await client.phoneNumbers.requirements({
-   *   countryCode: 'xx',
-   * });
+   * const response = await client.phoneNumbers.requirements();
    * ```
    */
   requirements(
-    query: PhoneNumberRequirementsParams,
+    query: PhoneNumberRequirementsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<PhoneNumberRequirementsResponse> {
     return this._client.get('/v1/phone-numbers/requirements', { query, ...options });
@@ -161,6 +201,29 @@ export interface OwnedPhoneNumber {
 
   pricing: OwnedPhoneNumberPricing;
 
+  /**
+   * Regulatory review state. Numbers that need no review are `approved` immediately.
+   * A number bought with regulatory information is owned and billed from purchase
+   * and starts `pending_review`; it cannot send messages or place calls until this
+   * is `approved`. The state is re-checked every 6 hours: poll
+   * `GET /v1/phone-numbers/{phoneNumberId}` to follow it.
+   *
+   * Assign it to a sender with `PATCH /v1/phone-numbers/{phoneNumberId}`
+   * (`senderId`) before or after approval. A number assigned while under review is
+   * recorded and connected to that sender when it is approved; the connection is
+   * retried until it succeeds. A sender created over the API is set up for SMS as
+   * part of the assignment. `rejected` means review refused the information: the
+   * number cannot be assigned to a sender. A number that stays `pending_review` may
+   * be waiting on information the API cannot supply; contact support.
+   */
+  regulatoryStatus: 'approved' | 'pending_review' | 'rejected';
+
+  /**
+   * Billing state of an owned number, separate from `regulatoryStatus`. `pending` is
+   * legacy and is not written to numbers today. The SDKs carry `active`, `suspended`
+   * and `pending` only; `releasing` and `released` are returned by the REST API
+   * until their next release.
+   */
   status: PhoneNumberStatus;
 
   /**
@@ -210,9 +273,10 @@ export interface PhoneNumberCapabilities {
 
 export interface PhoneNumberPricing {
   /**
-   * Whether this number qualifies as the plan-included US number on paid plans. The
-   * benefit is one per account: it is never offered again once claimed, not even
-   * after the number is released.
+   * Whether this number qualifies as the plan-included number: a US or Canadian
+   * number (a +1 number) costing $20 a month or less. The benefit is one per
+   * account: it is never offered again once claimed, not even after the number is
+   * released.
    */
   isFreeEligible?: boolean;
 
@@ -227,7 +291,13 @@ export interface PhoneNumberPricing {
   upfrontPrice?: number;
 }
 
-export type PhoneNumberStatus = 'active' | 'suspended' | 'pending';
+/**
+ * Billing state of an owned number, separate from `regulatoryStatus`. `pending` is
+ * legacy and is not written to numbers today. The SDKs carry `active`, `suspended`
+ * and `pending` only; `releasing` and `released` are returned by the REST API
+ * until their next release.
+ */
+export type PhoneNumberStatus = 'active' | 'suspended' | 'pending' | 'releasing' | 'released';
 
 /**
  * Type of phone number. `mobile` is stocked in countries where no geographic
@@ -237,7 +307,9 @@ export type PhoneNumberStatus = 'active' | 'suspended' | 'pending';
 export type PhoneNumberType = 'local' | 'national' | 'tollFree' | 'mobile';
 
 /**
- * A group of requirements for a specific country/phone type combination.
+ * The requirements for ordering a number: for a country and number type, or for
+ * one specific number when requested with `phoneNumber` (then `id` is that phone
+ * number and `countryCode` is taken from it).
  */
 export interface Requirement {
   id: string;
@@ -273,6 +345,9 @@ export type RequirementFieldType = 'textual' | 'address' | 'document' | 'action'
  * A specific requirement type within a requirement group.
  */
 export interface RequirementType {
+  /**
+   * Send this as `requirementType` in `regulatoryRequirements` when purchasing.
+   */
   id: string;
 
   description: string;
@@ -319,7 +394,9 @@ export interface PhoneNumberUpdateParams {
   name?: string | null;
 
   /**
-   * Sender ID to assign the phone number to. Set to null to unassign.
+   * Sender ID to assign the phone number to. Set to null to unassign. A number under
+   * regulatory review is recorded now and connected to the sender when approved; a
+   * rejected number is refused.
    */
   senderId?: string | null;
 }
@@ -341,16 +418,65 @@ export interface PhoneNumberPurchaseParams {
    * Optional custom name for the phone number.
    */
   name?: string;
+
+  /**
+   * Regulatory information, for numbers whose requirements list is not empty. Get
+   * the list with `GET /v1/phone-numbers/requirements?phoneNumber=...` and send one
+   * entry per requirement id, except `action` requirements, which take no value.
+   * Every required id must be present, once, and no unknown id may be sent;
+   * otherwise the purchase is refused with `400 invalid_request` before anything is
+   * charged.
+   *
+   * The information is kept for your project under the number's country and `type`.
+   * A later purchase there may omit this field if what is kept still covers that
+   * number's requirements. Omit it for numbers without requirements.
+   */
+  regulatoryRequirements?: Array<PhoneNumberPurchaseParams.RegulatoryRequirement>;
+
+  /**
+   * Type of phone number. `mobile` is stocked in countries where no geographic
+   * (`local`) or non-geographic (`national`) inventory exists, and in several
+   * markets it is the only type that can receive SMS.
+   */
+  type?: PhoneNumberType;
+}
+
+export namespace PhoneNumberPurchaseParams {
+  export interface RegulatoryRequirement {
+    /**
+     * Depends on the requirement's `type`: the text itself for `textual`; for
+     * `address`, the `id` of an address created in this project with
+     * `POST /v1/addresses`; for `document`, the `id` of a document created with
+     * `POST /v1/documents`. An address or document from another project, or one
+     * rejected in review, is refused.
+     */
+    fieldValue: string;
+
+    /**
+     * A `requirementTypes[].id` from `GET /v1/phone-numbers/requirements`. Each id may
+     * appear only once.
+     */
+    requirementType: string;
+  }
 }
 
 export interface PhoneNumberRequirementsParams {
   /**
-   * Two-letter ISO country code.
+   * Two-letter ISO country code. Required unless `phoneNumber` is given.
    */
-  countryCode: string;
+  countryCode?: string;
 
   /**
-   * Type of phone number (local, mobile, tollFree).
+   * E.164 number from `GET /v1/phone-numbers/available`, with `+` encoded as `%2B`.
+   * Returns the requirements the purchase of that number checks. Takes precedence
+   * over `countryCode`.
+   */
+  phoneNumber?: string;
+
+  /**
+   * Type of phone number (local, national, mobile, tollFree). Defaults to `local`.
+   * With `phoneNumber`, used only when the number's own requirements cannot be
+   * resolved and the country list is returned.
    */
   type?: PhoneNumberType;
 }
