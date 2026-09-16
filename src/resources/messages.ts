@@ -104,9 +104,16 @@ export class Messages extends APIResource {
    * **Plan allowances and email billing:**
    *
    * - WhatsApp, Telegram, Instagram and Messenger share an allowance of 2,000
-   *   messages per month on Free. Over it, sends return 429 with code
-   *   `a2p_limit_exceeded` and upgrade details; the counter resets on the 1st of
-   *   each month. Paid plans have no message caps
+   *   messages per month on Free. **It counts messages in both directions**: a
+   *   message a contact sends you consumes one unit exactly as a message you send
+   *   them does, so a project that has sent 300 and received 1,700 has used the
+   *   whole allowance. Messages you send from the WhatsApp Business App on your own
+   *   phone under coexistence are mirrored into your inbox but never counted, and
+   *   neither are failed sends. Over the allowance, sends return 429 with code
+   *   `a2p_limit_exceeded` and upgrade details, **and inbound messages on those
+   *   channels are refused as well**: not stored, not shown in the inbox, and no
+   *   `message.inbound` webhook, and not delivered later when the month resets. The
+   *   counter resets on the 1st of each month. Paid plans have no message caps
    * - Email is billed from your prepaid balance in 1,000-message blocks: $0.40 per
    *   1,000 transactional emails, $0.80 per 1,000 marketing (broadcast) emails. A
    *   block is charged when your monthly count crosses each 1,000 boundary, and at
