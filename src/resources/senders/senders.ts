@@ -383,7 +383,14 @@ export interface SenderWebhook {
  *   `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`), the
  *   `phoneNumber` or `email` key, `channel`, `firstMessageId`, `firstMessageText`,
  *   and `profileName`.
- * - `template.status_changed`: WhatsApp template approval status changed
+ * - `template.status_changed`: WhatsApp template approval status changed. `data`
+ *   carries `templateId`, `name`, `previousStatus`, `currentStatus`,
+ *   `rejectionReason`, and `category` — the category Meta currently bills the
+ *   template under. Meta can recategorize a template (typically `UTILITY` to
+ *   `MARKETING`) at approval or long afterwards, which changes what each message
+ *   costs; `category` is how that reaches you. A recategorization with no status
+ *   change is delivered as this same event, so compare `category` against what you
+ *   hold rather than only reacting to `currentStatus`.
  *
  * **Partner events:**
  *
