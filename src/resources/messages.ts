@@ -133,7 +133,10 @@ export class Messages extends APIResource {
    *   Zavu's sandbox number. One verification covers WhatsApp, SMS and calls, up to
    *   5 numbers per project. To send to any destination, do any one of these: verify
    *   your identity, add a payment method, settle a deposit, or subscribe to a paid
-   *   plan. Business verification (KYB) is never required to send
+   *   plan. Business verification (KYB) is required for **one channel only**:
+   *   `sms_oneway`. Without an approved KYB, one-way SMS returns `403` with code
+   *   `kyb_required` and `details.dashboardUrl` pointing at `/kyb`, whatever the
+   *   account has otherwise verified. No other channel asks for it
    * - Daily ceilings apply per channel group and rise with verification. An account
    *   that has verified nothing: 25/day across `sms` + `sms_oneway`, 5/day for
    *   `voice`, 100/day across WhatsApp, Telegram, Instagram and Messenger combined.
