@@ -104,9 +104,16 @@ export class Messages extends APIResource {
    * **Plan allowances and email billing:**
    *
    * - WhatsApp, Telegram, Instagram and Messenger share an allowance of 2,000
-   *   messages per month on Free. Over it, sends return 429 with code
-   *   `a2p_limit_exceeded` and upgrade details; the counter resets on the 1st of
-   *   each month. Paid plans have no message caps
+   *   messages per month on Free. **It counts messages in both directions**: a
+   *   message a contact sends you consumes one unit exactly as a message you send
+   *   them does, so a project that has sent 300 and received 1,700 has used the
+   *   whole allowance. Messages you send from the WhatsApp Business App on your own
+   *   phone under coexistence are mirrored into your inbox but never counted, and
+   *   neither are failed sends. Over the allowance, sends return 429 with code
+   *   `a2p_limit_exceeded` and upgrade details, **and inbound messages on those
+   *   channels are refused as well**: not stored, not shown in the inbox, and no
+   *   `message.inbound` webhook, and not delivered later when the month resets. The
+   *   counter resets on the 1st of each month. Paid plans have no message caps
    * - Email is billed from your prepaid balance in 1,000-message blocks: $0.40 per
    *   1,000 transactional emails, $0.80 per 1,000 marketing (broadcast) emails. A
    *   block is charged when your monthly count crosses each 1,000 boundary, and at
@@ -126,7 +133,10 @@ export class Messages extends APIResource {
    *   Zavu's sandbox number. One verification covers WhatsApp, SMS and calls, up to
    *   5 numbers per project. To send to any destination, do any one of these: verify
    *   your identity, add a payment method, settle a deposit, or subscribe to a paid
-   *   plan. Business verification (KYB) is never required to send
+   *   plan. Business verification (KYB) is required for **one channel only**:
+   *   `sms_oneway`. Without an approved KYB, one-way SMS returns `403` with code
+   *   `kyb_required` and `details.dashboardUrl` pointing at `/kyb`, whatever the
+   *   account has otherwise verified. No other channel asks for it
    * - Daily ceilings apply per channel group and rise with verification. An account
    *   that has verified nothing: 25/day across `sms` + `sms_oneway`, 5/day for
    *   `voice`, 100/day across WhatsApp, Telegram, Instagram and Messenger combined.

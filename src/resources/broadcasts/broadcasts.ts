@@ -186,13 +186,16 @@ export class Broadcasts extends APIResource {
    * An account that has verified nothing is refused with `403` and code
    * `kyc_required` on every channel other than `whatsapp`. Any one of these lifts
    * it: identity verification (KYC), a saved payment method, a settled deposit, or a
-   * paid plan. Business verification (KYB) is not required to broadcast; it gates
-   * 10DLC registration only. A `whatsapp` broadcast is exempt: it can only be built
-   * on a template, and Meta vets the business and the content when it approves that
-   * template, so an unapproved template is refused instead. `smart` is not exempt,
-   * since it can route a contact to SMS or email. Drafts can be created, edited and
-   * kept without any check. Every send path (dashboard, API and CLI) enforces the
-   * same rule.
+   * paid plan. Business verification (KYB) is not required to broadcast on any
+   * channel except `sms_oneway`, which is refused with `403` and code `KYB_REQUIRED`
+   * until it is approved; KYB also gates 10DLC registration. A `smart` broadcast is
+   * never refused for KYB: without it, one-way SMS is simply dropped from the
+   * channels smart routing may pick for a contact. A `whatsapp` broadcast is exempt:
+   * it can only be built on a template, and Meta vets the business and the content
+   * when it approves that template, so an unapproved template is refused instead.
+   * `smart` is not exempt, since it can route a contact to SMS or email. Drafts can
+   * be created, edited and kept without any check. Every send path (dashboard, API
+   * and CLI) enforces the same rule.
    *
    * **Daily ceilings apply per recipient.** Each message a broadcast sends counts
    * against the channel's daily ceiling (see `POST /v1/messages`). Once the ceiling
@@ -270,6 +273,9 @@ export interface Broadcast {
    */
   content?: BroadcastContent;
 
+  /**
+   * Recipients with confirmed delivery to the device.
+   */
   deliveredCount?: number;
 
   emailSubject?: string;
@@ -305,6 +311,12 @@ export interface Broadcast {
   senderId?: string;
 
   sendingCount?: number;
+
+  /**
+   * Recipients whose message the provider accepted, without a confirmed delivery
+   * yet. Channels that never report delivery keep their recipients here.
+   */
+  sentCount?: number;
 
   startedAt?: string;
 
@@ -358,6 +370,16 @@ export interface BroadcastContact {
 
   /**
    * Status of a contact within a broadcast.
+   *
+   * - `pending`, `queued`, `sending`: not handed to the provider yet.
+   * - `sent`: accepted by the provider; delivery is not confirmed yet. Channels that
+   *   never report delivery leave the recipient here.
+   * - `delivered`: the channel confirmed delivery to the device. A WhatsApp read
+   *   receipt also counts as delivered.
+   * - `failed`: not delivered. A recipient can move from `sent` or `delivered` to
+   *   `failed` when the provider reports a failure late.
+   * - `skipped`: not sent, because the recipient opted out of the channel or the
+   *   broadcast was cancelled before reaching it.
    */
   status: BroadcastContactStatus;
 
@@ -383,8 +405,25 @@ export interface BroadcastContact {
 
 /**
  * Status of a contact within a broadcast.
+ *
+ * - `pending`, `queued`, `sending`: not handed to the provider yet.
+ * - `sent`: accepted by the provider; delivery is not confirmed yet. Channels that
+ *   never report delivery leave the recipient here.
+ * - `delivered`: the channel confirmed delivery to the device. A WhatsApp read
+ *   receipt also counts as delivered.
+ * - `failed`: not delivered. A recipient can move from `sent` or `delivered` to
+ *   `failed` when the provider reports a failure late.
+ * - `skipped`: not sent, because the recipient opted out of the channel or the
+ *   broadcast was cancelled before reaching it.
  */
-export type BroadcastContactStatus = 'pending' | 'queued' | 'sending' | 'delivered' | 'failed' | 'skipped';
+export type BroadcastContactStatus =
+  | 'pending'
+  | 'queued'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'failed'
+  | 'skipped';
 
 /**
  * Content for non-text broadcast message types.
@@ -446,7 +485,7 @@ export interface BroadcastProgress {
   broadcastId: string;
 
   /**
-   * Successfully delivered.
+   * Confirmed delivered to the device.
    */
   delivered: number;
 
@@ -501,6 +540,11 @@ export interface BroadcastProgress {
    * Amount reserved from balance in USD.
    */
   reservedAmount?: number | null;
+
+  /**
+   * Accepted by the provider, delivery not confirmed yet.
+   */
+  sent?: number;
 
   startedAt?: string;
 }

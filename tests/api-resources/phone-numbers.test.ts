@@ -76,6 +76,10 @@ describe('resource phoneNumbers', () => {
     const response = await client.phoneNumbers.purchase({
       phoneNumber: '+15551234567',
       name: 'Primary Line',
+      regulatoryRequirements: [
+        { fieldValue: 'jd7x2k3m4n5p6q7r8s9t0abc', requirementType: '8c5b1a2e-0f3d-4f5b-9a61-2c7e4d9b1f10' },
+      ],
+      type: 'local',
     });
   });
 
@@ -92,8 +96,8 @@ describe('resource phoneNumbers', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('requirements: only required params', async () => {
-    const responsePromise = client.phoneNumbers.requirements({ countryCode: 'xx' });
+  test.skip('requirements', async () => {
+    const responsePromise = client.phoneNumbers.requirements();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -104,8 +108,18 @@ describe('resource phoneNumbers', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('requirements: required and optional params', async () => {
-    const response = await client.phoneNumbers.requirements({ countryCode: 'xx', type: 'local' });
+  test.skip('requirements: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.phoneNumbers.requirements(
+        {
+          countryCode: 'xx',
+          phoneNumber: 'phoneNumber',
+          type: 'local',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
   });
 
   // Mock server tests are disabled
