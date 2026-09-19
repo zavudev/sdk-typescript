@@ -273,6 +273,9 @@ export interface Broadcast {
    */
   content?: BroadcastContent;
 
+  /**
+   * Recipients with confirmed delivery to the device.
+   */
   deliveredCount?: number;
 
   emailSubject?: string;
@@ -308,6 +311,12 @@ export interface Broadcast {
   senderId?: string;
 
   sendingCount?: number;
+
+  /**
+   * Recipients whose message the provider accepted, without a confirmed delivery
+   * yet. Channels that never report delivery keep their recipients here.
+   */
+  sentCount?: number;
 
   startedAt?: string;
 
@@ -361,6 +370,16 @@ export interface BroadcastContact {
 
   /**
    * Status of a contact within a broadcast.
+   *
+   * - `pending`, `queued`, `sending`: not handed to the provider yet.
+   * - `sent`: accepted by the provider; delivery is not confirmed yet. Channels that
+   *   never report delivery leave the recipient here.
+   * - `delivered`: the channel confirmed delivery to the device. A WhatsApp read
+   *   receipt also counts as delivered.
+   * - `failed`: not delivered. A recipient can move from `sent` or `delivered` to
+   *   `failed` when the provider reports a failure late.
+   * - `skipped`: not sent, because the recipient opted out of the channel or the
+   *   broadcast was cancelled before reaching it.
    */
   status: BroadcastContactStatus;
 
@@ -386,8 +405,25 @@ export interface BroadcastContact {
 
 /**
  * Status of a contact within a broadcast.
+ *
+ * - `pending`, `queued`, `sending`: not handed to the provider yet.
+ * - `sent`: accepted by the provider; delivery is not confirmed yet. Channels that
+ *   never report delivery leave the recipient here.
+ * - `delivered`: the channel confirmed delivery to the device. A WhatsApp read
+ *   receipt also counts as delivered.
+ * - `failed`: not delivered. A recipient can move from `sent` or `delivered` to
+ *   `failed` when the provider reports a failure late.
+ * - `skipped`: not sent, because the recipient opted out of the channel or the
+ *   broadcast was cancelled before reaching it.
  */
-export type BroadcastContactStatus = 'pending' | 'queued' | 'sending' | 'delivered' | 'failed' | 'skipped';
+export type BroadcastContactStatus =
+  | 'pending'
+  | 'queued'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'failed'
+  | 'skipped';
 
 /**
  * Content for non-text broadcast message types.
@@ -449,7 +485,7 @@ export interface BroadcastProgress {
   broadcastId: string;
 
   /**
-   * Successfully delivered.
+   * Confirmed delivered to the device.
    */
   delivered: number;
 
@@ -504,6 +540,11 @@ export interface BroadcastProgress {
    * Amount reserved from balance in USD.
    */
   reservedAmount?: number | null;
+
+  /**
+   * Accepted by the provider, delivery not confirmed yet.
+   */
+  sent?: number;
 
   startedAt?: string;
 }
