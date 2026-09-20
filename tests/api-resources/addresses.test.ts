@@ -12,6 +12,8 @@ describe('resource addresses', () => {
   test.skip('create: only required params', async () => {
     const responsePromise = client.addresses.create({
       countryCode: 'DE',
+      firstName: 'John',
+      lastName: 'Doe',
       locality: 'Berlin',
       postalCode: '10115',
       streetAddress: '123 Main St',
@@ -29,14 +31,14 @@ describe('resource addresses', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.addresses.create({
       countryCode: 'DE',
+      firstName: 'John',
+      lastName: 'Doe',
       locality: 'Berlin',
       postalCode: '10115',
       streetAddress: '123 Main St',
       administrativeArea: 'administrativeArea',
       businessName: 'businessName',
       extendedAddress: 'extendedAddress',
-      firstName: 'John',
-      lastName: 'Doe',
     });
   });
 

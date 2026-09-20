@@ -104,9 +104,16 @@ export class Messages extends APIResource {
    * **Plan allowances and email billing:**
    *
    * - WhatsApp, Telegram, Instagram and Messenger share an allowance of 2,000
-   *   messages per month on Free. Over it, sends return 429 with code
-   *   `a2p_limit_exceeded` and upgrade details; the counter resets on the 1st of
-   *   each month. Paid plans have no message caps
+   *   messages per month on Free. **It counts messages in both directions**: a
+   *   message a contact sends you consumes one unit exactly as a message you send
+   *   them does, so a project that has sent 300 and received 1,700 has used the
+   *   whole allowance. Messages you send from the WhatsApp Business App on your own
+   *   phone under coexistence are mirrored into your inbox but never counted, and
+   *   neither are failed sends. Over the allowance, sends return 429 with code
+   *   `a2p_limit_exceeded` and upgrade details, **and inbound messages on those
+   *   channels are refused as well**: not stored, not shown in the inbox, and no
+   *   `message.inbound` webhook, and not delivered later when the month resets. The
+   *   counter resets on the 1st of each month. Paid plans have no message caps
    * - Email is billed from your prepaid balance in 1,000-message blocks: $0.40 per
    *   1,000 transactional emails, $0.80 per 1,000 marketing (broadcast) emails. A
    *   block is charged when your monthly count crosses each 1,000 boundary, and at
@@ -115,18 +122,14 @@ export class Messages extends APIResource {
    *   100/day. Teams on earlier plans keep their original email quotas instead
    * - SMS and voice are billed per message from your balance on every plan
    *
-   * **Account verification and daily limits:**
+   * **Daily limits:**
    *
-   * - A brand-new account can send on every channel immediately, but `sms`,
-   *   `sms_oneway` and `voice` reach only the phone numbers the project has
-   *   verified. Sending elsewhere returns `403` with code
-   *   `destination_not_verified`; `details.verifiedNumbers` lists the numbers that
-   *   are reachable. A number is verified from the dashboard's Sandbox screen:
-   *   generate a code and send the pre-filled WhatsApp message from that phone to
-   *   Zavu's sandbox number. One verification covers WhatsApp, SMS and calls, up to
-   *   5 numbers per project. To send to any destination, do any one of these: verify
-   *   your identity, add a payment method, settle a deposit, or subscribe to a paid
-   *   plan. Business verification (KYB) is never required to send
+   * - An account sends on every channel from its first minute, to any destination.
+   *   Verification is not a permission to send: identity verification and business
+   *   verification (KYB) raise the ceilings below and nothing else asks for them
+   *   here. KYB is still required to register a 10DLC brand and campaign, which
+   *   every US and Canadian (+1) SMS destination needs — a carrier rule, answered
+   *   separately with `403 ten_dlc_required`
    * - Daily ceilings apply per channel group and rise with verification. An account
    *   that has verified nothing: 25/day across `sms` + `sms_oneway`, 5/day for
    *   `voice`, 100/day across WhatsApp, Telegram, Instagram and Messenger combined.
@@ -138,12 +141,36 @@ export class Messages extends APIResource {
    * - The daily ceiling never reduces the monthly allowance: 100/day on the
    *   conversational group still reaches the 2,000 monthly A2P messages Free
    *   includes
-   * - Email needs no account verification here: a sender with a verified domain
-   *   sends from day one, within the plan quota (100/day and 3,000/month on Free).
-   *   Over the daily quota it returns `429` with code `daily_limit_exceeded`. Email
-   *   broadcasts are the exception: they need the account past the unverified level,
-   *   see `POST /v1/broadcasts/{broadcastId}/send`
+   * - Email: a sender with a verified domain sends from day one, within the plan
+   *   quota (100/day and 3,000/month on Free). Over the daily quota it returns `429`
+   *   with code `daily_limit_exceeded`
    * - Full reference: https://docs.zavu.dev/concepts/sending-limits
+   *
+   * **Risk review:** Every outbound `sms`, `sms_oneway`, `email` and `voice` message
+   * is read before it is sent — the content, and how this account has been sending.
+   * What is checked is the message, not who you are.
+   *
+   * - A message can be **held** for a short review. It stays `queued` while it
+   *   waits: no new status exists for this, and `MessageStatus` is unchanged. When
+   *   it is approved it sends normally.
+   * - A message that is not approved moves to `failed` and fires `message.failed`.
+   *   `errorCode` says which happened: `RISK_REJECTED` (a reviewer refused it),
+   *   `RISK_REVIEW_EXPIRED` (the review window closed first — it is a couple of
+   *   hours, because a code that arrives late is worse than one that does not
+   *   arrive), or `RISK_BLOCKED` (refused outright, without a hold). An SMS that
+   *   fails this way is not charged; the prepaid amount is returned.
+   * - A call is never held. `POST /v1/calls` fails a call the review stops rather
+   *   than placing it hours late.
+   * - A message whose content cannot be read — the check is briefly unavailable — is
+   *   held rather than sent. An account with an approved business verification is
+   *   unaffected, and so is one that has verified something, already sends real
+   *   traffic, and has a clean recent record.
+   * - Repeated refusals suspend an account's sending. While it is suspended every
+   *   send is refused with `403` and code `sending_suspended`,
+   *   `details.dashboardUrl` points at support, and a message already queued fails
+   *   with `errorCode` `SENDING_SUSPENDED`.
+   * - A broadcast is read once, on the broadcast itself, rather than per recipient —
+   *   see `POST /v1/broadcasts/{broadcastId}/send`.
    *
    * **Email recipient pre-flight:** Email messages are validated automatically
    * before dispatch. Sends that would be a guaranteed hard bounce are failed instead
