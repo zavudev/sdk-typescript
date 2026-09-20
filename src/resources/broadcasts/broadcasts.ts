@@ -182,20 +182,11 @@ export class Broadcasts extends APIResource {
   /**
    * Start sending the broadcast immediately or schedule for later.
    *
-   * **The account must be past the unverified level to send, except on WhatsApp.**
-   * An account that has verified nothing is refused with `403` and code
-   * `kyc_required` on every channel other than `whatsapp`. Any one of these lifts
-   * it: identity verification (KYC), a saved payment method, a settled deposit, or a
-   * paid plan. Business verification (KYB) is not required to broadcast on any
-   * channel except `sms_oneway`, which is refused with `403` and code `KYB_REQUIRED`
-   * until it is approved; KYB also gates 10DLC registration. A `smart` broadcast is
-   * never refused for KYB: without it, one-way SMS is simply dropped from the
-   * channels smart routing may pick for a contact. A `whatsapp` broadcast is exempt:
-   * it can only be built on a template, and Meta vets the business and the content
-   * when it approves that template, so an unapproved template is refused instead.
-   * `smart` is not exempt, since it can route a contact to SMS or email. Drafts can
-   * be created, edited and kept without any check. Every send path (dashboard, API
-   * and CLI) enforces the same rule.
+   * **Sending a broadcast needs no account verification.** Identity and business
+   * verification raise daily ceilings; neither is a permission to broadcast, on any
+   * channel. What stands in front of a broadcast is the content review below, and it
+   * applies to every send path — dashboard, API and CLI. Drafts can be created,
+   * edited and kept freely.
    *
    * **Daily ceilings apply per recipient.** Each message a broadcast sends counts
    * against the channel's daily ceiling (see `POST /v1/messages`). Once the ceiling
@@ -205,10 +196,15 @@ export class Broadcasts extends APIResource {
    * **Review depends on the channel, and cannot be bypassed.** A draft is submitted
    * to automated content review here; it does not go straight out. A WhatsApp
    * broadcast built on a Meta-approved template skips review (Meta already vetted
-   * the content) and begins sending. An email broadcast sends as soon as the
-   * automated review passes. Every other channel moves to `pending_admin_review` and
-   * waits for a person. If the review rejects it, use PATCH to edit the content then
-   * call POST /retry-review.
+   * the content) and begins sending. An email broadcast sends as soon as the review
+   * passes it, unless the review asks for a person. Every other channel moves to
+   * `pending_admin_review` and waits for a person. A broadcast the review refuses
+   * lands on `rejected`: use PATCH to edit the content then call POST /retry-review,
+   * or escalate it for a manual review.
+   *
+   * A broadcast is read once, on its own text, rather than per recipient. While an
+   * account's sending is suspended its recipients fail individually with `errorCode`
+   * `SENDING_SUSPENDED`; see `POST /v1/messages`.
    *
    * Calling this on a broadcast that is already `approved` or `scheduled` sends or
    * reschedules it directly, since it has already been reviewed. Reserves the

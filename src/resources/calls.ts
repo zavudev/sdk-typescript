@@ -16,15 +16,16 @@ export class Calls extends APIResource {
    * **Requirements:**
    *
    * - The Voice Agents feature must be enabled for your team (otherwise `403`).
-   * - An account that has verified nothing may only call the phone numbers the
-   *   project has verified (`403` with code `destination_not_verified`, and
-   *   `details.verifiedNumbers` lists them), and at most 5 calls a day (`429` with
-   *   code `daily_limit_exceeded`). A number is verified from the dashboard's
-   *   Sandbox screen by sending the pre-filled WhatsApp message from that phone; the
-   *   same verification covers SMS and calls. Verify your identity, add a payment
-   *   method, settle a deposit or subscribe to call any destination. That raises the
-   *   ceiling to 50 calls a day on Free; paid plans have no daily call ceiling. Full
-   *   reference: https://docs.zavu.dev/concepts/sending-limits
+   * - An account may call any destination from its first minute, within the daily
+   *   ceiling: 5 calls a day for an account that has verified nothing, 50 a day on
+   *   Free once it has verified its identity, added a payment method, settled a
+   *   deposit or subscribed. Paid plans have no daily call ceiling. Over it, `429`
+   *   with code `daily_limit_exceeded`. Full reference:
+   *   https://docs.zavu.dev/concepts/sending-limits
+   * - The call is read by Zavu's automated risk review before it is dialed, the way
+   *   a message is (see `POST /v1/messages`). A call is never held for a person: one
+   *   the review stops is failed rather than placed late. Repeated refusals suspend
+   *   the account's calling, answered with `403` and code `sending_suspended`.
    * - The sender's agent must have `voice.enabled` set to `true`.
    * - Not available with test-mode API keys.
    *
