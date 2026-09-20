@@ -55,7 +55,7 @@ describe('resource flows', () => {
       ],
       trigger: {
         type: 'keyword',
-        intent: 'intent',
+        intent: 'quiere saber precios o cotizar',
         keywords: ['info', 'pricing', 'demo'],
       },
       description: 'Capture lead information',
@@ -111,7 +111,7 @@ describe('resource flows', () => {
       ],
       trigger: {
         type: 'keyword',
-        intent: 'intent',
+        intent: 'quiere saber precios o cotizar',
         keywords: ['string'],
       },
     });
