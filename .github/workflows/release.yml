@@ -55,6 +55,12 @@ jobs:
           # Tags, to start the release notes at the previous v<version> tag.
           fetch-depth: 0
 
+      # pnpm first: setup-node v5 reads packageManager from package.json and
+      # caches pnpm's store, which fails when pnpm is not on PATH yet.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.1
+
       # Trusted publishing needs Node 22.14 or later and npm 11.5.1 or later.
       - uses: actions/setup-node@v5
         with:
@@ -62,10 +68,6 @@ jobs:
 
       - name: Update npm
         run: npm install --global npm@^11.5.1 && npm --version
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.30.1
 
       - name: Install
         run: pnpm install --frozen-lockfile

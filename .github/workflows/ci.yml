@@ -25,12 +25,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
+      # pnpm first: setup-node v5 reads packageManager from package.json and
+      # caches pnpm's store, which fails when pnpm is not on PATH yet.
       - uses: pnpm/action-setup@v4
         with:
           version: 10.30.1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
       - run: pnpm install --frozen-lockfile
       - name: Versions agree
         run: node scripts/release.mjs check-version
@@ -47,12 +49,14 @@ jobs:
         node: [20, 22, 24]
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: ${{ matrix.node }}
+      # pnpm first: setup-node v5 reads packageManager from package.json and
+      # caches pnpm's store, which fails when pnpm is not on PATH yet.
       - uses: pnpm/action-setup@v4
         with:
           version: 10.30.1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
       - run: pnpm install --frozen-lockfile
       - run: ./scripts/test
       - run: ./scripts/build
