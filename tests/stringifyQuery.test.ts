@@ -1,5 +1,3 @@
-// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
 import { stringifyQuery } from '@zavudev/sdk/internal/utils/query';
 
 describe(stringifyQuery, () => {
@@ -13,6 +11,9 @@ describe(stringifyQuery, () => {
         'e=f',
       )}=${encodeURIComponent('g&h')}`,
     ],
+    // The API reads a repeated key (`?tag=vip&tag=chile`); `tag=vip,chile`
+    // is one tag named "vip,chile".
+    [{ tag: ['vip', 'chile'] }, 'tag=vip&tag=chile'],
   ] as const) {
     it(`${JSON.stringify(input)} -> ${expected}`, () => {
       expect(stringifyQuery(input)).toEqual(expected);

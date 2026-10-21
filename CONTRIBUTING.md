@@ -14,9 +14,10 @@ This will install all the required dependencies and build output files to `dist/
 
 ## Modifying/Adding code
 
-Most of the SDK is generated code. Modifications to code will be persisted between generations, but may
-result in merge conflicts between manual patches and changes from the generator. The generator will never
-modify the contents of the `src/lib/` and `examples/` directories.
+Most of the SDK is generated code: everything under `src/` except `src/lib/`. It is generated from Zavu's
+OpenAPI spec in Zavu's own repository and mirrored here, so an edit to a generated file is overwritten by the
+next generation, and a commit made directly to this repository stops the mirror. Open an issue or a pull request
+to describe the change and it is made at the source. The generator never touches `src/lib/` or `examples/`.
 
 ## Adding and running examples
 

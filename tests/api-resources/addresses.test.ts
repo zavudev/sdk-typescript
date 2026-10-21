@@ -12,6 +12,8 @@ describe('resource addresses', () => {
   test.skip('create: only required params', async () => {
     const responsePromise = client.addresses.create({
       countryCode: 'DE',
+      firstName: 'John',
+      lastName: 'Doe',
       locality: 'Berlin',
       postalCode: '10115',
       streetAddress: '123 Main St',

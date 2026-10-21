@@ -4,9 +4,9 @@
 
 This library provides convenient access to the Zavudev REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [docs.zavu.dev](https://docs.zavu.dev). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.zavu.dev](https://docs.zavu.dev). Every method and type of this library is in the module of its resource, under [`src/resources/`](src/resources).
 
-It is generated with [Stainless](https://www.stainless.com/).
+It is generated from Zavu's OpenAPI spec.
 
 ## MCP Server
 
@@ -25,7 +25,7 @@ npm install @zavudev/sdk
 
 ## Usage
 
-The full API of this library can be found in [api.md](api.md).
+Every method and type is in the module of its resource, under [`src/resources/`](src/resources).
 
 <!-- prettier-ignore -->
 ```js
