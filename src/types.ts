@@ -467,7 +467,10 @@ export interface MessageContent {
    * position (`1`, `2`, ...) for positional templates, or by name (e.g.
    * `customer_name`) for named templates. Zavu detects the template's format and
    * sends the correct payload to Meta. Named keys also resolve a named text-header
-   * variable. Do not mix positional and named keys in the same request.
+   * variable. Do not mix positional and named keys in the same request. On WhatsApp,
+   * a value may not contain line breaks, tabs or more than 4 consecutive spaces:
+   * Meta refuses those at delivery, so the send is rejected with `400
+   * invalid_request` instead (`details.field` names the value).
    */
   templateVariables?: { [key: string]: string };
   /**
@@ -490,7 +493,8 @@ export interface MessageContent {
    * Value for a text-header variable, keyed by `1` (WhatsApp text headers allow at
    * most one variable). Optional override. If omitted, Zavu resolves the header from
    * `templateVariables` using the header placeholder's name (e.g. `novios`). Static
-   * text headers need no value.
+   * text headers need no value. The same WhatsApp rule as `templateVariables`
+   * applies: no line breaks, tabs or more than 4 consecutive spaces.
    */
   templateHeaderVariables?: { [key: string]: string };
   referral?: AdReferral;
