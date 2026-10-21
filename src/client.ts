@@ -19,6 +19,7 @@ import { AbstractPage, type CursorParams, CursorResponse } from './core/paginati
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import * as V2API from './v2/v2';
 import {
   Addresses,
   type Address,
@@ -1036,6 +1037,7 @@ export class Zavudev {
   templates: API.Templates = new API.Templates(this);
   urls: API.URLs = new API.URLs(this);
   memory: API.MemoryResource = new API.MemoryResource(this);
+  v2: V2API.V2 = new V2API.V2(this);
 }
 
 Zavudev.Addresses = Addresses;

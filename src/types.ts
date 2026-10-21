@@ -327,7 +327,7 @@ export interface DocumentUpdateRequest {
   content?: string;
 }
 
-export interface Error {
+export interface ErrorBody {
   code: string;
   message: string;
   details?: { [key: string]: unknown };
@@ -4216,7 +4216,7 @@ export interface SendMessageError429 {
   code?: string;
   message?: string;
   details?: { [key: string]: unknown };
-  error?: Error;
+  error?: ErrorBody;
 }
 
 export type ListMessagesStatus = 'queued' | 'sending' | 'sent' | 'delivered' | 'failed' | 'received';

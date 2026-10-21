@@ -61,6 +61,24 @@ const messageResponse: Zavudev.MessageResponse = await client.messages.send(para
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
+## API v2
+
+[API v2](https://docs.zavu.dev/api-v2/overview) is on the same client as
+`client.v2`. Every id in a v2 path is a positional argument, in path order, and
+v2's types come from `@zavudev/sdk/v2`:
+
+```ts
+import Zavudev from '@zavudev/sdk';
+import type { MessageSendParams } from '@zavudev/sdk/v2';
+
+const client = new Zavudev();
+
+const params: MessageSendParams = { from: '+13125551212', to: '+56912345678', text: 'Hi' };
+const { message } = await client.v2.messages.send(params);
+
+await client.v2.channels.activate('+13125551212', 'whatsapp');
+```
+
 ## Handling errors
 
 When the library is unable to connect to the API,

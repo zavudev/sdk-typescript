@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.59.0 (unreleased)
+
+### Features
+
+* **v2:** `client.v2` calls API v2 (`apps/docs/api-reference/v2/openapi.json`):
+  `messages`, `conversations`, `contacts`, `channels`, `templates`,
+  `campaigns` (with `recipients`), `webhook`, `agents` (with `channels`),
+  `numbers`, `emailDomains` and `functions`, 53 methods. Every path id is a
+  positional argument, in path order
+  (`client.v2.channels.activate(address, type)`). Its types are exported from
+  `@zavudev/sdk/v2`; the root keeps exporting v1's.
+
+### Chores
+
+* **internal:** `src/types.ts`, the internal types module, names the error
+  body `ErrorBody` instead of `Error`, which shadowed the global. It is not a
+  documented entry point; the public names in `resources/` are unchanged.
+
 ## 0.58.1 (2026-10-21)
 
 ### Documentation
