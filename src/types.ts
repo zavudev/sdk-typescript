@@ -624,9 +624,11 @@ export interface MessageRequest {
   /** Arbitrary metadata to associate with the message. */
   metadata?: { [key: string]: string };
   /**
-   * Whether to enable automatic fallback to SMS if WhatsApp fails. Defaults to true.
-   *
-   * @defaultValue `true`
+   * Whether a failed WhatsApp text or template message is retried over SMS, when the
+   * sender also has SMS. When omitted, it is on if `channel` is omitted or `auto`,
+   * and off if a channel is set explicitly: a send with `channel: "whatsapp"` does
+   * not fall back unless this is `true`. Media, buttons, lists and other
+   * WhatsApp-only types never fall back.
    */
   fallbackEnabled?: boolean;
   /**
