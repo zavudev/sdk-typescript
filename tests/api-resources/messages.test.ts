@@ -1,0 +1,197 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import Zavudev from '@zavudev/sdk';
+
+const client = new Zavudev({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
+
+describe('resource messages', () => {
+  // Mock server tests are disabled
+  test.skip('retrieve', async () => {
+    const responsePromise = client.messages.retrieve('messageId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('list', async () => {
+    const responsePromise = client.messages.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.messages.list(
+        {
+          channel: 'sms',
+          cursor: 'cursor',
+          limit: 100,
+          status: 'queued',
+          to: 'to',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('listAttachments', async () => {
+    const responsePromise = client.messages.listAttachments('messageId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('react: only required params', async () => {
+    const responsePromise = client.messages.react('messageId', { emoji: '👍' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('react: required and optional params', async () => {
+    const response = await client.messages.react('messageId', { emoji: '👍', 'Zavu-Sender': 'sender_12345' });
+  });
+
+  // Mock server tests are disabled
+  test.skip('send: only required params', async () => {
+    const responsePromise = client.messages.send({ to: '+56912345678' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('send: required and optional params', async () => {
+    const response = await client.messages.send({
+      to: '+56912345678',
+      attachments: [
+        {
+          filename: 'invoice.pdf',
+          content: 'content',
+          content_id: 'logo',
+          content_type: 'application/pdf',
+          path: 'https://example.com',
+        },
+      ],
+      channel: 'auto',
+      content: {
+        buttons: [{ id: 'id', title: 'title' }],
+        contacts: [{ name: 'name', phones: ['string'] }],
+        ctaDisplayText: 'See Dates',
+        ctaHeaderMediaUrl: 'https://example.com',
+        ctaHeaderText: 'ctaHeaderText',
+        ctaHeaderType: 'text',
+        ctaUrl: 'https://example.com/schedule',
+        emoji: 'emoji',
+        filename: 'invoice.pdf',
+        footerText: 'Dates subject to change.',
+        latitude: 0,
+        listButton: 'listButton',
+        locationAddress: 'locationAddress',
+        locationName: 'locationName',
+        longitude: 0,
+        mediaId: 'mediaId',
+        mediaUrl: 'https://example.com/image.jpg',
+        mimeType: 'image/jpeg',
+        reactToMessageId: 'reactToMessageId',
+        referral: {
+          body: 'body',
+          ctwaClid: 'ARIzZm9vYmFyY3R3YWNsaWQ',
+          headline: 'headline',
+          imageUrl: 'https://example.com',
+          mediaType: 'image',
+          sourceId: '120210000000000000',
+          sourceType: 'ad',
+          sourceUrl: 'https://example.com',
+          thumbnailUrl: 'https://example.com',
+          videoUrl: 'https://example.com',
+        },
+        replyToFrom: 'replyToFrom',
+        replyToMessageId: 'replyToMessageId',
+        replyToMessageType: 'replyToMessageType',
+        replyToProviderMessageId: 'replyToProviderMessageId',
+        replyToText: 'replyToText',
+        sections: [
+          {
+            rows: [
+              {
+                id: 'id',
+                title: 'title',
+                description: 'description',
+              },
+            ],
+            title: 'title',
+          },
+        ],
+        templateButtonVariables: { '0': 'abc-report-token' },
+        templateHeaderVariables: { '1': 'Jorge y Laura' },
+        templateId: 'templateId',
+        templateVariables: { '1': 'John', '2': 'ORD-12345' },
+      },
+      fallbackEnabled: true,
+      htmlBody: 'htmlBody',
+      idempotencyKey: 'msg_01HZY4ZP7VQY2J3BRW7Z6G0QGE',
+      messageType: 'text',
+      metadata: { foo: 'string' },
+      replyTo: 'support@example.com',
+      subject: 'Your order confirmation',
+      text: 'Your verification code is 123456',
+      voiceLanguage: 'es-ES',
+      'Zavu-Sender': 'sender_12345',
+    });
+  });
+
+  // Mock server tests are disabled
+  test.skip('showTyping', async () => {
+    const responsePromise = client.messages.showTyping('messageId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('showTyping: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.messages.showTyping(
+        'messageId',
+        { 'Zavu-Sender': 'sender_12345' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+});

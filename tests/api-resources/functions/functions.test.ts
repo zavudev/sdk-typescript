@@ -1,0 +1,204 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import Zavudev from '@zavudev/sdk';
+
+const client = new Zavudev({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
+
+describe('resource functions', () => {
+  // Mock server tests are disabled
+  test.skip('create: only required params', async () => {
+    const responsePromise = client.functions.create({ name: 'Order Bot', slug: 'order-bot' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('create: required and optional params', async () => {
+    const response = await client.functions.create({
+      name: 'Order Bot',
+      slug: 'order-bot',
+      dependencies: { openai: '^4.20.0' },
+      description: 'Replies to order status questions on WhatsApp.',
+      entrypoint: 'index.ts',
+      files: {
+        'index.ts':
+          "import { formatOrder } from './lib/orders';\n\nexport default async function handler(event) {\n  return { statusCode: 200, body: formatOrder(event) };\n}\n",
+        'lib/orders.ts': 'export function formatOrder(event) {\n  return JSON.stringify(event);\n}\n',
+      },
+      httpEnabled: true,
+      memoryMb: 128,
+      runtime: 'nodejs24',
+      sourceCode:
+        "import { defineFunction } from '@zavudev/functions';\n\nexport default defineFunction(async (event, ctx) => {\n  ctx.log('received', event.type);\n});\n",
+      timeoutSec: 1,
+    });
+  });
+
+  // Mock server tests are disabled
+  test.skip('retrieve', async () => {
+    const responsePromise = client.functions.retrieve('functionId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('update', async () => {
+    const responsePromise = client.functions.update('functionId', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('delete', async () => {
+    const responsePromise = client.functions.delete('functionId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('deploy', async () => {
+    const responsePromise = client.functions.deploy('functionId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('deploy: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.functions.deploy(
+        'functionId',
+        {
+          dependencies: { foo: 'string' },
+          entrypoint: 'index.ts',
+          files: {
+            'index.ts':
+              "import { formatOrder } from './lib/orders';\n\nexport default async function handler(event) {\n  return { statusCode: 200, body: formatOrder(event) };\n}\n",
+            'lib/orders.ts': 'export function formatOrder(event) {\n  return JSON.stringify(event);\n}\n',
+          },
+          sourceCode: 'sourceCode',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getDeployment', async () => {
+    const responsePromise = client.functions.getDeployment('deploymentId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('listDeployments', async () => {
+    const responsePromise = client.functions.listDeployments('functionId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('listDeployments: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.functions.listDeployments('functionId', { limit: 100 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('listEventTypes', async () => {
+    const responsePromise = client.functions.listEventTypes();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('rollbackDeployment: only required params', async () => {
+    const responsePromise = client.functions.rollbackDeployment('functionId', { deploymentId: 'fnd_abc123' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('rollbackDeployment: required and optional params', async () => {
+    const response = await client.functions.rollbackDeployment('functionId', { deploymentId: 'fnd_abc123' });
+  });
+
+  // Mock server tests are disabled
+  test.skip('tailLogs', async () => {
+    const responsePromise = client.functions.tailLogs('functionId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('tailLogs: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.functions.tailLogs(
+        'functionId',
+        {
+          endTime: 0,
+          filterPattern: 'filterPattern',
+          limit: 1,
+          nextToken: 'nextToken',
+          startTime: 0,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Zavudev.NotFoundError);
+  });
+});

@@ -1,0 +1,61 @@
+# Lint, typecheck, build, test and pack the package on its own, the way someone
+# who clones this repository would.
+#
+# This repository mirrors sdks/typescript of the zavudev/zavu monorepo (see
+# RELEASING.md); the same checks run there before anything lands here.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.1
+      - run: pnpm install --frozen-lockfile
+      - name: Versions agree
+        run: node scripts/release.mjs check-version
+      # prettier, eslint, the CJS and ESM build, tsc, Are The Types Wrong, publint.
+      - run: ./scripts/lint
+
+  test:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.1
+      - run: pnpm install --frozen-lockfile
+      - run: ./scripts/test
+      - run: ./scripts/build
+      - name: Pack (dry run)
+        working-directory: dist
+        run: npm pack --dry-run
