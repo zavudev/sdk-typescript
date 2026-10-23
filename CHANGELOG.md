@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.59.1 (unreleased)
+
+### Documentation
+
+* **messages:** `MessageContent.replyToMessageId` documents quoting when
+  sending: on WhatsApp and Telegram, a send quotes an earlier message of the
+  same conversation and sender, and is refused with `400` when it cannot. The
+  other `replyTo*` fields are read-only. Same text in `@zavudev/sdk/v2`.
+
 ## 0.59.0 (unreleased)
 
 ### Features

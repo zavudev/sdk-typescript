@@ -440,25 +440,42 @@ export interface MessageContent {
   /** Message ID to react to. */
   reactToMessageId?: string;
   /**
-   * Zavu message ID of the quoted message this message replies to. Present on
-   * inbound messages that quote an earlier message. Omitted when the quoted message
-   * is not found in Zavu (e.g. an old or unknown message) — use
-   * replyToProviderMessageId in that case.
+   * Zavu message ID of the quoted message this message replies to.
+   *
+   * **When sending:** set it to make the message a quoted reply to an earlier
+   * message in the same conversation, such as the `data.messageId` of a
+   * `message.inbound` webhook. Supported on WhatsApp (every message type except
+   * `reaction`) and Telegram. The quoted message must belong to this project
+   * (otherwise `404`), must have gone out on the same channel as this send, must
+   * belong to the conversation `to` addresses, must have been sent or received by
+   * the sender this message goes out from (pass it in `Zavu-Sender`), and must have
+   * a `providerMessageId`. A failed message and a Telegram button tap cannot be
+   * quoted. Any other case returns `400` instead of sending the message unquoted.
+   * The stored message then carries the rest of the `replyTo*` fields.
+   *
+   * **When receiving:** present on inbound messages that quote an earlier message.
+   * Omitted when the quoted message is not found in Zavu (e.g. an old or unknown
+   * message) — use replyToProviderMessageId in that case.
    */
   replyToMessageId?: string;
   /**
-   * Provider message ID (WhatsApp WAMID) of the quoted message. Present whenever an
-   * inbound message is a reply, even if the quoted message is not stored in Zavu.
+   * Provider message ID (WhatsApp WAMID, or Telegram message ID) of the quoted
+   * message. Present whenever an inbound WhatsApp message is a reply, even if the
+   * quoted message is not stored in Zavu, and on outbound quoted replies. Read-only:
+   * to quote when sending, set replyToMessageId.
    */
   replyToProviderMessageId?: string;
-  /** Sender of the quoted message (phone number in E.164 format). */
+  /**
+   * Sender of the quoted message (phone number in E.164 format, or the Telegram chat
+   * ID). Read-only.
+   */
   replyToFrom?: string;
   /**
-   * Truncated snippet of the quoted message's text, for display. Empty when the
-   * quoted message has no text (e.g. media).
+   * Truncated snippet (up to 200 characters) of the quoted message's text, for
+   * display. Empty when the quoted message has no text (e.g. media). Read-only.
    */
   replyToText?: string;
-  /** Type of the quoted message (text, image, video, etc.). */
+  /** Type of the quoted message (text, image, video, etc.). Read-only. */
   replyToMessageType?: string;
   /** Template ID for template messages. */
   templateId?: string;
