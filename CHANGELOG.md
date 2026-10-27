@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.60.0 (unreleased)
+
+### Features
+
+* **v2/contacts:** `Contact.whatsapp` (`ContactWhatsapp`: `bsuid`, `username`),
+  regenerated from the spec, which already returned it.
+
+### Documentation
+
+* **10dlc:** `TenDlcBrandCreateRequest.ein` is required to submit every entity
+  type except `SOLE_PROPRIETOR`, and a sole proprietor's `phone` must be a
+  mobile number. The `submit` `400` names the missing EIN.
+* **webhooks:** `message.inbound` and `contact.identity_linked` descriptions
+  regenerated from the spec (BSUID, `contactId`, `conversationId`).
+
 ## 0.59.1 (unreleased)
 
 ### Documentation

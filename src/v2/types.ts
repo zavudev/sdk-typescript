@@ -652,6 +652,13 @@ export interface Contact {
   countryCode?: string;
   /** Contact's WhatsApp profile name. Only available for WhatsApp contacts. */
   profileName?: string | null;
+  /**
+   * WhatsApp identity. Present when Zavu has a business-scoped user ID (BSUID) for
+   * the contact, and absent otherwise. A contact with a username can be reached
+   * under its BSUID, its phone number, or both; they are the same contact. Look one
+   * up by BSUID with the `bsuid` query parameter of the list endpoint.
+   */
+  whatsapp?: ContactWhatsapp;
   /** List of available messaging channels for this contact. */
   availableChannels: Array<string>;
   /** Preferred channel for this contact. */
@@ -663,6 +670,13 @@ export interface Contact {
   metadata: { [key: string]: string };
   createdAt: string;
   updatedAt?: string;
+}
+
+export interface ContactWhatsapp {
+  /** Business-scoped user ID. Can be used as `to` when sending. */
+  bsuid: string;
+  /** The WhatsApp username, when Meta reported one. */
+  username?: string;
 }
 
 export type ContactDefaultChannel =
@@ -1684,11 +1698,16 @@ export interface TemplateSubmitRequest {
  * **Inbound events:**
  * - `message.inbound`: New message received from a contact. `data.conversationId`,
  *   the inbox thread id (deep-link with
- *   `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`), is sent on
- *   **email** messages only, and is `null` there on the first message of a
- *   brand-new thread. On every other channel it is absent: read it from `GET
- *   /v2/messages/{messageId}`, which always has it, or from `conversation.new` for
- *   a new contact. Reactions are delivered as `message.inbound` with
+ *   `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`), is always
+ *   set: the webhook is sent once the message has been filed in its thread, so the
+ *   first message of a new thread carries the same id as `conversation.new`.
+ *   `data.contactId` is the Zavu contact, and unlike `data.from` it does not
+ *   change when a WhatsApp contact's identifier switches from a business-scoped
+ *   user ID (BSUID) to a phone number, unless the switch reveals two contacts for
+ *   one person; they are then merged and `contact.identity_linked` names the one
+ *   that went away in `mergedContactId`. On WhatsApp, `data.whatsapp` carries the
+ *   contact's `bsuid` and `username` when known. Reactions carry none of these
+ *   three. Reactions are delivered as `message.inbound` with
  *   `messageType='reaction'`. When the contact replied to (quoted) an earlier
  *   message, `data.content` carries the reply context: `replyToMessageId`,
  *   `replyToProviderMessageId`, `replyToFrom`, `replyToText`, and
@@ -1714,6 +1733,21 @@ export interface TemplateSubmitRequest {
  *   `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`), the
  *   `phoneNumber` or `email` key, `channel`, `firstMessageId`, `firstMessageText`,
  *   and `profileName`.
+ * - `contact.identity_linked`: A WhatsApp contact known by BSUID was tied to a
+ *   phone number, a contact known by phone received a BSUID, or a contact changed
+ *   their number. `data` carries `contactId`, `bsuid`, `phoneNumber` and `reason`:
+ *   `provider_reported` (WhatsApp sent the phone and the BSUID together on an
+ *   inbound message), `contact_shared` (the contact shared their phone number in
+ *   reply to a `request_contact_info` message), `phone_changed` (the contact
+ *   changed their number; `previousPhoneNumber` carries the old one, and `bsuid`
+ *   is `null` when WhatsApp never reported one for the contact), or
+ *   `bsuid_changed` (WhatsApp reported a new BSUID for the same number).
+ *   `contactId` is the contact that remains if two were merged, and
+ *   `mergedContactId` the one folded into it. `previousBsuid` is a BSUID you may
+ *   have stored that no longer identifies the contact. Sent once per link, not on
+ *   every message. `data.from` on `message.inbound` is the phone only when
+ *   WhatsApp includes it, so it can still be the BSUID afterwards; key on
+ *   `contactId`.
  * - `template.status_changed`: WhatsApp template approval status changed. `data`
  *   carries `templateId`, `name`, `previousStatus`, `currentStatus`,
  *   `rejectionReason`, and `category` — the category Meta currently bills the
@@ -1773,6 +1807,7 @@ export type WebhookEvent =
   | 'message.unsupported'
   | 'broadcast.status_changed'
   | 'conversation.new'
+  | 'contact.identity_linked'
   | 'template.status_changed'
   | 'invitation.status_changed'
   | 'call.initiated'
@@ -1805,14 +1840,29 @@ export interface WebhookMessageData {
   messageType?: MessageType;
   /**
    * ID of the conversation (inbox thread) this message belongs to. Sent on
-   * `message.inbound` for **email** messages only; on SMS, WhatsApp, Telegram,
-   * Instagram and Messenger it is absent. Use it to deep-link to the dashboard
-   * inbox: `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`. On
-   * email it is `null` on the first message of a brand-new thread. In every case,
-   * fetch it via `GET /v2/messages/{messageId}`, whose `conversationId` is always
-   * populated, or take it from the `conversation.new` event for a new contact.
+   * `message.inbound` on every channel, except for reactions. Use it to deep-link to
+   * the dashboard inbox:
+   * `https://dashboard.zavu.dev/{locale}/inbox?conv={conversationId}`. The webhook
+   * is sent once the message has been filed in its thread, so this is always the
+   * thread the message is in: on the first message of a new thread it is the id
+   * `conversation.new` carries, and on the WhatsApp message that ties a BSUID to a
+   * phone number it is the thread that remains once the two are joined.
    */
   conversationId?: string | null;
+  /**
+   * ID of the Zavu contact that sent the message. Sent on `message.inbound` on every
+   * channel, except for reactions. It does not change when a WhatsApp contact's
+   * `from` switches from a business-scoped user ID (BSUID) to a phone number, so use
+   * it, not `from`, as your key for the person. `null` only when no contact could be
+   * resolved.
+   */
+  contactId?: string | null;
+  /**
+   * WhatsApp identity of the sender. Present on WhatsApp `message.inbound` when Zavu
+   * knows the sender's business-scoped user ID (BSUID), and absent otherwise. Same
+   * shape as `whatsapp` on a contact or a conversation.
+   */
+  whatsapp?: WebhookMessageDataWhatsapp;
   /**
    * Text body or media caption. Present on `message.inbound` when the message has
    * text.
@@ -1838,6 +1888,16 @@ export interface WebhookMessageData {
    * returns it, under `content.referral`.
    */
   referral?: AdReferral;
+}
+
+export interface WebhookMessageDataWhatsapp {
+  /**
+   * Business-scoped user ID. Stable for the person on your WhatsApp Business
+   * Account, whether or not `from` is a phone number.
+   */
+  bsuid: string;
+  /** The WhatsApp username, when the sender has one and Meta reported it. */
+  username?: string;
 }
 
 /**
@@ -2323,6 +2383,13 @@ export interface ConversationsListMessagesParams {
 /** Params for `contacts.list`. */
 export interface ContactsListParams {
   search?: string;
+  /**
+   * Exact WhatsApp business-scoped user ID (e.g. `CO.13491208655302741918`). Returns
+   * the contact that holds it, or an empty list. Combines with `phoneNumber` and
+   * `tag` as a filter, and cannot be combined with `search` (400). A value that is
+   * not shaped like a BSUID returns 400.
+   */
+  bsuid?: string;
   tag?: Array<string>;
   /** @defaultValue `50` */
   limit?: number;
