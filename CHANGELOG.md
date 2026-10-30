@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.60.1 (unreleased)
+
+### Documentation
+
+* **calls:** `VoiceCall.cost` and the `call.completed` / `call.failed` webhook
+  descriptions say the cost can grow after the call ends: a premium model's
+  tokens are charged between 30 minutes and 24 hours later.
+
 ## 0.60.0 (unreleased)
 
 ### Features
