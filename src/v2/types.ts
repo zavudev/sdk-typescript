@@ -1777,9 +1777,10 @@ export interface TemplateSubmitRequest {
  * terminal events (`call.completed`, `call.failed`) additionally carry `cost` —
  * what the call was billed, in USD, combining telephony and the managed voice
  * pipeline — and `currency`. They are dispatched after the call is charged, so
- * `cost` is populated rather than zero; telephony can still be settling on an
- * outbound call, in which case `GET /v1/calls/{callId}` holds the reconciled
- * figure.
+ * `cost` is populated rather than zero. It can still grow afterwards: telephony
+ * can be settling on an outbound call, and on an agent that runs a premium model
+ * the model's tokens are charged between 30 minutes and 24 hours after the call
+ * ends. `GET /v1/calls/{callId}` holds the reconciled figure.
  * - `call.initiated`: An outbound call was created and is dialing, or an inbound
  *   call was received. `data.status` = `ringing`
  * - `call.answered`: The call was answered and the voice agent is connected.
