@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.61.0 (unreleased)
+
+### Documentation
+
+* **messages:** the Free plan's monthly allowance on WhatsApp, Telegram,
+  Instagram and Messenger no longer stops a team that has added funds: past it,
+  each block of 1,000 messages is prepaid from the balance at $4, and
+  `a2p_limit_exceeded` means the balance cannot cover the next block. Free's
+  monthly email cap lifts the same way.
+* **messages, calls:** `402 spend_cap_reached` documents the team's monthly
+  spend cap, set in the dashboard: reached, sends and calls that cost money are
+  refused until the 1st or until the cap is raised. Renewals are not counted.
+  A Free team that has added funds has no conversational daily ceiling.
+* **messages:** at the allowance, incoming WhatsApp, Telegram, Instagram and
+  Messenger messages are held instead of refused, and delivered (with their
+  original `providerTimestamp`) once the team adds funds or moves to a paid
+  plan. Up to 1,000 per team, 30 days each.
+
+### Features
+
+* **messages:** `a2p_limit_exceeded` carries `details.heldInbound` (`count`,
+  `max`, `nextExpiresAt`) while incoming messages are on hold.
+* **webhooks:** `message.inbound` carries `data.heldAt` on a message that was
+  held and delivered later.
+* **phone numbers:** `releaseAt` on a number scheduled to go back to the
+  carrier.
+
 ## 0.60.2 (unreleased)
 
 ### Documentation

@@ -948,7 +948,10 @@ export type TemplateCreateRequestButtonsItemOtpType = 'COPY_CODE' | 'ONE_TAP';
  *   attribution — including `ctwaClid`, the identifier Meta's Conversions API
  *   needs to credit a conversion back to that ad. WhatsApp only, and only on the
  *   first message of the thread: it is absent from every later message, so persist
- *   it when it arrives.
+ *   it when it arrives. A message that was held because the allowance was spent
+ *   (see `POST /v1/messages`) is delivered once the team pays, carrying
+ *   `data.heldAt`: when it was held, in Unix milliseconds. It is absent on every
+ *   other message.
  * - `message.unsupported`: Received a message type that is not supported
  *
  * **Broadcast events:**
@@ -1137,6 +1140,14 @@ export interface WebhookMessageData {
    * returns it, under `content.referral`.
    */
   referral?: AdReferral;
+  /**
+   * When this message was held, in Unix milliseconds. Present on `message.inbound`
+   * only for a message that arrived while the monthly allowance was spent and was
+   * delivered later, once the team paid. Compare it with `providerTimestamp` (when
+   * the contact sent it) and the event's `timestamp` (when it was delivered) to
+   * decide whether an automated reply still makes sense.
+   */
+  heldAt?: number | null;
 }
 
 export interface WebhookMessageDataWhatsapp {
@@ -2124,6 +2135,14 @@ export interface OwnedPhoneNumber {
    */
   regulatoryStatus: OwnedPhoneNumberRegulatoryStatus;
   nextRenewalDate?: string;
+  /**
+   * When the number goes back to the carrier, if it is on its way out: after a paid
+   * plan ended (it keeps working, unbilled, until then), or at the end of the 7-day
+   * grace after a renewal could not be paid. Absent otherwise. A released number
+   * cannot be recovered; paying, or returning to a paid plan, before this date keeps
+   * it.
+   */
+  releaseAt?: string;
   createdAt: string;
   updatedAt?: string;
 }

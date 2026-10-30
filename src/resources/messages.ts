@@ -93,19 +93,30 @@ export class Messages extends APIResource {
    *   them does, so a project that has sent 300 and received 1,700 has used the
    *   whole allowance. Messages you send from the WhatsApp Business App on your own
    *   phone under coexistence are mirrored into your inbox but never counted, and
-   *   neither are failed sends. Over the allowance, sends return 429 with code
+   *   neither are failed sends. **Pay as you go:** a Free team that has added funds
+   *   to its balance is not stopped at the allowance. Past it, each started block of
+   *   1,000 messages is prepaid from the balance at $4 ($0.004 a message, either
+   *   direction); only when the balance cannot cover the next block does the rule
+   *   below apply. Otherwise, over the allowance, sends return 429 with code
    *   `a2p_limit_exceeded` and upgrade details, **and inbound messages on those
-   *   channels are refused as well**: not stored, not shown in the inbox, and no
-   *   `message.inbound` webhook, and not delivered later when the month resets. The
-   *   counter resets on the 1st of each month. Paid plans have no message caps
+   *   channels are held**: kept, but not shown in the inbox and no `message.inbound`
+   *   webhook until the team adds funds or moves to a paid plan (or, for a
+   *   pay-as-you-go team stopped by its spend cap, raises the cap). Held messages
+   *   are then delivered in arrival order with their original `providerTimestamp`,
+   *   counted like any other, and an AI agent does not reply to them. Up to 1,000
+   *   are held per team, each for 30 days; past either limit they are refused and
+   *   not delivered later. The month resetting does not release them. The counter
+   *   resets on the 1st of each month. Paid plans have no message caps
    * - Email is billed from your prepaid balance in 1,000-message blocks: $0.40 per
    *   1,000 transactional emails, $0.80 per 1,000 marketing (broadcast) emails. A
    *   block is charged when your monthly count crosses each 1,000 boundary, and at
    *   zero balance email sends return 402 with code `insufficient_balance`. Free
-   *   teams start with $2 of credit and additionally cap at 3,000 emails/month and
-   *   100/day. Email broadcasts (marketing email) need a paid plan: Free cannot send
-   *   them, see `POST /v1/broadcasts/{broadcastId}/send`. Teams on earlier plans
-   *   keep their original email quotas instead
+   *   teams start with $2 of credit and additionally cap at 3,000 emails/month
+   *   (lifted once the team has added funds: past it, email keeps billing from the
+   *   balance in the same blocks) and 100/day. Email broadcasts (marketing email)
+   *   need a paid plan: Free cannot send them, see `POST
+   *   /v1/broadcasts/{broadcastId}/send`. Teams on earlier plans keep their original
+   *   email quotas instead
    * - SMS and voice are billed per message from your balance on every plan
    *
    * **Daily limits:**
@@ -122,8 +133,10 @@ export class Messages extends APIResource {
    *   Past that floor: 200/day for SMS, or 10,000/day once identity or business
    *   verification is approved (or a higher limit agreed for your account); 50/day
    *   voice and 250/day conversational on Free. **Paid plans have no voice or
-   *   conversational daily ceiling.** Over a ceiling, sends return `429` with code
-   *   `daily_limit_exceeded` and `details.limit`; the count resets at 00:00 UTC
+   *   conversational daily ceiling**, and neither does a Free team that has added
+   *   funds on conversational (voice keeps 50/day). Over a ceiling, sends return
+   *   `429` with code `daily_limit_exceeded` and `details.limit`; the count resets
+   *   at 00:00 UTC
    * - The daily ceiling never reduces the monthly allowance: 100/day on the
    *   conversational group still reaches the 2,000 monthly A2P messages Free
    *   includes
