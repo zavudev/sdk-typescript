@@ -1143,11 +1143,11 @@ export interface WebhookMessageData {
   /**
    * When this message was held, in Unix milliseconds. Present on `message.inbound`
    * only for a message that arrived while the monthly allowance was spent and was
-   * delivered later, once the team paid. Compare it with `providerTimestamp` (when
-   * the contact sent it) and the event's `timestamp` (when it was delivered) to
-   * decide whether an automated reply still makes sense.
+   * delivered later, once the team paid; absent on every other message. Compare it
+   * with `providerTimestamp` (when the contact sent it) and the event's `timestamp`
+   * (when it was delivered) to decide whether an automated reply still makes sense.
    */
-  heldAt?: number | null;
+  heldAt?: number;
 }
 
 export interface WebhookMessageDataWhatsapp {
@@ -2080,10 +2080,11 @@ export interface PhoneNumberPricing {
   /** One-time purchase price in USD. */
   upfrontPrice?: number;
   /**
-   * Whether this number qualifies as the plan-included number: a US or Canadian
-   * number (a +1 number) costing $20 a month or less. The benefit is one per
-   * account: it is never offered again once claimed, not even after the number is
-   * released.
+   * Whether this account can claim this number as the one its paid plan includes: a
+   * US or Canadian number (a +1 number) costing $20 a month or less. It depends on
+   * the account as well as the number: `false` on Free, and once the benefit has
+   * been claimed, which is once per account and never again, not even after the
+   * number is released.
    */
   isFreeEligible?: boolean;
 }
@@ -2136,11 +2137,20 @@ export interface OwnedPhoneNumber {
   regulatoryStatus: OwnedPhoneNumberRegulatoryStatus;
   nextRenewalDate?: string;
   /**
-   * When the number goes back to the carrier, if it is on its way out: after a paid
-   * plan ended (it keeps working, unbilled, until then), or at the end of the 7-day
-   * grace after a renewal could not be paid. Absent otherwise. A released number
-   * cannot be recovered; paying, or returning to a paid plan, before this date keeps
-   * it.
+   * When the number goes back to the carrier, if it is on its way out. Absent
+   * otherwise.
+   *
+   * - **A paid plan ended.** Without a paid plan a team keeps one number: the one
+   *   chosen in the dashboard when cancelling, else the one the plan included, else
+   *   the oldest it bought. That number is billed monthly from the balance and has
+   *   no `releaseAt` unless a renewal fails. Every other number keeps working,
+   *   unbilled, until this date, 7 days after the plan ended. Numbers you brought
+   *   yourself are never released.
+   * - **A renewal could not be paid.** The number is suspended and released at the
+   *   end of a 7-day grace.
+   *
+   * Paying, or returning to a paid plan, before this date keeps the number. A
+   * released number cannot be recovered.
    */
   releaseAt?: string;
   createdAt: string;

@@ -17,6 +17,13 @@
   Messenger messages are held instead of refused, and delivered (with their
   original `providerTimestamp`) once the team adds funds or moves to a paid
   plan. Up to 1,000 per team, 30 days each.
+* **messages:** on pay as you go, app messages stopped by the spend cap answer
+  `429 a2p_limit_exceeded` with `details.payAsYouGo.reason`
+  (`insufficient_balance` or `spend_cap_reached`); `402 spend_cap_reached` is
+  for SMS, voice, email and AI replies.
+* **phone numbers:** `releaseAt` and the guide describe what happens when a
+  paid plan ends: the team keeps one number, billed from the balance, and the
+  others are released after 7 days. `isFreeEligible` depends on the account.
 
 ### Features
 
