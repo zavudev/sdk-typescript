@@ -27,6 +27,14 @@
 
 ### Features
 
+* **balance:** `GET /v1/balance` returns the team's `appMessages` (`used`,
+  `included`, `paused`), `heldInbound`, `payAsYouGo`, `spendCap` and
+  `spentThisMonth`, so an integration that only replies to webhooks can learn
+  that sending is paused and customers are waiting without sending anything.
+* **messages:** sending on a channel the sender has not connected answers
+  `409 channel_not_connected` with `details.channel` (was `400
+  invalid_request`), the same code channel activation uses. `409` on
+  `POST /v1/messages` is now either that error or an idempotent replay.
 * **messages:** `a2p_limit_exceeded` carries `details.heldInbound` (`count`,
   `max`, `nextExpiresAt`) while incoming messages are on hold.
 * **webhooks:** `message.inbound` carries `data.heldAt` on a message that was

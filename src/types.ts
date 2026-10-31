@@ -3091,6 +3091,13 @@ export interface SubAccountResponse {
   subAccount: SubAccount;
 }
 
+/**
+ * The team's balance, and what stops or charges it this month. Every field past
+ * `isSubAccount` is team-level, the same for every project and sub-account of the
+ * team. An integration that only replies to `message.inbound` never sends while
+ * incoming messages are held, so it never sees the `429` that reports them: poll
+ * this instead.
+ */
 export interface BalanceResponse {
   /** Team balance in cents. All charges are billed to the parent team. */
   balance: number;
@@ -3101,6 +3108,59 @@ export interface BalanceResponse {
   totalSpent?: number | null;
   /** Whether this API key belongs to a sub-account. */
   isSubAccount?: boolean;
+  /**
+   * Whether the team is on Free and has added funds, so app messages past the
+   * allowance are billed in blocks from the balance instead of stopping.
+   */
+  payAsYouGo: boolean;
+  /**
+   * The monthly usage spend cap in cents, set in the dashboard's Billing. Null means
+   * no cap. The first deposit on Free sets $50 when none was chosen.
+   */
+  spendCap: number | null;
+  /**
+   * Usage taken from the balance this calendar month (UTC), in cents: what the spend
+   * cap is measured against. Renewals are not counted.
+   */
+  spentThisMonth: number;
+  /**
+   * This month's WhatsApp, Telegram, Instagram and Messenger messages, sent and
+   * received.
+   */
+  appMessages: BalanceResponseAppMessages;
+  /**
+   * Incoming messages held at the allowance, or null when none are. Counts and a
+   * date only, never content or senders. They are delivered once the team pays; see
+   * `POST /v1/messages`.
+   */
+  heldInbound: BalanceResponseHeldInbound | null;
+}
+
+export interface BalanceResponseAppMessages {
+  /** Messages counted this month, in both directions. */
+  used: number;
+  /**
+   * Messages the plan includes this month. Null on a paid plan, which does not cap
+   * them.
+   */
+  included: number | null;
+  /**
+   * Why app messages are stopped right now, or null. `allowance`: Free without funds
+   * at its allowance. `balance`: pay as you go and the balance cannot cover the next
+   * block. `spend_cap`: pay as you go and the spend cap leaves no room for it. While
+   * paused, sends answer `429 a2p_limit_exceeded` and incoming messages are held.
+   */
+  paused: BalanceResponseAppMessagesPaused | null;
+}
+
+export type BalanceResponseAppMessagesPaused = 'allowance' | 'balance' | 'spend_cap';
+
+export interface BalanceResponseHeldInbound {
+  count: number;
+  /** How many the team can have held at once (1,000). Past it new ones are refused. */
+  max: number;
+  /** When the oldest held message expires and is dropped. */
+  nextExpiresAt: string | null;
 }
 
 export interface SubAccountApiKey {
@@ -4327,6 +4387,8 @@ export interface EscalateUrlResponse {
   url: VerifiedUrl;
   message: string;
 }
+
+export type SendMessageError409 = MessageResponse | ErrorBody;
 
 export interface SendMessageError429 {
   code?: string;
