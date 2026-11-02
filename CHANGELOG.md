@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.60.2 (unreleased)
+
+### Documentation
+
+* **phone-numbers:** `PhoneNumbersSearchAvailableParams.contains` says letters
+  are accepted for vanity numbers and that spaces, dashes, dots and parentheses
+  are ignored (`1-800` searches `1800`).
+
 ## 0.60.1 (unreleased)
 
 ### Documentation
