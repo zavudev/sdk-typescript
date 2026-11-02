@@ -5124,7 +5124,11 @@ export interface PhoneNumbersSearchAvailableParams {
   countryCode: string;
   /** Type of phone number to search for. */
   type?: PhoneNumberType;
-  /** Search for numbers containing this string. */
+  /**
+   * Search for numbers containing this string: digits, or letters for vanity
+   * numbers. Spaces, dashes, dots and parentheses are ignored, so `1-800` searches
+   * `1800`.
+   */
   contains?: string;
   /**
    * Comma-separated capabilities the number must have: `sms`, `voice`, `mms`.
