@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.60.3 (unreleased)
+
+### Documentation
+
+* **10dlc:** `ein` on brands says it is checked against `country`: the 9-digit
+  EIN for a US brand, the tax id from the country's business register for a
+  brand outside the US.
+
 ## 0.60.2 (unreleased)
 
 ### Documentation

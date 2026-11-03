@@ -3130,7 +3130,11 @@ export interface TenDlcBrand {
   displayName: string;
   /** Legal company name. */
   companyName?: string | null;
-  /** Employer Identification Number (EIN). */
+  /**
+   * Tax id of the business: the Employer Identification Number (EIN) for a US brand,
+   * or the tax id from its own country's business register for a brand outside the
+   * US.
+   */
   ein?: string | null;
   firstName?: string | null;
   lastName?: string | null;
@@ -3174,9 +3178,14 @@ export interface TenDlcBrandCreateRequest {
   /** Legal company name. */
   companyName?: string;
   /**
-   * Employer Identification Number (format: XX-XXXXXXX). Required to submit every
-   * entity type except `SOLE_PROPRIETOR`: a brand without it can be created as a
-   * draft, and `POST /v1/10dlc/brands/{brandId}/submit` refuses it with `400`.
+   * Tax id of the business. For a US brand (`country` `US`), the 9-digit Employer
+   * Identification Number, as `XX-XXXXXXX` or `XXXXXXXXX`. For a brand outside the
+   * US, the tax id exactly as it appears in its country's business register (for
+   * example a Swiss UID, `CHE-123.456.789`): 4 to 30 characters, starting with a
+   * letter or digit, made of letters, digits, spaces, `.`, `-` and `/`. Any other
+   * value is refused with `400`. Required to submit every entity type except
+   * `SOLE_PROPRIETOR`: a brand without it can be created as a draft, and `POST
+   * /v1/10dlc/brands/{brandId}/submit` refuses it with `400`.
    */
   ein?: string;
   firstName?: string;
@@ -3204,6 +3213,11 @@ export interface TenDlcBrandUpdateRequest {
   entityType?: TenDlcEntityType;
   displayName?: string;
   companyName?: string;
+  /**
+   * Tax id of the business, checked against `country` (the one sent in this request,
+   * or the brand's current one): the 9-digit EIN for a US brand, or the tax id from
+   * its country's business register otherwise.
+   */
   ein?: string;
   firstName?: string;
   lastName?: string;
