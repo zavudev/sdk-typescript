@@ -4,6 +4,9 @@
 
 ### Documentation
 
+* **10dlc:** `ein` on brands says it is checked against `country`: the 9-digit
+  EIN for a US brand, the tax id from the country's business register for a
+  brand outside the US.
 * **messages:** the Free plan's monthly allowance on WhatsApp, Telegram,
   Instagram and Messenger no longer stops a team that has added funds: past it,
   each block of 1,000 messages is prepaid from the balance at $4, and
