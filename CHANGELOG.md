@@ -1,12 +1,49 @@
 # Changelog
 
-## 0.60.3 (unreleased)
+## 0.61.0 (unreleased)
 
 ### Documentation
 
 * **10dlc:** `ein` on brands says it is checked against `country`: the 9-digit
   EIN for a US brand, the tax id from the country's business register for a
   brand outside the US.
+* **messages:** the Free plan's monthly allowance on WhatsApp, Telegram,
+  Instagram and Messenger no longer stops a team that has added funds: past it,
+  each block of 1,000 messages is prepaid from the balance at $4, and
+  `a2p_limit_exceeded` means the balance cannot cover the next block. Free's
+  monthly email cap lifts the same way.
+* **messages, calls:** `402 spend_cap_reached` documents the team's monthly
+  spend cap, set in the dashboard: reached, sends and calls that cost money are
+  refused until the 1st or until the cap is raised. Renewals are not counted.
+  A Free team that has added funds has no conversational daily ceiling.
+* **messages:** at the allowance, incoming WhatsApp, Telegram, Instagram and
+  Messenger messages are held instead of refused, and delivered (with their
+  original `providerTimestamp`) once the team adds funds or moves to a paid
+  plan. Up to 1,000 per team, 30 days each.
+* **messages:** on pay as you go, app messages stopped by the spend cap answer
+  `429 a2p_limit_exceeded` with `details.payAsYouGo.reason`
+  (`insufficient_balance` or `spend_cap_reached`); `402 spend_cap_reached` is
+  for SMS, voice, email and AI replies.
+* **phone numbers:** `releaseAt` and the guide describe what happens when a
+  paid plan ends: the team keeps one number, billed from the balance, and the
+  others are released after 7 days. `isFreeEligible` depends on the account.
+
+### Features
+
+* **balance:** `GET /v1/balance` returns the team's `appMessages` (`used`,
+  `included`, `paused`), `heldInbound`, `payAsYouGo`, `spendCap` and
+  `spentThisMonth`, so an integration that only replies to webhooks can learn
+  that sending is paused and customers are waiting without sending anything.
+* **messages:** sending on a channel the sender has not connected answers
+  `409 channel_not_connected` with `details.channel` (was `400
+  invalid_request`), the same code channel activation uses. `409` on
+  `POST /v1/messages` is now either that error or an idempotent replay.
+* **messages:** `a2p_limit_exceeded` carries `details.heldInbound` (`count`,
+  `max`, `nextExpiresAt`) while incoming messages are on hold.
+* **webhooks:** `message.inbound` carries `data.heldAt` on a message that was
+  held and delivered later.
+* **phone numbers:** `releaseAt` on a number scheduled to go back to the
+  carrier.
 
 ## 0.60.2 (unreleased)
 

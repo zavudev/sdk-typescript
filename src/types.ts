@@ -948,7 +948,10 @@ export type TemplateCreateRequestButtonsItemOtpType = 'COPY_CODE' | 'ONE_TAP';
  *   attribution — including `ctwaClid`, the identifier Meta's Conversions API
  *   needs to credit a conversion back to that ad. WhatsApp only, and only on the
  *   first message of the thread: it is absent from every later message, so persist
- *   it when it arrives.
+ *   it when it arrives. A message that was held because the allowance was spent
+ *   (see `POST /v1/messages`) is delivered once the team pays, carrying
+ *   `data.heldAt`: when it was held, in Unix milliseconds. It is absent on every
+ *   other message.
  * - `message.unsupported`: Received a message type that is not supported
  *
  * **Broadcast events:**
@@ -1137,6 +1140,14 @@ export interface WebhookMessageData {
    * returns it, under `content.referral`.
    */
   referral?: AdReferral;
+  /**
+   * When this message was held, in Unix milliseconds. Present on `message.inbound`
+   * only for a message that arrived while the monthly allowance was spent and was
+   * delivered later, once the team paid; absent on every other message. Compare it
+   * with `providerTimestamp` (when the contact sent it) and the event's `timestamp`
+   * (when it was delivered) to decide whether an automated reply still makes sense.
+   */
+  heldAt?: number;
 }
 
 export interface WebhookMessageDataWhatsapp {
@@ -2069,10 +2080,11 @@ export interface PhoneNumberPricing {
   /** One-time purchase price in USD. */
   upfrontPrice?: number;
   /**
-   * Whether this number qualifies as the plan-included number: a US or Canadian
-   * number (a +1 number) costing $20 a month or less. The benefit is one per
-   * account: it is never offered again once claimed, not even after the number is
-   * released.
+   * Whether this account can claim this number as the one its paid plan includes: a
+   * US or Canadian number (a +1 number) costing $20 a month or less. It depends on
+   * the account as well as the number: `false` on Free, and once the benefit has
+   * been claimed, which is once per account and never again, not even after the
+   * number is released.
    */
   isFreeEligible?: boolean;
 }
@@ -2124,6 +2136,23 @@ export interface OwnedPhoneNumber {
    */
   regulatoryStatus: OwnedPhoneNumberRegulatoryStatus;
   nextRenewalDate?: string;
+  /**
+   * When the number goes back to the carrier, if it is on its way out. Absent
+   * otherwise.
+   *
+   * - **A paid plan ended.** Without a paid plan a team keeps one number: the one
+   *   chosen in the dashboard when cancelling, else the one the plan included, else
+   *   the oldest it bought. That number is billed monthly from the balance and has
+   *   no `releaseAt` unless a renewal fails. Every other number keeps working,
+   *   unbilled, until this date, 7 days after the plan ended. Numbers you brought
+   *   yourself are never released.
+   * - **A renewal could not be paid.** The number is suspended and released at the
+   *   end of a 7-day grace.
+   *
+   * Paying, or returning to a paid plan, before this date keeps the number. A
+   * released number cannot be recovered.
+   */
+  releaseAt?: string;
   createdAt: string;
   updatedAt?: string;
 }
@@ -3062,6 +3091,13 @@ export interface SubAccountResponse {
   subAccount: SubAccount;
 }
 
+/**
+ * The team's balance, and what stops or charges it this month. Every field past
+ * `isSubAccount` is team-level, the same for every project and sub-account of the
+ * team. An integration that only replies to `message.inbound` never sends while
+ * incoming messages are held, so it never sees the `429` that reports them: poll
+ * this instead.
+ */
 export interface BalanceResponse {
   /** Team balance in cents. All charges are billed to the parent team. */
   balance: number;
@@ -3072,6 +3108,59 @@ export interface BalanceResponse {
   totalSpent?: number | null;
   /** Whether this API key belongs to a sub-account. */
   isSubAccount?: boolean;
+  /**
+   * Whether the team is on Free and has added funds, so app messages past the
+   * allowance are billed in blocks from the balance instead of stopping.
+   */
+  payAsYouGo: boolean;
+  /**
+   * The monthly usage spend cap in cents, set in the dashboard's Billing. Null means
+   * no cap. The first deposit on Free sets $50 when none was chosen.
+   */
+  spendCap: number | null;
+  /**
+   * Usage taken from the balance this calendar month (UTC), in cents: what the spend
+   * cap is measured against. Renewals are not counted.
+   */
+  spentThisMonth: number;
+  /**
+   * This month's WhatsApp, Telegram, Instagram and Messenger messages, sent and
+   * received.
+   */
+  appMessages: BalanceResponseAppMessages;
+  /**
+   * Incoming messages held at the allowance, or null when none are. Counts and a
+   * date only, never content or senders. They are delivered once the team pays; see
+   * `POST /v1/messages`.
+   */
+  heldInbound: BalanceResponseHeldInbound | null;
+}
+
+export interface BalanceResponseAppMessages {
+  /** Messages counted this month, in both directions. */
+  used: number;
+  /**
+   * Messages the plan includes this month. Null on a paid plan, which does not cap
+   * them.
+   */
+  included: number | null;
+  /**
+   * Why app messages are stopped right now, or null. `allowance`: Free without funds
+   * at its allowance. `balance`: pay as you go and the balance cannot cover the next
+   * block. `spend_cap`: pay as you go and the spend cap leaves no room for it. While
+   * paused, sends answer `429 a2p_limit_exceeded` and incoming messages are held.
+   */
+  paused: BalanceResponseAppMessagesPaused | null;
+}
+
+export type BalanceResponseAppMessagesPaused = 'allowance' | 'balance' | 'spend_cap';
+
+export interface BalanceResponseHeldInbound {
+  count: number;
+  /** How many the team can have held at once (1,000). Past it new ones are refused. */
+  max: number;
+  /** When the oldest held message expires and is dropped. */
+  nextExpiresAt: string | null;
 }
 
 export interface SubAccountApiKey {
@@ -4312,6 +4401,8 @@ export interface EscalateUrlResponse {
   url: VerifiedUrl;
   message: string;
 }
+
+export type SendMessageError409 = MessageResponse | ErrorBody;
 
 export interface SendMessageError429 {
   code?: string;

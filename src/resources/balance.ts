@@ -10,7 +10,10 @@ export class Balance extends APIResource {
    * Get balance
    *
    * Get balance for the API key's team. If the API key belongs to a sub-account,
-   * also includes the sub-account's total spending and credit limit.
+   * also includes the sub-account's total spending and credit limit. Also reports
+   * the team's app-message allowance, whether it is paused and why, pay as you go
+   * and the spend cap, and how many incoming messages are held: the way to learn
+   * that customers are writing without sending anything.
    *
    * `GET /v1/balance`
    */
