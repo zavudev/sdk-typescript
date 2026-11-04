@@ -514,6 +514,30 @@ export interface MessageContent {
    * applies: no line breaks, tabs or more than 4 consecutive spaces.
    */
   templateHeaderVariables?: { [key: string]: string };
+  /**
+   * HTTPS URL of the media for this send, for a WhatsApp template whose header is
+   * `image`, `video` or `document`. It replaces the file stored on the template for
+   * this message only; the template is not changed. WhatsApp fetches the URL when
+   * the message is sent, so it must be publicly reachable at that moment (a
+   * short-lived signed link works if it outlives the send). Without it, the
+   * template's stored header file is sent.
+   *
+   * A template whose header is `text`, or that has no header, is refused with `400
+   * invalid_request` and `details.field` set to `content.templateHeaderMediaUrl`,
+   * before anything is sent or charged. A URL that is not HTTPS is refused with `400
+   * invalid_request` and a `details.errors` entry whose `path` is `["content",
+   * "templateHeaderMediaUrl"]`. Ignored on channels other than WhatsApp.
+   */
+  templateHeaderMediaUrl?: string;
+  /**
+   * File name WhatsApp shows the recipient for a `document` header, e.g.
+   * `invoice-1042.pdf`. Works with `templateHeaderMediaUrl`, or on its own to name
+   * the template's stored file. Only valid when the template's header is `document`:
+   * any other header is refused with `400 invalid_request` and `details.field` set
+   * to `content.templateHeaderFilename`, before anything is sent or charged. Ignored
+   * on channels other than WhatsApp.
+   */
+  templateHeaderFilename?: string;
   referral?: AdReferral;
 }
 

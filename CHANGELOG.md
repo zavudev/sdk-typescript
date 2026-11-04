@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.62.0 (unreleased)
+
+### Features
+
+* **messages:** `content.templateHeaderMediaUrl` and
+  `content.templateHeaderFilename` send a different header file with one
+  WhatsApp template message: the HTTPS URL replaces the template's stored
+  image, video or document for that send, and the file name is shown for a
+  document header. A template whose header does not match answers
+  `400 invalid_request` with `details.field`. On `client.messages` (v1) and
+  `client.v2.messages`.
+
 ## 0.61.0 (unreleased)
 
 ### Documentation
