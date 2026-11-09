@@ -4285,6 +4285,239 @@ export interface SenderChannelDeactivationResponse {
   deactivated: boolean;
 }
 
+/**
+ * - `starting`: accepted, the machine is being prepared. Commands and file calls
+ *   wait for it.
+ * - `running`: the machine is up. Machine time is billed.
+ * - `stopping`: a stop was requested; billing already ended.
+ * - `stopped`: the disk is kept until `expiresAt`, and `POST /resume` starts it
+ *   again. Not billed.
+ * - `failed`: the machine could not start or failed on its host. See
+ *   `failureReason`. A sandbox that fails before it ever runs gets its start fee
+ *   back.
+ */
+export type SandboxStatus = 'starting' | 'running' | 'stopping' | 'stopped' | 'failed';
+
+/**
+ * Machine size, and its price per hour of machine time:
+ * - `small`: 2 vCPU, 4 GB RAM. $0.0225/h.
+ * - `default`: 4 vCPU, 8 GB RAM. $0.045/h.
+ * - `large`: 8 vCPU, 16 GB RAM. $0.09/h.
+ */
+export type SandboxSize = 'small' | 'default' | 'large';
+
+/**
+ * An isolated Linux machine. It is billed per second while `starting` or `running`
+ * (with a one-minute minimum per run), plus $0.01 each time it is created or
+ * resumed. A stopped sandbox costs nothing.
+ */
+export interface Sandbox {
+  id: string;
+  status: SandboxStatus;
+  size: SandboxSize;
+  /**
+   * The sandbox is stopped automatically this many seconds after it started (or was
+   * last resumed). Checked every minute.
+   */
+  timeoutSeconds: number;
+  /**
+   * What you attached when creating it. Kept by Zavu only; never visible inside the
+   * machine.
+   */
+  metadata: { [key: string]: string };
+  /** When the current or last run was accepted. */
+  startedAt?: string | null;
+  /** When the last run ended. Null while starting or running. */
+  stoppedAt?: string | null;
+  /**
+   * Present while `stopped`: when the disk is deleted, 14 days after the stop. After
+   * it, resume answers `409 sandbox_expired`.
+   */
+  expiresAt?: string | null;
+  /**
+   * USD charged for this sandbox so far: start fees plus machine time. Machine time
+   * of a running sandbox is settled every five minutes, so this lags by up to five
+   * minutes until it stops.
+   */
+  costTotal: number;
+  /** Why it failed. Present only when `status` is `failed`. */
+  failureReason?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SandboxResponse {
+  sandbox: Sandbox;
+}
+
+export interface SandboxCreateRequest {
+  /** @defaultValue `"default"` */
+  size?: SandboxSize;
+  /**
+   * Stop automatically after this many seconds. Max 24 hours.
+   *
+   * @defaultValue `3600`
+   */
+  timeoutSeconds?: number;
+  /**
+   * Environment variables set inside the machine. Keys match
+   * `[A-Za-z_][A-Za-z0-9_]{0,127}`, at most 100 variables and 64 KB in total. A few
+   * platform names are reserved and refused with `400`.
+   */
+  env?: { [key: string]: string };
+  /**
+   * Your own labels, returned on the sandbox. At most 40 keys; each key is 1-64
+   * characters from `A-Z a-z 0-9 . _ : -` and starts with a letter or digit.
+   */
+  metadata?: { [key: string]: string };
+  /**
+   * Retrying with the same key in this project returns `409` with the sandbox the
+   * first request created, instead of creating and charging a second one.
+   */
+  idempotencyKey?: string;
+}
+
+export interface SandboxResumeRequest {
+  /** A new timeout for this run. Omit to keep the sandbox's. */
+  timeoutSeconds?: number;
+}
+
+export interface SandboxCommandRequest {
+  /** Run with a shell, so pipes and `&&` work. */
+  command: string;
+  /** Working directory, relative to `/home/user`. */
+  cwd?: string;
+  /**
+   * For a synchronous command: how long to wait before it is killed and `timedOut`
+   * is true. Use `background` for anything longer.
+   *
+   * @defaultValue `30`
+   */
+  timeoutSeconds?: number;
+  /**
+   * Start it and return a command `id` at once. Read its status and output with `GET
+   * /v1/sandboxes/{sandboxId}/commands/{commandId}`.
+   *
+   * @defaultValue `false`
+   */
+  background?: boolean;
+}
+
+export interface SandboxCommandResult {
+  /** Null when the command was killed. */
+  exitCode: number | null;
+  stdout: string;
+  stderr: string;
+  stdoutTruncated: boolean;
+  stderrTruncated: boolean;
+  timedOut: boolean;
+  startedAt?: string | null;
+  finishedAt?: string | null;
+}
+
+/** A background command. */
+export interface SandboxCommand {
+  id: string;
+  command: string;
+  /**
+   * `unknown`: the machine restarted its process supervisor and lost track of it;
+   * the output shown is what was written to disk.
+   */
+  status: SandboxCommandStatus;
+  exitCode: number | null;
+  /** The last 1 MiB of standard output. */
+  stdout: string;
+  /** The last 1 MiB of standard error. */
+  stderr: string;
+  stdoutTruncated?: boolean;
+  stderrTruncated?: boolean;
+  startedAt?: string | null;
+  finishedAt?: string | null;
+  createdAt: string;
+}
+
+export type SandboxCommandStatus = 'running' | 'finished' | 'unknown';
+
+export interface SandboxFile {
+  path: string;
+  /** Present on read. */
+  content?: string;
+  encoding?: SandboxFileEncoding;
+  /** Bytes. */
+  size: number;
+}
+
+export type SandboxFileEncoding = 'utf8' | 'base64';
+
+export interface SandboxFileWriteRequest {
+  /**
+   * Absolute, or relative to `/home/user`. Must resolve under `/home/user` or
+   * `/tmp`.
+   */
+  path: string;
+  /** Up to 5 MiB after decoding. */
+  content: string;
+  /**
+   * Use `base64` for binary files.
+   *
+   * @defaultValue `"utf8"`
+   */
+  encoding?: SandboxFileWriteRequestEncoding;
+}
+
+export type SandboxFileWriteRequestEncoding = 'utf8' | 'base64';
+
+export interface SandboxFileEntry {
+  name: string;
+  path: string;
+  isDir: boolean;
+  size: number;
+  modifiedAt: string;
+}
+
+export interface SandboxPortRequest {
+  /** Port your service listens on inside the machine. */
+  port: number;
+  /**
+   * `false` returns a URL with an access token in its query string: anyone holding
+   * the full URL can open it, so treat it as a secret. Opened in a browser, the
+   * token moves into a cookie for that host and leaves the address bar, so the
+   * page's own links, assets and WebSockets work. Other clients send it as
+   * `?_token=` on every request. `true` returns a URL anyone can open. Calling again
+   * with a different value changes it for the same URL.
+   *
+   * @defaultValue `false`
+   */
+  public?: boolean;
+}
+
+export interface SandboxPort {
+  port: number;
+  /**
+   * HTTPS URL on `zavu.run` that reaches the port, WebSockets included. Calling this
+   * again for the same port returns the same URL. It keeps working across a stop and
+   * resume; while the sandbox is stopped it answers `503`, and once the sandbox is
+   * deleted it answers `404`.
+   */
+  url: string;
+  public: boolean;
+}
+
+/**
+ * `result` when the command ran synchronously (`200`); `command` when it was
+ * started in the background (`202`).
+ */
+export interface SandboxCommandRunResponse {
+  result?: SandboxCommandResult;
+  command?: SandboxCommandRunResponseCommand;
+}
+
+export interface SandboxCommandRunResponseCommand {
+  /** Pass it to `GET /v1/sandboxes/{sandboxId}/commands/{commandId}`. */
+  id: string;
+  status: 'running';
+}
+
 export interface CreateMemoryCollectionResponse {
   collection: MemoryCollection;
 }
@@ -4853,6 +5086,36 @@ export interface ListAgentVoicesResponseItemsItem {
   id: string;
   name: string;
   language: string;
+}
+
+export interface ListSandboxesResponse {
+  items: Array<Sandbox>;
+  nextCursor?: string | null;
+}
+
+export interface GetSandboxCommandResponse {
+  command: SandboxCommand;
+}
+
+export type ReadSandboxFileEncoding = 'utf8' | 'base64';
+
+export interface ReadSandboxFileResponse {
+  file: SandboxFile;
+}
+
+export interface WriteSandboxFileResponse {
+  file: SandboxFile;
+}
+
+export interface ListSandboxFilesResponse {
+  path: string;
+  files: Array<SandboxFileEntry>;
+  /** True when the directory holds more than 10,000 entries. */
+  truncated: boolean;
+}
+
+export interface ExposeSandboxPortResponse {
+  port: SandboxPort;
 }
 
 /** Params for `addresses.create`. */
@@ -5697,3 +5960,68 @@ export interface MemoryCollectionsItemsQueryParams extends MemoryItemQueryReques
    */
   scope?: MemoryScopeQuery;
 }
+
+/** Params for `sandboxes.create`. */
+export interface SandboxesCreateParams extends SandboxCreateRequest {}
+
+/** Params for `sandboxes.list`. */
+export interface SandboxesListParams {
+  status?: SandboxStatus;
+  /** @defaultValue `50` */
+  limit?: number;
+  cursor?: string;
+}
+
+/** Params for `sandboxes.resume`. */
+export interface SandboxesResumeParams extends SandboxResumeRequest {}
+
+/** Params for `sandboxes.commands.run`. */
+export interface SandboxesCommandsRunParams extends SandboxCommandRequest {}
+
+/** Params for `sandboxes.commands.retrieve`. */
+export interface SandboxesCommandsRetrieveParams {
+  /** Sandbox ID. */
+  sandboxId: string;
+}
+
+/** Params for `sandboxes.files.read`. */
+export interface SandboxesFilesReadParams {
+  /**
+   * Absolute, or relative to `/home/user`. Must resolve under `/home/user` or
+   * `/tmp`.
+   */
+  path: string;
+  /**
+   * Use `base64` for binary files.
+   *
+   * @defaultValue `"utf8"`
+   */
+  encoding?: ReadSandboxFileEncoding;
+}
+
+/** Params for `sandboxes.files.write`. */
+export interface SandboxesFilesWriteParams extends SandboxFileWriteRequest {}
+
+/** Params for `sandboxes.files.delete`. */
+export interface SandboxesFilesDeleteParams {
+  /**
+   * Absolute, or relative to `/home/user`. Must resolve under `/home/user` or
+   * `/tmp`.
+   */
+  path: string;
+  /**
+   * Required to delete a directory.
+   *
+   * @defaultValue `false`
+   */
+  recursive?: boolean;
+}
+
+/** Params for `sandboxes.files.list`. */
+export interface SandboxesFilesListParams {
+  /** @defaultValue `"/home/user"` */
+  path?: string;
+}
+
+/** Params for `sandboxes.ports.expose`. */
+export interface SandboxesPortsExposeParams extends SandboxPortRequest {}

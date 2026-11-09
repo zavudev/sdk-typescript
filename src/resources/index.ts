@@ -255,3 +255,18 @@ export {
   type MemoryRetrieveResponse,
   type MemoryDeleteParams,
 } from './memory/memory';
+export {
+  Sandboxes,
+  type SandboxCreateParams,
+  type SandboxCreateResponse,
+  type Sandbox,
+  type SandboxResponse,
+  type SandboxSize,
+  type SandboxListParams,
+  type SandboxesCursor,
+  type SandboxStatus,
+  type SandboxRetrieveResponse,
+  type SandboxStopResponse,
+  type SandboxResumeParams,
+  type SandboxResumeResponse,
+} from './sandboxes/sandboxes';
