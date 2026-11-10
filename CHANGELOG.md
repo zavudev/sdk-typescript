@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.65.0 (unreleased)
+
+### Features
+
+* **sandboxes:** the project webhook (`client.invitations.webhook`) takes the
+  compute sandbox events: `sandbox.running`, `sandbox.stopped`,
+  `sandbox.failed`, `sandbox_snapshot.ready` and `sandbox_snapshot.failed`.
+  Each carries the sandbox or snapshot as `retrieve` returns it.
+* **sandboxes:** `Sandbox.stopReason` says why the last run ended:
+  `requested`, `timeout`, `insufficient_balance`, `spend_cap_reached`, `plan`
+  or `provider`. Null while it runs.
+
 ## 0.64.0 (unreleased)
 
 ### Features
