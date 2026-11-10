@@ -10,6 +10,10 @@ import type * as T from '../../types';
 import * as CommandsAPI from './commands';
 import * as FilesAPI from './files';
 import * as PortsAPI from './ports';
+import * as SshAPI from './ssh';
+import * as DesktopAPI from './desktop';
+import * as SnapshotsAPI from './snapshots';
+import * as EnvironmentsAPI from './environments';
 import {
   Commands,
   type CommandRunParams,
@@ -32,12 +36,49 @@ import {
   type FileListResponse,
   type SandboxFileEntry,
 } from './files';
-import { Ports, type PortExposeParams, type PortExposeResponse, type SandboxPort } from './ports';
+import {
+  Ports,
+  type PortExposeParams,
+  type PortExposeResponse,
+  type SandboxPort,
+  type PortListResponse,
+  type SandboxPortList,
+} from './ports';
+import { Ssh, type SshAuthorizeParams, type SshAuthorizeResponse, type SandboxSsh } from './ssh';
+import { Desktop, type DesktopOpenParams, type DesktopOpenResponse, type SandboxDesktop } from './desktop';
+import {
+  Snapshots,
+  type SnapshotCreateParams,
+  type SnapshotCreateResponse,
+  type SandboxSnapshot,
+  type SandboxSnapshotResponse,
+  type SnapshotListParams,
+  type SandboxSnapshotsCursor,
+  type SandboxSnapshotStatus,
+  type SnapshotRetrieveResponse,
+  type SnapshotShareResponse,
+} from './snapshots';
+import {
+  Environments,
+  type EnvironmentCreateParams,
+  type EnvironmentCreateResponse,
+  type SandboxEnvironment,
+  type SandboxEnvironmentResponse,
+  type EnvironmentListParams,
+  type SandboxEnvironmentsCursor,
+  type EnvironmentRetrieveResponse,
+  type EnvironmentUpdateParams,
+  type EnvironmentUpdateResponse,
+} from './environments';
 
 export class Sandboxes extends APIResource {
   commands: CommandsAPI.Commands = new CommandsAPI.Commands(this._client);
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
   ports: PortsAPI.Ports = new PortsAPI.Ports(this._client);
+  ssh: SshAPI.Ssh = new SshAPI.Ssh(this._client);
+  desktop: DesktopAPI.Desktop = new DesktopAPI.Desktop(this._client);
+  snapshots: SnapshotsAPI.Snapshots = new SnapshotsAPI.Snapshots(this._client);
+  environments: EnvironmentsAPI.Environments = new EnvironmentsAPI.Environments(this._client);
 
   /**
    * Create a sandbox
@@ -112,8 +153,9 @@ export class Sandboxes extends APIResource {
   /**
    * Stop a sandbox
    *
-   * End the run and keep the disk, so `resume` can start it again within 14 days.
-   * Billing ends when this is called. Works with test-mode keys and on any plan.
+   * End the run and keep the disk, so `resume` can start it again within 14 days. An
+   * ephemeral sandbox's disk is erased instead. Billing ends when this is called.
+   * Works with test-mode keys and on any plan.
    *
    * Answers `202` while the machine shuts down (`stopping`), or `200` when it is
    * already stopped or was never running.
@@ -139,6 +181,23 @@ export class Sandboxes extends APIResource {
     options?: RequestOptions,
   ): APIPromise<SandboxResumeResponse> {
     return this._client.post(path`/v1/sandboxes/${sandboxID}/resume`, { body, ...options });
+  }
+
+  /**
+   * Copy a sandbox
+   *
+   * Start a new sandbox with a copy of this one's disk. The source keeps running.
+   * The copy is billed like a create: $0.01, then machine time, with the same plan,
+   * balance and limit checks, and keeps the source's size, timeout, name and
+   * metadata.
+   *
+   * The source must be running or stopped, and not ephemeral. Not available with
+   * test-mode keys.
+   *
+   * `POST /v1/sandboxes/{sandboxId}/fork`
+   */
+  fork(sandboxID: string, options?: RequestOptions): APIPromise<SandboxForkResponse> {
+    return this._client.post(path`/v1/sandboxes/${sandboxID}/fork`, options);
   }
 }
 
@@ -166,11 +225,14 @@ export type SandboxResumeParams = T.SandboxesResumeParams;
 
 export type SandboxResumeResponse = T.SandboxResponse;
 
+export type SandboxForkResponse = T.SandboxResponse;
+
 export declare namespace Sandboxes {
   export {
     type Sandbox as Sandbox,
     type SandboxCreateParams as SandboxCreateParams,
     type SandboxCreateResponse as SandboxCreateResponse,
+    type SandboxForkResponse as SandboxForkResponse,
     type SandboxListParams as SandboxListParams,
     type SandboxResponse as SandboxResponse,
     type SandboxResumeParams as SandboxResumeParams,
@@ -202,5 +264,35 @@ export declare namespace Sandboxes {
     type PortExposeParams as PortExposeParams,
     type PortExposeResponse as PortExposeResponse,
     type SandboxPort as SandboxPort,
+    type PortListResponse as PortListResponse,
+    type SandboxPortList as SandboxPortList,
+    Ssh as Ssh,
+    type SshAuthorizeParams as SshAuthorizeParams,
+    type SshAuthorizeResponse as SshAuthorizeResponse,
+    type SandboxSsh as SandboxSsh,
+    Desktop as Desktop,
+    type DesktopOpenParams as DesktopOpenParams,
+    type DesktopOpenResponse as DesktopOpenResponse,
+    type SandboxDesktop as SandboxDesktop,
+    Snapshots as Snapshots,
+    type SnapshotCreateParams as SnapshotCreateParams,
+    type SnapshotCreateResponse as SnapshotCreateResponse,
+    type SandboxSnapshot as SandboxSnapshot,
+    type SandboxSnapshotResponse as SandboxSnapshotResponse,
+    type SnapshotListParams as SnapshotListParams,
+    type SandboxSnapshotsCursor as SandboxSnapshotsCursor,
+    type SandboxSnapshotStatus as SandboxSnapshotStatus,
+    type SnapshotRetrieveResponse as SnapshotRetrieveResponse,
+    type SnapshotShareResponse as SnapshotShareResponse,
+    Environments as Environments,
+    type EnvironmentCreateParams as EnvironmentCreateParams,
+    type EnvironmentCreateResponse as EnvironmentCreateResponse,
+    type SandboxEnvironment as SandboxEnvironment,
+    type SandboxEnvironmentResponse as SandboxEnvironmentResponse,
+    type EnvironmentListParams as EnvironmentListParams,
+    type SandboxEnvironmentsCursor as SandboxEnvironmentsCursor,
+    type EnvironmentRetrieveResponse as EnvironmentRetrieveResponse,
+    type EnvironmentUpdateParams as EnvironmentUpdateParams,
+    type EnvironmentUpdateResponse as EnvironmentUpdateResponse,
   };
 }

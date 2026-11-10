@@ -288,6 +288,7 @@ import {
   type SandboxStopResponse,
   type SandboxResumeParams,
   type SandboxResumeResponse,
+  type SandboxForkResponse,
 } from './resources/sandboxes/sandboxes';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -1376,5 +1377,6 @@ export declare namespace Zavudev {
     type SandboxStopResponse as SandboxStopResponse,
     type SandboxResumeParams as SandboxResumeParams,
     type SandboxResumeResponse as SandboxResumeResponse,
+    type SandboxForkResponse as SandboxForkResponse,
   };
 }

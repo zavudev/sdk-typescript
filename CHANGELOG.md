@@ -9,7 +9,15 @@
   `client.sandboxes.commands` (run a command, synchronously or in the
   background, and read a background one), `client.sandboxes.files` (read,
   write, list and delete) and `client.sandboxes.ports` (expose a port on an
-  HTTPS URL). Paid plans only; billed per second from the balance.
+  HTTPS URL, and list them). Paid plans only; billed per second from the
+  balance.
+* **sandboxes:** everything the dashboard does: `client.sandboxes.fork()`,
+  `client.sandboxes.ssh.authorize()`, `client.sandboxes.desktop.open()`,
+  `client.sandboxes.snapshots` (save, list, retrieve, delete, `share` with a
+  `zsh_` code and `revokeShare`) and `client.sandboxes.environments` (named,
+  encrypted variable sets). `create` takes `timeoutSeconds: null` (no
+  auto-stop), `ephemeral`, `environment`, `from` (a snapshot id or share code),
+  `name` and `setupScript`.
 
 ## 0.63.0 (unreleased)
 
