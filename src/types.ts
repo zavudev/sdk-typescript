@@ -4206,10 +4206,10 @@ export interface FunctionUpdateRequest {
 export type WebhookSignatureVersion = 'v1' | 'v1+v2' | 'v2';
 
 /**
- * The project-level webhook. It receives project events such as
- * `invitation.status_changed` for this project only: a parent project does not
- * receive its sub-accounts' events, so configure one per sub-account with that
- * sub-account's API key.
+ * The project-level webhook. It receives project events (partner invitations,
+ * broadcasts, email domains and compute sandboxes) for this project only: a parent
+ * project does not receive its sub-accounts' events, so configure one per
+ * sub-account with that sub-account's API key.
  */
 export interface ProjectWebhook {
   url: string;
@@ -4225,12 +4225,37 @@ export interface ProjectWebhook {
 /**
  * Events a project webhook can subscribe to. Any other value is refused with
  * `400`.
+ *
+ * **Compute sandboxes.** Each carries, in `data`, the object the matching `GET`
+ * returns, read after the change: `data.sandbox` (a `Sandbox`) or `data.snapshot`
+ * (a `SandboxSnapshot`). Delivery is at least once and can arrive out of order:
+ * deduplicate by the event `id`, and trust `data.sandbox.status` over the order
+ * events arrive in.
+ * - `sandbox.running`: the machine finished starting, after a create, resume or
+ *   copy. Machine time is billed from the start.
+ * - `sandbox.stopped`: the machine is down and the sandbox reads `stopped`, so it
+ *   can be resumed now. `data.sandbox.stopReason` says why: `requested` (you
+ *   stopped it), `timeout`, `insufficient_balance`, `spend_cap_reached`, `plan`
+ *   (the team left its paid plan) or `provider` (it ended on its host). Not sent
+ *   for a sandbox that is deleted while running.
+ * - `sandbox.failed`: it could not start, or failed on its host. See
+ *   `data.sandbox.failureReason`. A failed resume is not announced: the sandbox
+ *   stays `stopped` and the call that resumed it already answered with the error.
+ * - `sandbox_snapshot.ready`: a saved snapshot finished saving and can be started
+ *   from with `from`.
+ * - `sandbox_snapshot.failed`: the save did not finish. Its first day is refunded,
+ *   so `costTotal` reads `0`.
  */
 export type ProjectWebhookEvent =
   | 'invitation.status_changed'
   | 'broadcast.status_changed'
   | 'domain.verified'
-  | 'domain.failed';
+  | 'domain.failed'
+  | 'sandbox.running'
+  | 'sandbox.stopped'
+  | 'sandbox.failed'
+  | 'sandbox_snapshot.ready'
+  | 'sandbox_snapshot.failed';
 
 export interface ProjectWebhookCreateRequest {
   url: string;
@@ -4345,6 +4370,15 @@ export interface Sandbox {
    */
   expiresAt?: string | null;
   /**
+   * Why the last run ended, while `stopping` or `stopped`; null otherwise.
+   * `requested`: you stopped it, from the API or the dashboard. `timeout`: its
+   * `timeoutSeconds` passed. `insufficient_balance` and `spend_cap_reached`: the
+   * balance or the monthly spend cap no longer covered 15 more minutes. `plan`: the
+   * team left its paid plan. `provider`: it ended on its host. The `sandbox.stopped`
+   * project webhook carries the same value.
+   */
+  stopReason: SandboxStopReason | null;
+  /**
    * USD charged for this sandbox so far: start fees plus machine time. Machine time
    * of a running sandbox is settled every five minutes, so this lags by up to five
    * minutes until it stops.
@@ -4365,6 +4399,14 @@ export interface Sandbox {
   createdAt: string;
   updatedAt: string;
 }
+
+export type SandboxStopReason =
+  | 'requested'
+  | 'timeout'
+  | 'insufficient_balance'
+  | 'spend_cap_reached'
+  | 'plan'
+  | 'provider';
 
 export interface SandboxResponse {
   sandbox: Sandbox;

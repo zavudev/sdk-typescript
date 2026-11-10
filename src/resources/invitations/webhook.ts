@@ -26,9 +26,10 @@ export class Webhook extends APIResource {
    * activate it. The response carries the signing `secret`; an existing secret is
    * kept.
    *
-   * This is where `invitation.status_changed` is delivered. Events are scoped to
-   * this project: when you onboard clients in sub-accounts, call this with each
-   * sub-account's API key.
+   * This is where `invitation.status_changed`, `broadcast.status_changed`, the email
+   * domain events and the compute sandbox events are delivered; see
+   * `ProjectWebhookEvent`. Events are scoped to this project: when you onboard
+   * clients in sub-accounts, call this with each sub-account's API key.
    *
    * `POST /v1/invitations/webhook`
    */
