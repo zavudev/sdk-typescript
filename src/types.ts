@@ -4385,6 +4385,21 @@ export interface SandboxCreateRequest {
    */
   env?: { [key: string]: string };
   /**
+   * Name of one of the project's sandbox environments, created in the dashboard
+   * (Compute sandboxes › Environments). Its variables are set inside the machine;
+   * `env` wins on the same name, and the two together must stay within the `env`
+   * limits. An unknown name answers `404 not_found` and nothing is charged.
+   */
+  environment?: string;
+  /**
+   * A saved snapshot's share code, created by its owner in the dashboard. The
+   * sandbox starts with a copy of that disk and takes the snapshot's size, whatever
+   * `size` says. It can come from another team: you pay this sandbox's start and
+   * machine time, the owner keeps paying for the snapshot. An unknown or revoked
+   * code answers `404 not_found` and nothing is charged.
+   */
+  from?: string;
+  /**
    * Your own labels, returned on the sandbox. At most 40 keys; each key is 1-64
    * characters from `A-Z a-z 0-9 . _ : -` and starts with a letter or digit.
    */
