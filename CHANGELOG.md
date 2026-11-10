@@ -14,6 +14,8 @@
 * **functions:** secret and delete descriptions no longer name the
   infrastructure behind a function, and `secrets.set` lists the exact reserved
   key prefixes and the 64-character limit.
+* Links in doc comments point to the docs at `https://www.zavu.dev/docs`,
+  which replaced `docs.zavu.dev`.
 
 ## 0.62.0 (unreleased)
 

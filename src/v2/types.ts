@@ -1973,7 +1973,7 @@ export interface WebhookPayloadV2 {
  *
  * Moving straight between `v1` and `v2`, in either direction, returns `400`. Set
  * `v1+v2` first. See
- * https://docs.zavu.dev/guides/receiving-messages/signature-migration
+ * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
  */
 export type WebhookSignatureVersion = 'v1' | 'v1+v2' | 'v2';
 
