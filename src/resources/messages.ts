@@ -150,7 +150,7 @@ export class Messages extends APIResource {
    *   `errorCode` `EMAIL_RATE_LIMIT_HOURLY` or `EMAIL_RATE_LIMIT_DAILY`, visible on
    *   `GET /v1/messages/{messageId}` and the `message.failed` webhook. It does not
    *   reset at 00:00 UTC: it counts the last hour and the last 24 hours
-   * - Full reference: https://docs.zavu.dev/concepts/sending-limits
+   * - Full reference: https://www.zavu.dev/docs/concepts/sending-limits
    *
    * **Risk review:**
    * Every outbound `sms`, `sms_oneway`, `email` and `voice` message is read before

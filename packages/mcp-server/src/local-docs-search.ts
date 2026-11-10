@@ -9419,13 +9419,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'delete',
     summary: 'Delete function',
     description:
-      'Permanently delete a function and cascade: triggers, secrets, deployment history, managed agents+tools, and revoke the auto-provisioned API key. The AWS Lambda + log group are torn down asynchronously.',
+      'Permanently delete a function and cascade: triggers, secrets, deployment history, managed agents+tools, and revoke the auto-provisioned API key. The deployed runtime and its logs are torn down asynchronously.',
     stainlessPath: '(resource) functions > (method) delete',
     qualified: 'client.functions.delete',
     params: ['functionId: string;'],
     response: '{ deleted: boolean; name?: string; slug?: string; }',
     markdown:
-      "## delete\n\n`client.functions.delete(functionId: string): { deleted: boolean; name?: string; slug?: string; }`\n\n**delete** `/v1/functions/{functionId}`\n\nPermanently delete a function and cascade: triggers, secrets, deployment history, managed agents+tools, and revoke the auto-provisioned API key. The AWS Lambda + log group are torn down asynchronously.\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ deleted: boolean; name?: string; slug?: string; }`\n\n  - `deleted: boolean`\n  - `name?: string`\n  - `slug?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.delete('functionId');\n\nconsole.log(_function);\n```",
+      "## delete\n\n`client.functions.delete(functionId: string): { deleted: boolean; name?: string; slug?: string; }`\n\n**delete** `/v1/functions/{functionId}`\n\nPermanently delete a function and cascade: triggers, secrets, deployment history, managed agents+tools, and revoke the auto-provisioned API key. The deployed runtime and its logs are torn down asynchronously.\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ deleted: boolean; name?: string; slug?: string; }`\n\n  - `deleted: boolean`\n  - `name?: string`\n  - `slug?: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst _function = await client.functions.delete('functionId');\n\nconsole.log(_function);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.delete',
@@ -9890,9 +9890,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     qualified: 'client.functions.secrets.list',
     params: ['functionId: string;'],
     response:
-      '{ secrets: { id: string; key: string; valueLast4: string; createdAt?: number; syncedToAws?: boolean; updatedAt?: number; }[]; }',
+      '{ secrets: { id: string; key: string; valueLast4: string; createdAt?: number; synced?: boolean; updatedAt?: number; }[]; }',
     markdown:
-      "## list\n\n`client.functions.secrets.list(functionId: string): { secrets: object[]; }`\n\n**get** `/v1/functions/{functionId}/secrets`\n\nLists every secret key set on the function. Plaintext is NEVER returned — only the last 4 characters of each value, for visual confirmation.\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ secrets: { id: string; key: string; valueLast4: string; createdAt?: number; syncedToAws?: boolean; updatedAt?: number; }[]; }`\n\n  - `secrets: { id: string; key: string; valueLast4: string; createdAt?: number; syncedToAws?: boolean; updatedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst secrets = await client.functions.secrets.list('functionId');\n\nconsole.log(secrets);\n```",
+      "## list\n\n`client.functions.secrets.list(functionId: string): { secrets: object[]; }`\n\n**get** `/v1/functions/{functionId}/secrets`\n\nLists every secret key set on the function. Plaintext is NEVER returned — only the last 4 characters of each value, for visual confirmation.\n\n### Parameters\n\n- `functionId: string`\n\n### Returns\n\n- `{ secrets: { id: string; key: string; valueLast4: string; createdAt?: number; synced?: boolean; updatedAt?: number; }[]; }`\n\n  - `secrets: { id: string; key: string; valueLast4: string; createdAt?: number; synced?: boolean; updatedAt?: number; }[]`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst secrets = await client.functions.secrets.list('functionId');\n\nconsole.log(secrets);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.secrets.list',
@@ -9950,13 +9950,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'put',
     summary: 'Set function secret',
     description:
-      'Create or update a secret on a function. Marks the function out-of-sync; the next `POST /deploy` re-publishes the Lambda with the new env. Keys must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style) and cannot start with reserved prefixes (AWS_, LAMBDA_, etc).',
+      'Create or update a secret on a function. Marks the function out-of-sync; the next `POST /deploy` re-publishes the function with the new environment. Keys must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style), be at most 64 characters, and not start with a prefix the runtime reserves: `AWS_`, `_AWS_`, `LAMBDA_`, `_HANDLER`, `_X_AMZN`.',
     stainlessPath: '(resource) functions.secrets > (method) set',
     qualified: 'client.functions.secrets.set',
     params: ['functionId: string;', 'key: string;', 'value: string;'],
     response: 'object',
     markdown:
-      "## set\n\n`client.functions.secrets.set(functionId: string, key: string, value: string): object`\n\n**put** `/v1/functions/{functionId}/secrets/{key}`\n\nCreate or update a secret on a function. Marks the function out-of-sync; the next `POST /deploy` re-publishes the Lambda with the new env. Keys must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style) and cannot start with reserved prefixes (AWS_, LAMBDA_, etc).\n\n### Parameters\n\n- `functionId: string`\n\n- `key: string`\n\n- `value: string`\n\n### Returns\n\n- `object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.secrets.set('key', { functionId: 'functionId', value: 'value' });\n\nconsole.log(response);\n```",
+      "## set\n\n`client.functions.secrets.set(functionId: string, key: string, value: string): object`\n\n**put** `/v1/functions/{functionId}/secrets/{key}`\n\nCreate or update a secret on a function. Marks the function out-of-sync; the next `POST /deploy` re-publishes the function with the new environment. Keys must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style), be at most 64 characters, and not start with a prefix the runtime reserves: `AWS_`, `_AWS_`, `LAMBDA_`, `_HANDLER`, `_X_AMZN`.\n\n### Parameters\n\n- `functionId: string`\n\n- `key: string`\n\n- `value: string`\n\n### Returns\n\n- `object`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nconst response = await client.functions.secrets.set('key', { functionId: 'functionId', value: 'value' });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.secrets.set',
@@ -10015,12 +10015,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'delete',
     summary: 'Unset function secret',
     description:
-      "Remove a secret from a function. Doesn't take effect on the running Lambda until the next deploy.",
+      "Remove a secret from a function. Doesn't take effect on the running function until the next deploy.",
     stainlessPath: '(resource) functions.secrets > (method) unset',
     qualified: 'client.functions.secrets.unset',
     params: ['functionId: string;', 'key: string;'],
     markdown:
-      "## unset\n\n`client.functions.secrets.unset(functionId: string, key: string): void`\n\n**delete** `/v1/functions/{functionId}/secrets/{key}`\n\nRemove a secret from a function. Doesn't take effect on the running Lambda until the next deploy.\n\n### Parameters\n\n- `functionId: string`\n\n- `key: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.functions.secrets.unset('key', { functionId: 'functionId' })\n```",
+      "## unset\n\n`client.functions.secrets.unset(functionId: string, key: string): void`\n\n**delete** `/v1/functions/{functionId}/secrets/{key}`\n\nRemove a secret from a function. Doesn't take effect on the running function until the next deploy.\n\n### Parameters\n\n- `functionId: string`\n\n- `key: string`\n\n### Example\n\n```typescript\nimport Zavudev from '@zavudev/sdk';\n\nconst client = new Zavudev();\n\nawait client.functions.secrets.unset('key', { functionId: 'functionId' })\n```",
     perLanguage: {
       typescript: {
         method: 'client.functions.secrets.unset',

@@ -1392,7 +1392,7 @@ export interface SenderUpdateRequest {
   /**
    * Move this webhook between signature schemes. `v1` -> `v2` directly returns
    * `400`; go through `v1+v2` first. See
-   * https://docs.zavu.dev/guides/receiving-messages/signature-migration
+   * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
    */
   webhookSignatureVersion?: WebhookSignatureVersion;
 }
@@ -4201,7 +4201,7 @@ export interface FunctionUpdateRequest {
  *   before switching over.
  *
  * Moving from `v1` straight to `v2` returns `400`. Set `v1+v2` first. See
- * https://docs.zavu.dev/guides/receiving-messages/signature-migration
+ * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
  */
 export type WebhookSignatureVersion = 'v1' | 'v1+v2' | 'v2';
 
@@ -4731,7 +4731,11 @@ export interface ListFunctionSecretsResponseSecretsItem {
   id: string;
   key: string;
   valueLast4: string;
-  syncedToAws?: boolean;
+  /**
+   * Whether the current value is in the deployed function. `false` after a set or an
+   * unset until the next deploy.
+   */
+  synced?: boolean;
   createdAt?: number;
   updatedAt?: number;
 }

@@ -22,7 +22,7 @@ export class Calls extends APIResource {
    *   Free once it has verified its identity, added a payment method, settled a
    *   deposit or subscribed. Paid plans have no daily call ceiling. Over it, `429`
    *   with code `daily_limit_exceeded`. Full reference:
-   *   https://docs.zavu.dev/concepts/sending-limits
+   *   https://www.zavu.dev/docs/concepts/sending-limits
    * - The call is read by Zavu's automated risk review before it is dialed, the way
    *   a message is (see `POST /v1/messages`). A call is never held for a person: one
    *   the review stops is failed rather than placed late. Repeated refusals suspend

@@ -24,9 +24,10 @@ export class Secrets extends APIResource {
    * Set function secret
    *
    * Create or update a secret on a function. Marks the function out-of-sync; the
-   * next `POST /deploy` re-publishes the Lambda with the new env. Keys must match
-   * `[A-Z_][A-Z0-9_]*` (uppercase env-var style) and cannot start with reserved
-   * prefixes (AWS_, LAMBDA_, etc).
+   * next `POST /deploy` re-publishes the function with the new environment. Keys
+   * must match `[A-Z_][A-Z0-9_]*` (uppercase env-var style), be at most 64
+   * characters, and not start with a prefix the runtime reserves: `AWS_`, `_AWS_`,
+   * `LAMBDA_`, `_HANDLER`, `_X_AMZN`. Those are refused with `400`.
    *
    * `PUT /v1/functions/{functionId}/secrets/{key}`
    */
@@ -38,8 +39,8 @@ export class Secrets extends APIResource {
   /**
    * Unset function secret
    *
-   * Remove a secret from a function. Doesn't take effect on the running Lambda until
-   * the next deploy.
+   * Remove a secret from a function. Doesn't take effect on the running function
+   * until the next deploy.
    *
    * `DELETE /v1/functions/{functionId}/secrets/{key}`
    */
