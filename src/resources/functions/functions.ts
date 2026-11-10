@@ -86,8 +86,8 @@ export class Functions extends APIResource {
    * Delete function
    *
    * Permanently delete a function and cascade: triggers, secrets, deployment
-   * history, managed agents+tools, and revoke the auto-provisioned API key. The AWS
-   * Lambda + log group are torn down asynchronously.
+   * history, managed agents+tools, and revoke the auto-provisioned API key. The
+   * deployed runtime and its logs are torn down asynchronously.
    *
    * `DELETE /v1/functions/{functionId}`
    */

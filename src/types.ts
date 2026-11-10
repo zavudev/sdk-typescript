@@ -4731,7 +4731,11 @@ export interface ListFunctionSecretsResponseSecretsItem {
   id: string;
   key: string;
   valueLast4: string;
-  syncedToAws?: boolean;
+  /**
+   * Whether the current value is in the deployed function. `false` after a set or an
+   * unset until the next deploy.
+   */
+  synced?: boolean;
   createdAt?: number;
   updatedAt?: number;
 }

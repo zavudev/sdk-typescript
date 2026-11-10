@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.63.0 (unreleased)
+
+### Features
+
+* **functions:** `client.functions.secrets.list()` types each secret's
+  `synced`: whether its current value is in the deployed function, `false`
+  after a set or an unset until the next deploy. It replaces `syncedToAws`,
+  which the API still returns for existing clients but no longer documents.
+
+### Documentation
+
+* **functions:** secret and delete descriptions no longer name the
+  infrastructure behind a function, and `secrets.set` lists the exact reserved
+  key prefixes and the 64-character limit.
+
 ## 0.62.0 (unreleased)
 
 ### Features
