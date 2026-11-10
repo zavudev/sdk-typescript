@@ -112,8 +112,9 @@ export class Sandboxes extends APIResource {
   /**
    * Stop a sandbox
    *
-   * End the run and keep the disk, so `resume` can start it again within 14 days.
-   * Billing ends when this is called. Works with test-mode keys and on any plan.
+   * End the run and keep the disk, so `resume` can start it again within 14 days. An
+   * ephemeral sandbox's disk is erased instead. Billing ends when this is called.
+   * Works with test-mode keys and on any plan.
    *
    * Answers `202` while the machine shuts down (`stopping`), or `200` when it is
    * already stopped or was never running.

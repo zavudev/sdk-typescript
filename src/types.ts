@@ -4317,9 +4317,16 @@ export interface Sandbox {
   size: SandboxSize;
   /**
    * The sandbox is stopped automatically this many seconds after it started (or was
-   * last resumed). Checked every minute.
+   * last resumed). Checked every minute. `null` when auto-stop is off: it runs until
+   * you stop it, or until the balance, the spend cap or leaving the paid plan stops
+   * it.
    */
-  timeoutSeconds: number;
+  timeoutSeconds: number | null;
+  /**
+   * Created with `ephemeral: true`. Its disk is never saved: a stop erases it,
+   * `expiresAt` is the moment it stopped, and resume answers `409 sandbox_expired`.
+   */
+  ephemeral: boolean;
   /**
    * What you attached when creating it. Kept by Zavu only; never visible inside the
    * machine.
@@ -4330,8 +4337,9 @@ export interface Sandbox {
   /** When the last run ended. Null while starting or running. */
   stoppedAt?: string | null;
   /**
-   * Present while `stopped`: when the disk is deleted, 14 days after the stop. After
-   * it, resume answers `409 sandbox_expired`.
+   * Present while `stopped`: when the disk is deleted, 14 days after the stop, or
+   * the stop itself for an ephemeral sandbox. After it, resume answers `409
+   * sandbox_expired`.
    */
   expiresAt?: string | null;
   /**
@@ -4354,11 +4362,22 @@ export interface SandboxCreateRequest {
   /** @defaultValue `"default"` */
   size?: SandboxSize;
   /**
-   * Stop automatically after this many seconds. Max 24 hours.
+   * Stop automatically after this many seconds. Max 24 hours. `null` turns auto-stop
+   * off: the sandbox runs until you stop it. It is still stopped when the balance or
+   * the monthly spend cap no longer covers 15 more minutes, or when the team leaves
+   * its paid plan, and it is billed for every second it runs.
    *
    * @defaultValue `3600`
    */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | null;
+  /**
+   * Never save the disk. A stop erases it, so the sandbox cannot be resumed
+   * afterwards (`409 sandbox_expired`). Use it for one-off jobs whose results you
+   * read before stopping.
+   *
+   * @defaultValue `false`
+   */
+  ephemeral?: boolean;
   /**
    * Environment variables set inside the machine. Keys match
    * `[A-Za-z_][A-Za-z0-9_]{0,127}`, at most 100 variables and 64 KB in total. A few
@@ -4378,8 +4397,11 @@ export interface SandboxCreateRequest {
 }
 
 export interface SandboxResumeRequest {
-  /** A new timeout for this run. Omit to keep the sandbox's. */
-  timeoutSeconds?: number;
+  /**
+   * A new timeout for this run. `null` turns auto-stop off for this and later runs.
+   * Omit to keep the sandbox's.
+   */
+  timeoutSeconds?: number | null;
 }
 
 export interface SandboxCommandRequest {
