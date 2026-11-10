@@ -269,4 +269,5 @@ export {
   type SandboxStopResponse,
   type SandboxResumeParams,
   type SandboxResumeResponse,
+  type SandboxForkResponse,
 } from './sandboxes/sandboxes';

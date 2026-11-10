@@ -4313,6 +4313,8 @@ export type SandboxSize = 'small' | 'default' | 'large';
  */
 export interface Sandbox {
   id: string;
+  /** Your label for it, set with `name` on create. Copies keep their source's name. */
+  name?: string | null;
   status: SandboxStatus;
   size: SandboxSize;
   /**
@@ -4350,6 +4352,16 @@ export interface Sandbox {
   costTotal: number;
   /** Why it failed. Present only when `status` is `failed`. */
   failureReason?: string | null;
+  /**
+   * The sandbox this one is a copy of, when it was made with `POST
+   * /v1/sandboxes/{sandboxId}/fork`.
+   */
+  forkedFromSandboxId?: string | null;
+  /**
+   * The project's saved snapshot it started from. Null when it started blank, as a
+   * copy, or from another team's shared snapshot.
+   */
+  fromSnapshotId?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -4392,11 +4404,13 @@ export interface SandboxCreateRequest {
    */
   environment?: string;
   /**
-   * A saved snapshot's share code, created by its owner in the dashboard. The
-   * sandbox starts with a copy of that disk and takes the snapshot's size, whatever
-   * `size` says. It can come from another team: you pay this sandbox's start and
-   * machine time, the owner keeps paying for the snapshot. An unknown or revoked
-   * code answers `404 not_found` and nothing is charged.
+   * Start from a saved snapshot instead of a blank machine: the `id` of one of this
+   * project's ready snapshots (`GET /v1/sandbox-snapshots`), or a share code (`zsh_`
+   * and 32 characters) another team gave you. The sandbox takes the snapshot's size,
+   * whatever `size` says. From a share code you pay this sandbox's start and machine
+   * time, and the owner keeps paying for the snapshot. An unknown id or a revoked
+   * code answers `404 not_found`; a snapshot still saving answers `409
+   * snapshot_not_ready`. Nothing is charged in either case.
    */
   from?: string;
   /**
@@ -4409,6 +4423,14 @@ export interface SandboxCreateRequest {
    * first request created, instead of creating and charging a second one.
    */
   idempotencyKey?: string;
+  /** Your label for the sandbox, returned on it. Kept by Zavu only. */
+  name?: string;
+  /**
+   * A script run with bash once the machine is ready, in the background, as its user
+   * (passwordless sudo). It does not delay the start, and its output is not
+   * returned: write to a file if you need it. At most 64 KB.
+   */
+  setupScript?: string;
 }
 
 export interface SandboxResumeRequest {
@@ -4553,6 +4575,148 @@ export interface SandboxCommandRunResponseCommand {
   /** Pass it to `GET /v1/sandboxes/{sandboxId}/commands/{commandId}`. */
   id: string;
   status: 'running';
+}
+
+export interface SandboxPortList {
+  items: Array<SandboxPort>;
+}
+
+export interface SandboxSshRequest {
+  /**
+   * An OpenSSH public key: the one line in your `.pub` file. A private key is
+   * refused with `400`.
+   */
+  publicKey: string;
+}
+
+export interface SandboxSsh {
+  /**
+   * The machine's address. It changes after a stop and resume: authorize the key
+   * again then.
+   */
+  host: string;
+  user: string;
+  /** Ready to paste. */
+  command: string;
+}
+
+export interface SandboxDesktopRequest {
+  /**
+   * `desktop` streams the whole screen; `browser` streams Chrome alone.
+   *
+   * @defaultValue `"desktop"`
+   */
+  view?: SandboxDesktopRequestView;
+}
+
+export type SandboxDesktopRequestView = 'desktop' | 'browser';
+
+export interface SandboxDesktop {
+  view: SandboxDesktopView;
+  /**
+   * A short-lived URL that streams the machine's screen, mouse and keyboard
+   * included. Open it within a few minutes; anyone holding it can use the machine
+   * until the sandbox stops, so treat it as a secret. Ask for a new one after a
+   * resume.
+   */
+  url: string;
+}
+
+export type SandboxDesktopView = 'desktop' | 'browser';
+
+/**
+ * - `saving`: the disk is being captured. It cannot be started from or deleted
+ *   yet.
+ * - `ready`: start sandboxes from it with `from`.
+ * - `failed`: the save did not finish; its first day was refunded. See
+ *   `failureReason`.
+ */
+export type SandboxSnapshotStatus = 'saving' | 'ready' | 'failed';
+
+/**
+ * A sandbox's disk frozen under a name. $0.07 per started UTC day while you keep
+ * it, charged from your balance; the first day at save, refunded if the save
+ * fails. At most 20 per team.
+ */
+export interface SandboxSnapshot {
+  id: string;
+  name: string;
+  status: SandboxSnapshotStatus;
+  size: SandboxSize;
+  /** Bytes on disk, once known. */
+  sizeBytes?: number | null;
+  /** The sandbox whose disk this is. */
+  sourceSandboxId: string;
+  /**
+   * The code another team passes as `from` to start from this snapshot, while it is
+   * shared. Null when it is not. Treat it as a secret: whoever holds it can copy
+   * this disk.
+   */
+  shareCode: string | null;
+  /** USD charged for it so far. */
+  costTotal: number;
+  failureReason?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SandboxSnapshotCreateRequest {
+  /**
+   * The sandbox to save. Running: its disk as it is now. Stopped: as it was when it
+   * stopped. An ephemeral sandbox cannot be saved (`409 sandbox_ephemeral`).
+   */
+  sandboxId: string;
+  /** 1 to 64 letters, digits, spaces, dots, dashes or underscores. */
+  name: string;
+}
+
+export interface SandboxSnapshotResponse {
+  snapshot: SandboxSnapshot;
+}
+
+/**
+ * A named set of environment variables to start sandboxes with. Values are
+ * encrypted at rest and never returned.
+ */
+export interface SandboxEnvironment {
+  id: string;
+  name: string;
+  /** Each variable's name and the last four characters of its value. */
+  variables: Array<SandboxEnvironmentVariablesItem>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SandboxEnvironmentVariablesItem {
+  key: string;
+  last4: string;
+}
+
+export interface SandboxEnvironmentCreateRequest {
+  /**
+   * 1 to 64 letters, digits, dots, dashes or underscores, starting with a letter or
+   * digit. Unique in the project: a taken name answers `409 conflict`.
+   */
+  name: string;
+  /**
+   * The variables. Same rules as `env` on `POST /v1/sandboxes`: keys match
+   * `[A-Za-z_][A-Za-z0-9_]{0,127}`, at most 100 and 64 KB, and a few platform names
+   * are refused.
+   */
+  env?: { [key: string]: string };
+}
+
+/** Send at least one field. */
+export interface SandboxEnvironmentUpdateRequest {
+  name?: string;
+  /** Variables to add or replace. A variable left out keeps its value. */
+  env?: { [key: string]: string };
+  /** Variables to remove. */
+  unset?: Array<string>;
+}
+
+export interface SandboxEnvironmentResponse {
+  environment: SandboxEnvironment;
 }
 
 export interface CreateMemoryCollectionResponse {
@@ -5153,6 +5317,24 @@ export interface ListSandboxFilesResponse {
 
 export interface ExposeSandboxPortResponse {
   port: SandboxPort;
+}
+
+export interface AuthorizeSandboxSshResponse {
+  ssh: SandboxSsh;
+}
+
+export interface OpenSandboxDesktopResponse {
+  desktop: SandboxDesktop;
+}
+
+export interface ListSandboxSnapshotsResponse {
+  items: Array<SandboxSnapshot>;
+  nextCursor?: string | null;
+}
+
+export interface ListSandboxEnvironmentsResponse {
+  items: Array<SandboxEnvironment>;
+  nextCursor?: string | null;
 }
 
 /** Params for `addresses.create`. */
@@ -6062,3 +6244,32 @@ export interface SandboxesFilesListParams {
 
 /** Params for `sandboxes.ports.expose`. */
 export interface SandboxesPortsExposeParams extends SandboxPortRequest {}
+
+/** Params for `sandboxes.ssh.authorize`. */
+export interface SandboxesSshAuthorizeParams extends SandboxSshRequest {}
+
+/** Params for `sandboxes.desktop.open`. */
+export interface SandboxesDesktopOpenParams extends SandboxDesktopRequest {}
+
+/** Params for `sandboxes.snapshots.create`. */
+export interface SandboxesSnapshotsCreateParams extends SandboxSnapshotCreateRequest {}
+
+/** Params for `sandboxes.snapshots.list`. */
+export interface SandboxesSnapshotsListParams {
+  /** @defaultValue `50` */
+  limit?: number;
+  cursor?: string;
+}
+
+/** Params for `sandboxes.environments.create`. */
+export interface SandboxesEnvironmentsCreateParams extends SandboxEnvironmentCreateRequest {}
+
+/** Params for `sandboxes.environments.list`. */
+export interface SandboxesEnvironmentsListParams {
+  /** @defaultValue `50` */
+  limit?: number;
+  cursor?: string;
+}
+
+/** Params for `sandboxes.environments.update`. */
+export interface SandboxesEnvironmentsUpdateParams extends SandboxEnvironmentUpdateRequest {}

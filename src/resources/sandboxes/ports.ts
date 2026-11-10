@@ -23,6 +23,17 @@ export class Ports extends APIResource {
   ): APIPromise<PortExposeResponse> {
     return this._client.post(path`/v1/sandboxes/${sandboxID}/ports`, { body, ...options });
   }
+
+  /**
+   * List exposed ports
+   *
+   * The ports this sandbox exposes and their URLs. Empty when none were exposed.
+   *
+   * `GET /v1/sandboxes/{sandboxId}/ports`
+   */
+  list(sandboxID: string, options?: RequestOptions): APIPromise<PortListResponse> {
+    return this._client.get(path`/v1/sandboxes/${sandboxID}/ports`, options);
+  }
 }
 
 export type PortExposeParams = T.SandboxesPortsExposeParams;
@@ -31,10 +42,16 @@ export type PortExposeResponse = T.ExposeSandboxPortResponse;
 
 export type SandboxPort = T.SandboxPort;
 
+export type PortListResponse = T.SandboxPortList;
+
+export type SandboxPortList = T.SandboxPortList;
+
 export declare namespace Ports {
   export {
     type PortExposeParams as PortExposeParams,
     type PortExposeResponse as PortExposeResponse,
+    type PortListResponse as PortListResponse,
     type SandboxPort as SandboxPort,
+    type SandboxPortList as SandboxPortList,
   };
 }

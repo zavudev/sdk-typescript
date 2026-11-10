@@ -14,6 +14,7 @@ export {
   type SandboxStopResponse,
   type SandboxResumeParams,
   type SandboxResumeResponse,
+  type SandboxForkResponse,
 } from './sandboxes';
 export {
   Commands,
@@ -37,4 +38,37 @@ export {
   type FileListResponse,
   type SandboxFileEntry,
 } from './files';
-export { Ports, type PortExposeParams, type PortExposeResponse, type SandboxPort } from './ports';
+export {
+  Ports,
+  type PortExposeParams,
+  type PortExposeResponse,
+  type SandboxPort,
+  type PortListResponse,
+  type SandboxPortList,
+} from './ports';
+export { Ssh, type SshAuthorizeParams, type SshAuthorizeResponse, type SandboxSsh } from './ssh';
+export { Desktop, type DesktopOpenParams, type DesktopOpenResponse, type SandboxDesktop } from './desktop';
+export {
+  Snapshots,
+  type SnapshotCreateParams,
+  type SnapshotCreateResponse,
+  type SandboxSnapshot,
+  type SandboxSnapshotResponse,
+  type SnapshotListParams,
+  type SandboxSnapshotsCursor,
+  type SandboxSnapshotStatus,
+  type SnapshotRetrieveResponse,
+  type SnapshotShareResponse,
+} from './snapshots';
+export {
+  Environments,
+  type EnvironmentCreateParams,
+  type EnvironmentCreateResponse,
+  type SandboxEnvironment,
+  type SandboxEnvironmentResponse,
+  type EnvironmentListParams,
+  type SandboxEnvironmentsCursor,
+  type EnvironmentRetrieveResponse,
+  type EnvironmentUpdateParams,
+  type EnvironmentUpdateResponse,
+} from './environments';
