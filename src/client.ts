@@ -274,6 +274,21 @@ import {
   type MemoryRetrieveResponse,
   type MemoryDeleteParams,
 } from './resources/memory/memory';
+import {
+  Sandboxes,
+  type SandboxCreateParams,
+  type SandboxCreateResponse,
+  type Sandbox,
+  type SandboxResponse,
+  type SandboxSize,
+  type SandboxListParams,
+  type SandboxesCursor,
+  type SandboxStatus,
+  type SandboxRetrieveResponse,
+  type SandboxStopResponse,
+  type SandboxResumeParams,
+  type SandboxResumeResponse,
+} from './resources/sandboxes/sandboxes';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -1037,6 +1052,7 @@ export class Zavudev {
   templates: API.Templates = new API.Templates(this);
   urls: API.URLs = new API.URLs(this);
   memory: API.MemoryResource = new API.MemoryResource(this);
+  sandboxes: API.Sandboxes = new API.Sandboxes(this);
   v2: V2API.V2 = new V2API.V2(this);
 }
 
@@ -1062,6 +1078,7 @@ Zavudev.SubAccounts = SubAccounts;
 Zavudev.Templates = Templates;
 Zavudev.URLs = URLs;
 Zavudev.MemoryResource = MemoryResource;
+Zavudev.Sandboxes = Sandboxes;
 
 export declare namespace Zavudev {
   export type RequestOptions = Opts.RequestOptions;
@@ -1343,5 +1360,21 @@ export declare namespace Zavudev {
     type MemoryRetrieveParams as MemoryRetrieveParams,
     type MemoryRetrieveResponse as MemoryRetrieveResponse,
     type MemoryDeleteParams as MemoryDeleteParams,
+  };
+
+  export {
+    Sandboxes as Sandboxes,
+    type SandboxCreateParams as SandboxCreateParams,
+    type SandboxCreateResponse as SandboxCreateResponse,
+    type Sandbox as Sandbox,
+    type SandboxResponse as SandboxResponse,
+    type SandboxSize as SandboxSize,
+    type SandboxListParams as SandboxListParams,
+    type SandboxesCursor as SandboxesCursor,
+    type SandboxStatus as SandboxStatus,
+    type SandboxRetrieveResponse as SandboxRetrieveResponse,
+    type SandboxStopResponse as SandboxStopResponse,
+    type SandboxResumeParams as SandboxResumeParams,
+    type SandboxResumeResponse as SandboxResumeResponse,
   };
 }

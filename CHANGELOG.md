@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.64.0 (unreleased)
+
+### Features
+
+* **sandboxes:** `client.sandboxes` creates, lists, retrieves, stops, resumes
+  and deletes isolated Linux machines (`/v1/sandboxes`), with
+  `client.sandboxes.commands` (run a command, synchronously or in the
+  background, and read a background one), `client.sandboxes.files` (read,
+  write, list and delete) and `client.sandboxes.ports` (expose a port on an
+  HTTPS URL). Paid plans only; billed per second from the balance.
+
 ## 0.63.0 (unreleased)
 
 ### Features
