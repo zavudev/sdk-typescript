@@ -2,9 +2,11 @@
 
 [![NPM version](<https://img.shields.io/npm/v/@zavudev/sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@zavudev/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@zavudev/sdk)
 
-This library provides convenient access to the Zavudev REST API from server-side TypeScript or JavaScript.
+[Zavu](https://www.zavu.dev) is communication infrastructure for AI agents: WhatsApp, SMS, email, Telegram, and voice.
 
-The REST API documentation can be found on [docs.zavu.dev](https://docs.zavu.dev). Every method and type of this library is in the module of its resource, under [`src/resources/`](src/resources).
+This library provides convenient access to the Zavu REST API from server-side TypeScript or JavaScript.
+
+Documentation: [www.zavu.dev/docs](https://www.zavu.dev/docs). Every method and type of this library is in the module of its resource, under [`src/resources/`](src/resources).
 
 It is generated from Zavu's OpenAPI spec.
 
@@ -63,7 +65,7 @@ Documentation for each method, request param, and response field are available i
 
 ## API v2
 
-[API v2](https://docs.zavu.dev/api-v2/overview) is on the same client as
+[API v2](https://www.zavu.dev/docs/api-v2/overview) is on the same client as
 `client.v2`. Every id in a v2 path is a positional argument, in path order, and
 v2's types come from `@zavudev/sdk/v2`:
 

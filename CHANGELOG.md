@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.65.1 (unreleased)
+
+### Documentation
+
+* **package:** published `homepage` is [zavu.dev](https://www.zavu.dev), so npm
+  and other package indexes link to the site instead of the GitHub readme.
+  The description and keywords describe Zavu as communication infrastructure
+  for AI agents (WhatsApp, SMS, email, Telegram, voice). `repository` still
+  points at GitHub. The README links to the site and to
+  [the docs](https://www.zavu.dev/docs).
+
 ## 0.65.0 (unreleased)
 
 ### Features
