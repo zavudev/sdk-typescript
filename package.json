@@ -1,7 +1,19 @@
 {
   "name": "@zavudev/sdk",
-  "version": "0.65.0",
-  "description": "The official TypeScript library for the Zavudev API",
+  "version": "0.65.1",
+  "description": "Communication infrastructure for AI agents (WhatsApp, SMS, email, Telegram, voice). The official TypeScript library for the Zavu API.",
+  "keywords": [
+    "zavu",
+    "communication",
+    "ai-agents",
+    "whatsapp",
+    "sms",
+    "email",
+    "telegram",
+    "voice",
+    "sdk"
+  ],
+  "homepage": "https://www.zavu.dev",
   "author": "Zavudev <hi@zavu.dev>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
