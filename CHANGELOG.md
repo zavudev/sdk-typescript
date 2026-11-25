@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.66.0 (unreleased)
+
+### Features
+
+* **invitations:** the project webhook (`client.invitations.webhook`) has a
+  signature scheme. `signatureVersion` is returned by `retrieve`, `configure` and
+  `update`, and accepted by `configure` and `update`. A new project webhook is
+  signed with `v2` (`HMAC_SHA256(secret, "{t}.{body}")`); one configured
+  before reads `v1` and keeps it until you move it through `v1+v2`. A move
+  from `v1` straight to `v2` is refused with `400`.
+
 ## 0.65.1 (unreleased)
 
 ### Documentation

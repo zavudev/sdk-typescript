@@ -31,6 +31,9 @@ export class Webhook extends APIResource {
    * `ProjectWebhookEvent`. Events are scoped to this project: when you onboard
    * clients in sub-accounts, call this with each sub-account's API key.
    *
+   * A new webhook is signed with `v2` unless `signatureVersion` says otherwise.
+   * Replacing an existing one keeps its scheme.
+   *
    * `POST /v1/invitations/webhook`
    */
   configure(body: WebhookConfigureParams, options?: RequestOptions): APIPromise<WebhookConfigureResponse> {
@@ -40,8 +43,8 @@ export class Webhook extends APIResource {
   /**
    * Update project webhook
    *
-   * Change the URL, the events, or whether the webhook is active. The webhook must
-   * already exist.
+   * Change the URL, the events, whether the webhook is active, or its signature
+   * scheme. The webhook must already exist.
    *
    * `PATCH /v1/invitations/webhook`
    */
@@ -77,6 +80,8 @@ export type WebhookConfigureResponse = T.ConfigureProjectWebhookResponse;
 
 export type ProjectWebhookEvent = T.ProjectWebhookEvent;
 
+export type WebhookSignatureVersion = T.WebhookSignatureVersion;
+
 export type WebhookUpdateParams = T.InvitationsWebhookUpdateParams;
 
 export type WebhookUpdateResponse = T.UpdateProjectWebhookResponse;
@@ -88,6 +93,7 @@ export declare namespace Webhook {
     type WebhookConfigureParams as WebhookConfigureParams,
     type WebhookConfigureResponse as WebhookConfigureResponse,
     type WebhookRetrieveResponse as WebhookRetrieveResponse,
+    type WebhookSignatureVersion as WebhookSignatureVersion,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookUpdateResponse as WebhookUpdateResponse,
   };
