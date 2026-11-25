@@ -11,6 +11,14 @@
   before reads `v1` and keeps it until you move it through `v1+v2`. A move
   straight between `v1` and `v2`, in either direction, is refused with `400`.
 
+### Behavior changes
+
+* **senders:** `update` refuses a `webhookSignatureVersion` move from `v2`
+  straight to `v1` with `400`, as it already refused `v1` straight to `v2`. A
+  receiver that verifies only `v2` would reject every delivery. Roll back
+  through `v1+v2`. A sender getting its first webhook may still pick any
+  scheme.
+
 ## 0.65.1 (unreleased)
 
 ### Documentation

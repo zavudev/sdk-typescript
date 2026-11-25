@@ -1390,8 +1390,8 @@ export interface SenderUpdateRequest {
   /** Display name shown in the recipient's inbox for the email channel. */
   emailFromName?: string;
   /**
-   * Move this webhook between signature schemes. `v1` -> `v2` directly returns
-   * `400`; go through `v1+v2` first. See
+   * Move this webhook between signature schemes. A direct move between `v1` and
+   * `v2`, in either direction, returns `400`; go through `v1+v2` first. See
    * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
    */
   webhookSignatureVersion?: WebhookSignatureVersion;
@@ -4201,7 +4201,8 @@ export interface FunctionUpdateRequest {
  *   reading either one works, so you can deploy and confirm your new verifier
  *   before switching over.
  *
- * Moving from `v1` straight to `v2` returns `400`. Set `v1+v2` first. See
+ * Moving straight between `v1` and `v2`, in either direction, returns `400`. Set
+ * `v1+v2` first. See
  * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
  */
 export type WebhookSignatureVersion = 'v1' | 'v1+v2' | 'v2';
