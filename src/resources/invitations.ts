@@ -14,6 +14,7 @@ import {
   type WebhookConfigureParams,
   type WebhookConfigureResponse,
   type ProjectWebhookEvent,
+  type WebhookSignatureVersion,
   type WebhookUpdateParams,
   type WebhookUpdateResponse,
 } from './invitations/webhook';
@@ -116,6 +117,7 @@ export declare namespace Invitations {
     type WebhookConfigureParams as WebhookConfigureParams,
     type WebhookConfigureResponse as WebhookConfigureResponse,
     type ProjectWebhookEvent as ProjectWebhookEvent,
+    type WebhookSignatureVersion as WebhookSignatureVersion,
     type WebhookUpdateParams as WebhookUpdateParams,
     type WebhookUpdateResponse as WebhookUpdateResponse,
   };

@@ -1390,8 +1390,8 @@ export interface SenderUpdateRequest {
   /** Display name shown in the recipient's inbox for the email channel. */
   emailFromName?: string;
   /**
-   * Move this webhook between signature schemes. `v1` -> `v2` directly returns
-   * `400`; go through `v1+v2` first. See
+   * Move this webhook between signature schemes. A direct move between `v1` and
+   * `v2`, in either direction, returns `400`; go through `v1+v2` first. See
    * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
    */
   webhookSignatureVersion?: WebhookSignatureVersion;
@@ -4195,12 +4195,14 @@ export interface FunctionUpdateRequest {
  * - `v1`: `v1=HMAC_SHA256(secret, body)`. The scheme used before this was
  *   configurable. Existing webhooks stay on it until you move them.
  * - `v2`: `v2=HMAC_SHA256(secret, "{t}.{body}")`. The current scheme, and the
- *   default for new senders. It signs the timestamp together with the body.
+ *   default for new sender webhooks and new project webhooks. It signs the
+ *   timestamp together with the body.
  * - `v1+v2`: both signatures, sharing one `t`. The migration setting: a receiver
  *   reading either one works, so you can deploy and confirm your new verifier
  *   before switching over.
  *
- * Moving from `v1` straight to `v2` returns `400`. Set `v1+v2` first. See
+ * Moving straight between `v1` and `v2`, in either direction, returns `400`. Set
+ * `v1+v2` first. See
  * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
  */
 export type WebhookSignatureVersion = 'v1' | 'v1+v2' | 'v2';
@@ -4220,6 +4222,12 @@ export interface ProjectWebhook {
    */
   secret?: string;
   active: boolean;
+  /**
+   * Which `X-Zavu-Signature` scheme this webhook is sent. A webhook created from now
+   * on starts on `v2`. One configured before the scheme was settable reads `v1` and
+   * keeps it, also when it is replaced with `POST`, until you move it.
+   */
+  signatureVersion: WebhookSignatureVersion;
 }
 
 /**
@@ -4260,6 +4268,13 @@ export type ProjectWebhookEvent =
 export interface ProjectWebhookCreateRequest {
   url: string;
   events: Array<ProjectWebhookEvent>;
+  /**
+   * Signature scheme. A new webhook defaults to `v2`; pass `v1+v2` when this
+   * endpoint already verifies `v1` for something else. On a webhook that already
+   * exists it is kept unless you send it, and a direct move between `v1` and `v2`,
+   * in either direction, returns `400`: set `v1+v2` first.
+   */
+  signatureVersion?: WebhookSignatureVersion;
 }
 
 /**
@@ -4270,6 +4285,12 @@ export interface ProjectWebhookUpdateRequest {
   url?: string;
   events?: Array<ProjectWebhookEvent>;
   active?: boolean;
+  /**
+   * Move this webhook between signature schemes. A direct move between `v1` and
+   * `v2`, in either direction, returns `400`; go through `v1+v2` first. See
+   * https://www.zavu.dev/docs/guides/receiving-messages/signature-migration
+   */
+  signatureVersion?: WebhookSignatureVersion;
 }
 
 /**
